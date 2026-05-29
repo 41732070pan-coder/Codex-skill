@@ -1,0 +1,5 @@
+interface:
+  display_name: "My Design Style"
+  short_description: "Extensible PPT and UI style system"
+  default_prompt: "Use $my-design-style to design the requested PPT, web page, or app screen in the selected visual style."
+  brand_color: "#587558"
