@@ -66,6 +66,16 @@ Use this section only when the skill owns multiple interchangeable implementatio
 
 Normal-use rule: do not browse all implementation files; discover through registry/scripts and load one selected implementation.
 
+## Overlay / Decorator Support
+
+Use this section only when the skill has a stable base behavior and user requests commonly add temporary preference layers. Otherwise write `None; ordinary inputs and constraints are sufficient.`
+
+- Overlay field: `<overlays | modifiers | none>`
+- Base invariants overlays must preserve: `<list>`
+- Allowed overlay sources: `<skill-owned | user-provided | generated | shared-provider | none>`
+- Conflict handling: `<accept | downgrade | reject>` rules
+- Promotion path: when a recurring overlay becomes a named implementation family entry.
+
 ## Extension Points
 
 | Extension | Pattern | File |
