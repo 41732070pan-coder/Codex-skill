@@ -1,0 +1,5 @@
+interface:
+  display_name: "Skill Governance"
+  short_description: "Meta-skill for engineering maintainable Codex skills"
+  default_prompt: "Use $skill-governance to design, add, review, or refactor repository skills with contracts, registries, lifecycle rules, and quality gates."
+  brand_color: "#334155"
