@@ -30,7 +30,7 @@ This skill also owns the repository standard for **implementation families**: an
 - **No implementation fan-out from `SKILL.md`**: `SKILL.md` may describe how to discover and select implementations, but must not become an index of every concrete implementation in a growing family.
 - **Upgradeable discovery before implementation loading**: multi-implementation skills start with a concise registry and upgrade to list, resolve, and materialize/get scripts as scale, ambiguity, assets, or validation needs grow.
 - **Explicit structures over prose sprawl**: use tables, enums, maps, schemas, lifecycle states, checklists, state machines, and dependency graphs.
-- **Patterns over ad hoc branches**: prefer Template Method, Strategy, Registry, Factory, Adapter, Composite, State Machine, and Quality Gate when they clarify extension points.
+- **Patterns over ad hoc branches**: prefer Template Method, Strategy, Registry, Factory, Adapter, Decorator/Overlay, Composite, State Machine, and Quality Gate when they clarify extension points.
 - **Substitutability**: skills in the same family should expose comparable sections and data shapes.
 - **Progressive disclosure**: organize references so Codex loads only what the current request needs.
 - **Registry-driven recommendation**: resolve or recommend implementations from declared ids, aliases, cues, summaries, ambiguity policy, and fallback policy; do not rely on implementation-body browsing or unlabeled substitutes.
@@ -44,6 +44,7 @@ This skill also owns the repository standard for **implementation families**: an
 3. **Choose the module shape**:
    - Single skill: one `SKILL.md` plus optional references.
    - Governed skill: add contract, registry, template, and validator references.
+   - Overlay-aware skill: add a small overlay/decorator contract when users need temporary preference layers over a stable base behavior; do not make decorators mandatory for every skill.
    - Small implementation family: add a concise, table-shaped registry with stable ids, implementation paths, status, aliases/cues, ambiguity policy, fallback policy, and selected-only loading.
    - Growing implementation family: preserve the same entry semantics, then add a machine-readable registry, list/resolve/get scripts, implementation template, and boundary validation.
    - Resource-heavy skill: add asset manifests, examples, providers, or deterministic helpers.
@@ -117,6 +118,20 @@ Use an implementation family when one skill owns multiple interchangeable concre
 | Resolution semantics | Use `resolved`, `ambiguous`, or `unresolved` outcomes. Ambiguous or unresolved cases should return available candidates and summaries so the LLM can choose or recommend a registered implementation without pretending it was an exact match. |
 | Maintenance exception | Directly open implementation files only when adding, editing, debugging, or reviewing the specific implementation involved. |
 
+## Overlay / Decorator Standard
+
+Use an overlay/decorator layer when a skill has a stable base behavior and users often ask for local or temporary variations that should not become new implementations by default. This is an optional extension pattern, not a default requirement for every skill.
+
+| Requirement | Rule |
+| --- | --- |
+| Base first | Resolve the base skill behavior or implementation before applying overlays. |
+| Explicit shape | Store overlays in a normalized field such as `overlays`, `modifiers`, or a domain-specific equivalent. |
+| Invariants | Document base invariants overlays must not break. |
+| Conflict handling | Accept compatible overlays, downgrade over-strong overlays, and reject unsafe overlays; disclose meaningful downgrades. |
+| Resource boundary | Overlay assets are user-provided, generated, shared-provider, or skill-owned only when declared; they are not automatically base assets. |
+| Promotion path | Promote recurring expressive overlays into implementation-family entries when they need names, assets, registries, or validators. |
+| Quality gate | Run both base checks and overlay-specific self-checks. |
+
 ## References
 
 Load references progressively. `references/governance_contract.md` is the single source of truth for required sections, lifecycle/status fields, data shapes, and review criteria; other references should not redefine those rules.
@@ -127,6 +142,7 @@ Load references progressively. `references/governance_contract.md` is the single
 | Rename, move, deprecate, split, or merge a skill | `top_level_skill_constraints.md`, `skill_registry.md`, `quality_gates.md`; add `governance_contract.md` if contracts change | The task only executes an existing domain skill without changing its structure. |
 | Review or audit an existing skill | `top_level_skill_constraints.md`, `governance_contract.md`, `resource_access_contract.md`, `quality_gates.md`, `skill_registry.md` | The user asks only for domain output, not governance feedback. |
 | Add or refactor an implementation family | `implementation_family_contract.md`, `registry_contract.md`, `implementation_family_template.md`, `resource_access_contract.md`, `quality_gates.md` | The skill has only one concrete behavior and no expected family growth. |
+| Add temporary preference layers over a stable base behavior | `overlay_decorator_contract.md`, `resource_access_contract.md`, `quality_gates.md`; add `implementation_family_contract.md` if recurring overlays should be promoted | The variation is fully covered by ordinary inputs/constraints or should be a new concrete implementation immediately. |
 | Add strategies, providers, templates, examples, or validators | `governance_contract.md`, `implementation_family_contract.md` when multiple implementations exist, `skill_template.md`, `quality_gates.md`; add `skill_registry.md` only if repository-level discovery changes | The change is internal wording with no new extension point. |
 | Add or reorganize skill assets | `top_level_skill_constraints.md`, `resource_access_contract.md`, `governance_contract.md`, `quality_gates.md` | The active skill has no bundled or shared assets. |
 | Audit progressive loading or implementation fan-out | `resource_access_contract.md`, `implementation_family_contract.md`, `registry_contract.md`, `quality_gates.md`; run `scripts/validate_skill_boundaries.py` | No skill exposes references, assets, registries, or implementation families. |
@@ -138,6 +154,7 @@ Load references progressively. `references/governance_contract.md` is the single
 | --- | --- | --- |
 | `references/governance_contract.md` | Authoritative contract for required sections, lifecycle/status fields, data shapes, and review criteria. | Designing or reviewing any maintained skill. |
 | `references/implementation_family_contract.md` | Contract for multi-implementation families, dispatch scripts, and normal-use loading boundaries. | Adding or refactoring styles, providers, strategies, adapters, modes, or templates. |
+| `references/overlay_decorator_contract.md` | Optional overlay/decorator contract for temporary preference layers over a stable base behavior. | Adding modifiers, decorators, user preference layers, or variant composition without creating a new implementation. |
 | `references/registry_contract.md` | Registry format, source-of-truth, schema, and generated-document rules. | Designing or validating skill, family, strategy, provider, or asset registries. |
 | `references/resource_access_contract.md` | Public, discovery, implementation, asset, generated, and maintenance-only resource classes. | Auditing what an agent may load by default or after resolution. |
 | `references/top_level_skill_constraints.md` | Repository-wide invariants for naming, layout, references, assets, README scope, and quality boundaries. | Adding, renaming, restructuring, or auditing skills. |
@@ -157,6 +174,7 @@ The `meta-skill` owns no reusable visual or binary assets. Do not add assets to 
 | New repository skill | Template Method | `references/skill_template.md` |
 | Skill metadata and lifecycle | Contract | `references/governance_contract.md` |
 | Multi-implementation family | Strategy + Registry + Factory | `references/implementation_family_contract.md`, `references/implementation_family_template.md` |
+| Temporary preference layer | Decorator / Overlay + Composer | `references/overlay_decorator_contract.md` |
 | Registry source-of-truth | Registry + Schema | `references/registry_contract.md` |
 | Progressive loading/resource access | Access policy | `references/resource_access_contract.md` |
 | Repository skill discovery | Registry | `references/skill_registry.md` |
@@ -171,12 +189,13 @@ Before adding detailed prose, answer these questions:
 | What should not trigger it? | Non-trigger and overlap boundaries. |
 | What normalized input does it use? | A request object, table, or field list. |
 | What outputs does it produce? | Artifact types and success criteria. |
-| What can vary later? | Strategies, providers, templates, modes, adapters, or implementation families. |
+| What can vary later? | Strategies, providers, templates, modes, adapters, overlays, or implementation families. |
 | What references load on demand? | Reference list with `loadWhen` guidance. |
 | What resources does it own? | Asset/external dependency policy and provenance. |
 | How does an agent discover implementations? | Concise registry fields first; add list/resolve scripts when scale, ambiguity, assets, or validation needs justify them. |
 | How does an agent resolve ambiguity or missing implementations? | Return candidates and summaries for LLM choice/recommendation, or offer extension when no useful registered option exists; never rely on undeclared model-only aliases. |
 | How does an agent load one implementation? | The selected implementation path or a get/materialize script scoped to the selected implementation and task. |
+| When is variation an overlay rather than a new implementation? | One-off or temporary preferences remain overlays; recurring named variants with assets, registries, or validators become implementation entries. |
 | What proves quality? | Self-checks and runnable validations where possible. |
 
 ## Quality Gate
@@ -187,6 +206,7 @@ Before finishing a skill change, verify:
 - Trigger and non-trigger boundaries are explicit and do not silently overlap another skill.
 - `SKILL.md` remains the orchestration layer; reusable details live behind references, registries, scripts, or implementation directories.
 - Multi-strategy or multi-provider behavior is represented by a registry, not hidden prose branches.
+- Temporary variation layers are documented as optional overlays/decorators only when they add value; simple skills are not forced to expose decorators.
 - Small implementation families use an upgrade-compatible registry entry shape; growing families expose list, resolve, get/materialize, and validation scripts before accumulating concrete implementations.
 - Assets are skill-owned or shared-provider-owned with provenance and usage constraints.
 - Extension points are represented by contracts, registries, templates, tables, or schemas.

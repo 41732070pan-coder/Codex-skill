@@ -16,6 +16,7 @@ Implementation class: `SeuDesignStyle implements DesignStyleBase`. The table bel
 | `DesignStyleBase.getMediumTranslation(medium)` | `PPT Slide Archetypes`, `Web Translation`, `App / Dashboard Translation`, `Static Visual Translation` |
 | `DesignStyleBase.getAssetPolicy()` | `Asset Interface`, `Asset Rules` |
 | `DesignStyleBase.getSurfaceTexturePolicy()` | `Surface Texture Policy` |
+| `DesignStyleBase.getModifierCompatibility()` | `Modifier Compatibility` |
 | `DesignStyleBase.selfCheck(output)` | `Self-Check` |
 | `TriggerMatcher` | `Triggers` |
 | `DesignIntentProvider` | `Intent`, `Anti-Goals` |
@@ -25,6 +26,7 @@ Implementation class: `SeuDesignStyle implements DesignStyleBase`. The table bel
 | `ComponentTranslator` | `PPT Slide Archetypes`, `Web Translation`, `App / Dashboard Translation`, `Static Visual Translation` |
 | `AssetPolicy` | `Asset Interface`, `Asset Rules` |
 | `SurfaceTexturePolicy` | `Surface Texture Policy` |
+| `ModifierCompatibilityProvider` | `Modifier Compatibility` |
 | `QualityGate` | `Self-Check` |
 
 ## Triggers
@@ -236,6 +238,42 @@ Key assets:
 | `27_pine.svg` | Closing or cultural identity accent. |
 
 Use monochrome variants when color would compete with content. Keep aspect ratios intact; a slightly smaller correctly proportioned asset is always preferable to a larger distorted one.
+
+## Modifier Compatibility
+
+Use modifiers only as controlled overlays on the SEU base style. The standard style remains light, academic, structured, content-first, and led by SEU green with SEU yellow as precise accent.
+
+- `acceptsModifiers`: true.
+- `allowedTargets`: palette, motif, texture, layout, mood, asset.
+- `allowedSources`: style-owned, user-provided, generated-vector, code-native, shared-provider only when explicitly enabled by the surface policy, and none.
+- `defaultIntensity`: subtle for content pages, balanced for cover or section transitions.
+- `conflictPolicy`: preserve SEU identity hierarchy, light academic structure, official asset boundaries, and content-first layout; downgrade or reject modifiers that replace the SEU identity system.
+- `promotionPolicy`: promote recurring expressive variants such as an autumn-crimson SEU deck into a new concrete style only when they need durable palette rules, assets, registry metadata, or validators.
+
+Hard invariants:
+
+- SEU green remains the primary structure and hierarchy color for titles, headers, rules, section systems, and navigation states.
+- SEU yellow remains a precise accent for short rules, active markers, and key highlights; it should not become a broad background.
+- The artifact must remain mostly light, reusable, and content-first.
+- Official SEU identity assets from the manifest cannot be replaced by modifier motifs, user-provided decoration, or generated graphics.
+- Modifier motifs cannot be described as official SEU assets unless they are added to the SEU asset manifest through a separate style update.
+- Main content must remain in robust grids, columns, tables, or containers.
+
+Allowed soft modifiers:
+
+- Seasonal or event-specific accent palettes, when added as secondary accents rather than replacements for SEU green/yellow.
+- Low-opacity code-native or generated-vector botanical motifs, when clearly decorative and outside the main reading path.
+- User-provided decorative motifs, when provenance is acceptable and placement respects identity and readability.
+- Layout-density adjustments that preserve the stable academic grid.
+
+SEU-compatible autumn example:
+
+| Modifier | Tokens / Motifs | Allowed Use | Forbidden Use |
+| --- | --- | --- | --- |
+| Deep crimson accent | `#7A1E2C`, `#9D2933`, `#B36D61`, `#F3E6E3` | Secondary seasonal accent, quote-rule edge, section-page detail, small footer line, abstract maple motif color. | Replacing SEU green in all titles, page headers, navigation, or primary structure. |
+| Maple motif | Abstract vector or user-provided decorative motif | Cover corner, section transition, footer strip, low-opacity edge ornament. | Official identity mark, logo substitute, dense content background, or repeated high-intensity filler. |
+
+For balanced autumn variants, use SEU green for structure, SEU yellow for precise highlights, deep crimson for secondary atmosphere, and maple motifs only as decorative modifiers. If the user asks for crimson or maple to dominate the deck, label the result as an expressive SEU-inspired variant or propose a new concrete style instead of presenting it as standard `seu_design_style`.
 
 ## Self-Check
 

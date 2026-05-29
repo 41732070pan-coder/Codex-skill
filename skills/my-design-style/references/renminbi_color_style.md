@@ -18,6 +18,7 @@ Implementation class: `RenminbiColorStyle implements DesignStyleBase`. The table
 | `DesignStyleBase.getMediumTranslation(medium)` | `PPT Slide Archetypes`, `Web Translation`, `App / Dashboard Translation`, `Static Visual Translation` |
 | `DesignStyleBase.getAssetPolicy()` | `Asset Interface`, `Asset Rules` |
 | `DesignStyleBase.getSurfaceTexturePolicy()` | `Surface Texture Policy` |
+| `DesignStyleBase.getModifierCompatibility()` | `Modifier Compatibility` |
 | `DesignStyleBase.selfCheck(output)` | `Self-Check` |
 | `TriggerMatcher` | `Triggers` |
 | `DesignIntentProvider` | `Intent`, `Anti-Goals` |
@@ -27,6 +28,7 @@ Implementation class: `RenminbiColorStyle implements DesignStyleBase`. The table
 | `ComponentTranslator` | `PPT Slide Archetypes`, `Web Translation`, `App / Dashboard Translation`, `Static Visual Translation` |
 | `AssetPolicy` | `Asset Interface`, `Asset Rules` |
 | `SurfaceTexturePolicy` | `Surface Texture Policy` |
+| `ModifierCompatibilityProvider` | `Modifier Compatibility` |
 | `QualityGate` | `Self-Check` |
 
 ## Triggers
@@ -333,6 +335,38 @@ Avoid:
 - Actual RMB scans, cropped Mao portraits, Great Hall / Potala / Guilin / Three Gorges / Taishan / West Lake reproductions lifted from banknotes.
 - Real-looking denominations, serial numbers, seals, watermarks, security lines, or anti-counterfeit marks.
 - Any layout that could be confused with a printable banknote.
+
+## Modifier Compatibility
+
+RMB modifiers are supported only when they preserve the banknote-inspired abstraction and non-counterfeit safety boundary. Use modifiers as controlled overlays after selecting the RMB base style, not as a way to reproduce legal tender.
+
+- `acceptsModifiers`: true.
+- `allowedTargets`: palette, motif, texture, layout, mood, asset.
+- `allowedSources`: user-provided, generated-vector, code-native, shared-provider only when explicitly enabled by the surface policy, and none.
+- `defaultIntensity`: subtle for product/UI work, balanced for editorial or PPT section moments.
+- `conflictPolicy`: preserve non-counterfeit anti-goals, readability, and denomination-family logic; downgrade or reject modifiers that imitate banknotes, official seals, serial numbers, anti-counterfeit details, portraits, or legal tender layouts.
+- `promotionPolicy`: promote recurring named variants such as a durable fintech-blue mode, premium-auction mode, or compliance-dashboard mode into a concrete style only when they need their own palette, layout rules, registry metadata, or validation.
+
+Hard invariants:
+
+- Never recreate actual RMB banknote fronts/backs, portraits, serial numbers, official emblems, seals, security threads, watermark details, or complete denomination layouts.
+- Preserve the selected denomination or palette recipe as the primary color logic; added colors should be secondary accents unless the user explicitly chooses a different registered style.
+- Keep typography, rules, and linework content-first; decorative micro-linework must not reduce chart, table, or UI legibility.
+- Do not use modifier assets as currency reproductions or imply official financial authorization.
+
+Allowed soft modifiers:
+
+- Additional accent colors that bridge from the selected denomination family into product, dashboard, or editorial needs.
+- Abstract generated-vector linework, guilloche-inspired curves, watermark-like depth, or paper-like surfaces that do not copy real currency security features.
+- Layout-density adjustments for reports or dashboards when information hierarchy remains orderly.
+- User-provided documentary assets only when their use is lawful, clearly contextual, and not used as decorative UI background.
+
+Modifier self-check additions:
+
+- The output still reads as banknote-inspired design, not currency reproduction.
+- Added motifs are abstract and do not copy protected RMB details.
+- Added colors support the chosen denomination or documented palette recipe.
+- Any rejected or downgraded currency-like request is disclosed.
 
 ## Self-Check
 

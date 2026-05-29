@@ -123,6 +123,29 @@ Declare whether this style may use a bundled surface provider. The canonical pro
 - Avoid generic downloaded filler.
 - Explain legal or brand constraints.
 
+## Modifier Compatibility
+
+Every concrete style must implement `DesignStyleBase.getModifierCompatibility()` here. State whether modifiers are accepted and how the abstract workflow should accept, downgrade, or reject them. Use restrictive values if this style should not accept modifiers beyond ordinary constraints.
+
+- `acceptsModifiers`: true | false.
+- `allowedTargets`: palette, motif, texture, layout, mood, asset, or none.
+- `allowedSources`: style-owned, user-provided, generated-vector, shared-provider, code-native, none.
+- `defaultIntensity`: subtle | balanced | expressive.
+- `conflictPolicy`: <base invariants that outrank modifiers and downgrade/reject rules>.
+- `promotionPolicy`: <when a recurring expressive modifier becomes a new concrete style>.
+
+Hard invariants:
+
+- <Rules modifiers must not break.>
+
+Allowed soft modifiers:
+
+- <Modifier types this style can accept.>
+
+Modifier self-check additions:
+
+- <Checks to run in addition to the base style self-check.>
+
 ## Self-Check
 
 Return or simulate this `CheckResult` shape before finishing:

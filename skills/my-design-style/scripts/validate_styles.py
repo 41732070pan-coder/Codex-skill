@@ -25,6 +25,7 @@ REQUIRED_INTERFACES = [
     "ComponentTranslator",
     "AssetPolicy",
     "SurfaceTexturePolicy",
+    "ModifierCompatibilityProvider",
     "QualityGate",
 ]
 
@@ -43,6 +44,7 @@ REQUIRED_SECTIONS = [
     "Asset Interface",
     "Surface Texture Policy",
     "Asset Rules",
+    "Modifier Compatibility",
     "Self-Check",
 ]
 
@@ -143,6 +145,7 @@ def validate_style(row: dict[str, str]) -> list[str]:
 
     asset_section = section_body(text, "Asset Interface")
     surface_section = section_body(text, "Surface Texture Policy")
+    modifier_section = section_body(text, "Modifier Compatibility")
 
     declared_asset_root = extract_bullet_value(asset_section, "assetRoot")
     if declared_asset_root is None:
@@ -159,6 +162,13 @@ def validate_style(row: dict[str, str]) -> list[str]:
                 errors.append(f"{reference} declares missing asset root: {root}")
             elif not any(asset_dir.glob("*MANIFEST.md")):
                 errors.append(f"{reference} asset root has no *MANIFEST.md: {root}")
+
+    if "acceptsModifiers" not in modifier_section:
+        errors.append(f"{reference} Modifier Compatibility is missing acceptsModifiers")
+    if "conflictPolicy" not in modifier_section:
+        errors.append(f"{reference} Modifier Compatibility is missing conflictPolicy")
+    if "promotionPolicy" not in modifier_section:
+        errors.append(f"{reference} Modifier Compatibility is missing promotionPolicy")
 
     provider = extract_bullet_value(surface_section, "provider")
     if provider is None:

@@ -16,6 +16,7 @@ Implementation class: `ChineseTraditionalColorStyle implements DesignStyleBase`.
 | `DesignStyleBase.getMediumTranslation(medium)` | `PPT Slide Archetypes`, `Web Translation`, `App / Dashboard Translation`, `Static Visual Translation` |
 | `DesignStyleBase.getAssetPolicy()` | `Asset Interface`, `Asset Rules` |
 | `DesignStyleBase.getSurfaceTexturePolicy()` | `Surface Texture Policy` |
+| `DesignStyleBase.getModifierCompatibility()` | `Modifier Compatibility` |
 | `DesignStyleBase.selfCheck(output)` | `Self-Check` |
 | `TriggerMatcher` | `Triggers` |
 | `DesignIntentProvider` | `Intent`, `Anti-Goals` |
@@ -25,6 +26,7 @@ Implementation class: `ChineseTraditionalColorStyle implements DesignStyleBase`.
 | `ComponentTranslator` | `PPT Slide Archetypes`, `Web Translation`, `App / Dashboard Translation`, `Static Visual Translation` |
 | `AssetPolicy` | `Asset Interface`, `Asset Rules` |
 | `SurfaceTexturePolicy` | `Surface Texture Policy` |
+| `ModifierCompatibilityProvider` | `Modifier Compatibility` |
 | `QualityGate` | `Self-Check` |
 
 Primary references:
@@ -347,6 +349,38 @@ Avoid:
 - Copying copyrighted artwork or museum photography without permission.
 - Low-resolution decorative textures that make text blurry.
 - Overusing seals, clouds, dragons, fans, lanterns, or calligraphy as filler.
+
+## Modifier Compatibility
+
+Chinese traditional color modifiers are supported when they preserve the named-color discipline, cultural restraint, contrast, and modern component usability of the base style. Use modifiers to tune a selected color-series plan, not to turn the artifact into generic ornament.
+
+- `acceptsModifiers`: true.
+- `allowedTargets`: palette, motif, texture, layout, mood, asset.
+- `allowedSources`: style-owned when declared, user-provided, generated-vector, code-native, shared-provider only when explicitly enabled by the surface policy, and none.
+- `defaultIntensity`: subtle for app/dashboard work, balanced for editorial, cultural, or PPT section pages.
+- `conflictPolicy`: preserve named source colors, readable ink/surface contrast, and modern component roles; downgrade or reject modifiers that create confetti palettes, fake-antique clutter, or illegible pale-on-pale layouts.
+- `promotionPolicy`: promote recurring named variants such as Song editorial, museum object, tea craft, or festival ceremony modes into concrete styles only when they need durable palette recipes, assets, registry metadata, or validators.
+
+Hard invariants:
+
+- Start from one complete source series or documented palette recipe; do not mix many unrelated traditional colors just because they are available.
+- Keep cultural motifs secondary to content, navigation, data, and component states.
+- Preserve contrast by pairing pale colors with ink, white, or controlled deep colors.
+- Do not make UI controls unrecognizable through ornamental labels, frames, or excessive calligraphy.
+
+Allowed soft modifiers:
+
+- Mood or seasonal adjustments that select a different source series or add one controlled accent.
+- Generated-vector or code-native cultural gestures such as thin rules, square markers, gallery labels, scroll-like rails, or seal-like dots when they stay low density.
+- User-provided imagery, object photos, or cultural assets when provenance is acceptable and placement supports the content.
+- Layout-density adjustments for editorial, museum, dashboard, or product contexts while preserving stable grids.
+
+Modifier self-check additions:
+
+- The result still uses named-color logic rather than a generic red/gold or antique palette.
+- Added motifs are restrained and do not crowd body text, controls, charts, or object metadata.
+- Pale modifiers maintain readable contrast.
+- Any recurring expressive modifier is identified as a candidate concrete style rather than silently becoming the base style.
 
 ## Self-Check
 
