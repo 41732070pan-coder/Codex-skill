@@ -320,19 +320,21 @@ When an artifact needs Chinese traditional visual material:
 
 ## Surface Texture Policy
 
-No shared surface texture provider is currently bundled for this skill, so traditional-color texture support is disabled by default.
+Traditional-color texture support is enabled through the bundled `transparent_textures` provider for restrained paper tactility behind named-color systems and contemporary cultural composition.
 
-- `provider`: `none`.
-- `assetRoot`: `none`.
-- `manifestFile`: `none`.
-- `defaultToken`: none.
-- `allowedTokens`: none.
-- `opacityRange`: 0-0% until a real provider is added.
-- `allowedSurfaces`: none.
+- `provider`: `transparent_textures`
+- `assetRoot`: `assets/transparent_textures/`
+- `manifestFile`: `assets/transparent_textures/TEXTURE_MANIFEST.md`
+- `indexFile`: `assets/transparent_textures/texture_index.json`
+- `provenanceFile`: `assets/transparent_textures/provenance.md`
+- `defaultToken`: `rice-paper`
+- `allowedTokens`: ["rice-paper", "paper-fibers", "handmade-paper", "textured-paper"]
+- `opacityRange`: [0.03, 0.08]
+- `allowedSurfaces`: ["page-background", "museum-panel", "cover-wash", "editorial-background"]
 - `forbiddenSurfaces`: dense body text, color-swatch labels, small museum metadata, chart labels, generated calligraphy, and seal-like marks.
-- `fallbackPolicy`: keep the style through named color cards, ink/paper contrast, typography, margins, fine rules, and code-native geometry.
+- `fallbackPolicy`: disable texture and keep the style through named color cards, ink/paper contrast, typography, margins, fine rules, and code-native geometry.
 
-Future texture support may be added only after a provider directory, manifest, index, provenance, and validator support exist. It must not make the artifact fake-antique or reduce legibility.
+Texture must not make the artifact fake-antique or reduce legibility.
 
 ## Asset Rules
 

@@ -305,19 +305,21 @@ For RMB-inspired work:
 
 ## Surface Texture Policy
 
-No shared surface texture provider is currently bundled for this skill, so RMB-inspired texture support is disabled by default.
+RMB-inspired texture support is enabled through the bundled `transparent_textures` provider, but only as abstract paper tactility. It must never mimic security paper, anti-counterfeit marks, serial zones, official seals, or legal-tender surfaces.
 
-- `provider`: `none`.
-- `assetRoot`: `none`.
-- `manifestFile`: `none`.
-- `defaultToken`: none.
-- `allowedTokens`: none.
-- `opacityRange`: 0-0% until a real provider is added.
-- `allowedSurfaces`: none.
+- `provider`: `transparent_textures`
+- `assetRoot`: `assets/transparent_textures/`
+- `manifestFile`: `assets/transparent_textures/TEXTURE_MANIFEST.md`
+- `indexFile`: `assets/transparent_textures/texture_index.json`
+- `provenanceFile`: `assets/transparent_textures/provenance.md`
+- `defaultToken`: `paper-fibers`
+- `allowedTokens`: ["paper-fibers", "textured-paper", "clean-gray-paper"]
+- `opacityRange`: [0.02, 0.05]
+- `allowedSurfaces`: ["broad-background", "card-panel", "edge-band", "cover-wash"]
 - `forbiddenSurfaces`: dense text, chart labels, serial-like marks, seal-like marks, legal-tender imitation zones, and any element that could resemble anti-counterfeit artwork.
-- `fallbackPolicy`: keep the style through denomination color progressions, paper/ink contrast, fine rules, financial grids, tables, and original code-native geometry.
+- `fallbackPolicy`: disable texture and keep the style through denomination color progressions, paper/ink contrast, fine rules, financial grids, tables, and original code-native geometry.
 
-Future texture support may be added only after a provider directory, manifest, index, provenance, and validator support exist. It must not resemble real banknote security features.
+Texture must remain a generic tactile substrate and must not resemble real banknote security features.
 
 ## Asset Rules
 

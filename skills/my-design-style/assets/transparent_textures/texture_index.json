@@ -1,0 +1,145 @@
+{
+  "providerName": "transparent_textures",
+  "sourceHomepage": "https://www.transparenttextures.com/",
+  "assetRoot": "assets/transparent_textures/",
+  "manifestFile": "assets/transparent_textures/TEXTURE_MANIFEST.md",
+  "provenanceFile": "assets/transparent_textures/provenance.md",
+  "formatPolicy": "Use SVG wrappers for scalable, high-definition surfaces while preserving original Transparent Textures PNG source URLs and attribution.",
+  "textures": [
+    {
+      "token": "textured-paper",
+      "name": "Textured Paper",
+      "file": "svg_wrappers/textured-paper.svg",
+      "sourceUrl": "https://www.transparenttextures.com/patterns/textured-paper.png",
+      "sourcePage": "https://www.transparenttextures.com/textured-paper.html",
+      "sourceHomepage": "https://www.transparenttextures.com/",
+      "attribution": "Stephen Gilbert",
+      "licenseOrTerms": "Transparent Textures page records the creator and Subtle Patterns origin; verify upstream terms before redistributing raw PNGs. This repo stores SVG wrappers with source/provenance links rather than vendored PNG binaries.",
+      "sourceFormat": "svg-wrapper",
+      "wrapperCanvas": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sha256": "3e8a1cb0f2e8ce745c8055f5a52a7fab643450e70dbf5d90bb57bcfb862176b1",
+      "visualCharacter": "soft neutral paper grain with sparse flecks",
+      "recommendedRoles": [
+        "slide-background",
+        "page-background",
+        "quiet-panel"
+      ],
+      "defaultOpacity": [
+        0.03,
+        0.08
+      ],
+      "safePlacement": "tile"
+    },
+    {
+      "token": "clean-gray-paper",
+      "name": "Clean Gray Paper",
+      "file": "svg_wrappers/clean-gray-paper.svg",
+      "sourceUrl": "https://www.transparenttextures.com/patterns/clean-gray-paper.png",
+      "sourcePage": "https://www.transparenttextures.com/clean-gray-paper.html",
+      "sourceHomepage": "https://www.transparenttextures.com/",
+      "attribution": "Paul Phönixweiß",
+      "licenseOrTerms": "Transparent Textures page records the creator and Subtle Patterns origin; verify upstream terms before redistributing raw PNGs. This repo stores SVG wrappers with source/provenance links rather than vendored PNG binaries.",
+      "sourceFormat": "svg-wrapper",
+      "wrapperCanvas": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sha256": "f64241b94c9582f1271edb1a26acd5bd6c9ea691b83c07383a8c29e4e6ccc689",
+      "visualCharacter": "clean gray paper grain for restrained institutional surfaces",
+      "recommendedRoles": [
+        "slide-background",
+        "web-section",
+        "dashboard-panel"
+      ],
+      "defaultOpacity": [
+        0.02,
+        0.06
+      ],
+      "safePlacement": "tile"
+    },
+    {
+      "token": "paper-fibers",
+      "name": "Paper Fibers",
+      "file": "svg_wrappers/paper-fibers.svg",
+      "sourceUrl": "https://www.transparenttextures.com/patterns/paper-fibers.png",
+      "sourcePage": "https://www.transparenttextures.com/paper-fibers.html",
+      "sourceHomepage": "https://www.transparenttextures.com/",
+      "attribution": "Heliodor jalba.",
+      "licenseOrTerms": "Transparent Textures page records the creator and Subtle Patterns origin; verify upstream terms before redistributing raw PNGs. This repo stores SVG wrappers with source/provenance links rather than vendored PNG binaries.",
+      "sourceFormat": "svg-wrapper",
+      "wrapperCanvas": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sha256": "bc19f5a5a70e503e5b27af72e7aaedf728198921802ca3a9572146f129aaf284",
+      "visualCharacter": "visible paper fibers suitable for tactile cultural and financial backgrounds",
+      "recommendedRoles": [
+        "page-background",
+        "cover-wash",
+        "edge-band"
+      ],
+      "defaultOpacity": [
+        0.03,
+        0.09
+      ],
+      "safePlacement": "tile"
+    },
+    {
+      "token": "rice-paper",
+      "name": "Rice Paper",
+      "file": "svg_wrappers/rice-paper.svg",
+      "sourceUrl": "https://www.transparenttextures.com/patterns/rice-paper.png",
+      "sourcePage": "https://www.transparenttextures.com/rice-paper.html",
+      "sourceHomepage": "https://www.transparenttextures.com/",
+      "attribution": "Atle Mo",
+      "licenseOrTerms": "Transparent Textures page records the creator and Subtle Patterns origin; verify upstream terms before redistributing raw PNGs. This repo stores SVG wrappers with source/provenance links rather than vendored PNG binaries.",
+      "sourceFormat": "svg-wrapper",
+      "wrapperCanvas": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sha256": "5cb03fa0d5b49d3cfaa297c282d21e595a3a184e60b76fa08a3029979e3c2e89",
+      "visualCharacter": "subtle rice-paper texture for traditional color compositions",
+      "recommendedRoles": [
+        "page-background",
+        "museum-panel",
+        "cover-wash"
+      ],
+      "defaultOpacity": [
+        0.03,
+        0.1
+      ],
+      "safePlacement": "tile"
+    },
+    {
+      "token": "handmade-paper",
+      "name": "Handmade Paper",
+      "file": "svg_wrappers/handmade-paper.svg",
+      "sourceUrl": "https://www.transparenttextures.com/patterns/handmade-paper.png",
+      "sourcePage": "https://www.transparenttextures.com/handmade-paper.html",
+      "sourceHomepage": "https://www.transparenttextures.com/",
+      "attribution": "Le Marquis",
+      "licenseOrTerms": "Transparent Textures page records the creator and Subtle Patterns origin; verify upstream terms before redistributing raw PNGs. This repo stores SVG wrappers with source/provenance links rather than vendored PNG binaries.",
+      "sourceFormat": "svg-wrapper",
+      "wrapperCanvas": {
+        "width": 1920,
+        "height": 1080
+      },
+      "sha256": "6640d41d23ecc3a8bcc653b1178cd9a92af155976b12b2fe19d57a395a87f7ea",
+      "visualCharacter": "organic handmade paper texture for restrained editorial backgrounds",
+      "recommendedRoles": [
+        "editorial-background",
+        "cover-wash",
+        "static-poster"
+      ],
+      "defaultOpacity": [
+        0.03,
+        0.08
+      ],
+      "safePlacement": "tile"
+    }
+  ]
+}

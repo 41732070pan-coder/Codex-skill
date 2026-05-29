@@ -6,6 +6,16 @@ Use `<style_name>` for <primary use cases>. It should feel <personality words>.
 
 | Interface | Implemented by |
 | --- | --- |
+| `DesignStyleBase.resolve(request)` | `Triggers` |
+| `DesignStyleBase.getIntent()` | `Intent`, `Anti-Goals` |
+| `DesignStyleBase.getPalette()` | `Color Tokens`, `Series Color Cards`, `Same-Family Progression Cards`, `Palette Recipes` |
+| `DesignStyleBase.getTypography()` | `Typography` |
+| `DesignStyleBase.getLayoutSystem()` | `Layout Principles` |
+| `DesignStyleBase.getMediumTranslation(medium)` | `PPT Slide Archetypes`, `Web Translation`, `App / Dashboard Translation`, `Static Visual Translation` |
+| `DesignStyleBase.getAssetPolicy()` | `Asset Interface`, `Asset Rules` |
+| `DesignStyleBase.getSurfaceTexturePolicy()` | `Surface Texture Policy` |
+| `DesignStyleBase.getModifierCompatibility()` | `Modifier Compatibility` |
+| `DesignStyleBase.selfCheck(output)` | `Self-Check` |
 | `TriggerMatcher` | `Triggers` |
 | `DesignIntentProvider` | `Intent`, `Anti-Goals` |
 | `PaletteProvider` | `Color Tokens`, `Series Color Cards`, `Same-Family Progression Cards`, `Palette Recipes` |
@@ -14,6 +24,7 @@ Use `<style_name>` for <primary use cases>. It should feel <personality words>.
 | `ComponentTranslator` | `PPT Slide Archetypes`, `Web Translation`, `App / Dashboard Translation`, `Static Visual Translation` |
 | `AssetPolicy` | `Asset Interface`, `Asset Rules` |
 | `SurfaceTexturePolicy` | `Surface Texture Policy` |
+| `ModifierCompatibilityProvider` | `Modifier Compatibility` |
 | `QualityGate` | `Self-Check` |
 
 ## Triggers
@@ -106,13 +117,15 @@ Define poster/image/card/social/diagram behavior, aspect ratios, safe text zones
 
 Declare whether this style may use a bundled surface provider. The canonical provider source is Transparent Textures (`https://www.transparenttextures.com/`), but default to disabled unless all selected provider files, manifest rows, index entries, and provenance notes exist.
 
-- `provider`: `none` by default; use `transparent_textures` only after adding the sourced files, provider manifest, index, and provenance.
+- `provider`: `none` by default; use `transparent_textures` only after adding sourced wrapper/source files, provider manifest, index, provenance, and validator support.
 - `assetRoot`: `none` by default; otherwise a real `assets/<provider_name>/` path.
-- `manifestFile`: optional, and only when the file exists.
-- `defaultToken`: one approved texture token, or omit when disabled.
-- `allowedTokens`: texture tokens allowed for this style; use an empty list when disabled.
+- `manifestFile`: `none` when disabled; otherwise a real provider manifest path.
+- `indexFile`: `none` when disabled; otherwise a real provider index path.
+- `provenanceFile`: `none` when disabled; otherwise a real provider provenance path.
+- `defaultToken`: `none` when disabled; otherwise one approved texture token from the provider index.
+- `allowedTokens`: texture tokens allowed for this style; use `[]` when disabled.
 - `opacityRange`: low-opacity bounds for background and panel usage; use `[0, 0]` when disabled.
-- `allowedSurfaces`: where texture may appear; use an empty list when disabled.
+- `allowedSurfaces`: where texture may appear; use `[]` when disabled.
 - `forbiddenSurfaces`: where texture must not appear.
 - `fallbackPolicy`: what to do when texture is unavailable or harms contrast.
 

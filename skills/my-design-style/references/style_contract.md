@@ -162,6 +162,7 @@ interface SurfaceTexturePolicy {
   assetRoot: "none" | `assets/${string}/`;
   manifestFile?: string;
   indexFile?: string;
+  provenanceFile?: string;
   defaultToken?: string;
   allowedTokens: string[];
   opacityRange: [number, number];
@@ -267,7 +268,7 @@ interface SurfaceProviderManifestItem {
 
 When a style enables a shared texture provider, the canonical provider is `transparent_textures`. Its source homepage is `https://www.transparenttextures.com/`, and provider records must preserve the original pattern name, creator attribution when available, download/source URL, native file format, dimensions when known, checksum, and any license or terms notes captured at acquisition time.
 
-Do not enable `provider: transparent_textures` in a concrete style until the selected texture files, provider manifest, index, provenance notes, and validator checks exist in the skill. The provider is a neutral tiled surface substrate only; it is not a style identity library.
+Enable `provider: transparent_textures` in a concrete style only for tokens that exist in `assets/transparent_textures/texture_index.json` with wrapper/source files, provider manifest, provenance notes, and validator checks. The provider is a neutral tiled surface substrate only; it is not a style identity library.
 
 ## Self-Check Output Contract
 

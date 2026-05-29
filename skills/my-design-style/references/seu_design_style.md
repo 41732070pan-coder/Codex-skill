@@ -196,19 +196,21 @@ Bundled assets are in `assets/seu_design_style/`. Use SVG files directly for web
 
 ## Surface Texture Policy
 
-No shared surface texture provider is currently bundled for this skill, so SEU texture support is disabled by default.
+SEU texture support is enabled through the bundled `transparent_textures` provider, but only as a low-opacity neutral paper substrate behind institutional color, grid, and approved SEU identity assets.
 
-- `provider`: `none`.
-- `assetRoot`: `none`.
-- `manifestFile`: `none`.
-- `defaultToken`: none.
-- `allowedTokens`: none.
-- `opacityRange`: 0-0% until a real provider is added.
-- `allowedSurfaces`: none.
+- `provider`: `transparent_textures`
+- `assetRoot`: `assets/transparent_textures/`
+- `manifestFile`: `assets/transparent_textures/TEXTURE_MANIFEST.md`
+- `indexFile`: `assets/transparent_textures/texture_index.json`
+- `provenanceFile`: `assets/transparent_textures/provenance.md`
+- `defaultToken`: `textured-paper`
+- `allowedTokens`: ["textured-paper", "clean-gray-paper"]
+- `opacityRange`: [0.02, 0.06]
+- `allowedSurfaces`: ["slide-background", "section-divider", "quiet-panel", "web-section"]
 - `forbiddenSurfaces`: dense paragraph text, small table cells, official logo area, motto artwork area, auditorium/pine motif overlap.
-- `fallbackPolicy`: keep the SEU feel through green/yellow rules, silver panels, grid structure, and approved SEU SVG assets.
+- `fallbackPolicy`: disable texture and keep the SEU feel through green/yellow rules, silver panels, grid structure, and approved SEU SVG assets.
 
-Future texture support may be added only after a provider directory, manifest, index, provenance, and validator support exist.
+Use texture only when it stays below content and does not compete with SEU identity marks.
 
 ## Asset Rules
 
