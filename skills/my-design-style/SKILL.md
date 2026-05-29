@@ -91,8 +91,8 @@ Load references progressively; do not read every reference by default.
 | `references/design_mechanics.md` | shared mechanics | Reusable palette progression, visual-rhythm planning, style-owned asset interface, and active surface-provider rules. |
 | `references/*_style.md` | concrete styles | Style-specific triggers, color, typography, layout, medium translation, assets, and self-checks. |
 | `assets/seu_design_style/` | SEU style-owned assets | Official SEU SVG identity/motif assets; use only through `seu_design_style` asset policy and manifest. |
-| `assets/renminbi_color_style/` | RMB style-owned assets | Original SVG finance ornaments, value strips, fine-line panels, and manifest; use only through `renminbi_color_style`. |
-| `assets/chinese_traditional_color_style/` | Chinese traditional style-owned assets | Original SVG guofeng borders, stripes, placeholder image panel, side band, and manifest; use only through `chinese_traditional_color_style`. |
+| `assets/renminbi_color_style/` | reserved empty asset folder | Currently contains no bundled files; `renminbi_color_style` uses code-native geometry, generated vectors, user-provided assets, or approved Pixabay/Iconfont project assets. |
+| `assets/chinese_traditional_color_style/` | reserved empty asset folder | Currently contains no bundled files; `chinese_traditional_color_style` uses named colors, code-native geometry, generated vectors, user-provided assets, or approved Pixabay/Iconfont project assets. |
 | `assets/transparent_textures/` | shared surface provider | Curated Transparent Textures SVG wrappers, manifest, JSON index, provenance, and checksums for concrete style opt-in. |
 | `scripts/validate_styles.py` | style validator | Static conformance check for registry entries, concrete style sections, declared assets, and unavailable provider references. |
 

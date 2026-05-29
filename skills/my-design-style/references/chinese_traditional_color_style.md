@@ -291,21 +291,21 @@ For posters, title cards, diagrams, thumbnails, or cultural static visuals:
 
 ## Asset Interface
 
-This style exposes a small style-owned SVG asset module for restrained guofeng borders, stripes, side bands, and placeholder imagery.
+This style currently exposes no bundled style-owned asset files. The reserved `assets/chinese_traditional_color_style/` folder may exist locally, but it should remain empty until a future reusable asset update intentionally adds files and a manifest.
 
-- `assetRoot`: `assets/chinese_traditional_color_style/`.
-- `importMode`: `manifested-svg`.
-- `manifestFile`: `assets/chinese_traditional_color_style/ASSET_MANIFEST.md`.
-- `availableAssets`: `guofeng_border_frame`, `cloud_lattice_stripe`, `landscape_placeholder`, `vertical_pattern_band`.
-- `usageRoles`: named color cards, border frames, horizontal stripes, vertical pattern bands, placeholder image panels, user-provided cultural imagery, generated bitmap visuals, color swatches, lawful object imagery, and small code-native motifs.
-- `placementRules`: preserve aspect ratio; crop only declared stripes/bands at their ends; keep cultural imagery secondary to content unless the artifact is explicitly an object, museum, or editorial view; keep motifs low-density and away from dense text.
-- `fallbackPolicy`: use named color cards, ink/paper contrast, typography, grid, code-native geometry, and bundled manifest assets instead of borrowing assets from another concrete style.
+- `assetRoot`: `none`.
+- `importMode`: `none`.
+- `manifestFile`: `none`.
+- `availableAssets`: `none`.
+- `usageRoles`: named color cards, generated or code-native border frames, horizontal stripes, vertical pattern bands, placeholder image panels, user-provided cultural imagery, generated bitmap visuals, color swatches, lawful object imagery, task-local Pixabay/Iconfont assets with provenance, and small code-native motifs.
+- `placementRules`: keep cultural imagery secondary to content unless the artifact is explicitly an object, museum, or editorial view; keep motifs low-density and away from dense text.
+- `fallbackPolicy`: use named color cards, ink/paper contrast, typography, grid, code-native geometry, generated vectors, and lawful user-provided or task-local sourced assets instead of bundled assets.
 
 When an artifact needs Chinese traditional visual material:
 
-- Use `01_guofeng_border_frame.svg` for title cards, chapter pages, posters, and museum-style labels when a border is useful.
-- Use `02_cloud_lattice_stripe.svg` and `04_vertical_pattern_band.svg` as sparse page rhythm devices; do not stack them on every page.
-- Use `03_landscape_placeholder.svg` only as a temporary placeholder when final user-provided photography, object imagery, or illustration is not available.
+- Use generated or code-native border frames for title cards, chapter pages, posters, and museum-style labels when a border is useful.
+- Use generated or code-native stripes and side bands as sparse page rhythm devices; do not stack them on every page.
+- Use neutral placeholder panels only temporarily when final user-provided photography, object imagery, or illustration is not available.
 - For PPT/UI structure, prefer clean layout, restrained color, typography, thin rules, tabs, tables, and code-native geometry over ornamental filler.
 - Do not assume every Chinese theme needs dragons, clouds, seals, folding fans, mountains, or calligraphy.
 - Prefer color, whitespace, text hierarchy, and composition over decorative symbolism.
@@ -330,11 +330,11 @@ Texture must not make the artifact fake-antique or reduce legibility.
 
 ## Asset Rules
 
-Bundled assets are available under `assets/chinese_traditional_color_style/` and must be selected through `ASSET_MANIFEST.md`.
+No bundled assets are currently available for this style.
 
 Allowed:
 
-- Manifested style-owned assets: `01_guofeng_border_frame.svg`, `02_cloud_lattice_stripe.svg`, `03_landscape_placeholder.svg`, and `04_vertical_pattern_band.svg`.
+- Generated or code-native border frames, lattice stripes, placeholder image panels, and vertical pattern bands that are not stored as bundled files.
 - Original or lawfully sourced cultural imagery, museum objects, textiles, ceramics, landscapes, ink textures, paper texture, or generated raster visuals.
 - CSS/SVG fine-line patterns, seal-like geometry, book margin rails, quiet texture, and swatches.
 - Color chips named with Chinese color names and HEX.
@@ -386,7 +386,7 @@ Modifier self-check additions:
 | `traditional-color-series` | palette | context-dependent named source series or documented palette recipe | selected source series; adjacent source series; documented recipe; neutral ink-paper fallback | Start from one complete named-color logic; avoid mixing many unrelated traditional colors. |
 | `traditional-paper-texture` | texture | `rice-paper` | `rice-paper`; `paper-fibers`; `handmade-paper`; `textured-paper`; `texture-off` | Tokens must come from `allowedTokens`; keep opacity in `[0.03, 0.08]`; never weaken swatch labels, metadata, chart labels, or generated calligraphy. |
 | `cultural-motif-level` | motif | `restrained-rules` | `restrained-rules`; `gallery-labels`; `seal-dot-accents`; `motif-off` | Motifs stay low-density, code-native or generated-vector, and never become generic antique filler. |
-| `traditional-asset-emphasis` | asset | `manifest-subtle` | `manifest-subtle`; `border-frame`; `lattice-stripe`; `image-placeholder`; `vertical-band`; `asset-off` | Use only manifested files under `assets/chinese_traditional_color_style/`; keep one clear asset role per surface. |
+| `traditional-asset-emphasis` | asset | `generated-subtle` | `generated-subtle`; `code-native-border-frame`; `code-native-lattice-stripe`; `placeholder-panel`; `code-native-vertical-band`; `asset-off` | Use generated/code-native or task-local sourced assets with provenance; keep one clear asset role per surface. |
 
 Preview option behavior:
 

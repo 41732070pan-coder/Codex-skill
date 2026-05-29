@@ -84,7 +84,7 @@ A manifest should list: `file`, `role`, intrinsic width/height or ratio, color m
 
 ### SEU Example
 
-`seu_design_style` exposes curated assets under `assets/seu_design_style/`. `renminbi_color_style` and `chinese_traditional_color_style` expose original SVG assets under their own folders for finance ornaments and guofeng borders/stripes/placeholders. These folders model future style-owned asset interfaces: every asset needs a manifest role, safe placement mode, provenance/source note, and forbidden-use boundary.
+`seu_design_style` exposes curated assets under `assets/seu_design_style/`. `renminbi_color_style` and `chinese_traditional_color_style` currently expose no bundled assets and rely on code-native geometry, generated vectors, user-provided assets, or task-local Pixabay/Iconfont assets with provenance. Future reusable style-owned assets must be placed directly under `assets/<style_name>/` with a manifest role, safe placement mode, provenance/source note, and forbidden-use boundary.
 
 
 ## Style Preview Mechanics

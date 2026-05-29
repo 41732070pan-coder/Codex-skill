@@ -276,23 +276,21 @@ For posters, title cards, diagrams, thumbnails, or static financial visuals:
 
 ## Asset Interface
 
-This style exposes a small style-owned SVG asset module for safe, non-currency financial ornament.
+This style currently exposes no bundled style-owned asset files. The reserved `assets/renminbi_color_style/` folder may exist locally, but it should remain empty until a future reusable asset update intentionally adds files and a manifest.
 
-- `assetRoot`: `assets/renminbi_color_style/`.
-- `importMode`: `manifested-svg`.
-- `manifestFile`: `assets/renminbi_color_style/ASSET_MANIFEST.md`.
-- `availableAssets`: `denomination_value_strip`, `financial_corner_frame`, `abstract_fine_line_wave`, `watermark_panel`.
-- `usageRoles`: denomination color strips, report corner frames, low-opacity original fine-line depth, watermark-like card panels, generated in-artifact linework, original icons, and lawful user-provided imagery.
-- `placementRules`: preserve aspect ratio; keep decorative linework outside reading paths and away from data labels; never imitate a printable banknote; use at most one major financial ornament per slide or screen.
-- `fallbackPolicy`: use denomination color progressions, financial layout rhythm, tables, chart systems, coded fine rules, and the bundled manifest assets before considering any external personal-use asset.
+- `assetRoot`: `none`.
+- `importMode`: `none`.
+- `manifestFile`: `none`.
+- `availableAssets`: `none`.
+- `usageRoles`: denomination color strips, report corner frames, low-opacity original fine-line depth, watermark-like card panels, generated in-artifact linework, original icons, lawful user-provided imagery, and task-local Pixabay/Iconfont assets with provenance.
+- `placementRules`: keep generated decorative linework outside reading paths and away from data labels; never imitate a printable banknote; use at most one major financial ornament per slide or screen.
+- `fallbackPolicy`: use denomination color progressions, financial layout rhythm, tables, chart systems, coded fine rules, generated vectors, and lawful user-provided or task-local sourced assets instead of bundled assets.
 
 For RMB-inspired work:
 
 - Do not copy legal tender, seals, serial textures, official banknote artwork, portraits, denomination numerals, or anti-counterfeit marks.
 - Build value through color progression, fine rules, tables, chart systems, secure-feeling layout rhythm, and the style-owned abstract assets.
-- `01_denomination_value_strip.svg` is for hierarchy and palette rhythm, not denomination reproduction.
-- `02_financial_corner_frame.svg` and `04_watermark_panel.svg` can structure covers, report summaries, and dashboard hero cards, but should not become a full voucher/banknote frame.
-- `03_abstract_fine_line_wave.svg` may be used at low opacity as original linework; never combine it into security-pattern zones.
+- Use code-native color strips, generated corner rules, and original low-opacity linework for hierarchy and palette rhythm; never combine them into security-pattern zones or full voucher/banknote frames.
 - Prefer modern financial UI structure over decorative currency imitation.
 
 ## Surface Texture Policy
@@ -315,11 +313,11 @@ Texture must remain a generic tactile substrate and must not resemble real bankn
 
 ## Asset Rules
 
-Bundled assets are available under `assets/renminbi_color_style/` and must be selected through `ASSET_MANIFEST.md`. Prefer these original SVG assets, generated vectors, or coded ornaments over copied banknote imagery.
+No bundled assets are currently available for this style. Prefer generated vectors, coded ornaments, user-provided licensed files, or task-local Pixabay/Iconfont assets with provenance over copied banknote imagery.
 
 Allowed:
 
-- Manifested style-owned assets: `01_denomination_value_strip.svg`, `02_financial_corner_frame.svg`, `03_abstract_fine_line_wave.svg`, and `04_watermark_panel.svg`.
+- Generated or code-native financial ornaments such as color strips, corner rules, fine-line depth, and watermark-like panels that are not stored as bundled files.
 - Abstract fine-line patterns inspired by engraving or guilloche, created from simple curves, repeated rules, or low-opacity CSS/SVG.
 - Watermark-like circles, floral silhouettes, landscape contours, or architectural outlines when they are original or sourced lawfully.
 - Paper grain, fiber speckles, and subtle print misregistration only when they do not reduce legibility.
@@ -372,7 +370,7 @@ Modifier self-check additions:
 | `rmb-palette-series` | palette | context-dependent, often `100-yuan-red` for value/report emphasis | `100-yuan-red`; `50-yuan-green`; `20-yuan-ochre`; `10-yuan-blue`; `5-yuan-purple`; `1-yuan-olive`; `neutral-fallback` | Use a complete series card; preserve auxiliary colors and paper/ink neutrals; do not reduce the style to red-and-gold decoration. |
 | `rmb-paper-texture` | texture | `paper-fibers` | `paper-fibers`; `textured-paper`; `clean-gray-paper`; `texture-off` | Tokens must come from `allowedTokens`; keep opacity in `[0.02, 0.05]`; never imitate security paper, serial zones, seals, portraits, security threads, watermark details, or anti-counterfeit marks. |
 | `rmb-linework-strength` | motif | `subtle-lines` | `subtle-lines`; `balanced-guilloche-inspired`; `linework-off` | Linework must be original generated-vector or code-native geometry and stay below content. |
-| `rmb-asset-emphasis` | asset | `manifest-subtle` | `manifest-subtle`; `value-strip`; `corner-frame`; `watermark-panel`; `asset-off` | Use only manifested files under `assets/renminbi_color_style/`; keep them abstract, low-density, and non-counterfeit. |
+| `rmb-asset-emphasis` | asset | `generated-subtle` | `generated-subtle`; `code-native-value-strip`; `code-native-corner-frame`; `code-native-watermark-panel`; `asset-off` | Use generated/code-native or task-local sourced assets with provenance; keep them abstract, low-density, and non-counterfeit. |
 
 Preview option behavior:
 
