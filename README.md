@@ -21,7 +21,7 @@
 | Skill | 类型 | 位置 | 功能 | 状态 |
 | --- | --- | --- | --- | --- |
 | `meta-skill` | 元 Skill / 治理 | `skills/meta-skill/` | 设计、添加、重命名、审查、重构和治理仓库内的 Skills 与多实现族，提供契约、注册表、模板、加载边界、解析语义、升级路径、生命周期和质量门禁规则。 | stable |
-| `my-design-style` | 业务 Skill / 视觉设计 | `skills/my-design-style/` | 为 PPT、网页、App、Dashboard、静态视觉稿和设计模板应用可扩展视觉风格系统。 | experimental |
+| `my-design-style` | 业务 Skill / 视觉设计 | `skills/my-design-style/` | 为 PPT、网页、App、Dashboard、静态视觉稿和设计模板应用可扩展视觉风格系统；中文人类使用指南见 `skills/my-design-style/README.zh-CN.md`。 | experimental |
 
 ## 高层目录结构
 
@@ -36,6 +36,7 @@
     │   └── scripts/
     └── my-design-style/
         ├── SKILL.md
+        ├── README.zh-CN.md
         ├── agents/openai.yaml
         ├── assets/
         ├── references/
