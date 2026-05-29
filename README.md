@@ -38,7 +38,8 @@
         ├── SKILL.md
         ├── agents/openai.yaml
         ├── assets/
-        └── references/
+        ├── references/
+        └── scripts/
 ```
 
 ## 新增或修改 Skill

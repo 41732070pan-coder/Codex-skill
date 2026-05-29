@@ -78,9 +78,9 @@ A manifest should list: `file`, `role`, intrinsic width/height or ratio, color m
 
 ## Surface Texture Extension Point
 
-The canonical shared surface texture provider is `transparent_textures`, sourced from Transparent Textures (`https://www.transparenttextures.com/`) for high-quality tileable texture resources. No shared surface texture asset provider is currently bundled with `my-design-style`, so treat surface texture as an inactive extension point until selected texture files, a provider directory, manifest, index, provenance, and validator support are added.
+The canonical shared surface texture provider is `transparent_textures`, sourced from Transparent Textures (`https://www.transparenttextures.com/`) for high-quality tileable texture resources. A curated provider is bundled under `assets/transparent_textures/` with SVG wrappers, `TEXTURE_MANIFEST.md`, `texture_index.json`, provenance notes, and validator checks.
 
-Concrete styles must therefore declare `provider: none` unless all files named by their `SurfaceTexturePolicy` exist in the skill. When the `transparent_textures` provider is added, it must remain a neutral substrate service, not a global ornament library.
+Concrete styles may declare `provider: transparent_textures` only when every token in their `SurfaceTexturePolicy` exists in the provider index and remains a neutral substrate service, not a global ornament library.
 
 ```ts
 interface SurfaceTexturePolicy {
@@ -88,6 +88,7 @@ interface SurfaceTexturePolicy {
   assetRoot: "none" | `assets/${string}/`;
   manifestFile?: string;
   indexFile?: string;
+  provenanceFile?: string;
   defaultToken?: string;
   allowedTokens: string[];
   opacityRange: [number, number];
@@ -99,7 +100,7 @@ interface SurfaceTexturePolicy {
 
 ### Transparent Textures Provider Rules
 
-- Add actual files before enabling `provider: transparent_textures` in any concrete style.
+- Add actual wrapper/source files and metadata before enabling new `transparent_textures` tokens in any concrete style.
 - Source texture files from `https://www.transparenttextures.com/` and record the original pattern name, creator attribution when available, download/source URL, license or terms note, native format, dimensions when known, checksum, safe placement, and allowed surfaces.
 - Keep textures below content; never use them as motifs, official marks, or semantic data encodings.
 - Turning texture off must still leave a complete design. Texture enriches the surface; it must not carry meaning.

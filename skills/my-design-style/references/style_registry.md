@@ -45,7 +45,7 @@ interface StyleRegistryEntry {
 
 ## Implementation Map Requirement
 
-Every concrete style file must contain an `Implementation Map` table near the top. It maps each required interface to the sections that implement it.
+Every concrete style file must contain an `Implementation Map` table near the top. It maps each required interface to the sections that implement it; the list below must stay aligned with `REQUIRED_INTERFACES` in `scripts/validate_styles.py`.
 
 | Interface | Implemented by |
 | --- | --- |
@@ -57,6 +57,7 @@ Every concrete style file must contain an `Implementation Map` table near the to
 | `ComponentTranslator` | `PPT Slide Archetypes`, `Web Translation`, `App / Dashboard Translation`, `Static Visual Translation` |
 | `AssetPolicy` | `Asset Interface`, `Asset Rules` |
 | `SurfaceTexturePolicy` | `Surface Texture Policy` |
+| `ModifierCompatibilityProvider` | `Modifier Compatibility` |
 | `QualityGate` | `Self-Check` |
 
 If a style has no bundled assets, its `AssetPolicy` must explicitly say `assetRoot: none` and define fallback behavior. If it does have assets, it must expose a manifest such as `assets/<style_name>/ASSET_MANIFEST.md`.

@@ -83,12 +83,13 @@ Load references progressively; do not read every reference by default.
 | `references/style_contract.md` | formal contract | `DesignStyleBase` abstract class, implementation-class mapping, data-shape, asset-policy, surface-policy, and self-check definitions. |
 | `references/style_modifier_contract.md` | modifier contract | `StyleModifier`, `StyleComposer`, `ComposedStylePlan`, conflict handling, asset-source rules, and modifier self-check definitions. |
 | `references/style_template.md` | extension template | Skeleton for future concrete style implementations. |
-| `references/design_mechanics.md` | shared mechanics | Reusable palette progression, style-owned asset interface, and inactive surface-provider extension rules. |
+| `references/design_mechanics.md` | shared mechanics | Reusable palette progression, style-owned asset interface, and active surface-provider rules. |
 | `references/*_style.md` | concrete styles | Style-specific triggers, color, typography, layout, medium translation, assets, and self-checks. |
 | `assets/seu_design_style/` | SEU style-owned assets | Official SEU SVG identity/motif assets; use only through `seu_design_style` asset policy and manifest. |
+| `assets/transparent_textures/` | shared surface provider | Curated Transparent Textures SVG wrappers, manifest, JSON index, provenance, and checksums for concrete style opt-in. |
 | `scripts/validate_styles.py` | style validator | Static conformance check for registry entries, concrete style sections, declared assets, and unavailable provider references. |
 
-The canonical shared texture provider source is Transparent Textures (`https://www.transparenttextures.com/`). No shared texture asset provider is currently bundled; before any concrete style can enable `transparent_textures`, selected files must be added with a manifest, index, provenance, and explicit style opt-in.
+The canonical shared texture provider source is Transparent Textures (`https://www.transparenttextures.com/`). A curated `transparent_textures` provider is bundled under `assets/transparent_textures/`; concrete styles may opt in only through explicit `SurfaceTexturePolicy` tokens that exist in `texture_index.json`, preserve provenance, and pass `scripts/validate_styles.py`.
 
 ## Extension
 

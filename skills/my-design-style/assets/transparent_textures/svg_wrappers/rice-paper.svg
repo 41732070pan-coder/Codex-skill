@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-label="Rice Paper transparent texture wrapper sourced from Transparent Textures">
+  <title>Rice Paper texture wrapper</title>
+  <desc>Scalable SVG wrapper that tiles the Transparent Textures PNG source at https://www.transparenttextures.com/patterns/rice-paper.png. Preserve provenance before exporting or embedding.</desc>
+  <defs>
+    <pattern id="rice-paper" patternUnits="userSpaceOnUse" width="256" height="256">
+      <image href="https://www.transparenttextures.com/patterns/rice-paper.png" width="256" height="256" preserveAspectRatio="none" />
+    </pattern>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#rice-paper)" />
+</svg>
