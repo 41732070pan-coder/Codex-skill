@@ -228,7 +228,7 @@ Use a deck-level visual rhythm plan so the RMB-inspired language feels valuable 
 - `visualAnchorRule`: every slide or major section needs one non-body-text anchor: metric tile group, denomination color strip, chart, statement table, abstract fine-line block, corner tick, process row, product/object image, or controlled paper texture.
 - `archetypeVarietyRule`: alternate high-value title pages, dense financial tables, chart evidence, risk/compliance panels, and summary moments; do not repeat the same metric-card grid for long runs.
 - `motifRotation`: rotate fine rules, corner ticks, abstract guilloche-inspired curves, denomination strips, texture-off states, and table/charts; linework must stay original and never imitate security features.
-- `assetFallbackRule`: if no lawful imagery is available, use data visualization, tabular numerals, denomination swatches, paper/ink contrast, bundled abstract SVG assets, and original vector geometry rather than red-gold filler.
+- `assetFallbackRule`: if no lawful imagery is available, use data visualization, tabular numerals, denomination swatches, paper/ink contrast, runtime-approved abstract asset roles, and original vector geometry rather than red-gold filler.
 - `antiMonotonyCheck`: verify that each page has a value/data/culture anchor, red and gold do not dominate by repetition, and visual variety never increases counterfeit risk.
 
 ## Web Translation
@@ -276,15 +276,15 @@ For posters, title cards, diagrams, thumbnails, or static financial visuals:
 
 ## Asset Interface
 
-This style currently exposes no bundled style-owned asset files. The reserved `assets/renminbi_color_style/` folder may exist locally, but it should remain empty until a future reusable asset update intentionally adds files and a manifest.
+This style uses an opaque runtime `AssetPolicy`. Do not infer the current file state of any asset boundary; use declared roles, provenance expectations, and fallback behavior only.
 
 - `assetRoot`: `none`.
 - `importMode`: `none`.
 - `manifestFile`: `none`.
-- `availableAssets`: `none`.
+- `availableAssets`: runtime-approved or generated financial ornament roles; no file names are declared in this style document.
 - `usageRoles`: denomination color strips, report corner frames, low-opacity original fine-line depth, watermark-like card panels, generated in-artifact linework, original icons, lawful user-provided imagery, and task-local Pixabay/Iconfont assets with provenance.
 - `placementRules`: keep generated decorative linework outside reading paths and away from data labels; never imitate a printable banknote; use at most one major financial ornament per slide or screen.
-- `fallbackPolicy`: use denomination color progressions, financial layout rhythm, tables, chart systems, coded fine rules, generated vectors, and lawful user-provided or task-local sourced assets instead of bundled assets.
+- `fallbackPolicy`: use denomination color progressions, financial layout rhythm, tables, chart systems, coded fine rules, generated vectors, and lawful user-provided or task-local sourced assets when runtime assets are unavailable or inappropriate.
 
 For RMB-inspired work:
 
@@ -295,13 +295,13 @@ For RMB-inspired work:
 
 ## Surface Texture Policy
 
-RMB-inspired texture support is enabled through the bundled `transparent_textures` provider, but only as abstract paper tactility. It must never mimic security paper, anti-counterfeit marks, serial zones, official seals, or legal-tender surfaces.
+RMB-inspired texture support is enabled through the `transparent_textures` provider handle, but only as abstract paper tactility. It must never mimic security paper, anti-counterfeit marks, serial zones, official seals, or legal-tender surfaces.
 
 - `provider`: `transparent_textures`
 - `assetRoot`: `assets/transparent_textures/`
-- `manifestFile`: `assets/transparent_textures/TEXTURE_MANIFEST.md`
-- `indexFile`: `assets/transparent_textures/texture_index.json`
-- `provenanceFile`: `assets/transparent_textures/provenance.md`
+- `manifestFile`: `opaque transparent_textures manifest handle`
+- `indexFile`: `opaque transparent_textures index handle`
+- `provenanceFile`: `opaque transparent_textures provenance handle`
 - `defaultToken`: `paper-fibers`
 - `allowedTokens`: ["paper-fibers", "textured-paper", "clean-gray-paper"]
 - `opacityRange`: [0.02, 0.05]
@@ -313,11 +313,11 @@ Texture must remain a generic tactile substrate and must not resemble real bankn
 
 ## Asset Rules
 
-No bundled assets are currently available for this style. Prefer generated vectors, coded ornaments, user-provided licensed files, or task-local Pixabay/Iconfont assets with provenance over copied banknote imagery.
+Prefer generated vectors, coded ornaments, runtime-approved assets, user-provided licensed files, or task-local Pixabay/Iconfont assets with provenance over copied banknote imagery.
 
 Allowed:
 
-- Generated or code-native financial ornaments such as color strips, corner rules, fine-line depth, and watermark-like panels that are not stored as bundled files.
+- Generated or code-native financial ornaments such as color strips, corner rules, fine-line depth, and watermark-like panels that do not depend on a fixed bundled file inventory.
 - Abstract fine-line patterns inspired by engraving or guilloche, created from simple curves, repeated rules, or low-opacity CSS/SVG.
 - Watermark-like circles, floral silhouettes, landscape contours, or architectural outlines when they are original or sourced lawfully.
 - Paper grain, fiber speckles, and subtle print misregistration only when they do not reduce legibility.
