@@ -123,6 +123,10 @@ Declare whether this style may use a bundled surface provider. The canonical pro
 - Avoid generic downloaded filler.
 - Explain legal or brand constraints.
 
+## Modifier Compatibility
+
+State hard invariants that modifiers must not break, allowed soft modifiers, forbidden modifier behavior, and any example modifier plans. Use `none` if this style should not accept modifiers beyond ordinary constraints.
+
 ## Self-Check
 
 Return or simulate this `CheckResult` shape before finishing:
