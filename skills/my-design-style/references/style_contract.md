@@ -369,7 +369,7 @@ Use style-specific checks inside that shape. For example, SEU checks logo aspect
 - If one style needs a new behavior, first add a method or optional interface here, then let every style either implement it or explicitly declare `none`.
 - If a user asks for palette, motif, texture, layout, mood, or asset adjustments, model them as `StyleModifier[]` and validate them through the selected style's `getModifierCompatibility()` policy unless they are permanent enough to justify a new concrete style.
 - Every concrete style must document `Modifier Compatibility`; support may be permissive, restrictive, or `acceptsModifiers: false`, but it must be explicit so the abstract workflow remains substitutable.
-- Every concrete style must expose preview options through `getPreviewOptions()` and honor approved selections through `applyStyleLock()` so final outputs remain consistent with the approved preview.
+- Every concrete style must expose preview options through `getPreviewOptions()` and honor approved or internally locked selections through `applyStyleLock()` so final outputs remain consistent with the `StyleLock`.
 - Concrete styles may have assets, no assets, or user-provided-only assets, but all must expose an `AssetPolicy`.
 - Concrete styles must also expose a `SurfaceTexturePolicy`, even if it declares `provider: none`. Surface providers are optional substrate services, not identity assets.
 - A style may enable a non-`none` surface provider only when every referenced provider file exists and has provenance documentation.
