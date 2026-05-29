@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="900" viewBox="0 0 240 900" role="img" aria-labelledby="title desc">
+  <title id="title">Chinese traditional vertical pattern band</title>
+  <desc id="desc">Vertical decorative band for sidebars, chapter dividers, and poster edges.</desc>
+  <rect width="240" height="900" fill="#F6F0E5" opacity="0.18"/>
+  <g fill="none" stroke="#9E2A22" stroke-width="4" stroke-linecap="square" opacity="0.85">
+    <path d="M80 42h80v80H80zM100 62h40v40h-40z"/>
+    <path d="M80 214h80v80H80zM100 234h40v40h-40z"/>
+    <path d="M80 386h80v80H80zM100 406h40v40h-40z"/>
+    <path d="M80 558h80v80H80zM100 578h40v40h-40z"/>
+    <path d="M80 730h80v80H80zM100 750h40v40h-40z"/>
+  </g>
+  <path d="M120 122v92M120 294v92M120 466v92M120 638v92" stroke="#C8A45D" stroke-width="3" opacity="0.68"/>
+</svg>

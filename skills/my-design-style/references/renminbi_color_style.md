@@ -228,7 +228,7 @@ Use a deck-level visual rhythm plan so the RMB-inspired language feels valuable 
 - `visualAnchorRule`: every slide or major section needs one non-body-text anchor: metric tile group, denomination color strip, chart, statement table, abstract fine-line block, corner tick, process row, product/object image, or controlled paper texture.
 - `archetypeVarietyRule`: alternate high-value title pages, dense financial tables, chart evidence, risk/compliance panels, and summary moments; do not repeat the same metric-card grid for long runs.
 - `motifRotation`: rotate fine rules, corner ticks, abstract guilloche-inspired curves, denomination strips, texture-off states, and table/charts; linework must stay original and never imitate security features.
-- `assetFallbackRule`: if no lawful imagery is available, use data visualization, tabular numerals, denomination swatches, paper/ink contrast, and original vector geometry rather than red-gold filler.
+- `assetFallbackRule`: if no lawful imagery is available, use data visualization, tabular numerals, denomination swatches, paper/ink contrast, bundled abstract SVG assets, and original vector geometry rather than red-gold filler.
 - `antiMonotonyCheck`: verify that each page has a value/data/culture anchor, red and gold do not dominate by repetition, and visual variety never increases counterfeit risk.
 
 ## Web Translation
@@ -276,22 +276,28 @@ For posters, title cards, diagrams, thumbnails, or static financial visuals:
 
 ## Asset Interface
 
-This style currently has no bundled style-owned asset folder. Do not rely on a shared decorative library.
+This style exposes a small style-owned SVG asset module for safe, non-currency financial ornament.
 
-- `assetRoot`: `none`.
-- `importMode`: `none`.
-- `manifestFile`: `none`.
-- `availableAssets`: `none`.
-- `usageRoles`: generated in-artifact linework, watermark-like panels, original icons, and lawful user-provided imagery only.
-- `placementRules`: keep decorative linework outside reading paths and away from data labels; never imitate a printable banknote.
-- `fallbackPolicy`: use denomination color progressions, financial layout rhythm, tables, chart systems, and coded fine rules rather than downloaded currency imagery.
+- `assetRoot`: `assets/renminbi_color_style/`.
+- `importMode`: `manifested-svg`.
+- `manifestFile`: `assets/renminbi_color_style/ASSET_MANIFEST.md`.
+- `availableAssets`: `denomination_value_strip`, `financial_corner_frame`, `abstract_fine_line_wave`, `watermark_panel`.
+- `usageRoles`: denomination color strips, report corner frames, low-opacity original fine-line depth, watermark-like card panels, generated in-artifact linework, original icons, and lawful user-provided imagery.
+- `placementRules`: preserve aspect ratio; keep decorative linework outside reading paths and away from data labels; never imitate a printable banknote; use at most one major financial ornament per slide or screen.
+- `fallbackPolicy`: use denomination color progressions, financial layout rhythm, tables, chart systems, coded fine rules, and the bundled manifest assets before considering any external personal-use asset.
 
 For RMB-inspired work:
 
-- Do not copy legal tender, seals, serial textures, or official banknote artwork.
-- Build value through color progression, fine rules, tables, chart systems, and secure-feeling layout rhythm.
-- Generate simple linework inside the target artifact only when it supports hierarchy or depth; do not add generic banknote patterns to a shared folder.
+- Do not copy legal tender, seals, serial textures, official banknote artwork, portraits, denomination numerals, or anti-counterfeit marks.
+- Build value through color progression, fine rules, tables, chart systems, secure-feeling layout rhythm, and the style-owned abstract assets.
+- `01_denomination_value_strip.svg` is for hierarchy and palette rhythm, not denomination reproduction.
+- `02_financial_corner_frame.svg` and `04_watermark_panel.svg` can structure covers, report summaries, and dashboard hero cards, but should not become a full voucher/banknote frame.
+- `03_abstract_fine_line_wave.svg` may be used at low opacity as original linework; never combine it into security-pattern zones.
 - Prefer modern financial UI structure over decorative currency imitation.
+
+### Recommended Asset Source For Future Expansion
+
+Use 爱给网在线设计 / 平面素材入口 (`https://www.aigei.com/design/ps/`) as a personal-use discovery source when this style needs additional textures or finance assets. Search terms: `金融`, `金融保险`, `人民币`, `纸币纹理`, `钞票纹理`, `票券边框`, `金色线条`, `纸张纹理`, `底纹`, `商务金融`. Any imported or traced asset must be placed under `assets/renminbi_color_style/`, listed in the manifest, and reviewed against the anti-counterfeit rules above.
 
 ## Surface Texture Policy
 
@@ -313,10 +319,11 @@ Texture must remain a generic tactile substrate and must not resemble real bankn
 
 ## Asset Rules
 
-This style does not require bundled assets. Prefer generated or coded ornaments over copied banknote imagery.
+Bundled assets are available under `assets/renminbi_color_style/` and must be selected through `ASSET_MANIFEST.md`. Prefer these original SVG assets, generated vectors, or coded ornaments over copied banknote imagery.
 
 Allowed:
 
+- Manifested style-owned assets: `01_denomination_value_strip.svg`, `02_financial_corner_frame.svg`, `03_abstract_fine_line_wave.svg`, and `04_watermark_panel.svg`.
 - Abstract fine-line patterns inspired by engraving or guilloche, created from simple curves, repeated rules, or low-opacity CSS/SVG.
 - Watermark-like circles, floral silhouettes, landscape contours, or architectural outlines when they are original or sourced lawfully.
 - Paper grain, fiber speckles, and subtle print misregistration only when they do not reduce legibility.
@@ -334,7 +341,7 @@ RMB modifiers are supported only when they preserve the banknote-inspired abstra
 
 - `acceptsModifiers`: true.
 - `allowedTargets`: palette, motif, texture, layout, mood, asset.
-- `allowedSources`: user-provided, generated-vector, code-native, shared-provider only when explicitly enabled by the surface policy, and none.
+- `allowedSources`: style-owned when declared, user-provided, generated-vector, code-native, shared-provider only when explicitly enabled by the surface policy, and none.
 - `defaultIntensity`: subtle for product/UI work, balanced for editorial or PPT section moments.
 - `conflictPolicy`: preserve non-counterfeit anti-goals, readability, and denomination-family logic; downgrade or reject modifiers that imitate banknotes, official seals, serial numbers, anti-counterfeit details, portraits, or legal tender layouts.
 - `promotionPolicy`: promote recurring named variants such as a durable fintech-blue mode, premium-auction mode, or compliance-dashboard mode into a concrete style only when they need their own palette, layout rules, registry metadata, or validation.
@@ -369,13 +376,14 @@ Modifier self-check additions:
 | `rmb-palette-series` | palette | context-dependent, often `100-yuan-red` for value/report emphasis | `100-yuan-red`; `50-yuan-green`; `20-yuan-ochre`; `10-yuan-blue`; `5-yuan-purple`; `1-yuan-olive`; `neutral-fallback` | Use a complete series card; preserve auxiliary colors and paper/ink neutrals; do not reduce the style to red-and-gold decoration. |
 | `rmb-paper-texture` | texture | `paper-fibers` | `paper-fibers`; `textured-paper`; `clean-gray-paper`; `texture-off` | Tokens must come from `allowedTokens`; keep opacity in `[0.02, 0.05]`; never imitate security paper, serial zones, seals, portraits, security threads, watermark details, or anti-counterfeit marks. |
 | `rmb-linework-strength` | motif | `subtle-lines` | `subtle-lines`; `balanced-guilloche-inspired`; `linework-off` | Linework must be original generated-vector or code-native geometry and stay below content. |
+| `rmb-asset-emphasis` | asset | `manifest-subtle` | `manifest-subtle`; `value-strip`; `corner-frame`; `watermark-panel`; `asset-off` | Use only manifested files under `assets/renminbi_color_style/`; keep them abstract, low-density, and non-counterfeit. |
 
 Preview option behavior:
 
 - `100-yuan-red` uses primary `#BD0E2B`, auxiliary `#F6ACB9`, `#D4606D`, `#E94136`, `#C93649`, and neutral paper/ink colors `#FFFFFF`, `#F6F0E4`, `#241A17`, `#6D716C`.
 - Other denomination options map one-to-one to the existing series cards and should be offered as replacements when the user wants a calmer, more compliant, more analytical, or more premium mood.
 - `texture-off` keeps RMB style through denomination color progression, fine rules, financial grids, and original geometry.
-- Style locks must record the selected denomination series, texture token or `texture-off`, linework strength, and any rejected counterfeit-like request.
+- Style locks must record the selected denomination series, texture token or `texture-off`, linework strength, selected asset emphasis or `asset-off`, and any rejected counterfeit-like request.
 
 ## Self-Check
 

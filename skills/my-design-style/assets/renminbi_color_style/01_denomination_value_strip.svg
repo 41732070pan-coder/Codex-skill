@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="180" viewBox="0 0 1200 180" role="img" aria-labelledby="title desc">
+  <title id="title">RMB-inspired denomination value strip</title>
+  <desc id="desc">Abstract non-currency color strip using RMB denomination palette families for financial hierarchy.</desc>
+  <rect width="1200" height="180" rx="28" fill="#F8F1E6"/>
+  <g opacity="0.95">
+    <rect x="36" y="36" width="160" height="108" rx="18" fill="#BD0E2B"/>
+    <rect x="214" y="36" width="160" height="108" rx="18" fill="#496B61"/>
+    <rect x="392" y="36" width="160" height="108" rx="18" fill="#6A4D31"/>
+    <rect x="570" y="36" width="160" height="108" rx="18" fill="#364A88"/>
+    <rect x="748" y="36" width="160" height="108" rx="18" fill="#443459"/>
+    <rect x="926" y="36" width="238" height="108" rx="18" fill="#69714A"/>
+  </g>
+  <g fill="none" stroke="#D4A652" stroke-width="3" opacity="0.65">
+    <path d="M72 91h88M250 91h88M428 91h88M606 91h88M784 91h88M962 91h166"/>
+    <path d="M72 72h88M250 72h88M428 72h88M606 72h88M784 72h88M962 72h166" opacity="0.45"/>
+    <path d="M72 110h88M250 110h88M428 110h88M606 110h88M784 110h88M962 110h166" opacity="0.45"/>
+  </g>
+</svg>

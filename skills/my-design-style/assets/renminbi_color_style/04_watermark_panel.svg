@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560" role="img" aria-labelledby="title desc">
+  <title id="title">RMB-inspired abstract watermark panel</title>
+  <desc id="desc">Non-currency watermark-like oval panel for premium financial layouts.</desc>
+  <rect width="900" height="560" rx="44" fill="#F8F1E6"/>
+  <ellipse cx="450" cy="280" rx="270" ry="158" fill="none" stroke="#C93649" stroke-width="22" opacity="0.08"/>
+  <ellipse cx="450" cy="280" rx="214" ry="118" fill="none" stroke="#496B61" stroke-width="3" opacity="0.22"/>
+  <ellipse cx="450" cy="280" rx="170" ry="88" fill="none" stroke="#D4A652" stroke-width="2" opacity="0.30"/>
+  <g fill="none" stroke="#6A4D31" stroke-width="1.5" opacity="0.18">
+    <path d="M220 280h460"/><path d="M450 128v304"/>
+    <path d="M258 208c104 48 280 48 384 0"/><path d="M258 352c104-48 280-48 384 0"/>
+  </g>
+</svg>
