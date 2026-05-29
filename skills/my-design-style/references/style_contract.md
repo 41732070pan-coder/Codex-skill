@@ -23,6 +23,7 @@ interface DesignRequest {
     outputFormat?: string;
     brandRequirements?: string[];
   };
+  modifiers?: StyleModifier[];
 }
 
 interface StyleResolution {
@@ -37,6 +38,30 @@ interface CheckResult {
   ok: boolean;
   issues: string[];
   requiredFixes: string[];
+}
+
+// See `style_modifier_contract.md` for the full modifier contract.
+interface StyleModifier {
+  id: string;
+  target: "palette" | "motif" | "texture" | "layout" | "mood" | "asset";
+  operation: "add" | "replace" | "increase" | "decrease" | "tint";
+  priority: "hard" | "soft";
+  intensity?: "subtle" | "balanced" | "expressive";
+  source?: "style-owned" | "user-provided" | "generated-vector" | "shared-provider" | "code-native" | "none";
+  value: string | Record<string, unknown>;
+  compatibilityRules: string[];
+  selfCheckRules?: string[];
+}
+
+interface ComposedStylePlan {
+  baseStyle: StyleName;
+  modifiers: StyleModifier[];
+  acceptedChanges: string[];
+  rejectedOrDowngradedChanges: string[];
+  palettePlan?: Record<string, unknown>;
+  motifPlan?: Record<string, unknown>;
+  assetPlan?: Record<string, unknown>;
+  selfCheckPlan: string[];
 }
 ```
 
@@ -149,6 +174,18 @@ interface QualityGate {
 }
 ```
 
+## Modifier Composition Contract
+
+Style modifiers are data-level overlays for user-requested changes that should not become new concrete styles by default. The base workflow may compose modifiers after style resolution, but modifiers must preserve base-style invariants and must not silently replace identity colors, official assets, or safety constraints. Load `style_modifier_contract.md` when modifier extraction, compatibility checks, downgrade decisions, or modifier self-check rules are needed.
+
+```ts
+interface StyleComposer {
+  compose(baseStyle: DesignStyleBase, modifiers: StyleModifier[]): ComposedStylePlan;
+}
+```
+
+`ComposedStylePlan.rejectedOrDowngradedChanges` should record any request that was unsafe, unavailable, or too strong for the base style. If a modifier would dominate the base style at `expressive` intensity, identify the result as a base-style variant or propose a new concrete style instead of presenting it as the untouched base style.
+
 ## Asset Provider Contract
 
 Treat each style asset folder as a module. The base workflow must not browse `assets/` directly and choose arbitrary files; it must ask the active concrete style what that module exports.
@@ -235,6 +272,7 @@ Use style-specific checks inside that shape. For example, SEU checks logo aspect
 
 - The template workflow should not special-case one style after resolution; it should treat `SeuDesignStyle`, `RenminbiColorStyle`, and `ChineseTraditionalColorStyle` as `DesignStyleBase` instances.
 - If one style needs a new behavior, first add a method or optional interface here, then let every style either implement it or explicitly declare `none`.
+- If a user asks for palette, motif, texture, layout, mood, or asset adjustments, model them as `StyleModifier[]` unless they are permanent enough to justify a new concrete style.
 - Concrete styles may have assets, no assets, or user-provided-only assets, but all must expose an `AssetPolicy`.
 - Concrete styles must also expose a `SurfaceTexturePolicy`, even if it declares `provider: none`. Surface providers are optional substrate services, not identity assets.
 - A style may enable a non-`none` surface provider only when every referenced provider file exists and has provenance documentation.

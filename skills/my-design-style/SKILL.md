@@ -26,7 +26,7 @@ Use this skill to translate a target artifact into one named visual style from t
 | --- | --- |
 | Required inputs | Target artifact or design task, intended medium, content goal, and selected style or enough cues to resolve one. |
 | Optional inputs | Audience/context, brand constraints, dimensions, source assets, accessibility requirements, output format, and platform constraints. |
-| Normalized shape | `DesignRequest` with medium, content goal, audience/context, hard constraints, selected style, asset policy, and output requirements. |
+| Normalized shape | `DesignRequest` with medium, content goal, audience/context, hard constraints, selected style, optional style modifiers, asset policy, and output requirements. |
 | Outputs | Style-guided design specifications, PPT/UI/web/dashboard guidance, generated visual assets, implementation-ready code guidance, or concrete style updates. |
 | Failure modes | Ask once before proceeding when style resolution is ambiguous, required assets are unsafe or missing, or a requested style extension would fork the shared workflow. |
 
@@ -36,19 +36,23 @@ Use this skill to translate a target artifact into one named visual style from t
    - medium: PPT/slides, web, app, dashboard, document visual, static visual, or design template.
    - goal: explain, persuade, compare, report, present, brand, sell, teach, or another explicit goal.
    - constraints: dimensions, platform, accessibility, required assets, output format, and brand requirements.
+   - modifiers: optional user-requested palette, motif, texture, layout, mood, or asset adjustments that should be composed with the base style instead of treated as a new concrete style.
 2. Resolve the concrete style:
    - load `references/style_registry.md` when listing styles, resolving aliases, or adding a style.
    - exact style name or alias wins; strong domain cue wins only when no style is explicit.
    - ask once if two styles match with similar confidence.
 3. Load only the needed references:
    - for execution, load the selected `references/<style_name>.md` and only the shared reference needed by the task.
+   - for style modifiers, load `references/style_modifier_contract.md`; use `references/design_mechanics.md` when modifiers affect palette, assets, or surface mechanics.
    - for validation or extension, load `references/style_contract.md`, `references/style_template.md`, and `references/design_mechanics.md` as needed.
 4. Apply the invariant style pipeline:
    - normalize request;
-   - resolve style;
+   - resolve the base style;
+   - extract requested modifiers from explicit modifier language, source assets, brand requirements, or constraints;
    - consume the concrete style as a `DesignStyleBase` implementation (`resolve`, `getIntent`, `getPalette`, `getTypography`, `getLayoutSystem`, `getMediumTranslation`, `getAssetPolicy`, `getSurfaceTexturePolicy`, `selfCheck`);
+   - compose a `ComposedStylePlan` only when modifiers are compatible with the base style invariants; downgrade or reject conflicting modifiers instead of silently replacing the base style;
    - compose the artifact without style-specific branches in the base workflow;
-   - run the concrete style self-check and revise until it passes.
+   - run both the concrete style self-check and any modifier self-check rules, then revise until they pass.
 5. Enforce asset and surface boundaries:
    - use only the active style's declared assets and manifest.
    - never browse `assets/` for arbitrary ornament.
@@ -64,6 +68,7 @@ Load references progressively; do not read every reference by default.
 | --- | --- |
 | Resolve available styles, aliases, or priority | `references/style_registry.md` |
 | Validate interfaces, data shapes, asset policy, or self-check format | `references/style_contract.md` |
+| Apply user-requested palette, motif, texture, layout, mood, or asset adjustments | `references/style_modifier_contract.md` |
 | Add a new concrete style | `references/style_template.md` plus `references/style_contract.md` |
 | Apply shared palette, asset, or optional surface mechanics | `references/design_mechanics.md` |
 | Apply SEU institutional academic style | `references/seu_design_style.md` |
@@ -76,6 +81,7 @@ Load references progressively; do not read every reference by default.
 | --- | --- | --- |
 | `references/style_registry.md` | concrete-style registry | Source of truth for style discovery and resolution metadata. |
 | `references/style_contract.md` | formal contract | `DesignStyleBase` abstract class, implementation-class mapping, data-shape, asset-policy, surface-policy, and self-check definitions. |
+| `references/style_modifier_contract.md` | modifier contract | `StyleModifier`, `StyleComposer`, `ComposedStylePlan`, conflict handling, asset-source rules, and modifier self-check definitions. |
 | `references/style_template.md` | extension template | Skeleton for future concrete style implementations. |
 | `references/design_mechanics.md` | shared mechanics | Reusable palette progression, style-owned asset interface, and inactive surface-provider extension rules. |
 | `references/*_style.md` | concrete styles | Style-specific triggers, color, typography, layout, medium translation, assets, and self-checks. |
