@@ -15,6 +15,8 @@ Use `<style_name>` for <primary use cases>. It should feel <personality words>.
 | `DesignStyleBase.getAssetPolicy()` | `Asset Interface`, `Asset Rules` |
 | `DesignStyleBase.getSurfaceTexturePolicy()` | `Surface Texture Policy` |
 | `DesignStyleBase.getModifierCompatibility()` | `Modifier Compatibility` |
+| `DesignStyleBase.getPreviewOptions(request, composedPlan)` | `Preview Option Sets` |
+| `DesignStyleBase.applyStyleLock(styleLock, composedPlan)` | `Preview Option Sets` |
 | `DesignStyleBase.selfCheck(output)` | `Self-Check` |
 | `TriggerMatcher` | `Triggers` |
 | `DesignIntentProvider` | `Intent`, `Anti-Goals` |
@@ -25,6 +27,8 @@ Use `<style_name>` for <primary use cases>. It should feel <personality words>.
 | `AssetPolicy` | `Asset Interface`, `Asset Rules` |
 | `SurfaceTexturePolicy` | `Surface Texture Policy` |
 | `ModifierCompatibilityProvider` | `Modifier Compatibility` |
+| `PreviewNegotiationProvider` | `Preview Option Sets` |
+| `StyleLockApplier` | `Preview Option Sets` |
 | `QualityGate` | `Self-Check` |
 
 ## Triggers
@@ -158,6 +162,18 @@ Allowed soft modifiers:
 Modifier self-check additions:
 
 - <Checks to run in addition to the base style self-check.>
+
+## Preview Option Sets
+
+Expose preview choices through `getPreviewOptions(request, composedPlan)` before final artifact generation. Apply approved choices through `applyStyleLock(styleLock, composedPlan)` so the final output matches the approved preview.
+
+- `previewSurface`: combined style board plus small artifact sample.
+- `defaultOptionSets`: palette, texture when enabled, layout density, mood, asset or motif when relevant.
+- `styleLockRules`: record selected options, rejected or downgraded changes, and locked decisions; do not silently change them during final generation.
+
+| Option Set | Target | Default | Options | Rules |
+| --- | --- | --- | --- | --- |
+| `<option-set-id>` | palette / texture / layout / mood / asset | `<default-option-id>` | `<option ids>` | Must preserve style invariants and accessibility. |
 
 ## Self-Check
 

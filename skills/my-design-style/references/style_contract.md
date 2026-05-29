@@ -24,6 +24,12 @@ interface DesignRequest {
     brandRequirements?: string[];
   };
   modifiers?: StyleModifier[];
+  previewMode?: "required" | "skip" | "auto";
+  previewConstraints?: {
+    imageSize?: string;
+    sampleContent?: string;
+    maxOptionsPerGroup?: number;
+  };
 }
 
 interface StyleResolution {
@@ -61,7 +67,48 @@ interface ComposedStylePlan {
   palettePlan?: Record<string, unknown>;
   motifPlan?: Record<string, unknown>;
   assetPlan?: Record<string, unknown>;
+  previewPlan?: StylePreviewPlan;
   selfCheckPlan: string[];
+}
+
+interface StylePreviewPlan {
+  baseStyle: StyleName;
+  medium: TargetMedium;
+  previewMode: "required" | "skip" | "auto";
+  previewSurface: "style-board" | "artifact-sample" | "combined" | string;
+  previewPrompt: string;
+  selectedDefaults: Record<string, string>;
+  optionSets: StyleOptionSet[];
+  generationBoundary: string;
+  selfCheckPlan: string[];
+}
+
+interface StyleOptionSet {
+  id: string;
+  target: "palette" | "texture" | "layout" | "mood" | "asset" | "motif" | string;
+  label: string;
+  defaultOptionId: string;
+  options: StyleOption[];
+  compatibilityRules: string[];
+}
+
+interface StyleOption {
+  id: string;
+  label: string;
+  value: string | Record<string, unknown>;
+  previewImpact: string;
+  safetyNotes: string[];
+}
+
+interface StyleLock {
+  approved: boolean;
+  approvedPreviewId?: string;
+  baseStyle: StyleName;
+  medium: TargetMedium;
+  selectedOptions: Record<string, string>;
+  acceptedModifiers: string[];
+  rejectedOrDowngradedChanges: string[];
+  lockedDecisions: Record<string, unknown>;
 }
 ```
 
@@ -84,6 +131,8 @@ abstract class DesignStyleBase {
   abstract getAssetPolicy(): AssetPolicy;
   abstract getSurfaceTexturePolicy(): SurfaceTexturePolicy;
   abstract getModifierCompatibility(): ModifierCompatibilityPolicy;
+  abstract getPreviewOptions(request: DesignRequest, composedPlan: ComposedStylePlan): StylePreviewPlan;
+  abstract applyStyleLock(styleLock: StyleLock, composedPlan: ComposedStylePlan): ComposedStylePlan;
   abstract selfCheck(outputDescription: string): CheckResult;
 }
 
@@ -185,10 +234,42 @@ interface ModifierCompatibilityProvider {
 
 type ModifierCompatibilityPolicy = ModifierCompatibilityProvider;
 
+interface PreviewNegotiationProvider {
+  // Returned by DesignStyleBase.getPreviewOptions().
+  getPreviewOptions(request: DesignRequest, composedPlan: ComposedStylePlan): StylePreviewPlan;
+}
+
+interface StyleLockApplier {
+  // Returned by DesignStyleBase.applyStyleLock().
+  applyStyleLock(styleLock: StyleLock, composedPlan: ComposedStylePlan): ComposedStylePlan;
+}
+
 interface QualityGate {
   selfCheck(outputDescription: string): CheckResult;
 }
 ```
+
+## Preview Negotiation Contract
+
+Preview negotiation is a required top-level phase unless the user explicitly requests `previewMode: skip` or the task is only asking for written guidance. Generate a small, comparable style preview before producing the final PPT, web page, app screen, dashboard, or static visual. The preview must show the selected defaults and controlled alternatives that can be swapped without breaking the active style.
+
+Required sequence:
+
+1. Build `ComposedStylePlan` from the base style and compatible modifiers.
+2. Call `getPreviewOptions(request, composedPlan)` to create `StylePreviewPlan`.
+3. Generate one preview image or preview surface from `StylePreviewPlan.previewPrompt`; do not generate the full final artifact yet.
+4. Present `StyleOptionSet[]` for user selection, including safe off/fallback options where relevant.
+5. Wait for user approval or requested replacements. Iterate previews until the user approves.
+6. Record the approved selections as `StyleLock`.
+7. Call `applyStyleLock(styleLock, composedPlan)` and generate the final artifact only from locked decisions.
+
+Rules:
+
+- `StyleOptionSet` values must come from the active style's palette, asset policy, surface texture policy, modifier compatibility rules, or user-provided assets.
+- Texture options may reference only tokens declared by the active style's `SurfaceTexturePolicy.allowedTokens`; include a texture-off option when turning texture off leaves a complete design.
+- Palette options must preserve the active style's semantic color hierarchy and accessibility requirements.
+- For legal- or identity-sensitive styles, preview prompts must demonstrate the interpreted style without copying protected source artifacts.
+- Final artifact generation must not silently change locked palette, texture, layout density, motif, or asset decisions. If a locked option cannot be implemented in the target medium, stop and ask for an approved substitute.
 
 ## Modifier Composition Contract
 
@@ -290,6 +371,7 @@ Use style-specific checks inside that shape. For example, SEU checks logo aspect
 - If one style needs a new behavior, first add a method or optional interface here, then let every style either implement it or explicitly declare `none`.
 - If a user asks for palette, motif, texture, layout, mood, or asset adjustments, model them as `StyleModifier[]` and validate them through the selected style's `getModifierCompatibility()` policy unless they are permanent enough to justify a new concrete style.
 - Every concrete style must document `Modifier Compatibility`; support may be permissive, restrictive, or `acceptsModifiers: false`, but it must be explicit so the abstract workflow remains substitutable.
+- Every concrete style must expose preview options through `getPreviewOptions()` and honor approved selections through `applyStyleLock()` so final outputs remain consistent with the approved preview.
 - Concrete styles may have assets, no assets, or user-provided-only assets, but all must expose an `AssetPolicy`.
 - Concrete styles must also expose a `SurfaceTexturePolicy`, even if it declares `provider: none`. Surface providers are optional substrate services, not identity assets.
 - A style may enable a non-`none` surface provider only when every referenced provider file exists and has provenance documentation.

@@ -58,6 +58,8 @@ Every concrete style file must contain an `Implementation Map` table near the to
 | `AssetPolicy` | `Asset Interface`, `Asset Rules` |
 | `SurfaceTexturePolicy` | `Surface Texture Policy` |
 | `ModifierCompatibilityProvider` | `Modifier Compatibility` |
+| `PreviewNegotiationProvider` | `Preview Option Sets` |
+| `StyleLockApplier` | `Preview Option Sets` |
 | `QualityGate` | `Self-Check` |
 
 If a style has no bundled assets, its `AssetPolicy` must explicitly say `assetRoot: none` and define fallback behavior. If it does have assets, it must expose a manifest such as `assets/<style_name>/ASSET_MANIFEST.md`.

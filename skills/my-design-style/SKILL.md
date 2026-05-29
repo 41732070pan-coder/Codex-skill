@@ -49,10 +49,13 @@ Use this skill to translate a target artifact into one named visual style from t
    - normalize request;
    - resolve the base style;
    - extract requested modifiers from explicit modifier language, source assets, brand requirements, or constraints;
-   - consume the concrete style as a `DesignStyleBase` implementation (`resolve`, `getIntent`, `getPalette`, `getTypography`, `getLayoutSystem`, `getMediumTranslation`, `getAssetPolicy`, `getSurfaceTexturePolicy`, `getModifierCompatibility`, `selfCheck`);
+   - consume the concrete style as a `DesignStyleBase` implementation (`resolve`, `getIntent`, `getPalette`, `getTypography`, `getLayoutSystem`, `getMediumTranslation`, `getAssetPolicy`, `getSurfaceTexturePolicy`, `getModifierCompatibility`, `getPreviewOptions`, `applyStyleLock`, `selfCheck`);
    - compose a `ComposedStylePlan` only when modifiers satisfy the selected style's `getModifierCompatibility()` policy and base invariants; downgrade or reject conflicting modifiers instead of silently replacing the base style;
-   - compose the artifact without style-specific branches in the base workflow;
-   - run both the concrete style self-check and any modifier self-check rules, then revise until they pass.
+   - call `getPreviewOptions(request, composedPlan)` to produce a `StylePreviewPlan` unless the user explicitly requested `previewMode: skip` or the task is only written guidance;
+   - generate a single style preview image or preview surface from the `StylePreviewPlan`, present its `StyleOptionSet[]`, and wait for user approval or replacement choices before full artifact generation;
+   - record approved choices as a `StyleLock`, then call `applyStyleLock(styleLock, composedPlan)` so the final artifact uses the exact approved palette, texture, layout density, motif, and asset decisions;
+   - compose the artifact without style-specific branches in the base workflow and without silently changing locked preview decisions;
+   - run the concrete style self-check, preview/lock consistency checks, and any modifier self-check rules, then revise until they pass.
 5. Enforce asset and surface boundaries:
    - use only the active style's declared assets and manifest.
    - never browse `assets/` for arbitrary ornament.
@@ -67,10 +70,10 @@ Load references progressively; do not read every reference by default.
 | Need | Load |
 | --- | --- |
 | Resolve available styles, aliases, or priority | `references/style_registry.md` |
-| Validate interfaces, data shapes, asset policy, or self-check format | `references/style_contract.md` |
+| Validate interfaces, data shapes, preview negotiation, asset policy, or self-check format | `references/style_contract.md` |
 | Apply user-requested palette, motif, texture, layout, mood, or asset adjustments | `references/style_modifier_contract.md` |
 | Add a new concrete style | `references/style_template.md` plus `references/style_contract.md` |
-| Apply shared palette, asset, or optional surface mechanics | `references/design_mechanics.md` |
+| Apply shared palette, preview surface, asset, or optional surface mechanics | `references/design_mechanics.md` |
 | Apply SEU institutional academic style | `references/seu_design_style.md` |
 | Apply RMB banknote-inspired style | `references/renminbi_color_style.md` |
 | Apply Chinese traditional color style | `references/chinese_traditional_color_style.md` |

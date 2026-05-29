@@ -17,6 +17,8 @@ Implementation class: `SeuDesignStyle implements DesignStyleBase`. The table bel
 | `DesignStyleBase.getAssetPolicy()` | `Asset Interface`, `Asset Rules` |
 | `DesignStyleBase.getSurfaceTexturePolicy()` | `Surface Texture Policy` |
 | `DesignStyleBase.getModifierCompatibility()` | `Modifier Compatibility` |
+| `DesignStyleBase.getPreviewOptions(request, composedPlan)` | `Preview Option Sets` |
+| `DesignStyleBase.applyStyleLock(styleLock, composedPlan)` | `Preview Option Sets` |
 | `DesignStyleBase.selfCheck(output)` | `Self-Check` |
 | `TriggerMatcher` | `Triggers` |
 | `DesignIntentProvider` | `Intent`, `Anti-Goals` |
@@ -27,6 +29,8 @@ Implementation class: `SeuDesignStyle implements DesignStyleBase`. The table bel
 | `AssetPolicy` | `Asset Interface`, `Asset Rules` |
 | `SurfaceTexturePolicy` | `Surface Texture Policy` |
 | `ModifierCompatibilityProvider` | `Modifier Compatibility` |
+| `PreviewNegotiationProvider` | `Preview Option Sets` |
+| `StyleLockApplier` | `Preview Option Sets` |
 | `QualityGate` | `Self-Check` |
 
 ## Triggers
@@ -276,6 +280,23 @@ SEU-compatible autumn example:
 | Maple motif | Abstract vector or user-provided decorative motif | Cover corner, section transition, footer strip, low-opacity edge ornament. | Official identity mark, logo substitute, dense content background, or repeated high-intensity filler. |
 
 For balanced autumn variants, use SEU green for structure, SEU yellow for precise highlights, deep crimson for secondary atmosphere, and maple motifs only as decorative modifiers. If the user asks for crimson or maple to dominate the deck, label the result as an expressive SEU-inspired variant or propose a new concrete style instead of presenting it as standard `seu_design_style`.
+
+## Preview Option Sets
+
+`getPreviewOptions(request, composedPlan)` must produce a combined preview surface before final generation unless the user explicitly skips preview. The preview should show a title/header sample, SEU green/yellow palette strip, a content card, a quiet panel, an approved SEU identity or motif placement, and the active texture substrate. `applyStyleLock(styleLock, composedPlan)` must preserve the approved texture, layout density, palette hierarchy, and asset placement decisions in the final artifact.
+
+| Option Set | Target | Default | Options | Rules |
+| --- | --- | --- | --- | --- |
+| `seu-texture` | texture | `textured-paper` | `textured-paper`; `clean-gray-paper`; `texture-off` | Tokens must come from `allowedTokens`; keep opacity in `[0.02, 0.06]`; never cover logos, motto artwork, dense text, table cells, or SEU motif overlaps. |
+| `seu-layout-density` | layout | `academic-balanced` | `academic-balanced`; `research-dense`; `ceremonial-spacious` | Keep stable grids and content-first hierarchy; do not turn the deck or page into a poster. |
+| `seu-identity-emphasis` | asset | `header-lockup` | `header-lockup`; `cover-anchor`; `quiet-footer-mark`; `motif-off` | Use only assets from `assets/seu_design_style/`; preserve intrinsic aspect ratios; decorative motifs stay secondary. |
+
+Preview option behavior:
+
+- `textured-paper` gives the default soft institutional paper grain.
+- `clean-gray-paper` gives a cooler, more restrained substrate for dashboards, data pages, and research-heavy sections.
+- `texture-off` disables provider texture while retaining SEU style through green/yellow structure, silver panels, typography, grids, and approved SVG assets.
+- Style locks must record the selected texture token or `texture-off`, selected density, selected identity emphasis, and any downgraded modifiers.
 
 ## Self-Check
 
