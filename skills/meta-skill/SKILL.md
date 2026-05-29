@@ -46,7 +46,7 @@ skills/<skill-name>/
 └── examples/                      # optional examples or fixtures
 ```
 
-A `SKILL.md` should contain, at minimum: front matter with `name` and `description`, purpose, trigger and non-trigger rules, workflow, input/output model or interface summary, extension rules, resource policy, and quality gate.
+The authoritative required-section contract lives in `references/governance_contract.md`; this layout only describes the usual file placement. Keep `SKILL.md` focused on orchestration and load details from `references/` according to the Reference Load Map below.
 
 ## Governance Workflow
 
@@ -56,14 +56,22 @@ A `SKILL.md` should contain, at minimum: front matter with `name` and `descripti
    - Single skill: one `SKILL.md` plus optional references.
    - Skill family: add contract, registry, template, and strategy/provider reference files.
    - Resource-heavy skill: add asset manifests, examples, or validators.
-4. **Apply repository constraints**: read `references/top_level_skill_constraints.md` for invariants that apply to every skill.
-5. **Use formal contracts when needed**: read `references/governance_contract.md` when designing data shapes, required sections, lifecycle status, or review criteria.
-6. **Use templates and registries when needed**:
-   - Read `references/skill_template.md` before creating a new skill or adding a major family member.
-   - Read `references/skill_registry.md` when updating repository-level skill inventory or checking overlap.
-   - Read `references/quality_gates.md` before final review.
-7. **Update repository documentation**: keep `README.md` concise; it should list skills and functions, not duplicate internal skill manuals.
-8. **Validate**: run available checks. For documentation-only changes, run at least `git diff --check`.
+4. **Load only the needed references**: use the Reference Load Map instead of reading every reference by default.
+5. **Update repository documentation**: keep `README.md` concise; it should list skills and functions, not duplicate internal skill manuals.
+6. **Validate**: run available checks. For documentation-only changes, run at least `git diff --check`.
+
+## Reference Load Map
+
+Load references progressively. `references/governance_contract.md` is the single source of truth for required sections, lifecycle/status fields, data shapes, and review criteria; other references should not redefine those rules.
+
+| Task type | Load references | Skip when |
+| --- | --- | --- |
+| Add a new maintained skill | `top_level_skill_constraints.md`, `governance_contract.md`, `skill_template.md`, `skill_registry.md`, `quality_gates.md` | The request is a one-off/simple prompt that should not become a maintained skill. |
+| Rename, move, deprecate, split, or merge a skill | `top_level_skill_constraints.md`, `skill_registry.md`, `quality_gates.md`; add `governance_contract.md` if contracts change | The task only executes an existing domain skill without changing its structure. |
+| Review or audit an existing skill | `top_level_skill_constraints.md`, `governance_contract.md`, `quality_gates.md`, `skill_registry.md` | The user asks only for domain output, not governance feedback. |
+| Add strategies, providers, templates, examples, or validators | `governance_contract.md`, `skill_template.md`, `quality_gates.md`; add `skill_registry.md` only if repository-level discovery changes | The change is internal wording with no new extension point. |
+| Add or reorganize skill assets | `top_level_skill_constraints.md`, `governance_contract.md`, `quality_gates.md` | The active skill has no bundled or shared assets. |
+| Final review before commit or PR | `quality_gates.md`; add `skill_registry.md` when inventory/status changed | No files changed. |
 
 ## New Skill Checklist
 

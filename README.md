@@ -6,12 +6,14 @@
 
 本仓库把每个 Skill 作为一个小型能力模块管理：它应具有清晰的触发条件、输入输出、参考资料、素材归属、扩展点和质量门禁。设计、重命名、审查或重构 Skill 时使用 `meta-skill`；执行具体领域任务时使用对应业务 Skill。
 
+本仓库不鼓励为一次性、低复用、无扩展需求的简单提示创建 Skill；这类能力通常应保留在普通对话、项目说明或局部脚本中。`meta-skill` 面向值得长期沉淀、维护和扩展的能力模块，而不是为所有简单任务提供治理流程。
+
 ## 已有 Skills
 
 | Skill | 类型 | 位置 | 功能 | 状态 |
 | --- | --- | --- | --- | --- |
-| `meta-skill` | 元 Skill / 治理 | `skills/meta-skill/` | 设计、添加、重命名、审查、重构和治理仓库内的 Skills，提供契约、注册表、模板、生命周期和质量门禁规则。 | 稳定基础版 |
-| `my-design-style` | 业务 Skill / 视觉设计 | `skills/my-design-style/` | 为 PPT、网页、App、Dashboard、静态视觉稿和设计模板应用可扩展视觉风格系统。 | 可用 |
+| `meta-skill` | 元 Skill / 治理 | `skills/meta-skill/` | 设计、添加、重命名、审查、重构和治理仓库内的 Skills，提供契约、注册表、模板、生命周期和质量门禁规则。 | stable |
+| `my-design-style` | 业务 Skill / 视觉设计 | `skills/my-design-style/` | 为 PPT、网页、App、Dashboard、静态视觉稿和设计模板应用可扩展视觉风格系统。 | experimental |
 
 ## 高层目录结构
 

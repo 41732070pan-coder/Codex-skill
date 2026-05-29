@@ -1,6 +1,6 @@
 # Skill Template
 
-Copy this shape when creating a new skill. Remove sections only when they are explicitly not applicable.
+Copy this shape when creating a new maintained skill. This template is derived from `governance_contract.md`, which remains the authoritative source for required sections and data shapes. Remove sections only when they are explicitly not applicable.
 
 ```markdown
 ---
