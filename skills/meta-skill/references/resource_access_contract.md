@@ -22,10 +22,11 @@ Skill resources should be organized so normal use does not require reading an en
 
 1. Start from `SKILL.md`.
 2. Use the reference load map for governance and extension tasks.
-3. Use discovery scripts or registries before reading implementation resources.
-4. Load exactly one selected implementation when executing a family-specific task.
-5. Load sibling implementations only for comparison, migration, validation authoring, or explicit user-requested audit.
-6. Load assets only through the selected implementation's asset policy and manifest.
+3. Use discovery registries or scripts before reading implementation resources.
+4. Resolve exactly one implementation when possible; otherwise provide candidate metadata so the LLM can choose or recommend a registered implementation.
+5. Load exactly one resolved or explicitly recommended implementation when executing a family-specific task.
+6. Load sibling implementations only for comparison, migration, validation authoring, or explicit user-requested audit.
+7. Load assets only through the selected implementation's asset policy and manifest.
 
 ## Anti-Patterns
 
@@ -36,6 +37,7 @@ Avoid these patterns in maintained skills:
 - A registry contains full implementation instructions instead of concise metadata.
 - A shared asset directory is used without owner, provenance, allowed-use, and forbidden-use rules.
 - A resolver asks the agent to infer from all implementation bodies instead of structured cues.
+- A resolver relies on undeclared model-only aliases, invents a missing implementation, or presents a recommendation as an exact match.
 
 ## Boundary Validation Signals
 
@@ -44,6 +46,7 @@ A boundary validator should flag or fail when:
 - A `SKILL.md` file becomes too large for orchestration.
 - A `SKILL.md` file contains many implementation paths or asset paths.
 - A growing family has a registry but no list/resolve/materialize scripts.
+- A small family lacks stable ids, implementation paths, status, ambiguity policy, fallback policy, or documented script-deferral reasons.
 - A family has implementation directories but no documented normal-use load policy.
 - The README duplicates internal implementation catalogs.
 

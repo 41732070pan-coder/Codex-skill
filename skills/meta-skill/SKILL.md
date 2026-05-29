@@ -28,11 +28,12 @@ This skill also owns the repository standard for **implementation families**: an
 - **Interface first**: define triggers, non-triggers, inputs, outputs, constraints, and failure modes before adding long instructions.
 - **Small SKILL.md, loaded references**: keep orchestration, triggers, workflow, and invariants in `SKILL.md`; move contracts, registries, templates, domain details, and concrete implementations behind references, registries, scripts, or implementation directories.
 - **No implementation fan-out from `SKILL.md`**: `SKILL.md` may describe how to discover and select implementations, but must not become an index of every concrete implementation in a growing family.
-- **Scripted discovery before implementation loading**: multi-implementation skills expose list, resolve, and materialize/get scripts so an agent can discover options without reading all implementation files.
+- **Upgradeable discovery before implementation loading**: multi-implementation skills start with a concise registry and upgrade to list, resolve, and materialize/get scripts as scale, ambiguity, assets, or validation needs grow.
 - **Explicit structures over prose sprawl**: use tables, enums, maps, schemas, lifecycle states, checklists, state machines, and dependency graphs.
 - **Patterns over ad hoc branches**: prefer Template Method, Strategy, Registry, Factory, Adapter, Composite, State Machine, and Quality Gate when they clarify extension points.
 - **Substitutability**: skills in the same family should expose comparable sections and data shapes.
 - **Progressive disclosure**: organize references so Codex loads only what the current request needs.
+- **Registry-driven recommendation**: resolve or recommend implementations from declared ids, aliases, cues, summaries, ambiguity policy, and fallback policy; do not rely on implementation-body browsing or unlabeled substitutes.
 - **Owned resources**: assets belong to one skill or to an explicitly documented shared provider; each asset needs role, provenance, allowed use, and forbidden use.
 - **Executable quality when possible**: document validation, lint, snapshot, example, or self-check commands when runnable artifacts exist.
 
@@ -43,14 +44,31 @@ This skill also owns the repository standard for **implementation families**: an
 3. **Choose the module shape**:
    - Single skill: one `SKILL.md` plus optional references.
    - Governed skill: add contract, registry, template, and validator references.
-   - Implementation family: add a family contract, machine-readable registry, list/resolve/get scripts, implementation template, and boundary validation.
+   - Small implementation family: add a concise, table-shaped registry with stable ids, implementation paths, status, aliases/cues, ambiguity policy, fallback policy, and selected-only loading.
+   - Growing implementation family: preserve the same entry semantics, then add a machine-readable registry, list/resolve/get scripts, implementation template, and boundary validation.
    - Resource-heavy skill: add asset manifests, examples, providers, or deterministic helpers.
 4. **Apply the load boundary**:
    - During normal use, load `SKILL.md` first, then only the references in the Reference Load Map.
-   - For implementation families, do not inspect all implementation files. Use the family list/resolve/get scripts first.
+   - For implementation families, do not inspect all implementation files. Use the family registry or list/resolve/get scripts first.
+   - Resolve directly when possible; when resolution is ambiguous or missing, provide available implementation ids and summaries so the LLM can choose the most likely option or recommend a close registered option.
    - Direct implementation reads are maintenance-only and should be scoped to the selected implementation or the files being edited.
 5. **Update repository documentation**: keep `README.md` concise; it should list skills and functions, not duplicate internal skill manuals or implementation catalogs.
 6. **Validate**: run available checks. For documentation-only changes, run at least `git diff --check`; for repository-level skill integrity, run `python skills/meta-skill/scripts/validate_skills.py`; for load-boundary work, run `python skills/meta-skill/scripts/validate_skill_boundaries.py`.
+
+
+## Normal Use Loading Rule
+
+For a skill with an implementation family, normal use must follow this minimum path regardless of whether the family is small or fully scripted:
+
+1. Read `SKILL.md` for triggers, workflow, and loading policy.
+2. Use the concise registry or list/resolve scripts to discover candidates without reading implementation bodies.
+3. Resolve directly when declared ids, aliases, cues, and ambiguity policy identify one implementation.
+4. If resolution is ambiguous or missing, provide the LLM with available implementation ids, summaries, and match reasons so it can choose the most likely intended implementation or recommend a close registered option.
+5. Label recommendations as recommendations rather than exact matches; if no useful registered option exists, offer a skill-extension path.
+6. Load only the resolved or explicitly recommended implementation through its path or get/materialize command.
+7. Do not read sibling implementation bodies unless the task is comparison, migration, validation authoring, or explicit audit.
+
+This skill defines repository design and validation policy. It does not provide runtime filesystem access control; runtime enforcement belongs to the agent runner, tool gateway, CI, or audit layer.
 
 ## Inputs And Outputs
 
@@ -91,10 +109,12 @@ Use an implementation family when one skill owns multiple interchangeable concre
 | Requirement | Rule |
 | --- | --- |
 | Family contract | Define selection, loading, data shape, and maintenance rules in a family contract or in `references/implementation_family_contract.md`. |
-| Registry | Put implementation metadata in a registry; use machine-readable JSON/YAML when deterministic resolution matters or the family can grow beyond a small hand-maintained list. |
-| Discovery scripts | Expose list and resolve scripts so agents can discover candidates without reading implementation bodies. |
-| Materialization script | Expose a get/materialize script that returns only the selected implementation, ideally filtered by medium, mode, section, or task. |
-| `SKILL.md` boundary | Do not list every concrete implementation in `SKILL.md` once a family is expected to grow. Describe the script interface instead. |
+| Registry | Put implementation metadata in a registry; a small stable family may use a concise Markdown table, while a growing or ambiguity-prone family should move the source of truth to machine-readable JSON/YAML. |
+| Upgrade-compatible fields | Keep stable ids, implementation paths, status, summaries, aliases/cues, ambiguity policy, and fallback policy from the first small-family version so later scripts can reuse the same semantics. |
+| Discovery scripts | Expose list and resolve scripts when the family grows, has ambiguous cues, owns assets, needs CI validation, or cannot be reliably resolved from a short table. |
+| Materialization script | Expose a get/materialize script for growing families; it returns only the selected implementation, ideally filtered by medium, mode, section, or task. |
+| `SKILL.md` boundary | Do not list every concrete implementation in `SKILL.md` once a family is expected to grow. Describe the registry and dispatch interface instead. |
+| Resolution semantics | Use `resolved`, `ambiguous`, or `unresolved` outcomes. Ambiguous or unresolved cases should return available candidates and summaries so the LLM can choose or recommend a registered implementation without pretending it was an exact match. |
 | Maintenance exception | Directly open implementation files only when adding, editing, debugging, or reviewing the specific implementation involved. |
 
 ## References
@@ -154,8 +174,9 @@ Before adding detailed prose, answer these questions:
 | What can vary later? | Strategies, providers, templates, modes, adapters, or implementation families. |
 | What references load on demand? | Reference list with `loadWhen` guidance. |
 | What resources does it own? | Asset/external dependency policy and provenance. |
-| How does an agent discover implementations? | List/resolve scripts and registry fields, not direct implementation browsing. |
-| How does an agent load one implementation? | A get/materialize script scoped to the selected implementation and task. |
+| How does an agent discover implementations? | Concise registry fields first; add list/resolve scripts when scale, ambiguity, assets, or validation needs justify them. |
+| How does an agent resolve ambiguity or missing implementations? | Return candidates and summaries for LLM choice/recommendation, or offer extension when no useful registered option exists; never rely on undeclared model-only aliases. |
+| How does an agent load one implementation? | The selected implementation path or a get/materialize script scoped to the selected implementation and task. |
 | What proves quality? | Self-checks and runnable validations where possible. |
 
 ## Quality Gate
@@ -166,7 +187,7 @@ Before finishing a skill change, verify:
 - Trigger and non-trigger boundaries are explicit and do not silently overlap another skill.
 - `SKILL.md` remains the orchestration layer; reusable details live behind references, registries, scripts, or implementation directories.
 - Multi-strategy or multi-provider behavior is represented by a registry, not hidden prose branches.
-- Growing implementation families expose list, resolve, get/materialize, and validation scripts before accumulating concrete implementations.
+- Small implementation families use an upgrade-compatible registry entry shape; growing families expose list, resolve, get/materialize, and validation scripts before accumulating concrete implementations.
 - Assets are skill-owned or shared-provider-owned with provenance and usage constraints.
 - Extension points are represented by contracts, registries, templates, tables, or schemas.
 - The README stays repository-level and avoids duplicating detailed internal skill documentation or implementation catalogs.
