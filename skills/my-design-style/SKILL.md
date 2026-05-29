@@ -52,15 +52,17 @@ Use this skill to translate a target artifact into one named visual style from t
    - consume the concrete style through runtime concepts: style resolution, style identity, visual system, medium translation, resource policy, composition policy, and quality gate;
    - compose a `ComposedStylePlan` only when modifiers satisfy the selected style's composition policy and base invariants; downgrade or reject conflicting modifiers instead of silently replacing the base style;
    - decide preview behavior from `previewMode` (`auto` by default): use explicit preview approval for ambiguous, high-stakes, public-facing, brand-sensitive, or user-requested preview work; otherwise create an internal `StyleLock` from style defaults and continue;
+   - for multi-slide, multi-screen, long-page, or dense static outputs, create a `VisualRhythmPlan` before detailed composition: archetype sequence, per-surface visual anchors, motif/texture rotation, layout-density variation, and asset fallback choices;
    - when preview is needed, generate one style preview image or preview surface from the `StylePreviewPlan`, present its `StyleOptionSet[]`, and wait for user approval or replacement choices before full artifact generation;
    - when preview is not needed, record the locked defaults in `StyleLock` and disclose the important locked choices in the final note;
-   - compose the artifact without style-specific branches in the base workflow and without silently changing locked palette, texture, layout density, motif, or asset decisions;
-   - run the concrete style self-check, preview/lock consistency checks, and any modifier self-check rules, then revise until they pass.
+   - compose the artifact without style-specific branches in the base workflow and without silently changing locked palette, texture, layout density, visual rhythm, motif, or asset decisions;
+   - run the concrete style self-check, anti-monotony checks from the visual rhythm plan, preview/lock consistency checks, and any modifier self-check rules, then revise until they pass.
 5. Enforce asset and surface boundaries:
    - use only the active style's declared assets and manifest.
    - never browse `assets/` for arbitrary ornament.
    - preserve intrinsic aspect ratios for logos, wordmarks, motifs, and other informative assets.
    - do not apply shared texture providers unless the active style declares an available provider and all referenced provider files exist.
+   - when style-owned assets are unavailable or inappropriate, use the active style's declared code-native geometry, diagram, swatch, typography, rule, or user-provided-asset fallback instead of leaving pages visually empty.
 6. Deliver the artifact or code with a concise note of the style used, any assets used, and any unresolved constraints.
 
 ## References
@@ -83,10 +85,10 @@ Load references progressively; do not read every reference by default.
 | Resource | Role | Notes |
 | --- | --- | --- |
 | `references/style_registry.md` | concrete-style registry | Source of truth for style discovery and resolution metadata. |
-| `references/style_contract.md` | formal contract | `DesignStyleBase` abstract class, implementation-class mapping, data-shape, asset-policy, surface-policy, and self-check definitions. |
+| `references/style_contract.md` | formal contract | `DesignStyleBase` abstract class, implementation-class mapping, data-shape, visual-rhythm, asset-policy, surface-policy, and self-check definitions. |
 | `references/style_modifier_contract.md` | modifier rules | Modifier extraction, compatibility, conflict handling, asset-source rules, and modifier self-check examples. |
 | `references/style_template.md` | extension template | Skeleton for future concrete style implementations. |
-| `references/design_mechanics.md` | shared mechanics | Reusable palette progression, style-owned asset interface, and active surface-provider rules. |
+| `references/design_mechanics.md` | shared mechanics | Reusable palette progression, visual-rhythm planning, style-owned asset interface, and active surface-provider rules. |
 | `references/*_style.md` | concrete styles | Style-specific triggers, color, typography, layout, medium translation, assets, and self-checks. |
 | `assets/seu_design_style/` | SEU style-owned assets | Official SEU SVG identity/motif assets; use only through `seu_design_style` asset policy and manifest. |
 | `assets/transparent_textures/` | shared surface provider | Curated Transparent Textures SVG wrappers, manifest, JSON index, provenance, and checksums for concrete style opt-in. |
@@ -111,6 +113,7 @@ To add or update a concrete style:
 - Concrete styles must be substitutable through the same dispatch workflow.
 - Shared mechanics must stay reusable and style-neutral.
 - Semantic roles and readability beat decorative preference.
+- Multi-page visual rhythm requires planned anchors, archetype variation, motif rotation, and anti-monotony checks.
 - Identity and motif assets require proportion-preserving placement.
 - A style with no bundled assets must explicitly declare `assetRoot: none` and a fallback policy.
 - New styles extend the framework; they do not fork the base workflow.
@@ -122,4 +125,4 @@ Before delivery or commit:
 - Run `python skills/my-design-style/scripts/validate_styles.py` for style-family conformance.
 - Run `python skills/meta-skill/scripts/validate_skills.py` for repository-level skill structure.
 - Run `git diff --check` for whitespace and conflict markers.
-- Manually verify visual outputs for alignment, spacing, hierarchy, text overflow, contrast, responsiveness, image distortion, decorative relevance, asset provenance, and style fidelity.
+- Manually verify visual outputs for alignment, spacing, hierarchy, text overflow, contrast, responsiveness, visual-anchor coverage, archetype variation, motif rotation, image distortion, decorative relevance, asset provenance, and style fidelity.

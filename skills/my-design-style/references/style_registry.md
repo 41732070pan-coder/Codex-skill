@@ -45,8 +45,8 @@ interface StyleRegistryEntry {
 
 ## Contract Conformance Requirement
 
-Every concrete style file must contain a concise `Contract Conformance` section near the top. The section should name its `DesignStyleBase` implementation and list the required runtime sections instead of repeating the full interface/provider map. Detailed interface definitions belong in `references/style_contract.md`; static validation checks section presence, asset policy, surface provider metadata, and provider token availability.
+Every concrete style file must contain a concise `Contract Conformance` section near the top. The section should name its `DesignStyleBase` implementation and list the required runtime sections instead of repeating the full interface/provider map. Detailed interface definitions belong in `references/style_contract.md`; static validation checks section presence, visual rhythm metadata, asset policy, surface provider metadata, and provider token availability.
 
-Required runtime sections: Triggers, Intent, Anti-Goals, Color Tokens, Typography, Layout Principles, PPT Slide Archetypes, Web Translation, App / Dashboard Translation, Static Visual Translation, Asset Interface, Surface Texture Policy, Asset Rules, Modifier Compatibility, Preview Option Sets, Self-Check.
+Required runtime sections: Triggers, Intent, Anti-Goals, Color Tokens, Typography, Layout Principles, PPT Slide Archetypes, Visual Rhythm System, Web Translation, App / Dashboard Translation, Static Visual Translation, Asset Interface, Surface Texture Policy, Asset Rules, Modifier Compatibility, Preview Option Sets, Self-Check.
 
 If a style has no bundled assets, its `AssetPolicy` must explicitly say `assetRoot: none` and define fallback behavior. If it does have assets, it must expose a manifest such as `assets/<style_name>/ASSET_MANIFEST.md`.

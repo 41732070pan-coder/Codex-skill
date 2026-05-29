@@ -38,6 +38,17 @@ muted-bridge:    #B36D61
 neutral-base:    #FFFBF0 / #161823
 ```
 
+
+## Visual Rhythm Mechanics
+
+Use this shared mechanic when a target artifact has multiple slides, screens, sections, or dense content blocks. The concrete style owns the specific motifs and allowed fallbacks; this mechanic only defines the neutral planning pattern.
+
+1. Create an archetype sequence before detailed layout. Mix high-impact, structured, dense, and visual surfaces instead of repeating one skeleton.
+2. Assign one non-body-text visual anchor to every slide/screen/major section. Anchors can be informational diagrams, charts, tables, swatches, imagery, structural rails, label frames, texture bands, or approved motifs.
+3. Rotate visual treatments across the artifact: scale, column count, anchor side, motif type, texture on/off, and density.
+4. If assets are unavailable, use the active style's fallback language: code-native geometry, typography, color blocks, charts, diagrams, rules, or lawful user-provided assets.
+5. Add anti-monotony checks to the final quality gate; variety must not override readability, provenance, brand safety, or style anti-goals.
+
 ## Style-Owned Asset Interface
 
 Shared mechanics do not provide a global ornament or texture library. Assets belong to concrete styles and must be selected through that style's `AssetPolicy`.
