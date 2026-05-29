@@ -4,7 +4,7 @@ This registry is the repository-level inventory for maintained skills. Keep it c
 
 | Skill | Path | Type | Status | Function | Trigger cues | Primary outputs | Overlap risks | Notes |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `meta-skill` | `skills/meta-skill/` | meta | stable | Designs, reviews, renames, refactors, and governs repository skills. | New skill, skill rename, skill audit, governance contract, registry, template, validator. | Skill plans, contracts, templates, registries, audits. | Concrete domain execution without structural or governance changes. | Stable foundation. |
+| `meta-skill` | `skills/meta-skill/` | meta | stable | Designs, reviews, renames, refactors, and governs repository skills and implementation families. | New skill, skill rename, skill audit, implementation family, loading boundary, governance contract, registry, template, validator. | Skill plans, contracts, templates, registries, loading-boundary audits, validators. | Concrete domain execution without structural or governance changes. | Stable foundation. |
 | `my-design-style` | `skills/my-design-style/` | domain | experimental | Applies extensible visual styles to PPT, web, app, dashboard, and static visual work. | PPT style, web visual style, app/dashboard visual system, SEU/RMB/traditional Chinese color style. | Style-guided designs, UI/PPT specifications, visual assets or code guidance. | Repository skill governance belongs to `meta-skill`; generic image generation belongs elsewhere. | Usable and still evolving. |
 
 ## Entry Shape
