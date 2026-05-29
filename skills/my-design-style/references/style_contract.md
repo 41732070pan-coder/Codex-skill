@@ -305,7 +305,7 @@ For each generated artifact, the active style must provide or derive a `VisualRh
 1. Map each slide, screen, or major section to a declared archetype or explicit information role.
 2. Assign at least one non-body-text visual anchor to each slide/screen/major section. Anchors may be informational, structural, decorative, or textural, but they must support hierarchy.
 3. Rotate approved motif treatments, texture states, layout skeletons, and density levels; do not repeat the same skeleton for long consecutive runs.
-4. If style-owned imagery is unavailable or inappropriate, use declared fallback mechanisms such as code-native geometry, charts, diagrams, typographic labels, swatches, rules, or lawful user-provided assets.
+4. Use material discovery as a standard design-comparison input when browsing is allowed: compare runtime imagery with lawfully sourced candidates, generated vectors, code-native geometry, charts, diagrams, typographic labels, swatches, rules, and lawful user-provided assets, then choose the style-faithful option with the strongest semantic and anti-monotony value.
 5. Add anti-monotony checks to `selfCheckPlan` and final `Self-Check`; visual variety must not break accessibility, asset provenance, brand rules, or style-specific anti-goals.
 
 The visual rhythm plan is not permission to add filler. A slide can choose `motif-off` or `texture-off` when density, legibility, legal safety, or brand restraint requires it, but it still needs a clear content or structure anchor.
@@ -324,23 +324,22 @@ interface StyleComposer {
 
 ## Asset Provider Contract
 
-Treat each style asset folder as a module. The base workflow must not browse `assets/` directly and choose arbitrary files; it must ask the active concrete style what that module exports.
+Treat each style asset boundary as an opaque runtime module. The base workflow must not browse `assets/` directly, choose arbitrary files, or assert what files are present; it must ask the active concrete style for abstract roles, handles, and fallback behavior.
 
 ```ts
 interface AssetProvider {
   styleName: StyleName;
-  root: `assets/${string}/`;
-  manifest: AssetManifestItem[];
-  resolve(role: AssetRole, medium: TargetMedium): AssetManifestItem[];
+  root: `assets/${string}/` | "none";
+  roles: AssetRole[];
+  fallbackPolicy: string;
+  resolve(role: AssetRole, medium: TargetMedium): RuntimeAssetHandle[];
 }
 
-interface AssetManifestItem {
-  file: string;
+interface RuntimeAssetHandle {
+  handle: string;
   roles: AssetRole[];
   intrinsicRatio?: number;
-  width?: number;
-  height?: number;
-  colorMode: "color" | "mono" | "mixed" | "unknown";
+  colorMode?: "color" | "mono" | "mixed" | "unknown";
   safePlacement: "contain" | "repeatable" | "crop-allowed";
   notes?: string;
 }
@@ -361,22 +360,12 @@ type TextureAssetFormat = "png" | "svg-wrapper" | string;
 
 interface SurfaceProvider {
   providerName: "transparent_textures" | string;
-  sourceHomepage: string;
-  manifest: SurfaceProviderManifestItem[];
-  resolve(token: string, medium: TargetMedium): SurfaceProviderManifestItem | null;
+  fallbackPolicy: string;
+  resolve(token: string, medium: TargetMedium): RuntimeSurfaceHandle | null;
 }
 
-interface SurfaceProviderManifestItem {
+interface RuntimeSurfaceHandle {
   token: string;
-  file: string;
-  sourceUrl?: string;
-  sourceHomepage?: string;
-  attribution?: string;
-  licenseOrTerms?: string;
-  sourceFormat: string;
-  width?: number;
-  height?: number;
-  sha256?: string;
   visualCharacter: string;
   recommendedRoles: string[];
   defaultOpacity: [number, number];
@@ -386,9 +375,9 @@ interface SurfaceProviderManifestItem {
 
 ## Surface Texture Provider Source
 
-When a style enables a shared texture provider, the canonical provider is `transparent_textures`. Its source homepage is `https://www.transparenttextures.com/`, and provider records must preserve the original pattern name, creator attribution when available, download/source URL, native file format, dimensions when known, checksum, and any license or terms notes captured at acquisition time.
+When a style enables a shared texture provider, framework references may name the provider and abstract tokens, but provider records, source URLs, checksums, wrapper files, and index contents stay inside the opaque asset boundary or task-local documentation.
 
-Enable `provider: transparent_textures` in a concrete style only for tokens that exist in `assets/transparent_textures/texture_index.json` with wrapper/source files, provider manifest, provenance notes, and validator checks. The provider is a neutral tiled surface substrate only; it is not a style identity library.
+Enable a provider in a concrete style only as a neutral tiled surface substrate with explicit fallback behavior. Do not use provider availability to imply a global ornament library, and do not make framework validation depend on the provider's current files.
 
 ## Self-Check Output Contract
 
@@ -411,9 +400,9 @@ Use style-specific checks inside that shape. For example, SEU checks logo aspect
 - If a user asks for palette, motif, texture, layout, mood, or asset adjustments, model them as `StyleModifier[]` and validate them through the selected style's `getModifierCompatibility()` policy unless they are permanent enough to justify a new concrete style.
 - Every concrete style must document `Modifier Compatibility`; support may be permissive, restrictive, or `acceptsModifiers: false`, but it must be explicit so the abstract workflow remains substitutable.
 - Every concrete style must expose preview options through `getPreviewOptions()` and honor approved or internally locked selections through `applyStyleLock()` so final outputs remain consistent with the `StyleLock`.
-- Concrete styles may have assets, no assets, or user-provided-only assets, but all must expose an `AssetPolicy`.
+- Concrete styles may use style-owned, runtime-provided, or user-provided assets, but all must expose an `AssetPolicy` with fallback behavior and without requiring framework knowledge of current asset-folder contents.
 - Concrete styles must also expose a `SurfaceTexturePolicy`, even if it declares `provider: none`. Surface providers are optional substrate services, not identity assets.
-- A style may enable a non-`none` surface provider only when every referenced provider file exists and has provenance documentation.
+- A style may enable a non-`none` surface provider only through stable policy handles, provenance expectations, and fallback behavior; provider file verification belongs inside the runtime asset bundle or task documentation.
 - A style may be brand-led, color-led, or motif-led; the workflow should still consume it through the same methods.
 - Medium translation must cover PPT, web, app/dashboard, and static visual output, even if the style simply says to reuse layout/color rules for a medium.
 - Concrete styles must expose a `Visual Rhythm System`; multi-page and multi-screen outputs must use it to plan visual anchors, archetype variation, motif rotation, and anti-monotony checks before final generation.

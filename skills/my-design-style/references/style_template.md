@@ -80,7 +80,7 @@ For multi-page or multi-screen artifacts, define a deck/page-level variation pla
 - `visualAnchorRule`: every slide/screen/major section needs at least one non-body-text visual anchor such as a diagram, chart, swatch, label frame, rail, callout, motif, image, or texture treatment.
 - `archetypeVarietyRule`: do not use the same layout skeleton too many times in sequence; vary scale, columns, anchor placement, and density by information role.
 - `motifRotation`: rotate approved style motifs or explicitly use `motif-off` when content density requires it.
-- `assetFallbackRule`: if no style-owned asset is available, use approved code-native geometry, typography, color blocks, diagrams, or user-provided assets rather than leaving the surface visually empty.
+- `assetFallbackRule`: compare runtime assets, approved network-sourced candidates, code-native geometry, typography, color blocks, diagrams, and user-provided assets; choose the style-faithful option that best prevents empty or monotonous surfaces.
 - `antiMonotonyCheck`: verify that visual anchors, archetypes, motif treatments, and density levels vary across the artifact without becoming decorative clutter.
 
 ## Web Translation
@@ -99,22 +99,22 @@ Define poster/image/card/social/diagram behavior, aspect ratios, safe text zones
 
 - `assetRoot`: `assets/<style_name>/` or `none`.
 - `importMode`: `style-owned`, `none`, or `user-provided-only`.
-- `manifestFile`: optional path to `ASSET_MANIFEST.md` or equivalent.
-- `availableAssets`: approved files or `none`.
+- `manifestFile`: optional opaque provenance handle; do not require the framework to inspect it.
+- `availableAssets`: abstract handles or roles; do not enumerate file names or assert folder contents.
 - `usageRoles`: approved roles.
 - `placementRules`: aspect ratio, contain/crop/repeat behavior, opacity, and safe regions.
-- `fallbackPolicy`: what to do when no style-owned asset is available.
+- `fallbackPolicy`: what to do when runtime assets are unavailable, unapproved, or inappropriate.
 
 ## Surface Texture Policy
 
-Declare whether this style may use a bundled surface provider. The canonical provider source is Transparent Textures (`https://www.transparenttextures.com/`), but default to disabled unless all selected provider files, manifest rows, index entries, and provenance notes exist.
+Declare whether this style may use a surface provider. Provider contents under `assets/` are opaque; the template records stable handles, tokens, and fallback behavior without describing current files.
 
-- `provider`: `none` by default; use `transparent_textures` only after adding sourced wrapper/source files, provider manifest, index, provenance, and validator support.
-- `assetRoot`: `none` by default; otherwise a real `assets/<provider_name>/` path.
-- `manifestFile`: `none` when disabled; otherwise a real provider manifest path.
-- `indexFile`: `none` when disabled; otherwise a real provider index path.
-- `provenanceFile`: `none` when disabled; otherwise a real provider provenance path.
-- `defaultToken`: `none` when disabled; otherwise one approved texture token from the provider index.
+- `provider`: `none` by default; otherwise a stable provider handle allowed by the style family.
+- `assetRoot`: `none` by default; otherwise an opaque `assets/<provider_name>/` boundary.
+- `manifestFile`: `none` when disabled; otherwise an opaque provider manifest handle.
+- `indexFile`: `none` when disabled; otherwise an opaque provider index handle.
+- `provenanceFile`: `none` when disabled; otherwise an opaque provider provenance handle.
+- `defaultToken`: `none` when disabled; otherwise one declared texture token.
 - `allowedTokens`: texture tokens allowed for this style; use `[]` when disabled.
 - `opacityRange`: low-opacity bounds for background and panel usage; use `[0, 0]` when disabled.
 - `allowedSurfaces`: where texture may appear; use `[]` when disabled.

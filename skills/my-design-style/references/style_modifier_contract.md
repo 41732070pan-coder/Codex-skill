@@ -42,13 +42,13 @@ Canonical data shapes for `StyleModifier`, `ComposedStylePlan`, and related styl
 
 ## Asset Source Rules
 
-- `style-owned`: only assets declared by the active style's `AssetPolicy` and manifest.
+- `style-owned`: only assets exposed by the active style's runtime `AssetPolicy`.
 - `user-provided`: use only for the current request unless the user asks to install or register the asset.
 - `generated-vector` or `code-native`: use simple abstract geometry or vector motifs; do not imitate official marks, seals, protected logos, currency, or copyrighted scans.
-- `shared-provider`: allowed only when the provider has files, manifest, provenance, and the active style permits it.
+- `shared-provider`: allowed only when the active style exposes a provider handle, fallback behavior, and provenance expectations; do not inspect provider files from the framework.
 - `none`: use color, layout, typography, and simple rules instead of external assets.
 
-Modifier assets are not official base-style assets unless the active style manifest declares them. Decorative motifs must not replace logo, wordmark, motto, institutional marks, or required identity anchors.
+Modifier assets are not official base-style assets unless the active style policy exposes them at runtime. Decorative motifs must not replace logo, wordmark, motto, institutional marks, or required identity anchors.
 
 ## Intensity Levels
 
@@ -89,7 +89,7 @@ const plan: ComposedStylePlan = {
         opacity: "low-to-medium"
       },
       compatibilityRules: [
-        "Must not replace SEU logo, wordmark, motto, auditorium, or pine assets.",
+        "Must not replace SEU identity, wordmark, motto, architectural, or botanical asset roles.",
         "Must stay outside the main reading path.",
         "Must be abstract/vector-like, not photographic filler."
       ],
@@ -137,7 +137,7 @@ const plan: ComposedStylePlan = {
     wash: "red-wash only on high-contrast surfaces"
   },
   motifPlan: {
-    officialIdentity: "SEU assets from active style manifest",
+    officialIdentity: "SEU identity asset roles exposed by the active style policy",
     seasonalDecoration: "abstract generated maple vectors"
   },
   assetPlan: {

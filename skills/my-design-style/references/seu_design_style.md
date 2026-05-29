@@ -1,6 +1,6 @@
 # seu_design_style
 
-Use `seu_design_style` for designs inspired by the Southeast University master defense template and bundled SEU identity assets. It should feel academic, structured, calm, light, and institutional, with SEU green as structure and SEU yellow as measured emphasis.
+Use `seu_design_style` for designs inspired by the Southeast University master defense template and runtime SEU identity asset roles. It should feel academic, structured, calm, light, and institutional, with SEU green as structure and SEU yellow as measured emphasis.
 
 ## Contract Conformance
 
@@ -24,9 +24,9 @@ Design a reusable carrier for content, not a decorative poster. The page or scre
 
 - Keep the default visual system light rather than relying on full-page dark backgrounds.
 - Prefer SVG or vector identity assets when they are available.
-- Avoid overloading one page with logo, wordmark, motto, auditorium, pine, and multiple patterns at high intensity.
+- Avoid overloading one page with identity, wordmark, motto, architectural, botanical, and multiple pattern roles at high intensity.
 - Use decoration only when it supports identity, hierarchy, or structure.
-- Preserve the aspect ratio of logos, school marks, motto, and auditorium motifs.
+- Preserve the aspect ratio of identity marks, school marks, motto roles, and architectural motifs.
 - Keep main content in robust grids, columns, tables, or containers instead of fragile absolute placement.
 
 ## Color Tokens
@@ -109,14 +109,14 @@ Design around these reusable slide/page types:
 | --- | --- | --- |
 | Cover | Title, author, advisor, college, date | Strong identity zone; vertical or stacked logo is acceptable; keep metadata aligned in stable rows. |
 | Agenda | 3-5 sections | Numbered list with fixed columns; logo mark or side identity column may appear once. |
-| Section Transition | Chapter break | Large section number in yellow, green structural line, spacious title block, optional vertical auditorium silhouette. |
-| Title Text | Argument or explanation | Strong green title, subtitle, accent rule, readable body, optional right-side motto or auxiliary auditorium ornament. |
+| Section Transition | Chapter break | Large section number in yellow, green structural line, spacious title block, optional vertical architectural silhouette. |
+| Title Text | Argument or explanation | Strong green title, subtitle, accent rule, readable body, optional right-side motto role or auxiliary architectural ornament. |
 | Two Columns | Comparison or paired ideas | Symmetric columns, aligned starts, clear divider, small captions such as `Side A` and `Side B`. |
 | Image Text | Figure plus interpretation | Image/diagram area and reading area; label them with small structural captions. |
 | Process | Workflow or framework | Numbered steps, consistent boxes, yellow arrows or short bars, concise supporting text. |
 | Chart Data | Results and takeaway | Figure area plus conclusion column; highlight key data with yellow, not large color fills. |
 | Table Comparison | Metrics or methods | Use stable columns; emphasize the winning/own method with a yellow marker or subtle row treatment. |
-| Closing / Q&A | Summary, thanks, contact | Reintroduce stronger identity assets such as motto, auditorium, or pine, but keep center message calm. |
+| Closing / Q&A | Summary, thanks, contact | Reintroduce stronger identity assets such as motto, architectural, or botanical roles, but keep center message calm. |
 
 For slide decks, use 16:9 by default.
 
@@ -125,9 +125,9 @@ For slide decks, use 16:9 by default.
 Use a deck-level visual rhythm plan so SEU identity feels deliberate instead of repeated or sparse.
 
 - `rhythmScope`: for PPT decks, map each slide to an archetype before drawing; for web/app work, map each major view or section to an information role.
-- `visualAnchorRule`: every slide or major screen needs one non-body-text anchor: approved SEU identity asset, auditorium/pine/motto motif, chart, table, process diagram, figure frame, numbered agenda block, or green/yellow rule system.
+- `visualAnchorRule`: every slide or major screen needs one non-body-text anchor: approved SEU identity asset, architectural/botanical/motto motif, chart, table, process diagram, figure frame, numbered agenda block, or green/yellow rule system.
 - `archetypeVarietyRule`: no more than two consecutive slides should use the same title/body skeleton; alternate identity-heavy moments, evidence/data pages, explanation pages, and transition pages.
-- `motifRotation`: rotate logo lockup, auditorium silhouette, motto, pine, thin green/yellow rules, and motif-off states; never repeat the same brand asset at the same size on every page.
+- `motifRotation`: rotate logo lockup, architectural silhouette, motto role, botanical motif, thin green/yellow rules, and motif-off states; never repeat the same brand asset at the same size on every page.
 - `assetFallbackRule`: when an SEU asset is not appropriate, use academic diagrams, aligned tables, figure labels, thin rules, and structured white space rather than decorative filler.
 - `antiMonotonyCheck`: confirm that white space feels intentional, each page has a clear academic anchor, and brand motifs support hierarchy without crowding the message.
 
@@ -144,7 +144,7 @@ Use:
 - Cards only for repeated items or genuinely framed tools; keep border radius restrained, around 6-8px.
 - Yellow for active nav, highlights, status dots, key metrics, or selected rows.
 - Silver or soft green backgrounds for secondary panels.
-- Footer or edge ornament using auditorium auxiliary pattern at low opacity or small scale.
+- Footer or edge ornament using architectural auxiliary pattern at low opacity or small scale.
 
 Avoid:
 
@@ -168,37 +168,37 @@ For posters, title cards, diagrams, thumbnails, or static presentation visuals:
 
 - Lead with a light field, strong SEU green structure, and one measured yellow accent.
 - Use official identity assets only as anchors: top-left header, side rail, cover block, or closing mark.
-- Keep decorative auditorium or pine motifs low-density and outside the main reading path.
+- Keep decorative architectural or botanical motifs low-density and outside the main reading path.
 - Prefer diagram clarity, aligned captions, and stable figure labels over poster-like decoration.
 - Preserve all logo, wordmark, motto, and motif aspect ratios exactly.
 
 ## Asset Interface
 
-Bundled assets are in `assets/seu_design_style/`. Use SVG files directly for web/app and convert to vector formats for PPT/PDF workflows when needed.
+Use only SEU asset roles exposed by the runtime `AssetPolicy`. The asset boundary is opaque and may be edited by users; this style file does not enumerate or verify its files.
 
 - `assetRoot`: `assets/seu_design_style/`.
 - `importMode`: `style-owned`.
-- `manifestFile`: `assets/seu_design_style/ASSET_MANIFEST.md`.
-- `availableAssets`: official logo marks, wordmarks, logo lockups, motto artwork, auditorium motifs, color card, and pine motif listed in `ASSET_MANIFEST.md` and summarized below.
+- `manifestFile`: opaque asset-bundle provenance handle.
+- `availableAssets`: official identity marks, wordmarks, lockups, motto artwork, architectural motifs, color-card roles, and botanical motif roles when exposed by the runtime policy.
 - `usageRoles`: identity mark, header lockup, cover anchor, side rail, footer band, section transition anchor, low-opacity background motif, and closing accent.
-- `placementRules`: use contain-style placement for identity assets; use repetition or cropping only for explicitly decorative auditorium patterns.
+- `placementRules`: use contain-style placement for identity assets; use repetition or cropping only for explicitly decorative architectural patterns.
 - `fallbackPolicy`: if an asset cannot be inspected or placed without distortion, use SEU green/yellow rules, typography, and layout structure rather than forcing the asset into the composition.
 
 ## Surface Texture Policy
 
-SEU texture support is enabled through the bundled `transparent_textures` provider, but only as a low-opacity neutral paper substrate behind institutional color, grid, and approved SEU identity assets.
+SEU texture support is enabled through the `transparent_textures` provider handle, but only as a low-opacity neutral paper substrate behind institutional color, grid, and approved SEU identity roles.
 
 - `provider`: `transparent_textures`
 - `assetRoot`: `assets/transparent_textures/`
-- `manifestFile`: `assets/transparent_textures/TEXTURE_MANIFEST.md`
-- `indexFile`: `assets/transparent_textures/texture_index.json`
-- `provenanceFile`: `assets/transparent_textures/provenance.md`
+- `manifestFile`: `opaque transparent_textures manifest handle`
+- `indexFile`: `opaque transparent_textures index handle`
+- `provenanceFile`: `opaque transparent_textures provenance handle`
 - `defaultToken`: `textured-paper`
 - `allowedTokens`: ["textured-paper", "clean-gray-paper"]
 - `opacityRange`: [0.02, 0.06]
 - `allowedSurfaces`: ["slide-background", "section-divider", "quiet-panel", "web-section"]
-- `forbiddenSurfaces`: ["dense paragraph text", "small table cells", "official logo area", "motto artwork area", "auditorium/pine motif overlap"]
-- `fallbackPolicy`: disable texture and keep the SEU feel through green/yellow rules, silver panels, grid structure, and approved SEU SVG assets.
+- `forbiddenSurfaces`: ["dense paragraph text", "small table cells", "official logo area", "motto artwork area", "architectural/botanical motif overlap"]
+- `fallbackPolicy`: disable texture and keep the SEU feel through green/yellow rules, silver panels, grid structure, and approved runtime asset roles.
 
 Use texture only when it stays below content and does not compete with SEU identity marks.
 
@@ -206,30 +206,18 @@ Use texture only when it stays below content and does not compete with SEU ident
 
 Aspect ratio is a hard requirement:
 
-- Read each asset's intrinsic ratio from its SVG `viewBox`, `width`/`height`, or raster metadata before placement.
-- Fit logos, wordmarks, motto artwork, auditorium silhouettes, and pine motifs into the intended region with contain-style sizing. Center them or align them to a meaningful edge, but do not stretch them to match both the placeholder width and height.
+- Read each runtime asset's intrinsic ratio from available metadata before placement.
+- Fit identity marks, wordmarks, motto artwork, architectural silhouettes, and botanical motifs into the intended region with contain-style sizing. Center them or align them to a meaningful edge, but do not stretch them to match both the placeholder width and height.
 - For PPT generation, compute the displayed `w` and `h` from the intrinsic ratio and the maximum allowed box. Treat the box as a boundary, not as the final forced dimensions.
 - For web/app work, set `height: auto` or `width: auto`, use `object-fit: contain` for informative assets, and reserve `object-fit: cover` only for intentionally cropped photographic or background areas.
-- Decorative auditorium patterns may be clipped or repeated as background texture when needed, but they should still not be non-uniformly scaled. If a pattern cannot fill a region without distortion, crop it, repeat it, or use a simpler rule instead.
+- Decorative architectural patterns may be clipped or repeated as background texture when needed, but they should still not be non-uniformly scaled. If a pattern cannot fill a region without distortion, crop it, repeat it, or use a simpler rule instead.
 - When the exact intrinsic size cannot be read, use a square or measured conservative placeholder only until the asset is inspected visually; do not guess a forced aspect ratio for official identity marks.
 
-Key assets:
+Runtime asset handles:
 
-| Asset | Use |
-| --- | --- |
-| `01_logo_mark_color.svg` | Compact mark, agenda side rail, app icon-like identity. |
-| `06_logo_combo_cn_en_horizontal_color.svg` | General page/header identity. |
-| `16_logo_combo_cn_en_vertical_color.svg` | Cover or tall identity block. |
-| `19_motto_horizontal.svg` | Closing or formal identity moment. |
-| `20_motto_vertical.svg` | Side rail or content-page ornament. |
-| `21_auditorium_single.svg` | Closing/header decorative band. |
-| `22_auditorium_pattern.svg` | Cover/agenda identity texture. |
-| `23_auditorium_aux_single.svg` | Right-side or corner ornament. |
-| `24_auditorium_aux_pattern.svg` | Footer/header weak decorative strip. |
-| `26_auditorium_silhouette_vertical.svg` | Section transition anchor. |
-| `27_pine.svg` | Closing or cultural identity accent. |
-
-Use monochrome variants when color would compete with content. Keep aspect ratios intact; a slightly smaller correctly proportioned asset is always preferable to a larger distorted one.
+- Use only abstract asset roles exported by the active policy, such as identity, wordmark, lockup, motto, architectural motif, pattern, color-card, or botanical motif roles.
+- Do not name or require specific files from this style reference; file-level details belong inside the asset boundary.
+- Use monochrome or lower-emphasis variants only when the runtime policy exposes them and color would compete with content. Keep aspect ratios intact; a slightly smaller correctly proportioned asset is always preferable to a larger distorted one.
 
 ## Modifier Compatibility
 
@@ -247,8 +235,8 @@ Hard invariants:
 - SEU green remains the primary structure and hierarchy color for titles, headers, rules, section systems, and navigation states.
 - SEU yellow remains a precise accent for short rules, active markers, and key highlights; it should not become a broad background.
 - The artifact must remain mostly light, reusable, and content-first.
-- Official SEU identity assets from the manifest cannot be replaced by modifier motifs, user-provided decoration, or generated graphics.
-- Modifier motifs cannot be described as official SEU assets unless they are added to the SEU asset manifest through a separate style update.
+- Official SEU identity asset roles from the runtime policy cannot be replaced by modifier motifs, user-provided decoration, or generated graphics.
+- Modifier motifs cannot be described as official SEU assets unless they are added to the SEU runtime asset policy through a separate style update.
 - Main content must remain in robust grids, columns, tables, or containers.
 
 Allowed soft modifiers:
@@ -275,13 +263,13 @@ For balanced autumn variants, use SEU green for structure, SEU yellow for precis
 | --- | --- | --- | --- | --- |
 | `seu-texture` | texture | `textured-paper` | `textured-paper`; `clean-gray-paper`; `texture-off` | Tokens must come from `allowedTokens`; keep opacity in `[0.02, 0.06]`; never cover logos, motto artwork, dense text, table cells, or SEU motif overlaps. |
 | `seu-layout-density` | layout | `academic-balanced` | `academic-balanced`; `research-dense`; `ceremonial-spacious` | Keep stable grids and content-first hierarchy; do not turn the deck or page into a poster. |
-| `seu-identity-emphasis` | asset | `header-lockup` | `header-lockup`; `cover-anchor`; `quiet-footer-mark`; `motif-off` | Use only assets from `assets/seu_design_style/`; preserve intrinsic aspect ratios; decorative motifs stay secondary. |
+| `seu-identity-emphasis` | asset | `header-lockup` | `header-lockup`; `cover-anchor`; `quiet-footer-mark`; `motif-off` | Use only runtime assets exposed by this style policy; preserve intrinsic aspect ratios; decorative motifs stay secondary. |
 
 Preview option behavior:
 
 - `textured-paper` gives the default soft institutional paper grain.
 - `clean-gray-paper` gives a cooler, more restrained substrate for dashboards, data pages, and research-heavy sections.
-- `texture-off` disables provider texture while retaining SEU style through green/yellow structure, silver panels, typography, grids, and approved SVG assets.
+- `texture-off` disables provider texture while retaining SEU style through green/yellow structure, silver panels, typography, grids, and approved runtime assets.
 - Style locks must record the selected texture token or `texture-off`, selected density, selected identity emphasis, and any downgraded modifiers.
 
 ## Self-Check
@@ -297,7 +285,7 @@ Minimum checks:
 - The artifact is reusable and content-first.
 - The background is mostly light.
 - Green carries hierarchy; yellow is only an accent.
-- Logos and motifs are vector, sharp, and not distorted; their displayed width/height matches the intrinsic aspect ratio.
+- Identity and motif assets are sharp and not distorted; their displayed width/height matches the intrinsic aspect ratio when metadata is available.
 - Main content uses robust grids/columns/tables rather than fragile absolute placement.
 - Text fits on mobile and desktop, or inside slide placeholders.
 - Brand elements appear with purpose and do not crowd the message.

@@ -9,12 +9,9 @@ statically; visual quality remains a manual quality gate.
 from __future__ import annotations
 
 import ast
-import hashlib
-import json
 import re
 import sys
 from pathlib import Path
-from typing import Any
 
 ROOT = Path(__file__).resolve().parents[3]
 SKILL_DIR = ROOT / "skills" / "my-design-style"
@@ -182,92 +179,35 @@ def validate_contract_conformance_docs() -> list[str]:
                 )
     return errors
 
-def load_provider_index(index_file: str) -> tuple[dict[str, Any] | None, list[str]]:
-    errors: list[str] = []
-    index_path = SKILL_DIR / index_file
-    if not index_path.exists():
-        return None, [f"provider index does not exist: {index_file}"]
-    try:
-        data = json.loads(read(index_path))
-    except json.JSONDecodeError as exc:
-        return None, [f"provider index is not valid JSON: {index_file}: {exc}"]
-    textures = data.get("textures")
-    if not isinstance(textures, list) or not textures:
-        errors.append(f"provider index has no textures: {index_file}")
-    return data, errors
 
+def validate_enabled_surface_policy(
+    reference: str, policy: dict[str, str], allowed_tokens: list[str]
+) -> list[str]:
+    """Validate provider policy shape without inspecting provider asset contents.
 
-def validate_provider_files(reference: str, policy: dict[str, str], allowed_tokens: list[str]) -> list[str]:
+    Asset bundles are intentionally opaque to the skill framework: users may add,
+    remove, or replace files under assets/ for task-specific needs. The validator
+    therefore checks only the contract fields declared in style references, not
+    directory existence, manifests, index contents, file names, or checksums.
+    """
     errors: list[str] = []
     provider = policy["provider"]
-    provider_root = policy.get("assetRoot", "")
-    manifest = policy.get("manifestFile", "")
-    index_file = policy.get("indexFile", "")
-    provenance = policy.get("provenanceFile", "")
+    default_token = policy.get("defaultToken", "")
+    opacity_range = parse_number_pair(policy.get("opacityRange"))
 
-    for label, path_value in [
-        ("assetRoot", provider_root),
-        ("manifestFile", manifest),
-        ("indexFile", index_file),
-        ("provenanceFile", provenance),
-    ]:
-        if not path_value or path_value == "none":
-            errors.append(f"{reference} enables provider {provider!r} without {label}")
-            continue
-        path = SKILL_DIR / path_value
-        if label == "assetRoot":
-            if not path.is_dir():
-                errors.append(f"{reference} provider assetRoot is missing: {path_value}")
-        elif not path.is_file():
-            errors.append(f"{reference} provider {label} is missing: {path_value}")
+    for key in ["assetRoot", "manifestFile", "indexFile", "provenanceFile"]:
+        value = policy.get(key, "").strip()
+        if not value:
+            errors.append(f"{reference} enables provider {provider!r} without {key}")
 
-    if errors:
-        return errors
-
-    index, index_errors = load_provider_index(index_file)
-    errors.extend(f"{reference} {error}" for error in index_errors)
-    if index is None:
-        return errors
-
-    textures = index.get("textures", [])
-    by_token = {item.get("token"): item for item in textures if isinstance(item, dict)}
-    for token in allowed_tokens + [policy.get("defaultToken", "")]:
-        if token and token not in by_token:
-            errors.append(f"{reference} references missing texture token: {token}")
-
-    for token, item in by_token.items():
-        for key in [
-            "file",
-            "sourceUrl",
-            "sourceHomepage",
-            "attribution",
-            "licenseOrTerms",
-            "sourceFormat",
-            "sha256",
-            "visualCharacter",
-            "recommendedRoles",
-            "defaultOpacity",
-            "safePlacement",
-        ]:
-            if key not in item or item[key] in ("", None, []):
-                errors.append(f"{reference} provider token {token!r} is missing {key}")
-        file_value = item.get("file")
-        if isinstance(file_value, str):
-            item_path = SKILL_DIR / provider_root / file_value
-            if not item_path.is_file():
-                errors.append(f"{reference} provider token {token!r} file is missing: {file_value}")
-            else:
-                digest = hashlib.sha256(item_path.read_bytes()).hexdigest()
-                if item.get("sha256") != digest:
-                    errors.append(f"{reference} provider token {token!r} sha256 mismatch")
-        default_opacity = item.get("defaultOpacity")
-        if not (
-            isinstance(default_opacity, list)
-            and len(default_opacity) == 2
-            and all(isinstance(value, (int, float)) for value in default_opacity)
-            and default_opacity[0] <= default_opacity[1]
-        ):
-            errors.append(f"{reference} provider token {token!r} has invalid defaultOpacity")
+    if not default_token or default_token == "none":
+        errors.append(f"{reference} enables provider {provider!r} without defaultToken")
+    elif default_token not in allowed_tokens:
+        errors.append(f"{reference} defaultToken must be included in allowedTokens")
+    if not allowed_tokens:
+        errors.append(f"{reference} enables provider {provider!r} without allowedTokens")
+    if not opacity_range or opacity_range == [0, 0]:
+        errors.append(f"{reference} enables provider {provider!r} without a positive opacityRange")
 
     return errors
 
@@ -292,11 +232,15 @@ def validate_surface_policy(reference: str, surface_section: str) -> list[str]:
 
     allowed_surfaces = parse_markdown_list(policy.get("allowedSurfaces"))
     if allowed_surfaces is None:
-        errors.append(f"{reference} allowedSurfaces must be a string list such as [] or [\"surface\"]")
+        errors.append(
+            f"{reference} allowedSurfaces must be a string list such as [] or [\"surface\"]"
+        )
 
     forbidden_surfaces = parse_markdown_list(policy.get("forbiddenSurfaces"))
     if forbidden_surfaces is None:
-        errors.append(f"{reference} forbiddenSurfaces must be a string list such as [] or [\"surface\"]")
+        errors.append(
+            f"{reference} forbiddenSurfaces must be a string list such as [] or [\"surface\"]"
+        )
 
     fallback_policy = policy.get("fallbackPolicy", "").strip()
     if not fallback_policy:
@@ -323,18 +267,7 @@ def validate_surface_policy(reference: str, surface_section: str) -> list[str]:
             if policy.get(key) != expected:
                 errors.append(f"{reference} disabled texture policy must set {key}: {expected}")
     else:
-        if provider != "transparent_textures":
-            errors.append(f"{reference} uses unsupported surface provider: {provider}")
-        default_token = policy.get("defaultToken", "")
-        if not default_token or default_token == "none":
-            errors.append(f"{reference} enables provider {provider!r} without defaultToken")
-        elif default_token not in allowed_tokens:
-            errors.append(f"{reference} defaultToken must be included in allowedTokens")
-        if not allowed_tokens:
-            errors.append(f"{reference} enables provider {provider!r} without allowedTokens")
-        if not opacity_range or opacity_range == [0, 0]:
-            errors.append(f"{reference} enables provider {provider!r} without a positive opacityRange")
-        errors.extend(validate_provider_files(reference, policy, allowed_tokens))
+        errors.extend(validate_enabled_surface_policy(reference, policy, allowed_tokens))
 
     return errors
 
@@ -377,13 +310,9 @@ def validate_style(row: dict[str, str]) -> list[str]:
             f"{reference} assetRoot {declared_asset_root!r} does not match registry {asset_root!r}"
         )
 
-    for root in {asset_root, declared_asset_root or ""}:
-        if root and root != "none":
-            asset_dir = SKILL_DIR / root
-            if not asset_dir.is_dir():
-                errors.append(f"{reference} declares missing asset root: {root}")
-            elif not any(asset_dir.glob("*MANIFEST.md")):
-                errors.append(f"{reference} asset root has no *MANIFEST.md: {root}")
+    # Do not inspect the contents of declared asset roots here. Asset bundles are
+    # runtime inputs that may be customized by users, so framework validation only
+    # checks that the style reference and registry agree on the declared handle.
 
     for required_rhythm_key in [
         "rhythmScope",

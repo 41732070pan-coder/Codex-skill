@@ -245,7 +245,7 @@ Use a deck-level visual rhythm plan so traditional color work feels restrained b
 - `visualAnchorRule`: every slide or major section needs one non-body-text anchor: named-color swatch strip, color chip matrix, diagram, comparison table, gallery label, book rail, seal-like dot, fine-rule frame, quote block, lawful image, or low-opacity paper texture.
 - `archetypeVarietyRule`: no more than two consecutive slides should use the same title/body skeleton; alternate cover/agenda, color legend, concept diagram, data/table, editorial/object, and closing patterns.
 - `motifRotation`: rotate restrained-rules, gallery-labels, seal-dot-accents, book rails, swatch strips, texture-off states, and motif-off for dense data; never add clouds, fans, lanterns, dragons, or calligraphy as filler.
-- `assetFallbackRule`: use bundled borders/stripes/placeholders when they fit the content, plus code-native geometry, color swatches, typographic labels, diagrams, and approved texture tokens before leaving large empty zones.
+- `assetFallbackRule`: use runtime-approved border/stripe/placeholder roles when they fit the content, plus code-native geometry, color swatches, typographic labels, diagrams, and approved texture tokens before leaving large empty zones.
 - `antiMonotonyCheck`: confirm that each page has a visible anchor beyond body text, at least three approved motif treatments appear across decks longer than six slides, and decoration supports hierarchy rather than filling space.
 
 ## Web Translation
@@ -291,15 +291,15 @@ For posters, title cards, diagrams, thumbnails, or cultural static visuals:
 
 ## Asset Interface
 
-This style currently exposes no bundled style-owned asset files. The reserved `assets/chinese_traditional_color_style/` folder may exist locally, but it should remain empty until a future reusable asset update intentionally adds files and a manifest.
+This style uses an opaque runtime `AssetPolicy`. Do not infer the current file state of any asset boundary; use declared roles, provenance expectations, and fallback behavior only.
 
 - `assetRoot`: `none`.
 - `importMode`: `none`.
 - `manifestFile`: `none`.
-- `availableAssets`: `none`.
+- `availableAssets`: runtime-approved or generated cultural visual roles; no file names are declared in this style document.
 - `usageRoles`: named color cards, generated or code-native border frames, horizontal stripes, vertical pattern bands, placeholder image panels, user-provided cultural imagery, generated bitmap visuals, color swatches, lawful object imagery, task-local Pixabay/Iconfont assets with provenance, and small code-native motifs.
 - `placementRules`: keep cultural imagery secondary to content unless the artifact is explicitly an object, museum, or editorial view; keep motifs low-density and away from dense text.
-- `fallbackPolicy`: use named color cards, ink/paper contrast, typography, grid, code-native geometry, generated vectors, and lawful user-provided or task-local sourced assets instead of bundled assets.
+- `fallbackPolicy`: use named color cards, ink/paper contrast, typography, grid, code-native geometry, generated vectors, and lawful user-provided or task-local sourced assets when runtime assets are unavailable or inappropriate.
 
 When an artifact needs Chinese traditional visual material:
 
@@ -312,13 +312,13 @@ When an artifact needs Chinese traditional visual material:
 
 ## Surface Texture Policy
 
-Traditional-color texture support is enabled through the bundled `transparent_textures` provider for restrained paper tactility behind named-color systems and contemporary cultural composition.
+Traditional-color texture support is enabled through the `transparent_textures` provider handle for restrained paper tactility behind named-color systems and contemporary cultural composition.
 
 - `provider`: `transparent_textures`
 - `assetRoot`: `assets/transparent_textures/`
-- `manifestFile`: `assets/transparent_textures/TEXTURE_MANIFEST.md`
-- `indexFile`: `assets/transparent_textures/texture_index.json`
-- `provenanceFile`: `assets/transparent_textures/provenance.md`
+- `manifestFile`: `opaque transparent_textures manifest handle`
+- `indexFile`: `opaque transparent_textures index handle`
+- `provenanceFile`: `opaque transparent_textures provenance handle`
 - `defaultToken`: `rice-paper`
 - `allowedTokens`: ["rice-paper", "paper-fibers", "handmade-paper", "textured-paper"]
 - `opacityRange`: [0.03, 0.08]
@@ -330,11 +330,9 @@ Texture must not make the artifact fake-antique or reduce legibility.
 
 ## Asset Rules
 
-No bundled assets are currently available for this style.
-
 Allowed:
 
-- Generated or code-native border frames, lattice stripes, placeholder image panels, and vertical pattern bands that are not stored as bundled files.
+- Generated or code-native border frames, lattice stripes, placeholder image panels, and vertical pattern bands that do not depend on a fixed bundled file inventory.
 - Original or lawfully sourced cultural imagery, museum objects, textiles, ceramics, landscapes, ink textures, paper texture, or generated raster visuals.
 - CSS/SVG fine-line patterns, seal-like geometry, book margin rails, quiet texture, and swatches.
 - Color chips named with Chinese color names and HEX.
