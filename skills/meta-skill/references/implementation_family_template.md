@@ -40,7 +40,7 @@ skills/<skill-name>/
 
 ## Resolution Rules
 
-<Exact id/alias, domain cues, medium cues, priority, ambiguity policy.>
+<Exact id/alias, domain cues, medium cues, priority, ambiguity policy, recommendation policy.>
 
 ## Loading Rules
 
@@ -77,7 +77,7 @@ skills/<skill-name>/
 | Command | Behavior |
 | --- | --- |
 | `python skills/<skill-name>/scripts/list_<family>.py --query "..." --limit 8` | Show candidate ids and summaries only. |
-| `python skills/<skill-name>/scripts/resolve_<family>.py --query "..." --medium <medium>` | Return resolved, ambiguous, or unresolved JSON. |
+| `python skills/<skill-name>/scripts/resolve_<family>.py --query "..." --medium <medium>` | Return resolved, ambiguous, unresolved, or recommended JSON with candidate summaries when needed. |
 | `python skills/<skill-name>/scripts/get_<family>.py --id <implementation-id> --sections execution` | Return only selected implementation content. |
 | `python skills/<skill-name>/scripts/validate_<family>.py` | Validate registry, implementation files, assets, and family contract. |
 
@@ -90,8 +90,8 @@ Do not browse all `<family>` implementation files during normal use.
 
 1. If the user names an implementation, run `<resolve command>`.
 2. If the user does not name one, run `<list command>` or `<resolve command>` with query cues.
-3. If ambiguous, show candidates and ask once.
-4. After resolution, run `<get command>` for the selected implementation and task scope.
+3. If ambiguous or unresolved, provide candidate ids, summaries, and match reasons to the LLM so it can choose or recommend a registered implementation.
+4. After resolution or explicit recommendation, run `<get command>` for the selected implementation and task scope.
 5. Use only assets declared by the selected implementation.
 ```
 
