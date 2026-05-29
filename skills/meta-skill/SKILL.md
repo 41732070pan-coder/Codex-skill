@@ -5,18 +5,20 @@ description: Meta-skill for designing, reviewing, refactoring, and governing Cod
 
 # Meta Skill
 
+## Purpose
+
 Use this skill as the repository-level engineering guide for building and maintaining other skills. Treat every skill as a small capability module with a clear trigger boundary, normalized inputs, outputs, references, assets, extension points, lifecycle status, and quality gates.
 
-## When To Use
+## Triggers And Non-Triggers
 
-Use `meta-skill` when the task is to:
-
-- Add, rename, split, merge, deprecate, or refactor a skill.
-- Convert a fuzzy capability idea into a concrete skill design.
-- Define or review skill contracts, registries, templates, providers, assets, examples, or validators.
-- Audit whether an existing skill is maintainable, discoverable, non-overlapping, and safe to extend.
-
-Do not use this skill for the domain work handled by a concrete skill unless the user is changing that skill's structure or governance.
+| Type | Cues |
+| --- | --- |
+| Trigger | Add, rename, split, merge, deprecate, or refactor a skill. |
+| Trigger | Convert a fuzzy capability idea into a concrete skill design. |
+| Trigger | Define or review skill contracts, registries, templates, providers, assets, examples, or validators. |
+| Trigger | Audit whether an existing skill is maintainable, discoverable, non-overlapping, and safe to extend. |
+| Non-trigger | Execute the domain work handled by a concrete skill without changing that skill's structure or governance. |
+| Ask if ambiguous | The request sounds like both a one-off prompt and a maintainable skill; clarify whether the user wants a reusable repository module. |
 
 ## Core Principles
 
@@ -28,6 +30,28 @@ Do not use this skill for the domain work handled by a concrete skill unless the
 - **Progressive disclosure**: organize references so Codex loads only what the current request needs.
 - **Owned resources**: assets belong to one skill or to an explicitly documented shared provider; each asset needs role, provenance, allowed use, and forbidden use.
 - **Executable quality when possible**: document validation, lint, snapshot, example, or self-check commands when runnable artifacts exist.
+
+## Workflow
+
+1. **Classify the change**: new skill, rename, refactor, family expansion, asset addition, registry update, validation update, or deprecation.
+2. **Normalize the capability**: define user goal, triggers, non-triggers, expected inputs, expected outputs, constraints, lifecycle status, and risk areas.
+3. **Choose the module shape**:
+   - Single skill: one `SKILL.md` plus optional references.
+   - Skill family: add contract, registry, template, and strategy/provider reference files.
+   - Resource-heavy skill: add asset manifests, examples, or validators.
+4. **Load only the needed references**: use the Reference Load Map instead of reading every reference by default.
+5. **Update repository documentation**: keep `README.md` concise; it should list skills and functions, not duplicate internal skill manuals.
+6. **Validate**: run available checks. For documentation-only changes, run at least `git diff --check`; for repository-level skill integrity, run `python skills/meta-skill/scripts/validate_skills.py`.
+
+## Inputs And Outputs
+
+| Contract | Details |
+| --- | --- |
+| Required inputs | A user request that changes, reviews, audits, or formalizes one or more skills. |
+| Optional inputs | Existing skill folders, desired lifecycle status, examples, assets, external constraints, or validation expectations. |
+| Normalized shape | `{ taskType, affectedSkills, triggers, nonTriggers, inputs, outputs, resources, extensionPoints, qualityGates }`. |
+| Outputs | Skill plans, revised `SKILL.md` files, contracts, registries, templates, quality reports, README updates, or validation scripts. |
+| Failure modes | Stop or ask when the request is only a one-off prompt, when asset provenance is unclear, or when a proposed skill overlaps an existing skill without a clear boundary. |
 
 ## Default Skill Layout
 
@@ -43,24 +67,13 @@ skills/<skill-name>/
 │   ├── *_template.md              # future implementation skeletons
 │   └── *.md                       # domain references
 ├── assets/                        # optional skill-owned assets
-└── examples/                      # optional examples or fixtures
+├── examples/                      # optional examples or fixtures
+└── scripts/                       # optional validators or deterministic helpers
 ```
 
 The authoritative required-section contract lives in `references/governance_contract.md`; this layout only describes the usual file placement. Keep `SKILL.md` focused on orchestration and load details from `references/` according to the Reference Load Map below.
 
-## Governance Workflow
-
-1. **Classify the change**: new skill, rename, refactor, family expansion, asset addition, registry update, validation update, or deprecation.
-2. **Normalize the capability**: define user goal, triggers, non-triggers, expected inputs, expected outputs, constraints, lifecycle status, and risk areas.
-3. **Choose the module shape**:
-   - Single skill: one `SKILL.md` plus optional references.
-   - Skill family: add contract, registry, template, and strategy/provider reference files.
-   - Resource-heavy skill: add asset manifests, examples, or validators.
-4. **Load only the needed references**: use the Reference Load Map instead of reading every reference by default.
-5. **Update repository documentation**: keep `README.md` concise; it should list skills and functions, not duplicate internal skill manuals.
-6. **Validate**: run available checks. For documentation-only changes, run at least `git diff --check`.
-
-## Reference Load Map
+## References
 
 Load references progressively. `references/governance_contract.md` is the single source of truth for required sections, lifecycle/status fields, data shapes, and review criteria; other references should not redefine those rules.
 
@@ -73,7 +86,28 @@ Load references progressively. `references/governance_contract.md` is the single
 | Add or reorganize skill assets | `top_level_skill_constraints.md`, `governance_contract.md`, `quality_gates.md` | The active skill has no bundled or shared assets. |
 | Final review before commit or PR | `quality_gates.md`; add `skill_registry.md` when inventory/status changed | No files changed. |
 
-## New Skill Checklist
+## Resources
+
+| Resource | Role | Load or run when |
+| --- | --- | --- |
+| `references/governance_contract.md` | Authoritative contract for required sections, lifecycle/status fields, data shapes, and review criteria. | Designing or reviewing any maintained skill. |
+| `references/top_level_skill_constraints.md` | Repository-wide invariants for naming, layout, references, assets, README scope, and quality boundaries. | Adding, renaming, restructuring, or auditing skills. |
+| `references/skill_template.md` | Copyable skeleton for new maintained skills. | Creating a new skill or standardizing an existing skill. |
+| `references/skill_registry.md` | Repository-level inventory for maintained skills. | Adding, removing, renaming, deprecating, or reviewing skill discovery. |
+| `references/quality_gates.md` | Manual and executable quality checks. | Before finalizing any skill change. |
+| `scripts/validate_skills.py` | Lightweight repository skill validator with no third-party dependencies. | Before commit or PR, especially after changing skill structure, registries, or README inventory. |
+
+The `meta-skill` owns no reusable visual or binary assets. Do not add assets to it unless they support repository governance and include provenance, allowed-use, and forbidden-use documentation.
+
+## Extension Points
+
+| Extension | Pattern | File |
+| --- | --- | --- |
+| New repository skill | Template Method | `references/skill_template.md` |
+| Skill metadata and lifecycle | Contract | `references/governance_contract.md` |
+| Repository skill discovery | Registry | `references/skill_registry.md` |
+| Quality enforcement | Quality Gate | `references/quality_gates.md`, `scripts/validate_skills.py` |
+| Repository invariants | Policy reference | `references/top_level_skill_constraints.md` |
 
 Before adding detailed prose, answer these questions:
 
@@ -88,15 +122,15 @@ Before adding detailed prose, answer these questions:
 | What resources does it own? | Asset/external dependency policy and provenance. |
 | What proves quality? | Self-checks and runnable validations where possible. |
 
-## Self-Check
+## Quality Gate
 
 Before finishing a skill change, verify:
 
-- The skill name, directory, front matter, and README inventory agree.
+- The skill name, directory, front matter, README inventory, and registry entry agree.
 - Trigger and non-trigger boundaries are explicit and do not silently overlap another skill.
 - `SKILL.md` remains the orchestration layer; reusable details live in `references/`.
 - Multi-strategy or multi-provider behavior is represented by a registry, not hidden prose branches.
 - Assets are skill-owned or shared-provider-owned with provenance and usage constraints.
 - Extension points are represented by contracts, registries, templates, tables, or schemas.
 - The README stays repository-level and avoids duplicating detailed internal skill documentation.
-- Relevant checks were run and recorded.
+- Run `python skills/meta-skill/scripts/validate_skills.py` and `git diff --check`; record any failures or environment limitations.
