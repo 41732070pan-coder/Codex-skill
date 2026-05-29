@@ -43,21 +43,10 @@ interface StyleRegistryEntry {
 3. Use `assetRoot: none` unless the new style has a curated `assets/<style_name>/` folder and manifest.
 4. Run `python skills/my-design-style/scripts/validate_styles.py`.
 
-## Implementation Map Requirement
+## Contract Conformance Requirement
 
-Every concrete style file must contain an `Implementation Map` table near the top. It maps each required interface to the sections that implement it; the list below must stay aligned with `REQUIRED_INTERFACES` in `scripts/validate_styles.py`.
+Every concrete style file must contain a concise `Contract Conformance` section near the top. The section should name its `DesignStyleBase` implementation and list the required runtime sections instead of repeating the full interface/provider map. Detailed interface definitions belong in `references/style_contract.md`; static validation checks section presence, asset policy, surface provider metadata, and provider token availability.
 
-| Interface | Implemented by |
-| --- | --- |
-| `TriggerMatcher` | `Triggers` |
-| `DesignIntentProvider` | `Intent`, `Anti-Goals` |
-| `PaletteProvider` | `Color Tokens`, `Series Color Cards`, `Same-Family Progression Cards`, `Palette Recipes` |
-| `TypographyProvider` | `Typography` |
-| `LayoutSystem` | `Layout Principles` |
-| `ComponentTranslator` | `PPT Slide Archetypes`, `Web Translation`, `App / Dashboard Translation`, `Static Visual Translation` |
-| `AssetPolicy` | `Asset Interface`, `Asset Rules` |
-| `SurfaceTexturePolicy` | `Surface Texture Policy` |
-| `ModifierCompatibilityProvider` | `Modifier Compatibility` |
-| `QualityGate` | `Self-Check` |
+Required runtime sections: Triggers, Intent, Anti-Goals, Color Tokens, Typography, Layout Principles, PPT Slide Archetypes, Web Translation, App / Dashboard Translation, Static Visual Translation, Asset Interface, Surface Texture Policy, Asset Rules, Modifier Compatibility, Preview Option Sets, Self-Check.
 
 If a style has no bundled assets, its `AssetPolicy` must explicitly say `assetRoot: none` and define fallback behavior. If it does have assets, it must expose a manifest such as `assets/<style_name>/ASSET_MANIFEST.md`.

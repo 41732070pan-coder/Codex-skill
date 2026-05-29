@@ -49,10 +49,13 @@ Use this skill to translate a target artifact into one named visual style from t
    - normalize request;
    - resolve the base style;
    - extract requested modifiers from explicit modifier language, source assets, brand requirements, or constraints;
-   - consume the concrete style as a `DesignStyleBase` implementation (`resolve`, `getIntent`, `getPalette`, `getTypography`, `getLayoutSystem`, `getMediumTranslation`, `getAssetPolicy`, `getSurfaceTexturePolicy`, `getModifierCompatibility`, `selfCheck`);
-   - compose a `ComposedStylePlan` only when modifiers satisfy the selected style's `getModifierCompatibility()` policy and base invariants; downgrade or reject conflicting modifiers instead of silently replacing the base style;
-   - compose the artifact without style-specific branches in the base workflow;
-   - run both the concrete style self-check and any modifier self-check rules, then revise until they pass.
+   - consume the concrete style through runtime concepts: style resolution, style identity, visual system, medium translation, resource policy, composition policy, and quality gate;
+   - compose a `ComposedStylePlan` only when modifiers satisfy the selected style's composition policy and base invariants; downgrade or reject conflicting modifiers instead of silently replacing the base style;
+   - decide preview behavior from `previewMode` (`auto` by default): use explicit preview approval for ambiguous, high-stakes, public-facing, brand-sensitive, or user-requested preview work; otherwise create an internal `StyleLock` from style defaults and continue;
+   - when preview is needed, generate one style preview image or preview surface from the `StylePreviewPlan`, present its `StyleOptionSet[]`, and wait for user approval or replacement choices before full artifact generation;
+   - when preview is not needed, record the locked defaults in `StyleLock` and disclose the important locked choices in the final note;
+   - compose the artifact without style-specific branches in the base workflow and without silently changing locked palette, texture, layout density, motif, or asset decisions;
+   - run the concrete style self-check, preview/lock consistency checks, and any modifier self-check rules, then revise until they pass.
 5. Enforce asset and surface boundaries:
    - use only the active style's declared assets and manifest.
    - never browse `assets/` for arbitrary ornament.
@@ -67,10 +70,10 @@ Load references progressively; do not read every reference by default.
 | Need | Load |
 | --- | --- |
 | Resolve available styles, aliases, or priority | `references/style_registry.md` |
-| Validate interfaces, data shapes, asset policy, or self-check format | `references/style_contract.md` |
+| Validate interfaces, data shapes, preview negotiation, asset policy, or self-check format | `references/style_contract.md` |
 | Apply user-requested palette, motif, texture, layout, mood, or asset adjustments | `references/style_modifier_contract.md` |
 | Add a new concrete style | `references/style_template.md` plus `references/style_contract.md` |
-| Apply shared palette, asset, or optional surface mechanics | `references/design_mechanics.md` |
+| Apply shared palette, preview surface, asset, or optional surface mechanics | `references/design_mechanics.md` |
 | Apply SEU institutional academic style | `references/seu_design_style.md` |
 | Apply RMB banknote-inspired style | `references/renminbi_color_style.md` |
 | Apply Chinese traditional color style | `references/chinese_traditional_color_style.md` |
@@ -97,7 +100,7 @@ To add or update a concrete style:
 
 1. Create or edit `references/<style_name>.md` from `references/style_template.md`.
 2. Register the style in `references/style_registry.md` with aliases, domain cues, medium cues, priority, and asset root.
-3. Implement `DesignStyleBase` from `references/style_contract.md` and include an `Implementation Map` near the top of the style file.
+3. Implement `DesignStyleBase` from `references/style_contract.md` and include a concise `Contract Conformance` section near the top of the style file.
 4. Keep style-specific decisions inside the concrete style file; keep shared mechanics in `references/design_mechanics.md`.
 5. Add style-owned assets only under `assets/<style_name>/`, include an `ASSET_MANIFEST.md`, and document provenance and allowed/forbidden use.
 6. Run the quality gates before delivery.

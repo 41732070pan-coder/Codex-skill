@@ -76,6 +76,30 @@ A manifest should list: `file`, `role`, intrinsic width/height or ratio, color m
 `seu_design_style` exposes curated assets under `assets/seu_design_style/`. Its reference file names approved uses for logo marks, wordmarks, motto artwork, auditorium silhouettes/patterns, and pine motifs. Those files are the model for future style-owned asset interfaces.
 
 
+## Style Preview Mechanics
+
+Use the preview phase to make style choices visible before committing to a full PPT, web page, app screen, dashboard, or static visual when preview is requested or auto-mode detects ambiguity, high stakes, public-facing delivery, brand sensitivity, or high regeneration cost. The preview is not the final artifact; it is a compact decision surface for user approval when approval is needed.
+
+Default preview surface:
+
+- `canvas`: use the target medium ratio when known; otherwise use a 16:9 combined style board.
+- `style header`: style name, target medium, content goal, and selected defaults.
+- `palette strip`: primary, support, wash, neutral, text, and accent tokens with labels.
+- `typography sample`: title, subtitle, body, caption, and numeral sample.
+- `component sample`: one card, one table/chart fragment, and one button/tag/navigation state when relevant.
+- `surface sample`: background, panel, edge band, and texture token or texture-off state.
+- `asset or motif sample`: only assets, motifs, or generated geometry allowed by the active style's policy.
+
+Preview option rules:
+
+- Keep the same preview surface while swapping options so users compare like-for-like.
+- Expose only options that are valid under the active style's palette, asset policy, surface texture policy, and modifier compatibility rules.
+- Include a safe off/fallback option for texture or motif choices when disabling them still preserves the style.
+- Do not browse provider assets directly; texture options must be declared by the style's `SurfaceTexturePolicy.allowedTokens`.
+- For ordinary direct artifact requests, create an internal `StyleLock` from style defaults and proceed without stopping for approval.
+- Do not produce the complete deck, website, app, or dashboard before approval when explicit preview is requested or auto-mode decides approval is needed.
+- The final artifact must match the approved or internally locked palette family, texture token or off state, layout density, motif level, and asset emphasis.
+
 ## Surface Texture Extension Point
 
 The canonical shared surface texture provider is `transparent_textures`, sourced from Transparent Textures (`https://www.transparenttextures.com/`) for high-quality tileable texture resources. A curated provider is bundled under `assets/transparent_textures/` with SVG wrappers, `TEXTURE_MANIFEST.md`, `texture_index.json`, provenance notes, and validator checks.

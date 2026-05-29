@@ -2,32 +2,11 @@
 
 Use `chinese_traditional_color_style` for designs based on named Chinese traditional colors. It should feel literate, restrained, cultural, and contemporary: a usable design system translated from traditional color names, not an antique poster pasted onto modern UI.
 
-## Implementation Map
+## Contract Conformance
 
-Implementation class: `ChineseTraditionalColorStyle implements DesignStyleBase`. The table below maps the abstract base methods and their provider facets to concrete document sections.
+Implements `DesignStyleBase` as `ChineseTraditionalColorStyle`.
 
-| Interface / Method | Implemented by |
-| --- | --- |
-| `DesignStyleBase.resolve(request)` | `Triggers` |
-| `DesignStyleBase.getIntent()` | `Intent`, `Anti-Goals` |
-| `DesignStyleBase.getPalette()` | `Color Tokens`, `Series Color Cards`, `Same-Family Progression Cards` |
-| `DesignStyleBase.getTypography()` | `Typography` |
-| `DesignStyleBase.getLayoutSystem()` | `Layout Principles` |
-| `DesignStyleBase.getMediumTranslation(medium)` | `PPT Slide Archetypes`, `Web Translation`, `App / Dashboard Translation`, `Static Visual Translation` |
-| `DesignStyleBase.getAssetPolicy()` | `Asset Interface`, `Asset Rules` |
-| `DesignStyleBase.getSurfaceTexturePolicy()` | `Surface Texture Policy` |
-| `DesignStyleBase.getModifierCompatibility()` | `Modifier Compatibility` |
-| `DesignStyleBase.selfCheck(output)` | `Self-Check` |
-| `TriggerMatcher` | `Triggers` |
-| `DesignIntentProvider` | `Intent`, `Anti-Goals` |
-| `PaletteProvider` | `Color Tokens`, `Series Color Cards`, `Same-Family Progression Cards`, `Complete Source Color Cards`, `Palette Recipes` |
-| `TypographyProvider` | `Typography` |
-| `LayoutSystem` | `Layout Principles`, `Documentation / Composition Model` |
-| `ComponentTranslator` | `PPT Slide Archetypes`, `Web Translation`, `App / Dashboard Translation`, `Static Visual Translation` |
-| `AssetPolicy` | `Asset Interface`, `Asset Rules` |
-| `SurfaceTexturePolicy` | `Surface Texture Policy` |
-| `ModifierCompatibilityProvider` | `Modifier Compatibility` |
-| `QualityGate` | `Self-Check` |
+Required runtime sections: Triggers, Intent, Anti-Goals, Color Tokens, Typography, Layout Principles, PPT Slide Archetypes, Web Translation, App / Dashboard Translation, Static Visual Translation, Asset Interface, Surface Texture Policy, Asset Rules, Modifier Compatibility, Preview Option Sets, Self-Check.
 
 Primary references:
 
@@ -383,6 +362,22 @@ Modifier self-check additions:
 - Added motifs are restrained and do not crowd body text, controls, charts, or object metadata.
 - Pale modifiers maintain readable contrast.
 - Any recurring expressive modifier is identified as a candidate concrete style rather than silently becoming the base style.
+
+## Preview Option Sets
+
+`getPreviewOptions(request, composedPlan)` must create a combined preview surface before final generation unless the user explicitly skips preview. The preview should show the selected named-color series, ink/paper contrast, typography hierarchy, restrained cultural component samples, and any paper texture. `applyStyleLock(styleLock, composedPlan)` must preserve the approved source color series, texture, motif restraint, and layout density in the final artifact.
+
+| Option Set | Target | Default | Options | Rules |
+| --- | --- | --- | --- | --- |
+| `traditional-color-series` | palette | context-dependent named source series or documented palette recipe | selected source series; adjacent source series; documented recipe; neutral ink-paper fallback | Start from one complete named-color logic; avoid mixing many unrelated traditional colors. |
+| `traditional-paper-texture` | texture | `rice-paper` | `rice-paper`; `paper-fibers`; `handmade-paper`; `textured-paper`; `texture-off` | Tokens must come from `allowedTokens`; keep opacity in `[0.03, 0.08]`; never weaken swatch labels, metadata, chart labels, or generated calligraphy. |
+| `cultural-motif-level` | motif | `restrained-rules` | `restrained-rules`; `gallery-labels`; `seal-dot-accents`; `motif-off` | Motifs stay low-density, code-native or generated-vector, and never become generic antique filler. |
+
+Preview option behavior:
+
+- Texture choices are paper tactility only; they must not make the artifact fake-antique.
+- `texture-off` preserves the style through named colors, ink/paper contrast, margins, fine rules, and modern component structure.
+- Style locks must record the selected color series or recipe, texture token or `texture-off`, motif level, layout density, and any downgraded expressive modifier.
 
 ## Self-Check
 

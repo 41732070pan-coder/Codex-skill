@@ -2,32 +2,11 @@
 
 Use `seu_design_style` for designs inspired by the Southeast University master defense template and bundled SEU identity assets. It should feel academic, structured, calm, light, and institutional, with SEU green as structure and SEU yellow as measured emphasis.
 
-## Implementation Map
+## Contract Conformance
 
-Implementation class: `SeuDesignStyle implements DesignStyleBase`. The table below maps the abstract base methods and their provider facets to concrete document sections.
+Implements `DesignStyleBase` as `SeuDesignStyle`.
 
-| Interface / Method | Implemented by |
-| --- | --- |
-| `DesignStyleBase.resolve(request)` | `Triggers` |
-| `DesignStyleBase.getIntent()` | `Intent`, `Anti-Goals` |
-| `DesignStyleBase.getPalette()` | `Color Tokens`, `Series Color Cards`, `Same-Family Progression Cards` |
-| `DesignStyleBase.getTypography()` | `Typography` |
-| `DesignStyleBase.getLayoutSystem()` | `Layout Principles` |
-| `DesignStyleBase.getMediumTranslation(medium)` | `PPT Slide Archetypes`, `Web Translation`, `App / Dashboard Translation`, `Static Visual Translation` |
-| `DesignStyleBase.getAssetPolicy()` | `Asset Interface`, `Asset Rules` |
-| `DesignStyleBase.getSurfaceTexturePolicy()` | `Surface Texture Policy` |
-| `DesignStyleBase.getModifierCompatibility()` | `Modifier Compatibility` |
-| `DesignStyleBase.selfCheck(output)` | `Self-Check` |
-| `TriggerMatcher` | `Triggers` |
-| `DesignIntentProvider` | `Intent`, `Anti-Goals` |
-| `PaletteProvider` | `Color Tokens`, `Series Color Cards`, `Same-Family Progression Cards` |
-| `TypographyProvider` | `Typography` |
-| `LayoutSystem` | `Layout Principles` |
-| `ComponentTranslator` | `PPT Slide Archetypes`, `Web Translation`, `App / Dashboard Translation`, `Static Visual Translation` |
-| `AssetPolicy` | `Asset Interface`, `Asset Rules` |
-| `SurfaceTexturePolicy` | `Surface Texture Policy` |
-| `ModifierCompatibilityProvider` | `Modifier Compatibility` |
-| `QualityGate` | `Self-Check` |
+Required runtime sections: Triggers, Intent, Anti-Goals, Color Tokens, Typography, Layout Principles, PPT Slide Archetypes, Web Translation, App / Dashboard Translation, Static Visual Translation, Asset Interface, Surface Texture Policy, Asset Rules, Modifier Compatibility, Preview Option Sets, Self-Check.
 
 ## Triggers
 
@@ -276,6 +255,23 @@ SEU-compatible autumn example:
 | Maple motif | Abstract vector or user-provided decorative motif | Cover corner, section transition, footer strip, low-opacity edge ornament. | Official identity mark, logo substitute, dense content background, or repeated high-intensity filler. |
 
 For balanced autumn variants, use SEU green for structure, SEU yellow for precise highlights, deep crimson for secondary atmosphere, and maple motifs only as decorative modifiers. If the user asks for crimson or maple to dominate the deck, label the result as an expressive SEU-inspired variant or propose a new concrete style instead of presenting it as standard `seu_design_style`.
+
+## Preview Option Sets
+
+`getPreviewOptions(request, composedPlan)` must produce a combined preview surface before final generation unless the user explicitly skips preview. The preview should show a title/header sample, SEU green/yellow palette strip, a content card, a quiet panel, an approved SEU identity or motif placement, and the active texture substrate. `applyStyleLock(styleLock, composedPlan)` must preserve the approved texture, layout density, palette hierarchy, and asset placement decisions in the final artifact.
+
+| Option Set | Target | Default | Options | Rules |
+| --- | --- | --- | --- | --- |
+| `seu-texture` | texture | `textured-paper` | `textured-paper`; `clean-gray-paper`; `texture-off` | Tokens must come from `allowedTokens`; keep opacity in `[0.02, 0.06]`; never cover logos, motto artwork, dense text, table cells, or SEU motif overlaps. |
+| `seu-layout-density` | layout | `academic-balanced` | `academic-balanced`; `research-dense`; `ceremonial-spacious` | Keep stable grids and content-first hierarchy; do not turn the deck or page into a poster. |
+| `seu-identity-emphasis` | asset | `header-lockup` | `header-lockup`; `cover-anchor`; `quiet-footer-mark`; `motif-off` | Use only assets from `assets/seu_design_style/`; preserve intrinsic aspect ratios; decorative motifs stay secondary. |
+
+Preview option behavior:
+
+- `textured-paper` gives the default soft institutional paper grain.
+- `clean-gray-paper` gives a cooler, more restrained substrate for dashboards, data pages, and research-heavy sections.
+- `texture-off` disables provider texture while retaining SEU style through green/yellow structure, silver panels, typography, grids, and approved SVG assets.
+- Style locks must record the selected texture token or `texture-off`, selected density, selected identity emphasis, and any downgraded modifiers.
 
 ## Self-Check
 
