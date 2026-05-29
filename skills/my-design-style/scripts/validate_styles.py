@@ -31,6 +31,7 @@ REQUIRED_SECTIONS = [
     "Typography",
     "Layout Principles",
     "PPT Slide Archetypes",
+    "Visual Rhythm System",
     "Web Translation",
     "App / Dashboard Translation",
     "Static Visual Translation",
@@ -172,6 +173,7 @@ def validate_contract_conformance_docs() -> list[str]:
         for required in [
             "DesignStyleBase",
             "Preview Option Sets",
+            "Visual Rhythm System",
             "Self-Check",
         ]:
             if required not in body:
@@ -365,6 +367,7 @@ def validate_style(row: dict[str, str]) -> list[str]:
     asset_section = section_body(text, "Asset Interface")
     surface_section = section_body(text, "Surface Texture Policy")
     modifier_section = section_body(text, "Modifier Compatibility")
+    rhythm_section = section_body(text, "Visual Rhythm System")
 
     declared_asset_root = extract_bullet_value(asset_section, "assetRoot")
     if declared_asset_root is None:
@@ -381,6 +384,17 @@ def validate_style(row: dict[str, str]) -> list[str]:
                 errors.append(f"{reference} declares missing asset root: {root}")
             elif not any(asset_dir.glob("*MANIFEST.md")):
                 errors.append(f"{reference} asset root has no *MANIFEST.md: {root}")
+
+    for required_rhythm_key in [
+        "rhythmScope",
+        "visualAnchorRule",
+        "archetypeVarietyRule",
+        "motifRotation",
+        "assetFallbackRule",
+        "antiMonotonyCheck",
+    ]:
+        if required_rhythm_key not in rhythm_section:
+            errors.append(f"{reference} Visual Rhythm System is missing {required_rhythm_key}")
 
     if "acceptsModifiers" not in modifier_section:
         errors.append(f"{reference} Modifier Compatibility is missing acceptsModifiers")

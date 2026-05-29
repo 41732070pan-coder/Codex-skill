@@ -8,7 +8,7 @@ This is a color-and-layout style, not a currency reproduction kit. Use interpret
 
 Implements `DesignStyleBase` as `RenminbiColorStyle`.
 
-Required runtime sections: Triggers, Intent, Anti-Goals, Color Tokens, Typography, Layout Principles, PPT Slide Archetypes, Web Translation, App / Dashboard Translation, Static Visual Translation, Asset Interface, Surface Texture Policy, Asset Rules, Modifier Compatibility, Preview Option Sets, Self-Check.
+Required runtime sections: Triggers, Intent, Anti-Goals, Color Tokens, Typography, Layout Principles, PPT Slide Archetypes, Visual Rhythm System, Web Translation, App / Dashboard Translation, Static Visual Translation, Asset Interface, Surface Texture Policy, Asset Rules, Modifier Compatibility, Preview Option Sets, Self-Check.
 
 ## Triggers
 
@@ -220,6 +220,17 @@ Design around these reusable slide/page types:
 
 For slide decks, use 16:9 by default.
 
+## Visual Rhythm System
+
+Use a deck-level visual rhythm plan so the RMB-inspired language feels valuable and layered without becoming a repeated paper template or currency copy.
+
+- `rhythmScope`: for PPT decks, assign every slide to a financial, report, data, culture, or transition archetype; for web/app work, assign each section to a product, metric, table, or editorial role.
+- `visualAnchorRule`: every slide or major section needs one non-body-text anchor: metric tile group, denomination color strip, chart, statement table, abstract fine-line block, corner tick, process row, product/object image, or controlled paper texture.
+- `archetypeVarietyRule`: alternate high-value title pages, dense financial tables, chart evidence, risk/compliance panels, and summary moments; do not repeat the same metric-card grid for long runs.
+- `motifRotation`: rotate fine rules, corner ticks, abstract guilloche-inspired curves, denomination strips, texture-off states, and table/charts; linework must stay original and never imitate security features.
+- `assetFallbackRule`: if no lawful imagery is available, use data visualization, tabular numerals, denomination swatches, paper/ink contrast, and original vector geometry rather than red-gold filler.
+- `antiMonotonyCheck`: verify that each page has a value/data/culture anchor, red and gold do not dominate by repetition, and visual variety never increases counterfeit risk.
+
 ## Web Translation
 
 For websites, build the useful experience first: fintech landing section, account overview, auction catalog, pricing page, transaction dashboard, report portal, or editorial story.
@@ -383,6 +394,7 @@ Minimum checks:
 - Fine-line decoration does not sit behind dense text, controls, or chart labels.
 - Charts use distinguishable colors and do not depend only on red/green.
 - UI surfaces use restrained radii, stable spacing tokens, and robust grids.
+- Multi-slide or multi-screen work has a value/data/culture visual anchor on every surface, rotates linework/texture/table/chart treatments, and avoids repetitive red-gold metric grids.
 - Chinese and English text fit on mobile, desktop, or slide placeholders.
 - The design feels trustworthy, valuable, and modern rather than festive, casino-like, or counterfeit.
 - No unavailable shared texture provider or real banknote scan is referenced in the output.

@@ -6,7 +6,7 @@ Use `seu_design_style` for designs inspired by the Southeast University master d
 
 Implements `DesignStyleBase` as `SeuDesignStyle`.
 
-Required runtime sections: Triggers, Intent, Anti-Goals, Color Tokens, Typography, Layout Principles, PPT Slide Archetypes, Web Translation, App / Dashboard Translation, Static Visual Translation, Asset Interface, Surface Texture Policy, Asset Rules, Modifier Compatibility, Preview Option Sets, Self-Check.
+Required runtime sections: Triggers, Intent, Anti-Goals, Color Tokens, Typography, Layout Principles, PPT Slide Archetypes, Visual Rhythm System, Web Translation, App / Dashboard Translation, Static Visual Translation, Asset Interface, Surface Texture Policy, Asset Rules, Modifier Compatibility, Preview Option Sets, Self-Check.
 
 ## Triggers
 
@@ -119,6 +119,17 @@ Design around these reusable slide/page types:
 | Closing / Q&A | Summary, thanks, contact | Reintroduce stronger identity assets such as motto, auditorium, or pine, but keep center message calm. |
 
 For slide decks, use 16:9 by default.
+
+## Visual Rhythm System
+
+Use a deck-level visual rhythm plan so SEU identity feels deliberate instead of repeated or sparse.
+
+- `rhythmScope`: for PPT decks, map each slide to an archetype before drawing; for web/app work, map each major view or section to an information role.
+- `visualAnchorRule`: every slide or major screen needs one non-body-text anchor: approved SEU identity asset, auditorium/pine/motto motif, chart, table, process diagram, figure frame, numbered agenda block, or green/yellow rule system.
+- `archetypeVarietyRule`: no more than two consecutive slides should use the same title/body skeleton; alternate identity-heavy moments, evidence/data pages, explanation pages, and transition pages.
+- `motifRotation`: rotate logo lockup, auditorium silhouette, motto, pine, thin green/yellow rules, and motif-off states; never repeat the same brand asset at the same size on every page.
+- `assetFallbackRule`: when an SEU asset is not appropriate, use academic diagrams, aligned tables, figure labels, thin rules, and structured white space rather than decorative filler.
+- `antiMonotonyCheck`: confirm that white space feels intentional, each page has a clear academic anchor, and brand motifs support hierarchy without crowding the message.
 
 ## Web Translation
 
@@ -291,5 +302,6 @@ Minimum checks:
 - Text fits on mobile and desktop, or inside slide placeholders.
 - Brand elements appear with purpose and do not crowd the message.
 - Tables, charts, and key/value rows align cleanly.
+- Multi-slide or multi-screen work has visual anchors on every surface, no long run of repeated layout skeletons, and a documented motif/asset fallback when brand assets are not used.
 - For web/app work, inspect responsive views and make sure no UI text overlaps.
 - No unavailable shared texture provider is referenced in the output.

@@ -6,7 +6,7 @@ Use `chinese_traditional_color_style` for designs based on named Chinese traditi
 
 Implements `DesignStyleBase` as `ChineseTraditionalColorStyle`.
 
-Required runtime sections: Triggers, Intent, Anti-Goals, Color Tokens, Typography, Layout Principles, PPT Slide Archetypes, Web Translation, App / Dashboard Translation, Static Visual Translation, Asset Interface, Surface Texture Policy, Asset Rules, Modifier Compatibility, Preview Option Sets, Self-Check.
+Required runtime sections: Triggers, Intent, Anti-Goals, Color Tokens, Typography, Layout Principles, PPT Slide Archetypes, Visual Rhythm System, Web Translation, App / Dashboard Translation, Static Visual Translation, Asset Interface, Surface Texture Policy, Asset Rules, Modifier Compatibility, Preview Option Sets, Self-Check.
 
 Primary references:
 
@@ -237,6 +237,17 @@ Follow the same information architecture used by strong skills and mature design
 
 For slide decks, use 16:9 by default.
 
+## Visual Rhythm System
+
+Use a deck-level visual rhythm plan so traditional color work feels restrained but not empty. 克制 does not mean blank; it means low-density, explainable visual gestures that serve structure.
+
+- `rhythmScope`: for PPT decks, assign every slide to a content archetype before drawing; for web/app work, assign each major section to a museum, editorial, catalog, dashboard, or component role.
+- `visualAnchorRule`: every slide or major section needs one non-body-text anchor: named-color swatch strip, color chip matrix, diagram, comparison table, gallery label, book rail, seal-like dot, fine-rule frame, quote block, lawful image, or low-opacity paper texture.
+- `archetypeVarietyRule`: no more than two consecutive slides should use the same title/body skeleton; alternate cover/agenda, color legend, concept diagram, data/table, editorial/object, and closing patterns.
+- `motifRotation`: rotate restrained-rules, gallery-labels, seal-dot-accents, book rails, swatch strips, texture-off states, and motif-off for dense data; never add clouds, fans, lanterns, dragons, or calligraphy as filler.
+- `assetFallbackRule`: because this style may have no bundled image assets, use code-native geometry, color swatches, typographic labels, diagrams, and approved texture tokens before leaving large empty zones.
+- `antiMonotonyCheck`: confirm that each page has a visible anchor beyond body text, at least three approved motif treatments appear across decks longer than six slides, and decoration supports hierarchy rather than filling space.
+
 ## Web Translation
 
 For websites, build the actual experience first: museum object page, brand system, catalog, dashboard, article, education module, commerce product page, or cultural landing section.
@@ -395,6 +406,7 @@ Minimum checks:
 - Text contrast is strong enough on pale traditional colors.
 - Cultural decoration supports hierarchy rather than filling empty space.
 - The layout is modern, grid-based, and content-first.
+- Multi-slide or multi-screen work has a visual anchor on every surface, rotates approved restrained motifs, and avoids both blank pages and ornamental filler.
 - Tables, charts, and UI controls remain recognizable and usable.
 - Chinese color names and HEX labels fit without overlap.
 - The artifact feels Chinese and refined without becoming fake-antique or festive by default.

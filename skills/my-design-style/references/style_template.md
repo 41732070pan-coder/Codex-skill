@@ -6,7 +6,7 @@ Use `<style_name>` for <primary use cases>. It should feel <personality words>.
 
 Implements `DesignStyleBase` as `<ImplementationClass>`.
 
-Required runtime sections: Triggers, Intent, Anti-Goals, Color Tokens, Typography, Layout Principles, PPT Slide Archetypes, Web Translation, App / Dashboard Translation, Static Visual Translation, Asset Interface, Surface Texture Policy, Asset Rules, Modifier Compatibility, Preview Option Sets, Self-Check.
+Required runtime sections: Triggers, Intent, Anti-Goals, Color Tokens, Typography, Layout Principles, PPT Slide Archetypes, Visual Rhythm System, Web Translation, App / Dashboard Translation, Static Visual Translation, Asset Interface, Surface Texture Policy, Asset Rules, Modifier Compatibility, Preview Option Sets, Self-Check.
 
 ## Triggers
 
@@ -71,6 +71,17 @@ Define the design purpose, impression, and reusable behavior.
 | Archetype | Purpose | Style notes |
 | --- | --- | --- |
 | Cover | Title and context | <rules> |
+
+## Visual Rhythm System
+
+For multi-page or multi-screen artifacts, define a deck/page-level variation plan before generating details. The plan must keep the style recognizable while preventing monotonous repeated layouts.
+
+- `rhythmScope`: single surface | multi-slide deck | multi-screen flow | long page.
+- `visualAnchorRule`: every slide/screen/major section needs at least one non-body-text visual anchor such as a diagram, chart, swatch, label frame, rail, callout, motif, image, or texture treatment.
+- `archetypeVarietyRule`: do not use the same layout skeleton too many times in sequence; vary scale, columns, anchor placement, and density by information role.
+- `motifRotation`: rotate approved style motifs or explicitly use `motif-off` when content density requires it.
+- `assetFallbackRule`: if no style-owned asset is available, use approved code-native geometry, typography, color blocks, diagrams, or user-provided assets rather than leaving the surface visually empty.
+- `antiMonotonyCheck`: verify that visual anchors, archetypes, motif treatments, and density levels vary across the artifact without becoming decorative clutter.
 
 ## Web Translation
 
@@ -165,6 +176,7 @@ Minimum checks:
 - Style fidelity.
 - Contrast and readability.
 - Alignment and spacing.
+- Visual anchor coverage, archetype variety, motif rotation, and anti-monotony behavior for multi-surface outputs.
 - Overflow/responsiveness.
 - Asset legality, role fit, and non-distortion.
 - Medium-specific correctness.

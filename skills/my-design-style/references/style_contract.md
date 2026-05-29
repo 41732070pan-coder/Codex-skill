@@ -67,6 +67,7 @@ interface ComposedStylePlan {
   palettePlan?: Record<string, unknown>;
   motifPlan?: Record<string, unknown>;
   assetPlan?: Record<string, unknown>;
+  visualRhythmPlan?: VisualRhythmPlan;
   previewPlan?: StylePreviewPlan;
   selfCheckPlan: string[];
 }
@@ -79,6 +80,7 @@ interface StylePreviewPlan {
   previewPrompt: string;
   selectedDefaults: Record<string, string>;
   optionSets: StyleOptionSet[];
+  visualRhythmPlan?: VisualRhythmPlan;
   generationBoundary: string;
   selfCheckPlan: string[];
 }
@@ -110,6 +112,16 @@ interface StyleLock {
   rejectedOrDowngradedChanges: string[];
   lockedDecisions: Record<string, unknown>;
 }
+
+interface VisualRhythmPlan {
+  rhythmScope: "single-surface" | "multi-slide-deck" | "multi-screen-flow" | "long-page" | string;
+  archetypeSequence: string[];
+  visualAnchors: Array<{ surface: string; anchor: string; role: "informational" | "structural" | "decorative" | "textural" | string }>;
+  motifRotation: string[];
+  texturePlan?: string[];
+  assetFallbacks: string[];
+  antiMonotonyChecks: string[];
+}
 ```
 
 ## Abstract Style Class
@@ -127,6 +139,7 @@ abstract class DesignStyleBase {
   };
   abstract getTypography(): TypographySystem;
   abstract getLayoutSystem(): LayoutRules;
+  abstract getVisualRhythmSystem(medium: TargetMedium): VisualRhythmPlan;
   abstract getMediumTranslation(medium: TargetMedium): MediumRules;
   abstract getAssetPolicy(): AssetPolicy;
   abstract getSurfaceTexturePolicy(): SurfaceTexturePolicy;
@@ -144,7 +157,7 @@ class RenminbiColorStyle implements DesignStyleBase {}
 class ChineseTraditionalColorStyle implements DesignStyleBase {}
 ```
 
-`resolve()` owns trigger matching and returns `StyleResolution`. The `get*()` methods expose design intent, palette, typography, layout, medium translation, asset policy, surface texture policy, and modifier compatibility without forcing the base workflow to branch on a style name. `getModifierCompatibility()` is the style-specific contract for accepting, downgrading, or rejecting `StyleModifier[]`; it must exist for every concrete style, even if the style declares that no modifiers are allowed beyond ordinary constraints. `selfCheck()` is the final style-specific quality gate.
+`resolve()` owns trigger matching and returns `StyleResolution`. The `get*()` methods expose design intent, palette, typography, layout, visual rhythm, medium translation, asset policy, surface texture policy, and modifier compatibility without forcing the base workflow to branch on a style name. `getModifierCompatibility()` is the style-specific contract for accepting, downgrading, or rejecting `StyleModifier[]`; it must exist for every concrete style, even if the style declares that no modifiers are allowed beyond ordinary constraints. `selfCheck()` is the final style-specific quality gate.
 
 ## Required Provider Interfaces
 
@@ -187,6 +200,18 @@ interface LayoutSystem {
     density: string;
     hierarchy: string[];
     compositionRules: string[];
+  };
+}
+
+
+interface VisualRhythmProvider {
+  getVisualRhythmSystem(medium: TargetMedium): {
+    rhythmScope: string;
+    visualAnchorRule: string;
+    archetypeVarietyRule: string;
+    motifRotation: string[];
+    assetFallbackRule: string;
+    antiMonotonyCheck: string[];
   };
 }
 
@@ -258,16 +283,32 @@ Auto-mode sequence:
 1. Build `ComposedStylePlan` from the base style and compatible modifiers.
 2. Decide whether explicit preview is needed from user intent, ambiguity, stakes, and regeneration cost.
 3. If preview is needed, call `getPreviewOptions(request, composedPlan)`, generate one preview image or preview surface from `StylePreviewPlan.previewPrompt`, present `StyleOptionSet[]`, and iterate until the user approves.
-4. If preview is not needed, choose default options from the active style's preview defaults and create an internal `StyleLock`.
-5. Call `applyStyleLock(styleLock, composedPlan)` and generate the final artifact only from locked decisions.
+4. Build or confirm a `VisualRhythmPlan` for multi-page/multi-screen work, including archetype sequence, visual anchors, motif rotation, and fallback assets.
+5. If preview is not needed, choose default options from the active style's preview defaults and create an internal `StyleLock` that includes visual-rhythm decisions.
+6. Call `applyStyleLock(styleLock, composedPlan)` and generate the final artifact only from locked decisions.
 
 Rules:
 
-- `StyleOptionSet` values must come from the active style's palette, asset policy, surface texture policy, modifier compatibility rules, or user-provided assets.
+- `StyleOptionSet` values must come from the active style's palette, visual rhythm system, asset policy, surface texture policy, modifier compatibility rules, or user-provided assets.
 - Texture options may reference only tokens declared by the active style's `SurfaceTexturePolicy.allowedTokens`; include a texture-off option when turning texture off leaves a complete design.
 - Palette options must preserve the active style's semantic color hierarchy and accessibility requirements.
 - For legal- or identity-sensitive styles, preview prompts must demonstrate the interpreted style without copying protected source artifacts.
-- Final artifact generation must not silently change locked palette, texture, layout density, motif, or asset decisions. If a locked option cannot be implemented in the target medium, stop and ask for an approved substitute unless the task is low-stakes and an equivalent fallback is already declared by the active style.
+- Final artifact generation must not silently change locked palette, texture, layout density, visual rhythm, motif, or asset decisions. If a locked option cannot be implemented in the target medium, stop and ask for an approved substitute unless the task is low-stakes and an equivalent fallback is already declared by the active style.
+
+
+## Visual Rhythm Contract
+
+Visual rhythm is the deck/page-level planning layer that prevents a style from becoming either monotonous or arbitrarily decorative. It is mandatory for multi-slide decks, multi-screen flows, long pages, and dense static artifacts; for a single simple surface it may collapse to one anchor and one density rule.
+
+For each generated artifact, the active style must provide or derive a `VisualRhythmPlan` before detailed composition:
+
+1. Map each slide, screen, or major section to a declared archetype or explicit information role.
+2. Assign at least one non-body-text visual anchor to each slide/screen/major section. Anchors may be informational, structural, decorative, or textural, but they must support hierarchy.
+3. Rotate approved motif treatments, texture states, layout skeletons, and density levels; do not repeat the same skeleton for long consecutive runs.
+4. If style-owned imagery is unavailable or inappropriate, use declared fallback mechanisms such as code-native geometry, charts, diagrams, typographic labels, swatches, rules, or lawful user-provided assets.
+5. Add anti-monotony checks to `selfCheckPlan` and final `Self-Check`; visual variety must not break accessibility, asset provenance, brand rules, or style-specific anti-goals.
+
+The visual rhythm plan is not permission to add filler. A slide can choose `motif-off` or `texture-off` when density, legibility, legal safety, or brand restraint requires it, but it still needs a clear content or structure anchor.
 
 ## Modifier Composition Contract
 
@@ -361,7 +402,7 @@ const result: CheckResult = {
 };
 ```
 
-Use style-specific checks inside that shape. For example, SEU checks logo aspect ratios and institutional restraint; RMB checks non-counterfeit behavior; Chinese traditional color checks named-color and cultural-context fit.
+Use style-specific checks inside that shape. For example, SEU checks logo aspect ratios and institutional restraint; RMB checks non-counterfeit behavior; Chinese traditional color checks named-color and cultural-context fit. Multi-page or multi-screen outputs must also check visual anchor coverage, archetype variety, motif rotation, and whether any fallback asset strategy left pages visually empty.
 
 ## Substitutability Rules
 
@@ -375,3 +416,4 @@ Use style-specific checks inside that shape. For example, SEU checks logo aspect
 - A style may enable a non-`none` surface provider only when every referenced provider file exists and has provenance documentation.
 - A style may be brand-led, color-led, or motif-led; the workflow should still consume it through the same methods.
 - Medium translation must cover PPT, web, app/dashboard, and static visual output, even if the style simply says to reuse layout/color rules for a medium.
+- Concrete styles must expose a `Visual Rhythm System`; multi-page and multi-screen outputs must use it to plan visual anchors, archetype variation, motif rotation, and anti-monotony checks before final generation.
