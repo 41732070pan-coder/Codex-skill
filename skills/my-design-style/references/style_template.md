@@ -125,7 +125,26 @@ Declare whether this style may use a bundled surface provider. The canonical pro
 
 ## Modifier Compatibility
 
-State hard invariants that modifiers must not break, allowed soft modifiers, forbidden modifier behavior, and any example modifier plans. Use `none` if this style should not accept modifiers beyond ordinary constraints.
+Every concrete style must implement `DesignStyleBase.getModifierCompatibility()` here. State whether modifiers are accepted and how the abstract workflow should accept, downgrade, or reject them. Use restrictive values if this style should not accept modifiers beyond ordinary constraints.
+
+- `acceptsModifiers`: true | false.
+- `allowedTargets`: palette, motif, texture, layout, mood, asset, or none.
+- `allowedSources`: style-owned, user-provided, generated-vector, shared-provider, code-native, none.
+- `defaultIntensity`: subtle | balanced | expressive.
+- `conflictPolicy`: <base invariants that outrank modifiers and downgrade/reject rules>.
+- `promotionPolicy`: <when a recurring expressive modifier becomes a new concrete style>.
+
+Hard invariants:
+
+- <Rules modifiers must not break.>
+
+Allowed soft modifiers:
+
+- <Modifier types this style can accept.>
+
+Modifier self-check additions:
+
+- <Checks to run in addition to the base style self-check.>
 
 ## Self-Check
 

@@ -16,6 +16,7 @@ Implementation class: `SeuDesignStyle implements DesignStyleBase`. The table bel
 | `DesignStyleBase.getMediumTranslation(medium)` | `PPT Slide Archetypes`, `Web Translation`, `App / Dashboard Translation`, `Static Visual Translation` |
 | `DesignStyleBase.getAssetPolicy()` | `Asset Interface`, `Asset Rules` |
 | `DesignStyleBase.getSurfaceTexturePolicy()` | `Surface Texture Policy` |
+| `DesignStyleBase.getModifierCompatibility()` | `Modifier Compatibility` |
 | `DesignStyleBase.selfCheck(output)` | `Self-Check` |
 | `TriggerMatcher` | `Triggers` |
 | `DesignIntentProvider` | `Intent`, `Anti-Goals` |
@@ -25,6 +26,7 @@ Implementation class: `SeuDesignStyle implements DesignStyleBase`. The table bel
 | `ComponentTranslator` | `PPT Slide Archetypes`, `Web Translation`, `App / Dashboard Translation`, `Static Visual Translation` |
 | `AssetPolicy` | `Asset Interface`, `Asset Rules` |
 | `SurfaceTexturePolicy` | `Surface Texture Policy` |
+| `ModifierCompatibilityProvider` | `Modifier Compatibility` |
 | `QualityGate` | `Self-Check` |
 
 ## Triggers
@@ -240,6 +242,13 @@ Use monochrome variants when color would compete with content. Keep aspect ratio
 ## Modifier Compatibility
 
 Use modifiers only as controlled overlays on the SEU base style. The standard style remains light, academic, structured, content-first, and led by SEU green with SEU yellow as precise accent.
+
+- `acceptsModifiers`: true.
+- `allowedTargets`: palette, motif, texture, layout, mood, asset.
+- `allowedSources`: style-owned, user-provided, generated-vector, code-native, shared-provider only when explicitly enabled by the surface policy, and none.
+- `defaultIntensity`: subtle for content pages, balanced for cover or section transitions.
+- `conflictPolicy`: preserve SEU identity hierarchy, light academic structure, official asset boundaries, and content-first layout; downgrade or reject modifiers that replace the SEU identity system.
+- `promotionPolicy`: promote recurring expressive variants such as an autumn-crimson SEU deck into a new concrete style only when they need durable palette rules, assets, registry metadata, or validators.
 
 Hard invariants:
 

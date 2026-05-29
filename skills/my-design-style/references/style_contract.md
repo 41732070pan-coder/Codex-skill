@@ -83,6 +83,7 @@ abstract class DesignStyleBase {
   abstract getMediumTranslation(medium: TargetMedium): MediumRules;
   abstract getAssetPolicy(): AssetPolicy;
   abstract getSurfaceTexturePolicy(): SurfaceTexturePolicy;
+  abstract getModifierCompatibility(): ModifierCompatibilityPolicy;
   abstract selfCheck(outputDescription: string): CheckResult;
 }
 
@@ -94,7 +95,7 @@ class RenminbiColorStyle implements DesignStyleBase {}
 class ChineseTraditionalColorStyle implements DesignStyleBase {}
 ```
 
-`resolve()` owns trigger matching and returns `StyleResolution`. The `get*()` methods expose design intent, palette, typography, layout, medium translation, asset policy, and surface texture policy without forcing the base workflow to branch on a style name. `selfCheck()` is the final style-specific quality gate.
+`resolve()` owns trigger matching and returns `StyleResolution`. The `get*()` methods expose design intent, palette, typography, layout, medium translation, asset policy, surface texture policy, and modifier compatibility without forcing the base workflow to branch on a style name. `getModifierCompatibility()` is the style-specific contract for accepting, downgrading, or rejecting `StyleModifier[]`; it must exist for every concrete style, even if the style declares that no modifiers are allowed beyond ordinary constraints. `selfCheck()` is the final style-specific quality gate.
 
 ## Required Provider Interfaces
 
@@ -169,6 +170,20 @@ interface SurfaceTexturePolicy {
   fallbackPolicy: string;
 }
 
+interface ModifierCompatibilityProvider {
+  // Returned by DesignStyleBase.getModifierCompatibility().
+  acceptsModifiers: boolean;
+  hardInvariants: string[];
+  allowedTargets: Array<"palette" | "motif" | "texture" | "layout" | "mood" | "asset" | string>;
+  allowedSources: Array<"style-owned" | "user-provided" | "generated-vector" | "shared-provider" | "code-native" | "none" | string>;
+  defaultIntensity: "subtle" | "balanced" | "expressive";
+  conflictPolicy: string;
+  promotionPolicy: string;
+  selfCheckRules: string[];
+}
+
+type ModifierCompatibilityPolicy = ModifierCompatibilityProvider;
+
 interface QualityGate {
   selfCheck(outputDescription: string): CheckResult;
 }
@@ -176,7 +191,7 @@ interface QualityGate {
 
 ## Modifier Composition Contract
 
-Style modifiers are data-level overlays for user-requested changes that should not become new concrete styles by default. The base workflow may compose modifiers after style resolution, but modifiers must preserve base-style invariants and must not silently replace identity colors, official assets, or safety constraints. Load `style_modifier_contract.md` when modifier extraction, compatibility checks, downgrade decisions, or modifier self-check rules are needed.
+Style modifiers are data-level overlays for user-requested changes that should not become new concrete styles by default. The base workflow may compose modifiers after style resolution, but modifiers must pass the selected style's `getModifierCompatibility()` policy, preserve base-style invariants, and avoid silently replacing identity colors, official assets, or safety constraints. Load `style_modifier_contract.md` when modifier extraction, compatibility checks, downgrade decisions, or modifier self-check rules are needed.
 
 ```ts
 interface StyleComposer {
@@ -272,7 +287,8 @@ Use style-specific checks inside that shape. For example, SEU checks logo aspect
 
 - The template workflow should not special-case one style after resolution; it should treat `SeuDesignStyle`, `RenminbiColorStyle`, and `ChineseTraditionalColorStyle` as `DesignStyleBase` instances.
 - If one style needs a new behavior, first add a method or optional interface here, then let every style either implement it or explicitly declare `none`.
-- If a user asks for palette, motif, texture, layout, mood, or asset adjustments, model them as `StyleModifier[]` unless they are permanent enough to justify a new concrete style.
+- If a user asks for palette, motif, texture, layout, mood, or asset adjustments, model them as `StyleModifier[]` and validate them through the selected style's `getModifierCompatibility()` policy unless they are permanent enough to justify a new concrete style.
+- Every concrete style must document `Modifier Compatibility`; support may be permissive, restrictive, or `acceptsModifiers: false`, but it must be explicit so the abstract workflow remains substitutable.
 - Concrete styles may have assets, no assets, or user-provided-only assets, but all must expose an `AssetPolicy`.
 - Concrete styles must also expose a `SurfaceTexturePolicy`, even if it declares `provider: none`. Surface providers are optional substrate services, not identity assets.
 - A style may enable a non-`none` surface provider only when every referenced provider file exists and has provenance documentation.

@@ -65,7 +65,7 @@ interface StyleComposer {
 
 1. Resolve the base style first.
 2. Extract requested modifiers from explicit wording, source assets, `brandRequirements`, and constraints.
-3. Read base-style invariants from intent, anti-goals, palette, asset policy, surface policy, and self-check.
+3. Read base-style invariants and modifier rules from `DesignStyleBase.getModifierCompatibility()`, plus intent, anti-goals, palette, asset policy, surface policy, and self-check.
 4. Classify each modifier by target, operation, priority, intensity, source, and role.
 5. Accept compatible modifiers, downgrade over-strong modifiers, and reject unsafe or unavailable modifiers.
 6. Produce a `ComposedStylePlan` before generating the artifact.
@@ -73,7 +73,7 @@ interface StyleComposer {
 
 ## Conflict Handling
 
-- Hard base-style invariants outrank soft modifiers.
+- Hard base-style invariants from `getModifierCompatibility()` outrank soft modifiers.
 - A soft modifier may add an accent, motif, or mood only if the base style remains recognizable.
 - A `replace` operation must be treated as risky. Do not replace identity colors, official marks, or required layout structure unless the user explicitly chooses a new style direction.
 - `expressive` modifiers should be labeled as a variant of the base style. If they repeatedly recur, propose a new concrete style.

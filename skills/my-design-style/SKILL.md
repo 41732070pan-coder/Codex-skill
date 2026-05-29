@@ -49,8 +49,8 @@ Use this skill to translate a target artifact into one named visual style from t
    - normalize request;
    - resolve the base style;
    - extract requested modifiers from explicit modifier language, source assets, brand requirements, or constraints;
-   - consume the concrete style as a `DesignStyleBase` implementation (`resolve`, `getIntent`, `getPalette`, `getTypography`, `getLayoutSystem`, `getMediumTranslation`, `getAssetPolicy`, `getSurfaceTexturePolicy`, `selfCheck`);
-   - compose a `ComposedStylePlan` only when modifiers are compatible with the base style invariants; downgrade or reject conflicting modifiers instead of silently replacing the base style;
+   - consume the concrete style as a `DesignStyleBase` implementation (`resolve`, `getIntent`, `getPalette`, `getTypography`, `getLayoutSystem`, `getMediumTranslation`, `getAssetPolicy`, `getSurfaceTexturePolicy`, `getModifierCompatibility`, `selfCheck`);
+   - compose a `ComposedStylePlan` only when modifiers satisfy the selected style's `getModifierCompatibility()` policy and base invariants; downgrade or reject conflicting modifiers instead of silently replacing the base style;
    - compose the artifact without style-specific branches in the base workflow;
    - run both the concrete style self-check and any modifier self-check rules, then revise until they pass.
 5. Enforce asset and surface boundaries:
