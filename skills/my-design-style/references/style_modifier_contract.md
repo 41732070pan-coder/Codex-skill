@@ -20,46 +20,7 @@ Create or propose a new concrete style instead when:
 
 ## Data Shapes
 
-```ts
-type ModifierTarget = "palette" | "motif" | "texture" | "layout" | "mood" | "asset";
-type ModifierOperation = "add" | "replace" | "increase" | "decrease" | "tint";
-type ModifierPriority = "hard" | "soft";
-type ModifierIntensity = "subtle" | "balanced" | "expressive";
-type ModifierSource =
-  | "style-owned"
-  | "user-provided"
-  | "generated-vector"
-  | "shared-provider"
-  | "code-native"
-  | "none";
-
-interface StyleModifier {
-  id: string;
-  target: ModifierTarget;
-  operation: ModifierOperation;
-  priority: ModifierPriority;
-  intensity?: ModifierIntensity;
-  source?: ModifierSource;
-  value: string | Record<string, unknown>;
-  compatibilityRules: string[];
-  selfCheckRules?: string[];
-}
-
-interface ComposedStylePlan {
-  baseStyle: StyleName;
-  modifiers: StyleModifier[];
-  acceptedChanges: string[];
-  rejectedOrDowngradedChanges: string[];
-  palettePlan?: Record<string, unknown>;
-  motifPlan?: Record<string, unknown>;
-  assetPlan?: Record<string, unknown>;
-  selfCheckPlan: string[];
-}
-
-interface StyleComposer {
-  compose(baseStyle: DesignStyleBase, modifiers: StyleModifier[]): ComposedStylePlan;
-}
-```
+Canonical data shapes for `StyleModifier`, `ComposedStylePlan`, and related style composition records live in `references/style_contract.md`. This file only defines modifier extraction, compatibility checks, conflict handling, and examples.
 
 ## Composition Workflow
 

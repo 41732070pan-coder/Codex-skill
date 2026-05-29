@@ -2,34 +2,11 @@
 
 Use `<style_name>` for <primary use cases>. It should feel <personality words>.
 
-## Implementation Map
+## Contract Conformance
 
-| Interface | Implemented by |
-| --- | --- |
-| `DesignStyleBase.resolve(request)` | `Triggers` |
-| `DesignStyleBase.getIntent()` | `Intent`, `Anti-Goals` |
-| `DesignStyleBase.getPalette()` | `Color Tokens`, `Series Color Cards`, `Same-Family Progression Cards`, `Palette Recipes` |
-| `DesignStyleBase.getTypography()` | `Typography` |
-| `DesignStyleBase.getLayoutSystem()` | `Layout Principles` |
-| `DesignStyleBase.getMediumTranslation(medium)` | `PPT Slide Archetypes`, `Web Translation`, `App / Dashboard Translation`, `Static Visual Translation` |
-| `DesignStyleBase.getAssetPolicy()` | `Asset Interface`, `Asset Rules` |
-| `DesignStyleBase.getSurfaceTexturePolicy()` | `Surface Texture Policy` |
-| `DesignStyleBase.getModifierCompatibility()` | `Modifier Compatibility` |
-| `DesignStyleBase.getPreviewOptions(request, composedPlan)` | `Preview Option Sets` |
-| `DesignStyleBase.applyStyleLock(styleLock, composedPlan)` | `Preview Option Sets` |
-| `DesignStyleBase.selfCheck(output)` | `Self-Check` |
-| `TriggerMatcher` | `Triggers` |
-| `DesignIntentProvider` | `Intent`, `Anti-Goals` |
-| `PaletteProvider` | `Color Tokens`, `Series Color Cards`, `Same-Family Progression Cards`, `Palette Recipes` |
-| `TypographyProvider` | `Typography` |
-| `LayoutSystem` | `Layout Principles` |
-| `ComponentTranslator` | `PPT Slide Archetypes`, `Web Translation`, `App / Dashboard Translation`, `Static Visual Translation` |
-| `AssetPolicy` | `Asset Interface`, `Asset Rules` |
-| `SurfaceTexturePolicy` | `Surface Texture Policy` |
-| `ModifierCompatibilityProvider` | `Modifier Compatibility` |
-| `PreviewNegotiationProvider` | `Preview Option Sets` |
-| `StyleLockApplier` | `Preview Option Sets` |
-| `QualityGate` | `Self-Check` |
+Implements `DesignStyleBase` as `<ImplementationClass>`.
+
+Required runtime sections: Triggers, Intent, Anti-Goals, Color Tokens, Typography, Layout Principles, PPT Slide Archetypes, Web Translation, App / Dashboard Translation, Static Visual Translation, Asset Interface, Surface Texture Policy, Asset Rules, Modifier Compatibility, Preview Option Sets, Self-Check.
 
 ## Triggers
 

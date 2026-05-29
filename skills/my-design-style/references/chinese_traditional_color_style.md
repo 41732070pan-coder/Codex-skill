@@ -2,36 +2,11 @@
 
 Use `chinese_traditional_color_style` for designs based on named Chinese traditional colors. It should feel literate, restrained, cultural, and contemporary: a usable design system translated from traditional color names, not an antique poster pasted onto modern UI.
 
-## Implementation Map
+## Contract Conformance
 
-Implementation class: `ChineseTraditionalColorStyle implements DesignStyleBase`. The table below maps the abstract base methods and their provider facets to concrete document sections.
+Implements `DesignStyleBase` as `ChineseTraditionalColorStyle`.
 
-| Interface / Method | Implemented by |
-| --- | --- |
-| `DesignStyleBase.resolve(request)` | `Triggers` |
-| `DesignStyleBase.getIntent()` | `Intent`, `Anti-Goals` |
-| `DesignStyleBase.getPalette()` | `Color Tokens`, `Series Color Cards`, `Same-Family Progression Cards` |
-| `DesignStyleBase.getTypography()` | `Typography` |
-| `DesignStyleBase.getLayoutSystem()` | `Layout Principles` |
-| `DesignStyleBase.getMediumTranslation(medium)` | `PPT Slide Archetypes`, `Web Translation`, `App / Dashboard Translation`, `Static Visual Translation` |
-| `DesignStyleBase.getAssetPolicy()` | `Asset Interface`, `Asset Rules` |
-| `DesignStyleBase.getSurfaceTexturePolicy()` | `Surface Texture Policy` |
-| `DesignStyleBase.getModifierCompatibility()` | `Modifier Compatibility` |
-| `DesignStyleBase.getPreviewOptions(request, composedPlan)` | `Preview Option Sets` |
-| `DesignStyleBase.applyStyleLock(styleLock, composedPlan)` | `Preview Option Sets` |
-| `DesignStyleBase.selfCheck(output)` | `Self-Check` |
-| `TriggerMatcher` | `Triggers` |
-| `DesignIntentProvider` | `Intent`, `Anti-Goals` |
-| `PaletteProvider` | `Color Tokens`, `Series Color Cards`, `Same-Family Progression Cards`, `Complete Source Color Cards`, `Palette Recipes` |
-| `TypographyProvider` | `Typography` |
-| `LayoutSystem` | `Layout Principles`, `Documentation / Composition Model` |
-| `ComponentTranslator` | `PPT Slide Archetypes`, `Web Translation`, `App / Dashboard Translation`, `Static Visual Translation` |
-| `AssetPolicy` | `Asset Interface`, `Asset Rules` |
-| `SurfaceTexturePolicy` | `Surface Texture Policy` |
-| `ModifierCompatibilityProvider` | `Modifier Compatibility` |
-| `PreviewNegotiationProvider` | `Preview Option Sets` |
-| `StyleLockApplier` | `Preview Option Sets` |
-| `QualityGate` | `Self-Check` |
+Required runtime sections: Triggers, Intent, Anti-Goals, Color Tokens, Typography, Layout Principles, PPT Slide Archetypes, Web Translation, App / Dashboard Translation, Static Visual Translation, Asset Interface, Surface Texture Policy, Asset Rules, Modifier Compatibility, Preview Option Sets, Self-Check.
 
 Primary references:
 

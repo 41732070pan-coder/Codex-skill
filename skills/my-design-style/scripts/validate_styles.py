@@ -22,23 +22,8 @@ REFERENCES = SKILL_DIR / "references"
 REGISTRY = REFERENCES / "style_registry.md"
 STYLE_TEMPLATE = REFERENCES / "style_template.md"
 
-REQUIRED_INTERFACES = [
-    "TriggerMatcher",
-    "DesignIntentProvider",
-    "PaletteProvider",
-    "TypographyProvider",
-    "LayoutSystem",
-    "ComponentTranslator",
-    "AssetPolicy",
-    "SurfaceTexturePolicy",
-    "ModifierCompatibilityProvider",
-    "PreviewNegotiationProvider",
-    "StyleLockApplier",
-    "QualityGate",
-]
-
 REQUIRED_SECTIONS = [
-    "Implementation Map",
+    "Contract Conformance",
     "Triggers",
     "Intent",
     "Anti-Goals",
@@ -168,11 +153,11 @@ def parse_number_pair(value: str | None) -> list[int | float] | None:
     return None
 
 
-def validate_implementation_map_contracts() -> list[str]:
+def validate_contract_conformance_docs() -> list[str]:
     errors: list[str] = []
     for path, section in [
-        (STYLE_TEMPLATE, "Implementation Map"),
-        (REGISTRY, "Implementation Map Requirement"),
+        (STYLE_TEMPLATE, "Contract Conformance"),
+        (REGISTRY, "Contract Conformance Requirement"),
     ]:
         if not path.exists():
             errors.append(f"missing contract file: {path.relative_to(ROOT)}")
@@ -182,17 +167,16 @@ def validate_implementation_map_contracts() -> list[str]:
         if not body:
             errors.append(f"{path.relative_to(ROOT)} is missing section: {section}")
             continue
-        for interface in REQUIRED_INTERFACES:
-            if f"`{interface}`" not in body:
+        for required in [
+            "DesignStyleBase",
+            "Preview Option Sets",
+            "Self-Check",
+        ]:
+            if required not in body:
                 errors.append(
-                    f"{path.relative_to(ROOT)} {section} is missing {interface}"
+                    f"{path.relative_to(ROOT)} {section} is missing {required}"
                 )
-        if path == STYLE_TEMPLATE and "`DesignStyleBase.getModifierCompatibility()`" not in body:
-            errors.append(
-                f"{path.relative_to(ROOT)} Implementation Map is missing DesignStyleBase.getModifierCompatibility()"
-            )
     return errors
-
 
 def load_provider_index(index_file: str) -> tuple[dict[str, Any] | None, list[str]]:
     errors: list[str] = []
@@ -364,11 +348,6 @@ def validate_style(row: dict[str, str]) -> list[str]:
         if section not in titles:
             errors.append(f"{reference} is missing section: {section}")
 
-    implementation_map = section_body(text, "Implementation Map")
-    for interface in REQUIRED_INTERFACES:
-        if f"`{interface}`" not in implementation_map:
-            errors.append(f"{reference} Implementation Map is missing {interface}")
-
     if "ok" not in text or "issues" not in text or "requiredFixes" not in text:
         errors.append(f"{reference} Self-Check must expose ok, issues, and requiredFixes")
 
@@ -409,7 +388,7 @@ def validate() -> list[str]:
     if not REGISTRY.exists():
         return [f"missing registry: {REGISTRY.relative_to(ROOT)}"]
 
-    errors.extend(validate_implementation_map_contracts())
+    errors.extend(validate_contract_conformance_docs())
 
     rows = parse_registry()
     if not rows:

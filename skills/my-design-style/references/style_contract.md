@@ -251,17 +251,15 @@ interface QualityGate {
 
 ## Preview Negotiation Contract
 
-Preview negotiation is a required top-level phase unless the user explicitly requests `previewMode: skip` or the task is only asking for written guidance. Generate a small, comparable style preview before producing the final PPT, web page, app screen, dashboard, or static visual. The preview must show the selected defaults and controlled alternatives that can be swapped without breaking the active style.
+Preview negotiation defaults to `previewMode: auto`. It is recommended for ambiguous, high-stakes, public-facing, brand-sensitive, or user-requested visual work, but it is not mandatory for ordinary direct artifact generation. For direct PPT, web, app, dashboard, or static visual requests, the model may create an internal `StyleLock` from defaults and proceed without user approval, then disclose important locked defaults in the final note.
 
-Required sequence:
+Auto-mode sequence:
 
 1. Build `ComposedStylePlan` from the base style and compatible modifiers.
-2. Call `getPreviewOptions(request, composedPlan)` to create `StylePreviewPlan`.
-3. Generate one preview image or preview surface from `StylePreviewPlan.previewPrompt`; do not generate the full final artifact yet.
-4. Present `StyleOptionSet[]` for user selection, including safe off/fallback options where relevant.
-5. Wait for user approval or requested replacements. Iterate previews until the user approves.
-6. Record the approved selections as `StyleLock`.
-7. Call `applyStyleLock(styleLock, composedPlan)` and generate the final artifact only from locked decisions.
+2. Decide whether explicit preview is needed from user intent, ambiguity, stakes, and regeneration cost.
+3. If preview is needed, call `getPreviewOptions(request, composedPlan)`, generate one preview image or preview surface from `StylePreviewPlan.previewPrompt`, present `StyleOptionSet[]`, and iterate until the user approves.
+4. If preview is not needed, choose default options from the active style's preview defaults and create an internal `StyleLock`.
+5. Call `applyStyleLock(styleLock, composedPlan)` and generate the final artifact only from locked decisions.
 
 Rules:
 
@@ -269,7 +267,7 @@ Rules:
 - Texture options may reference only tokens declared by the active style's `SurfaceTexturePolicy.allowedTokens`; include a texture-off option when turning texture off leaves a complete design.
 - Palette options must preserve the active style's semantic color hierarchy and accessibility requirements.
 - For legal- or identity-sensitive styles, preview prompts must demonstrate the interpreted style without copying protected source artifacts.
-- Final artifact generation must not silently change locked palette, texture, layout density, motif, or asset decisions. If a locked option cannot be implemented in the target medium, stop and ask for an approved substitute.
+- Final artifact generation must not silently change locked palette, texture, layout density, motif, or asset decisions. If a locked option cannot be implemented in the target medium, stop and ask for an approved substitute unless the task is low-stakes and an equivalent fallback is already declared by the active style.
 
 ## Modifier Composition Contract
 

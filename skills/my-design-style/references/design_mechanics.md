@@ -78,7 +78,7 @@ A manifest should list: `file`, `role`, intrinsic width/height or ratio, color m
 
 ## Style Preview Mechanics
 
-Use the preview phase to make style choices visible before committing to a full PPT, web page, app screen, dashboard, or static visual. The preview is not the final artifact; it is a compact decision surface for user approval.
+Use the preview phase to make style choices visible before committing to a full PPT, web page, app screen, dashboard, or static visual when preview is requested or auto-mode detects ambiguity, high stakes, public-facing delivery, brand sensitivity, or high regeneration cost. The preview is not the final artifact; it is a compact decision surface for user approval when approval is needed.
 
 Default preview surface:
 
@@ -96,8 +96,9 @@ Preview option rules:
 - Expose only options that are valid under the active style's palette, asset policy, surface texture policy, and modifier compatibility rules.
 - Include a safe off/fallback option for texture or motif choices when disabling them still preserves the style.
 - Do not browse provider assets directly; texture options must be declared by the style's `SurfaceTexturePolicy.allowedTokens`.
-- Do not produce the complete deck, website, app, or dashboard until the user approves a `StyleLock`.
-- The final artifact must match the approved preview's locked palette family, texture token or off state, layout density, motif level, and asset emphasis.
+- For ordinary direct artifact requests, create an internal `StyleLock` from style defaults and proceed without stopping for approval.
+- Do not produce the complete deck, website, app, or dashboard before approval when explicit preview is requested or auto-mode decides approval is needed.
+- The final artifact must match the approved or internally locked palette family, texture token or off state, layout density, motif level, and asset emphasis.
 
 ## Surface Texture Extension Point
 
