@@ -107,7 +107,7 @@ Declare whether this style may use a bundled surface provider. The canonical pro
 - `allowedTokens`: texture tokens allowed for this style; use `[]` when disabled.
 - `opacityRange`: low-opacity bounds for background and panel usage; use `[0, 0]` when disabled.
 - `allowedSurfaces`: where texture may appear; use `[]` when disabled.
-- `forbiddenSurfaces`: where texture must not appear.
+- `forbiddenSurfaces`: where texture must not appear; use `[]` when disabled.
 - `fallbackPolicy`: what to do when texture is unavailable or harms contrast.
 
 ## Asset Rules
@@ -142,7 +142,7 @@ Modifier self-check additions:
 
 ## Preview Option Sets
 
-Expose preview choices through `getPreviewOptions(request, composedPlan)` before final artifact generation. Apply approved choices through `applyStyleLock(styleLock, composedPlan)` so the final output matches the approved preview.
+`getPreviewOptions(request, composedPlan)` exposes preview choices. In `previewMode: auto`, explicit preview is used only when ambiguity, stakes, brand or cultural sensitivity, or user request requires it. Otherwise the model creates an internal `StyleLock` from the default option sets and proceeds. Apply approved or internally locked choices through `applyStyleLock(styleLock, composedPlan)` so the final output matches the locked preview decisions.
 
 - `previewSurface`: combined style board plus small artifact sample.
 - `defaultOptionSets`: palette, texture when enabled, layout density, mood, asset or motif when relevant.

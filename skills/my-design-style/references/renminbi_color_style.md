@@ -295,7 +295,7 @@ RMB-inspired texture support is enabled through the bundled `transparent_texture
 - `allowedTokens`: ["paper-fibers", "textured-paper", "clean-gray-paper"]
 - `opacityRange`: [0.02, 0.05]
 - `allowedSurfaces`: ["broad-background", "card-panel", "edge-band", "cover-wash"]
-- `forbiddenSurfaces`: dense text, chart labels, serial-like marks, seal-like marks, legal-tender imitation zones, and any element that could resemble anti-counterfeit artwork.
+- `forbiddenSurfaces`: ["dense text", "chart labels", "serial-like marks", "seal-like marks", "legal-tender imitation zones", "anti-counterfeit-like artwork"]
 - `fallbackPolicy`: disable texture and keep the style through denomination color progressions, paper/ink contrast, fine rules, financial grids, tables, and original code-native geometry.
 
 Texture must remain a generic tactile substrate and must not resemble real banknote security features.
@@ -351,7 +351,7 @@ Modifier self-check additions:
 
 ## Preview Option Sets
 
-`getPreviewOptions(request, composedPlan)` must generate a combined preview surface before final artifact generation unless explicitly skipped. The preview should show the selected denomination palette, paper/ink contrast, abstract fine-line components, a metric card, a table or chart fragment, and any texture choice. It must demonstrate RMB-inspired abstraction without copying legal tender. `applyStyleLock(styleLock, composedPlan)` must preserve the approved denomination family, texture, linework strength, and non-counterfeit boundaries in the final artifact.
+`getPreviewOptions(request, composedPlan)` exposes preview choices. In `previewMode: auto`, explicit preview is used only when ambiguity, stakes, brand sensitivity, legal-tender sensitivity, or user request requires it. Otherwise the model creates an internal `StyleLock` from the default option sets and proceeds. When a preview is used, it should show the selected denomination palette, paper/ink contrast, abstract fine-line components, a metric card, a table or chart fragment, and any texture choice. It must demonstrate RMB-inspired abstraction without copying legal tender. `applyStyleLock(styleLock, composedPlan)` must preserve the locked denomination family, texture, linework strength, and non-counterfeit boundaries in the final artifact.
 
 | Option Set | Target | Default | Options | Rules |
 | --- | --- | --- | --- | --- |

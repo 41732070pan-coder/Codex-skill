@@ -310,7 +310,7 @@ Traditional-color texture support is enabled through the bundled `transparent_te
 - `allowedTokens`: ["rice-paper", "paper-fibers", "handmade-paper", "textured-paper"]
 - `opacityRange`: [0.03, 0.08]
 - `allowedSurfaces`: ["page-background", "museum-panel", "cover-wash", "editorial-background"]
-- `forbiddenSurfaces`: dense body text, color-swatch labels, small museum metadata, chart labels, generated calligraphy, and seal-like marks.
+- `forbiddenSurfaces`: ["dense body text", "color-swatch labels", "small museum metadata", "chart labels", "generated calligraphy", "seal-like marks"]
 - `fallbackPolicy`: disable texture and keep the style through named color cards, ink/paper contrast, typography, margins, fine rules, and code-native geometry.
 
 Texture must not make the artifact fake-antique or reduce legibility.
@@ -365,7 +365,7 @@ Modifier self-check additions:
 
 ## Preview Option Sets
 
-`getPreviewOptions(request, composedPlan)` must create a combined preview surface before final generation unless the user explicitly skips preview. The preview should show the selected named-color series, ink/paper contrast, typography hierarchy, restrained cultural component samples, and any paper texture. `applyStyleLock(styleLock, composedPlan)` must preserve the approved source color series, texture, motif restraint, and layout density in the final artifact.
+`getPreviewOptions(request, composedPlan)` exposes preview choices. In `previewMode: auto`, explicit preview is used only when ambiguity, stakes, cultural sensitivity, brand sensitivity, or user request requires it. Otherwise the model creates an internal `StyleLock` from the default option sets and proceeds. When a preview is used, it should show the selected named-color series, ink/paper contrast, typography hierarchy, restrained cultural component samples, and any paper texture. `applyStyleLock(styleLock, composedPlan)` must preserve the locked source color series, texture, motif restraint, and layout density in the final artifact.
 
 | Option Set | Target | Default | Options | Rules |
 | --- | --- | --- | --- | --- |

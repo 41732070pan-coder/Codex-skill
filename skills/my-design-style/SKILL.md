@@ -84,7 +84,7 @@ Load references progressively; do not read every reference by default.
 | --- | --- | --- |
 | `references/style_registry.md` | concrete-style registry | Source of truth for style discovery and resolution metadata. |
 | `references/style_contract.md` | formal contract | `DesignStyleBase` abstract class, implementation-class mapping, data-shape, asset-policy, surface-policy, and self-check definitions. |
-| `references/style_modifier_contract.md` | modifier contract | `StyleModifier`, `StyleComposer`, `ComposedStylePlan`, conflict handling, asset-source rules, and modifier self-check definitions. |
+| `references/style_modifier_contract.md` | modifier rules | Modifier extraction, compatibility, conflict handling, asset-source rules, and modifier self-check examples. |
 | `references/style_template.md` | extension template | Skeleton for future concrete style implementations. |
 | `references/design_mechanics.md` | shared mechanics | Reusable palette progression, style-owned asset interface, and active surface-provider rules. |
 | `references/*_style.md` | concrete styles | Style-specific triggers, color, typography, layout, medium translation, assets, and self-checks. |

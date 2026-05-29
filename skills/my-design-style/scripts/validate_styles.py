@@ -51,6 +51,8 @@ REQUIRED_PROVIDER_METADATA = [
     "allowedTokens",
     "opacityRange",
     "allowedSurfaces",
+    "forbiddenSurfaces",
+    "fallbackPolicy",
 ]
 
 
@@ -290,6 +292,14 @@ def validate_surface_policy(reference: str, surface_section: str) -> list[str]:
     if allowed_surfaces is None:
         errors.append(f"{reference} allowedSurfaces must be a string list such as [] or [\"surface\"]")
 
+    forbidden_surfaces = parse_markdown_list(policy.get("forbiddenSurfaces"))
+    if forbidden_surfaces is None:
+        errors.append(f"{reference} forbiddenSurfaces must be a string list such as [] or [\"surface\"]")
+
+    fallback_policy = policy.get("fallbackPolicy", "").strip()
+    if not fallback_policy:
+        errors.append(f"{reference} fallbackPolicy must describe the texture fallback behavior")
+
     opacity_range = parse_number_pair(policy.get("opacityRange"))
     if opacity_range is None:
         errors.append(f"{reference} opacityRange must be a number pair such as [0, 0]")
@@ -305,6 +315,7 @@ def validate_surface_policy(reference: str, surface_section: str) -> list[str]:
             "allowedTokens": "[]",
             "opacityRange": "[0, 0]",
             "allowedSurfaces": "[]",
+            "forbiddenSurfaces": "[]",
         }
         for key, expected in expected_disabled.items():
             if policy.get(key) != expected:

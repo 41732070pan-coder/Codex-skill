@@ -186,7 +186,7 @@ SEU texture support is enabled through the bundled `transparent_textures` provid
 - `allowedTokens`: ["textured-paper", "clean-gray-paper"]
 - `opacityRange`: [0.02, 0.06]
 - `allowedSurfaces`: ["slide-background", "section-divider", "quiet-panel", "web-section"]
-- `forbiddenSurfaces`: dense paragraph text, small table cells, official logo area, motto artwork area, auditorium/pine motif overlap.
+- `forbiddenSurfaces`: ["dense paragraph text", "small table cells", "official logo area", "motto artwork area", "auditorium/pine motif overlap"]
 - `fallbackPolicy`: disable texture and keep the SEU feel through green/yellow rules, silver panels, grid structure, and approved SEU SVG assets.
 
 Use texture only when it stays below content and does not compete with SEU identity marks.
@@ -258,7 +258,7 @@ For balanced autumn variants, use SEU green for structure, SEU yellow for precis
 
 ## Preview Option Sets
 
-`getPreviewOptions(request, composedPlan)` must produce a combined preview surface before final generation unless the user explicitly skips preview. The preview should show a title/header sample, SEU green/yellow palette strip, a content card, a quiet panel, an approved SEU identity or motif placement, and the active texture substrate. `applyStyleLock(styleLock, composedPlan)` must preserve the approved texture, layout density, palette hierarchy, and asset placement decisions in the final artifact.
+`getPreviewOptions(request, composedPlan)` exposes preview choices. In `previewMode: auto`, explicit preview is used only when ambiguity, stakes, brand sensitivity, or user request requires it. Otherwise the model creates an internal `StyleLock` from the default option sets and proceeds. When a preview is used, it should show a title/header sample, SEU green/yellow palette strip, a content card, a quiet panel, an approved SEU identity or motif placement, and the active texture substrate. `applyStyleLock(styleLock, composedPlan)` must preserve the locked texture, layout density, palette hierarchy, and asset placement decisions in the final artifact.
 
 | Option Set | Target | Default | Options | Rules |
 | --- | --- | --- | --- | --- |
