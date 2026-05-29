@@ -245,7 +245,7 @@ Use a deck-level visual rhythm plan so traditional color work feels restrained b
 - `visualAnchorRule`: every slide or major section needs one non-body-text anchor: named-color swatch strip, color chip matrix, diagram, comparison table, gallery label, book rail, seal-like dot, fine-rule frame, quote block, lawful image, or low-opacity paper texture.
 - `archetypeVarietyRule`: no more than two consecutive slides should use the same title/body skeleton; alternate cover/agenda, color legend, concept diagram, data/table, editorial/object, and closing patterns.
 - `motifRotation`: rotate restrained-rules, gallery-labels, seal-dot-accents, book rails, swatch strips, texture-off states, and motif-off for dense data; never add clouds, fans, lanterns, dragons, or calligraphy as filler.
-- `assetFallbackRule`: because this style may have no bundled image assets, use code-native geometry, color swatches, typographic labels, diagrams, and approved texture tokens before leaving large empty zones.
+- `assetFallbackRule`: use bundled borders/stripes/placeholders when they fit the content, plus code-native geometry, color swatches, typographic labels, diagrams, and approved texture tokens before leaving large empty zones.
 - `antiMonotonyCheck`: confirm that each page has a visible anchor beyond body text, at least three approved motif treatments appear across decks longer than six slides, and decoration supports hierarchy rather than filling space.
 
 ## Web Translation
@@ -291,22 +291,28 @@ For posters, title cards, diagrams, thumbnails, or cultural static visuals:
 
 ## Asset Interface
 
-This style currently has no bundled style-owned asset folder. Do not rely on a shared decorative library.
+This style exposes a small style-owned SVG asset module for restrained guofeng borders, stripes, side bands, and placeholder imagery.
 
-- `assetRoot`: `none`.
-- `importMode`: `none`.
-- `manifestFile`: `none`.
-- `availableAssets`: `none`.
-- `usageRoles`: user-provided cultural imagery, generated bitmap visuals, color swatches, lawful object imagery, and small code-native motifs.
-- `placementRules`: keep cultural imagery secondary to content unless the artifact is explicitly an object, museum, or editorial view; keep motifs low-density and away from dense text.
-- `fallbackPolicy`: use named color cards, ink/paper contrast, typography, grid, and code-native geometry instead of borrowing assets from another concrete style.
+- `assetRoot`: `assets/chinese_traditional_color_style/`.
+- `importMode`: `manifested-svg`.
+- `manifestFile`: `assets/chinese_traditional_color_style/ASSET_MANIFEST.md`.
+- `availableAssets`: `guofeng_border_frame`, `cloud_lattice_stripe`, `landscape_placeholder`, `vertical_pattern_band`.
+- `usageRoles`: named color cards, border frames, horizontal stripes, vertical pattern bands, placeholder image panels, user-provided cultural imagery, generated bitmap visuals, color swatches, lawful object imagery, and small code-native motifs.
+- `placementRules`: preserve aspect ratio; crop only declared stripes/bands at their ends; keep cultural imagery secondary to content unless the artifact is explicitly an object, museum, or editorial view; keep motifs low-density and away from dense text.
+- `fallbackPolicy`: use named color cards, ink/paper contrast, typography, grid, code-native geometry, and bundled manifest assets instead of borrowing assets from another concrete style.
 
 When an artifact needs Chinese traditional visual material:
 
-- Use user-provided images, museum/object assets, or style-specific assets only when they are deliberately supplied for the project.
+- Use `01_guofeng_border_frame.svg` for title cards, chapter pages, posters, and museum-style labels when a border is useful.
+- Use `02_cloud_lattice_stripe.svg` and `04_vertical_pattern_band.svg` as sparse page rhythm devices; do not stack them on every page.
+- Use `03_landscape_placeholder.svg` only as a temporary placeholder when final user-provided photography, object imagery, or illustration is not available.
 - For PPT/UI structure, prefer clean layout, restrained color, typography, thin rules, tabs, tables, and code-native geometry over ornamental filler.
-- Generate small SVG/CSS motifs only inside the target artifact when they serve a clear layout role; do not add them to a shared asset folder.
-- Keep any cultural imagery subtle, low-density, and secondary to content.
+- Do not assume every Chinese theme needs dragons, clouds, seals, folding fans, mountains, or calligraphy.
+- Prefer color, whitespace, text hierarchy, and composition over decorative symbolism.
+
+### Recommended Asset Source For Future Expansion
+
+Use 爱给网在线设计 / 平面素材入口 (`https://www.aigei.com/design/ps/`) as a personal-use discovery source when this style needs additional PNG/SVG assets or textures. Search terms: `中国风`, `国风`, `中式边框`, `古典边框`, `传统纹样`, `祥云`, `回纹`, `山水`, `水墨`, `宣纸纹理`, `中式底纹`, `花纹边框`, `条纹`. Any imported or traced asset must be placed under `assets/chinese_traditional_color_style/`, listed in the manifest, and checked for decorative relevance, readability, and overuse.
 
 ## Surface Texture Policy
 
@@ -328,10 +334,11 @@ Texture must not make the artifact fake-antique or reduce legibility.
 
 ## Asset Rules
 
-No bundled assets are required.
+Bundled assets are available under `assets/chinese_traditional_color_style/` and must be selected through `ASSET_MANIFEST.md`.
 
 Allowed:
 
+- Manifested style-owned assets: `01_guofeng_border_frame.svg`, `02_cloud_lattice_stripe.svg`, `03_landscape_placeholder.svg`, and `04_vertical_pattern_band.svg`.
 - Original or lawfully sourced cultural imagery, museum objects, textiles, ceramics, landscapes, ink textures, paper texture, or generated raster visuals.
 - CSS/SVG fine-line patterns, seal-like geometry, book margin rails, quiet texture, and swatches.
 - Color chips named with Chinese color names and HEX.
@@ -383,12 +390,13 @@ Modifier self-check additions:
 | `traditional-color-series` | palette | context-dependent named source series or documented palette recipe | selected source series; adjacent source series; documented recipe; neutral ink-paper fallback | Start from one complete named-color logic; avoid mixing many unrelated traditional colors. |
 | `traditional-paper-texture` | texture | `rice-paper` | `rice-paper`; `paper-fibers`; `handmade-paper`; `textured-paper`; `texture-off` | Tokens must come from `allowedTokens`; keep opacity in `[0.03, 0.08]`; never weaken swatch labels, metadata, chart labels, or generated calligraphy. |
 | `cultural-motif-level` | motif | `restrained-rules` | `restrained-rules`; `gallery-labels`; `seal-dot-accents`; `motif-off` | Motifs stay low-density, code-native or generated-vector, and never become generic antique filler. |
+| `traditional-asset-emphasis` | asset | `manifest-subtle` | `manifest-subtle`; `border-frame`; `lattice-stripe`; `image-placeholder`; `vertical-band`; `asset-off` | Use only manifested files under `assets/chinese_traditional_color_style/`; keep one clear asset role per surface. |
 
 Preview option behavior:
 
 - Texture choices are paper tactility only; they must not make the artifact fake-antique.
 - `texture-off` preserves the style through named colors, ink/paper contrast, margins, fine rules, and modern component structure.
-- Style locks must record the selected color series or recipe, texture token or `texture-off`, motif level, layout density, and any downgraded expressive modifier.
+- Style locks must record the selected color series or recipe, texture token or `texture-off`, motif level, selected asset emphasis or `asset-off`, layout density, and any downgraded expressive modifier.
 
 ## Self-Check
 

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="180" viewBox="0 0 1200 180" role="img" aria-labelledby="title desc">
+  <title id="title">Chinese traditional cloud lattice stripe</title>
+  <desc id="desc">Repeatable modern Chinese lattice stripe inspired by cloud and key-fret ornament.</desc>
+  <rect width="1200" height="180" fill="none"/>
+  <defs>
+    <pattern id="lattice" width="120" height="90" patternUnits="userSpaceOnUse">
+      <path d="M10 45h44v-24h44v48H54v-24" fill="none" stroke="#9E2A22" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter"/>
+      <path d="M10 70h88" fill="none" stroke="#C8A45D" stroke-width="2" opacity="0.65"/>
+    </pattern>
+  </defs>
+  <rect x="0" y="30" width="1200" height="120" fill="url(#lattice)" opacity="0.92"/>
+</svg>

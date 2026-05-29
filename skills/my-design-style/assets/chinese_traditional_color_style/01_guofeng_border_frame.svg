@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="title desc">
+  <title id="title">Chinese traditional color border frame</title>
+  <desc id="desc">Modern guofeng border frame with restrained corner geometry for PPT, web, and poster layouts.</desc>
+  <rect width="1200" height="675" fill="none"/>
+  <g fill="none" stroke-linecap="square" stroke-linejoin="miter">
+    <rect x="72" y="64" width="1056" height="547" rx="0" stroke="#9E2A22" stroke-width="4"/>
+    <rect x="94" y="86" width="1012" height="503" rx="0" stroke="#C8A45D" stroke-width="2" opacity="0.76"/>
+    <g stroke="#244E3A" stroke-width="3">
+      <path d="M72 142h70V64M1128 142h-70V64M72 533h70v78M1128 533h-70v78"/>
+      <path d="M114 184h70V106M1086 184h-70V106M114 491h70v78M1086 491h-70v78" opacity="0.62"/>
+    </g>
+  </g>
+</svg>

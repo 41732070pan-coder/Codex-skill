@@ -91,10 +91,21 @@ Load references progressively; do not read every reference by default.
 | `references/design_mechanics.md` | shared mechanics | Reusable palette progression, visual-rhythm planning, style-owned asset interface, and active surface-provider rules. |
 | `references/*_style.md` | concrete styles | Style-specific triggers, color, typography, layout, medium translation, assets, and self-checks. |
 | `assets/seu_design_style/` | SEU style-owned assets | Official SEU SVG identity/motif assets; use only through `seu_design_style` asset policy and manifest. |
+| `assets/renminbi_color_style/` | RMB style-owned assets | Original SVG finance ornaments, value strips, fine-line panels, and manifest; use only through `renminbi_color_style`. |
+| `assets/chinese_traditional_color_style/` | Chinese traditional style-owned assets | Original SVG guofeng borders, stripes, placeholder image panel, side band, and manifest; use only through `chinese_traditional_color_style`. |
 | `assets/transparent_textures/` | shared surface provider | Curated Transparent Textures SVG wrappers, manifest, JSON index, provenance, and checksums for concrete style opt-in. |
 | `scripts/validate_styles.py` | style validator | Static conformance check for registry entries, concrete style sections, declared assets, and unavailable provider references. |
 
-The canonical shared texture provider source is Transparent Textures (`https://www.transparenttextures.com/`). A curated `transparent_textures` provider is bundled under `assets/transparent_textures/`; concrete styles may opt in only through explicit `SurfaceTexturePolicy` tokens that exist in `texture_index.json`, preserve provenance, and pass `scripts/validate_styles.py`.
+## Recommended Material Sources
+
+Use source recommendations as discovery guidance for future style examples; bundled assets still need manifests and style-owned placement rules.
+
+| Source | Best for | Integration rule |
+| --- | --- | --- |
+| Transparent Textures (`https://www.transparenttextures.com/`) | neutral tileable paper/fiber textures for shared surface tactility | Only use through the curated `transparent_textures` provider under `assets/transparent_textures/` and explicit `SurfaceTexturePolicy.allowedTokens`. |
+| 爱给网在线设计 / 平面素材 (`https://www.aigei.com/design/ps/`) | personal-use PNG/SVG/PSD discovery for Chinese design materials, finance ornaments, borders, stripes, backgrounds, and new texture candidates | Use as a recommended external source, not a global asset bucket. Import only into the active style's `assets/<style_name>/` folder, record keywords/source/provenance in `ASSET_MANIFEST.md`, and keep style anti-goals intact. For Chinese traditional expansion, start with keywords such as `中国风`, `中式边框`, `传统纹样`, `条纹`, `山水`, `水墨`, `宣纸纹理`; for RMB finance expansion, start with `金融`, `人民币`, `纸币纹理`, `票券边框`, `金色线条`, `纸张纹理`. |
+
+The canonical shared texture provider source remains Transparent Textures. 爱给网 is an additional personal-use material discovery source for style-owned assets and future texture candidates; it does not bypass manifest, asset-boundary, or readability requirements. Concrete styles may opt in to bundled textures only through explicit `SurfaceTexturePolicy` tokens that exist in `texture_index.json`, preserve provenance, and pass `scripts/validate_styles.py`.
 
 ## Extension
 
@@ -104,7 +115,7 @@ To add or update a concrete style:
 2. Register the style in `references/style_registry.md` with aliases, domain cues, medium cues, priority, and asset root.
 3. Implement `DesignStyleBase` from `references/style_contract.md` and include a concise `Contract Conformance` section near the top of the style file.
 4. Keep style-specific decisions inside the concrete style file; keep shared mechanics in `references/design_mechanics.md`.
-5. Add style-owned assets only under `assets/<style_name>/`, include an `ASSET_MANIFEST.md`, and document provenance and allowed/forbidden use.
+5. Add style-owned assets only under `assets/<style_name>/`, include an `ASSET_MANIFEST.md`, and document provenance, discovery source, search keywords, allowed/forbidden use, and whether the asset is directly sourced, traced, generated, or code-authored.
 6. Run the quality gates before delivery.
 
 ## Design Invariants
