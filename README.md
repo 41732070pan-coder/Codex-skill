@@ -39,8 +39,3 @@
 5. 素材放入所属 Skill 的 `assets/`；跨 Skill 共享素材必须有明确共享提供器。
 6. 更新本 README 的 Skill 列表，以及 `skills/meta-skill/references/skill_registry.md`。
 7. 至少运行 `git diff --check`；如果 Skill 包含脚本、示例产物或可运行代码，应补充对应测试。
-
-## 说明
-
-- 根 README 只保留仓库级概览和 Skill 清单，不重复各 Skill 的内部说明。
-- 当前仓库主要由 Markdown 文档和 SVG 素材构成，没有应用运行时代码或构建系统。
