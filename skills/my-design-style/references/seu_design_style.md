@@ -4,8 +4,19 @@ Use `seu_design_style` for designs inspired by the Southeast University master d
 
 ## Implementation Map
 
-| Interface | Implemented by |
+Implementation class: `SeuDesignStyle implements DesignStyleBase`. The table below maps the abstract base methods and their provider facets to concrete document sections.
+
+| Interface / Method | Implemented by |
 | --- | --- |
+| `DesignStyleBase.resolve(request)` | `Triggers` |
+| `DesignStyleBase.getIntent()` | `Intent`, `Anti-Goals` |
+| `DesignStyleBase.getPalette()` | `Color Tokens`, `Series Color Cards`, `Same-Family Progression Cards` |
+| `DesignStyleBase.getTypography()` | `Typography` |
+| `DesignStyleBase.getLayoutSystem()` | `Layout Principles` |
+| `DesignStyleBase.getMediumTranslation(medium)` | `PPT Slide Archetypes`, `Web Translation`, `App / Dashboard Translation`, `Static Visual Translation` |
+| `DesignStyleBase.getAssetPolicy()` | `Asset Interface`, `Asset Rules` |
+| `DesignStyleBase.getSurfaceTexturePolicy()` | `Surface Texture Policy` |
+| `DesignStyleBase.selfCheck(output)` | `Self-Check` |
 | `TriggerMatcher` | `Triggers` |
 | `DesignIntentProvider` | `Intent`, `Anti-Goals` |
 | `PaletteProvider` | `Color Tokens`, `Series Color Cards`, `Same-Family Progression Cards` |

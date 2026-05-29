@@ -78,9 +78,9 @@ A manifest should list: `file`, `role`, intrinsic width/height or ratio, color m
 
 ## Surface Texture Extension Point
 
-No shared surface texture asset provider is currently bundled with `my-design-style`. Treat surface texture as an inactive extension point until a provider directory, manifest, index, provenance, and validator support are added.
+The canonical shared surface texture provider is `transparent_textures`, sourced from Transparent Textures (`https://www.transparenttextures.com/`) for high-quality tileable texture resources. No shared surface texture asset provider is currently bundled with `my-design-style`, so treat surface texture as an inactive extension point until selected texture files, a provider directory, manifest, index, provenance, and validator support are added.
 
-Concrete styles must therefore declare `provider: none` unless all files named by their `SurfaceTexturePolicy` exist in the skill. If a future provider is added, it must be a neutral substrate service, not a global ornament library.
+Concrete styles must therefore declare `provider: none` unless all files named by their `SurfaceTexturePolicy` exist in the skill. When the `transparent_textures` provider is added, it must remain a neutral substrate service, not a global ornament library.
 
 ```ts
 interface SurfaceTexturePolicy {
@@ -97,10 +97,10 @@ interface SurfaceTexturePolicy {
 }
 ```
 
-### Future Provider Rules
+### Transparent Textures Provider Rules
 
-- Add actual files before enabling a provider in any concrete style.
-- Document source, license/provenance, native format, dimensions, checksum, safe placement, and allowed surfaces.
+- Add actual files before enabling `provider: transparent_textures` in any concrete style.
+- Source texture files from `https://www.transparenttextures.com/` and record the original pattern name, creator attribution when available, download/source URL, license or terms note, native format, dimensions when known, checksum, safe placement, and allowed surfaces.
 - Keep textures below content; never use them as motifs, official marks, or semantic data encodings.
 - Turning texture off must still leave a complete design. Texture enriches the surface; it must not carry meaning.
 - If texture weakens contrast or data readability, disable it and preserve style through color, typography, layout, and approved style-owned assets.

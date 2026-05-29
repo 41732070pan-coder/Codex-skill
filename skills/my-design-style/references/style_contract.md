@@ -1,6 +1,6 @@
 # Style Contract
 
-This file is the formal interface layer for `my-design-style`. `SKILL.md` owns the template workflow; concrete style files implement this contract through stable sections.
+This file is the formal interface layer for `my-design-style`. `SKILL.md` owns the template workflow; concrete style files implement the abstract `DesignStyleBase` contract through stable sections. Provider interfaces below are helper facets of that base class, not separate style types.
 
 ## Core Data Shapes
 
@@ -40,9 +40,40 @@ interface CheckResult {
 }
 ```
 
-## Required Interfaces
+## Abstract Style Class
 
-A concrete style is valid only if its reference file supplies evidence for every interface below.
+The style family is modeled as one abstract base class plus concrete implementation classes. The base workflow consumes only `DesignStyleBase`; every named style must be substitutable through the same methods.
+
+```ts
+abstract class DesignStyleBase {
+  abstract resolve(request: DesignRequest): StyleResolution;
+  abstract getIntent(): { intent: string; antiGoals: string[] };
+  abstract getPalette(): {
+    colorTokens: Record<string, { hex: string; role: string }>;
+    seriesCards: SeriesColorCard[];
+    sameFamilyProgressions: SameFamilyProgression[];
+  };
+  abstract getTypography(): TypographySystem;
+  abstract getLayoutSystem(): LayoutRules;
+  abstract getMediumTranslation(medium: TargetMedium): MediumRules;
+  abstract getAssetPolicy(): AssetPolicy;
+  abstract getSurfaceTexturePolicy(): SurfaceTexturePolicy;
+  abstract selfCheck(outputDescription: string): CheckResult;
+}
+
+// Conceptual implementation classes; documentation uses `implements` to emphasize
+// conformance to the base contract even when a target language would spell this
+// relationship as inheritance.
+class SeuDesignStyle implements DesignStyleBase {}
+class RenminbiColorStyle implements DesignStyleBase {}
+class ChineseTraditionalColorStyle implements DesignStyleBase {}
+```
+
+`resolve()` owns trigger matching and returns `StyleResolution`. The `get*()` methods expose design intent, palette, typography, layout, medium translation, asset policy, and surface texture policy without forcing the base workflow to branch on a style name. `selfCheck()` is the final style-specific quality gate.
+
+## Required Provider Interfaces
+
+A concrete style is valid only if its reference file supplies evidence for every `DesignStyleBase` method and for every provider interface below. These provider interfaces are the documented facets used by the abstract methods.
 
 ```ts
 interface TriggerMatcher {
@@ -54,18 +85,19 @@ interface TriggerMatcher {
 }
 
 interface DesignIntentProvider {
-  getDesignIntent(): string;
-  getAntiGoals(): string[];
+  getIntent(): { intent: string; antiGoals: string[] };
 }
 
 interface PaletteProvider {
-  getColorTokens(): Record<string, { hex: string; role: string }>;
-  getSeriesCards(): SeriesColorCard[];
-  getSameFamilyProgressions(): SameFamilyProgression[];
+  getPalette(): {
+    colorTokens: Record<string, { hex: string; role: string }>;
+    seriesCards: SeriesColorCard[];
+    sameFamilyProgressions: SameFamilyProgression[];
+  };
 }
 
 interface TypographyProvider {
-  getTypographySystem(): {
+  getTypography(): {
     primaryFonts: string[];
     accentFonts?: string[];
     hierarchyRules: string[];
@@ -74,7 +106,7 @@ interface TypographyProvider {
 }
 
 interface LayoutSystem {
-  getLayoutRules(): {
+  getLayoutSystem(): {
     grid: string[];
     spacing: string[];
     density: string;
@@ -84,13 +116,11 @@ interface LayoutSystem {
 }
 
 interface ComponentTranslator {
-  translatePPT(): MediumRules;
-  translateWeb(): MediumRules;
-  translateAppDashboard(): MediumRules;
-  translateStaticVisual(): MediumRules;
+  getMediumTranslation(medium: TargetMedium): MediumRules;
 }
 
 interface AssetPolicy {
+  // Returned by DesignStyleBase.getAssetPolicy().
   assetRoot: `assets/${string}/` | "none";
   importMode: "style-owned" | "none" | "user-provided-only";
   manifestFile?: string;
@@ -101,6 +131,7 @@ interface AssetPolicy {
 }
 
 interface SurfaceTexturePolicy {
+  // Returned by DesignStyleBase.getSurfaceTexturePolicy().
   provider: "none" | string;
   assetRoot: "none" | `assets/${string}/`;
   manifestFile?: string;
@@ -155,10 +186,20 @@ type AssetRole =
 
 type TextureAssetFormat = "png" | "svg-wrapper" | string;
 
+interface SurfaceProvider {
+  providerName: "transparent_textures" | string;
+  sourceHomepage: string;
+  manifest: SurfaceProviderManifestItem[];
+  resolve(token: string, medium: TargetMedium): SurfaceProviderManifestItem | null;
+}
+
 interface SurfaceProviderManifestItem {
   token: string;
   file: string;
   sourceUrl?: string;
+  sourceHomepage?: string;
+  attribution?: string;
+  licenseOrTerms?: string;
   sourceFormat: string;
   width?: number;
   height?: number;
@@ -169,6 +210,12 @@ interface SurfaceProviderManifestItem {
   safePlacement: "tile" | "panel" | "edge-band" | string;
 }
 ```
+
+## Surface Texture Provider Source
+
+When a style enables a shared texture provider, the canonical provider is `transparent_textures`. Its source homepage is `https://www.transparenttextures.com/`, and provider records must preserve the original pattern name, creator attribution when available, download/source URL, native file format, dimensions when known, checksum, and any license or terms notes captured at acquisition time.
+
+Do not enable `provider: transparent_textures` in a concrete style until the selected texture files, provider manifest, index, provenance notes, and validator checks exist in the skill. The provider is a neutral tiled surface substrate only; it is not a style identity library.
 
 ## Self-Check Output Contract
 
@@ -186,7 +233,7 @@ Use style-specific checks inside that shape. For example, SEU checks logo aspect
 
 ## Substitutability Rules
 
-- The template workflow should not special-case one style after resolution.
+- The template workflow should not special-case one style after resolution; it should treat `SeuDesignStyle`, `RenminbiColorStyle`, and `ChineseTraditionalColorStyle` as `DesignStyleBase` instances.
 - If one style needs a new behavior, first add a method or optional interface here, then let every style either implement it or explicitly declare `none`.
 - Concrete styles may have assets, no assets, or user-provided-only assets, but all must expose an `AssetPolicy`.
 - Concrete styles must also expose a `SurfaceTexturePolicy`, even if it declares `provider: none`. Surface providers are optional substrate services, not identity assets.
