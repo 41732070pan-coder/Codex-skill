@@ -19,6 +19,8 @@ Implementation class: `RenminbiColorStyle implements DesignStyleBase`. The table
 | `DesignStyleBase.getAssetPolicy()` | `Asset Interface`, `Asset Rules` |
 | `DesignStyleBase.getSurfaceTexturePolicy()` | `Surface Texture Policy` |
 | `DesignStyleBase.getModifierCompatibility()` | `Modifier Compatibility` |
+| `DesignStyleBase.getPreviewOptions(request, composedPlan)` | `Preview Option Sets` |
+| `DesignStyleBase.applyStyleLock(styleLock, composedPlan)` | `Preview Option Sets` |
 | `DesignStyleBase.selfCheck(output)` | `Self-Check` |
 | `TriggerMatcher` | `Triggers` |
 | `DesignIntentProvider` | `Intent`, `Anti-Goals` |
@@ -29,6 +31,8 @@ Implementation class: `RenminbiColorStyle implements DesignStyleBase`. The table
 | `AssetPolicy` | `Asset Interface`, `Asset Rules` |
 | `SurfaceTexturePolicy` | `Surface Texture Policy` |
 | `ModifierCompatibilityProvider` | `Modifier Compatibility` |
+| `PreviewNegotiationProvider` | `Preview Option Sets` |
+| `StyleLockApplier` | `Preview Option Sets` |
 | `QualityGate` | `Self-Check` |
 
 ## Triggers
@@ -369,6 +373,23 @@ Modifier self-check additions:
 - Added motifs are abstract and do not copy protected RMB details.
 - Added colors support the chosen denomination or documented palette recipe.
 - Any rejected or downgraded currency-like request is disclosed.
+
+## Preview Option Sets
+
+`getPreviewOptions(request, composedPlan)` must generate a combined preview surface before final artifact generation unless explicitly skipped. The preview should show the selected denomination palette, paper/ink contrast, abstract fine-line components, a metric card, a table or chart fragment, and any texture choice. It must demonstrate RMB-inspired abstraction without copying legal tender. `applyStyleLock(styleLock, composedPlan)` must preserve the approved denomination family, texture, linework strength, and non-counterfeit boundaries in the final artifact.
+
+| Option Set | Target | Default | Options | Rules |
+| --- | --- | --- | --- | --- |
+| `rmb-palette-series` | palette | context-dependent, often `100-yuan-red` for value/report emphasis | `100-yuan-red`; `50-yuan-green`; `20-yuan-ochre`; `10-yuan-blue`; `5-yuan-purple`; `1-yuan-olive`; `neutral-fallback` | Use a complete series card; preserve auxiliary colors and paper/ink neutrals; do not reduce the style to red-and-gold decoration. |
+| `rmb-paper-texture` | texture | `paper-fibers` | `paper-fibers`; `textured-paper`; `clean-gray-paper`; `texture-off` | Tokens must come from `allowedTokens`; keep opacity in `[0.02, 0.05]`; never imitate security paper, serial zones, seals, portraits, security threads, watermark details, or anti-counterfeit marks. |
+| `rmb-linework-strength` | motif | `subtle-lines` | `subtle-lines`; `balanced-guilloche-inspired`; `linework-off` | Linework must be original generated-vector or code-native geometry and stay below content. |
+
+Preview option behavior:
+
+- `100-yuan-red` uses primary `#BD0E2B`, auxiliary `#F6ACB9`, `#D4606D`, `#E94136`, `#C93649`, and neutral paper/ink colors `#FFFFFF`, `#F6F0E4`, `#241A17`, `#6D716C`.
+- Other denomination options map one-to-one to the existing series cards and should be offered as replacements when the user wants a calmer, more compliant, more analytical, or more premium mood.
+- `texture-off` keeps RMB style through denomination color progression, fine rules, financial grids, and original geometry.
+- Style locks must record the selected denomination series, texture token or `texture-off`, linework strength, and any rejected counterfeit-like request.
 
 ## Self-Check
 

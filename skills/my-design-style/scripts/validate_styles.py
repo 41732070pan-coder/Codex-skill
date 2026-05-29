@@ -32,6 +32,8 @@ REQUIRED_INTERFACES = [
     "AssetPolicy",
     "SurfaceTexturePolicy",
     "ModifierCompatibilityProvider",
+    "PreviewNegotiationProvider",
+    "StyleLockApplier",
     "QualityGate",
 ]
 
@@ -51,6 +53,7 @@ REQUIRED_SECTIONS = [
     "Surface Texture Policy",
     "Asset Rules",
     "Modifier Compatibility",
+    "Preview Option Sets",
     "Self-Check",
 ]
 
