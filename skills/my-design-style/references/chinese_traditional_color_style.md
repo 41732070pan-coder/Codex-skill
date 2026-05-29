@@ -307,27 +307,19 @@ When an artifact needs Chinese traditional visual material:
 
 ## Surface Texture Policy
 
-This style may opt into the shared `transparent_textures` substrate provider when a design needs paper, book, map, or quiet geometric surface depth. Texture must support named traditional colors, not replace them.
+No shared surface texture provider is currently bundled for this skill, so traditional-color texture support is disabled by default.
 
-- `provider`: `transparent_textures`.
-- `assetRoot`: `assets/transparent_textures/`.
-- `manifestFile`: `assets/transparent_textures/TEXTURE_MANIFEST.md`.
-- `defaultToken`: `paper-fibers`.
-- `allowedTokens`: `paper-cream`, `paper-fibers`, `old-map`, `escher-geometry`, `diagonal-noise`.
-- `opacityRange`: 3-8% for full or section backgrounds, 2-5% for edge bands and cultural accents.
-- `allowedSurfaces`: full background, cover background, section background, editorial margin, edge band, object metadata panel.
-- `forbiddenSurfaces`: dense body text, color-swatch labels, small museum metadata, chart labels, generated calligraphy or seal-like marks.
-- `fallbackPolicy`: if the texture makes the design fake-antique or hurts legibility, remove it and keep the style through named color cards, ink/paper contrast, typography, margins, and fine rules.
+- `provider`: `none`.
+- `assetRoot`: `none`.
+- `manifestFile`: `none`.
+- `defaultToken`: none.
+- `allowedTokens`: none.
+- `opacityRange`: 0-0% until a real provider is added.
+- `allowedSurfaces`: none.
+- `forbiddenSurfaces`: dense body text, color-swatch labels, small museum metadata, chart labels, generated calligraphy, and seal-like marks.
+- `fallbackPolicy`: keep the style through named color cards, ink/paper contrast, typography, margins, fine rules, and code-native geometry.
 
-Token guidance:
-
-| Token | Use |
-| --- | --- |
-| `paper-fibers` | Default editorial paper surface and cultural report background. |
-| `paper-cream` | Warm clean pages, color-library slides, and calm section pages. |
-| `old-map` | History, geography, timeline, museum, or archive-themed pages. |
-| `escher-geometry` | Very low-opacity edge band or section accent, not body background. |
-| `diagonal-noise` | Modern cultural-tech or data pages needing restrained texture. |
+Future texture support may be added only after a provider directory, manifest, index, provenance, and validator support exist. It must not make the artifact fake-antique or reduce legibility.
 
 ## Asset Rules
 
@@ -347,9 +339,13 @@ Avoid:
 
 ## Self-Check
 
-Before finishing, verify:
+Return or simulate this `CheckResult` before finishing:
 
-- Texture, if enabled, stays below content, remains within the style's opacity range, and does not reduce readability.
+- `ok`: true only when no required fixes remain.
+- `issues`: list any concrete color-card, cultural-context, readability, layout, asset, or medium-specific problems.
+- `requiredFixes`: list required revisions before delivery.
+
+Minimum checks:
 
 - A complete series color card was selected before designing.
 - All used colors come from the named cards or the neutral fallback.
@@ -360,3 +356,4 @@ Before finishing, verify:
 - Tables, charts, and UI controls remain recognizable and usable.
 - Chinese color names and HEX labels fit without overlap.
 - The artifact feels Chinese and refined without becoming fake-antique or festive by default.
+- No unavailable shared texture provider is referenced in the output.
