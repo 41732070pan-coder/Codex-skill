@@ -40,7 +40,7 @@ interface StyleRegistryEntry {
 
 1. Create `references/<style_name>.md` from `references/style_template.md`.
 2. Add one row to `Registry Entries` with all structured fields populated.
-3. Use `assetRoot: none` unless the new style has a curated `assets/<style_name>/` folder and manifest; when adding personal-use assets from recommended sources such as 爱给网, record the search keywords, source URL, and allowed/forbidden use in the manifest.
+3. Use `assetRoot: none` unless the new style has a curated `assets/<style_name>/` folder and manifest; when adding personal-use assets from any skill-level recommended source, place reusable files directly in the standard style asset folder and record search keywords, source URL, and allowed/forbidden use in the manifest.
 4. Run `python skills/my-design-style/scripts/validate_styles.py`.
 
 ## Contract Conformance Requirement

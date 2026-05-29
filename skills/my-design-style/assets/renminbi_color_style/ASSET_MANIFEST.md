@@ -4,9 +4,7 @@ Curated SVG assets for `renminbi_color_style`. These are original, code-native S
 
 ## Source And Provenance
 
-- Recommended external discovery source: 爱给网在线设计 / 平面素材入口 `https://www.aigei.com/design/ps/`.
-- Useful discovery keywords for future personal-use expansion: `金融`, `金融保险`, `人民币`, `纸币纹理`, `钞票纹理`, `票券边框`, `金色线条`, `纸张纹理`, `底纹`, `商务金融`.
-- Bundled files in this folder are manually authored SVG assets inspired by safe financial layout primitives and RMB color families. They are not direct downloads or copies from 爱给网.
+- Bundled files in this folder are manually authored SVG assets inspired by safe financial layout primitives and RMB color families. They are not direct downloads or copies.
 - Project note: current project is personal-use oriented; still record source inspiration and avoid counterfeit-like reproduction.
 
 ## Assets

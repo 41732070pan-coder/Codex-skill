@@ -4,9 +4,7 @@ Curated SVG assets for `chinese_traditional_color_style`. These assets support r
 
 ## Source And Provenance
 
-- Recommended external discovery source: 爱给网在线设计 / 平面素材入口 `https://www.aigei.com/design/ps/`.
-- Useful discovery keywords for future personal-use expansion: `中国风`, `国风`, `中式边框`, `古典边框`, `传统纹样`, `祥云`, `回纹`, `山水`, `水墨`, `宣纸纹理`, `中式底纹`, `花纹边框`, `条纹`.
-- Bundled files in this folder are manually authored SVG assets inspired by common Chinese border, lattice, ink-wash placeholder, and pattern-band roles. They are not direct downloads or copies from 爱给网.
+- Base SVG files in this folder are manually authored assets inspired by common Chinese border, lattice, ink-wash placeholder, and pattern-band roles.
 - Project note: current project is personal-use oriented; keep provenance notes so future public/commercial reuse can re-check licensing.
 
 ## Assets
@@ -17,6 +15,7 @@ Curated SVG assets for `chinese_traditional_color_style`. These assets support r
 | `02_cloud_lattice_stripe.svg` | horizontal stripe / repeatable ornament | 1200×180 | vermilion and gold | crop horizontally or tile with care | Use as top/bottom rule, section break, or low-height band. | `d3d3bd9232099222cde5b3cfa4678a43a523cca32da203fd2599d6b1da16dac1` |
 | `03_landscape_placeholder.svg` | placeholder image panel | 900×560 | warm paper, deep green, vermilion, gold | contain as temporary image slot | Use when final cultural photo/illustration is not yet supplied; replace with final imagery when available. | `5be03a902dcc25a217dce5d7a4fb9ea9aac2572929d3a36d699e3b5de6ef33c0` |
 | `04_vertical_pattern_band.svg` | vertical side band / chapter marker | 240×900 | vermilion and gold | contain, crop only at ends | Use in sidebars, chapter pages, long posters, or web section edges. | `5280d41b374a6728caf66f9fc4e6d992daa95222ab98fd5d5154d60dde42ceb5` |
+
 
 ## Usage Rules
 

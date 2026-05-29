@@ -310,10 +310,6 @@ When an artifact needs Chinese traditional visual material:
 - Do not assume every Chinese theme needs dragons, clouds, seals, folding fans, mountains, or calligraphy.
 - Prefer color, whitespace, text hierarchy, and composition over decorative symbolism.
 
-### Recommended Asset Source For Future Expansion
-
-Use 爱给网在线设计 / 平面素材入口 (`https://www.aigei.com/design/ps/`) as a personal-use discovery source when this style needs additional PNG/SVG assets or textures. Search terms: `中国风`, `国风`, `中式边框`, `古典边框`, `传统纹样`, `祥云`, `回纹`, `山水`, `水墨`, `宣纸纹理`, `中式底纹`, `花纹边框`, `条纹`. Any imported or traced asset must be placed under `assets/chinese_traditional_color_style/`, listed in the manifest, and checked for decorative relevance, readability, and overuse.
-
 ## Surface Texture Policy
 
 Traditional-color texture support is enabled through the bundled `transparent_textures` provider for restrained paper tactility behind named-color systems and contemporary cultural composition.

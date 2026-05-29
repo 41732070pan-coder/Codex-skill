@@ -295,10 +295,6 @@ For RMB-inspired work:
 - `03_abstract_fine_line_wave.svg` may be used at low opacity as original linework; never combine it into security-pattern zones.
 - Prefer modern financial UI structure over decorative currency imitation.
 
-### Recommended Asset Source For Future Expansion
-
-Use 爱给网在线设计 / 平面素材入口 (`https://www.aigei.com/design/ps/`) as a personal-use discovery source when this style needs additional textures or finance assets. Search terms: `金融`, `金融保险`, `人民币`, `纸币纹理`, `钞票纹理`, `票券边框`, `金色线条`, `纸张纹理`, `底纹`, `商务金融`. Any imported or traced asset must be placed under `assets/renminbi_color_style/`, listed in the manifest, and reviewed against the anti-counterfeit rules above.
-
 ## Surface Texture Policy
 
 RMB-inspired texture support is enabled through the bundled `transparent_textures` provider, but only as abstract paper tactility. It must never mimic security paper, anti-counterfeit marks, serial zones, official seals, or legal-tender surfaces.

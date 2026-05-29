@@ -96,16 +96,24 @@ Load references progressively; do not read every reference by default.
 | `assets/transparent_textures/` | shared surface provider | Curated Transparent Textures SVG wrappers, manifest, JSON index, provenance, and checksums for concrete style opt-in. |
 | `scripts/validate_styles.py` | style validator | Static conformance check for registry entries, concrete style sections, declared assets, and unavailable provider references. |
 
-## Recommended Material Sources
+## Recommended Material Sources And Network Acquisition
 
-Use source recommendations as discovery guidance for future style examples; bundled assets still need manifests and style-owned placement rules.
+Material discovery is a skill-level capability, not a concrete-style implementation detail. When a runnable design task needs assets that are not already bundled and internet access is available, the agent may browse recommended sources, download task-relevant materials, and record provenance before use. Keep this source list extensible; future sources should be added here rather than hard-coded into individual style files.
 
 | Source | Best for | Integration rule |
 | --- | --- | --- |
-| Transparent Textures (`https://www.transparenttextures.com/`) | neutral tileable paper/fiber textures for shared surface tactility | Only use through the curated `transparent_textures` provider under `assets/transparent_textures/` and explicit `SurfaceTexturePolicy.allowedTokens`. |
-| 爱给网在线设计 / 平面素材 (`https://www.aigei.com/design/ps/`) | personal-use PNG/SVG/PSD discovery for Chinese design materials, finance ornaments, borders, stripes, backgrounds, and new texture candidates | Use as a recommended external source, not a global asset bucket. Import only into the active style's `assets/<style_name>/` folder, record keywords/source/provenance in `ASSET_MANIFEST.md`, and keep style anti-goals intact. For Chinese traditional expansion, start with keywords such as `中国风`, `中式边框`, `传统纹样`, `条纹`, `山水`, `水墨`, `宣纸纹理`; for RMB finance expansion, start with `金融`, `人民币`, `纸币纹理`, `票券边框`, `金色线条`, `纸张纹理`. |
+| Pixabay (`https://pixabay.com/`) | photos, illustrations, vectors, videos, music, sound effects, 3D models, GIFs, and broad visual reference material | Use as the primary international stock-media source. Check the Pixabay Content License for each asset and record the item URL, creator when visible, license/usage note, download date, file type, dimensions when known, SHA-256, role, and safe placement. Do not use content as standalone resale material, trademarks/logos/brands for commercial goods, misleading endorsement, or trademark/service-mark material. |
+| Iconfont / 阿里巴巴矢量图标库 (`https://www.iconfont.cn/`) | Chinese icon sets, SVG symbols, UI icons, pictograms, and iconfont workflows | Use as the primary China-local icon/vector source. Check the icon or collection page for author/copyright/commercial-use notes before use. Record item or project URL, author/source when visible, license or permission note, download date, file type, SHA-256, role, and safe placement. For commercial use or unclear rights, obtain permission or ask the user to provide a licensed file. |
 
-The canonical shared texture provider source remains Transparent Textures. 爱给网 is an additional personal-use material discovery source for style-owned assets and future texture candidates; it does not bypass manifest, asset-boundary, or readability requirements. Concrete styles may opt in to bundled textures only through explicit `SurfaceTexturePolicy` tokens that exist in `texture_index.json`, preserve provenance, and pass `scripts/validate_styles.py`.
+Acquisition rules:
+
+- Download only materials that are needed for the current task or an explicit skill-asset extension; do not download decorative filler.
+- Do not create source-specific subdirectories such as `assets/<style_name>/<source_name>/`; `assets/<style_name>/` is the standard style asset boundary.
+- Before using a downloaded asset, record source URL, source name, download date, file type, dimensions when known, size, SHA-256, intended role, safe placement, and license/usage notes in the relevant manifest or project documentation.
+- Prefer no-login, no-paywall sources. Do not bypass login, VIP, paywall, watermark, rate-limit, robots/access-control, API-key-only, or licensing flows; if rights are unclear, use the material only as a reference or ask the user to provide a licensed file.
+- Public, commercial, brand-sensitive, identity-sensitive, financial, legal/security-document-adjacent, people/trademark/logo/brand-containing, or photo-based work requires explicit rights and safety review before downloaded third-party files become final production assets.
+
+Concrete styles may opt in to bundled textures only through explicit `SurfaceTexturePolicy` tokens that exist in `texture_index.json`, preserve provenance, and pass `scripts/validate_styles.py`. For new external acquisition, use only Pixabay and Iconfont unless the skill-level source table is intentionally updated later. External sources never override style anti-goals, asset boundaries, readability, or provenance requirements.
 
 ## Extension
 
