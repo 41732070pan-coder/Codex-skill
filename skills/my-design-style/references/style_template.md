@@ -104,9 +104,9 @@ Define poster/image/card/social/diagram behavior, aspect ratios, safe text zones
 
 ## Surface Texture Policy
 
-Declare whether this style may use a bundled surface provider. Default to disabled unless all provider files exist.
+Declare whether this style may use a bundled surface provider. The canonical provider source is Transparent Textures (`https://www.transparenttextures.com/`), but default to disabled unless all selected provider files, manifest rows, index entries, and provenance notes exist.
 
-- `provider`: `none` by default; use another value only after adding the provider files and manifest.
+- `provider`: `none` by default; use `transparent_textures` only after adding the sourced files, provider manifest, index, and provenance.
 - `assetRoot`: `none` by default; otherwise a real `assets/<provider_name>/` path.
 - `manifestFile`: optional, and only when the file exists.
 - `defaultToken`: one approved texture token, or omit when disabled.

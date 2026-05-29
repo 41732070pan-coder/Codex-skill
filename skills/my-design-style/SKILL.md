@@ -46,7 +46,7 @@ Use this skill to translate a target artifact into one named visual style from t
 4. Apply the invariant style pipeline:
    - normalize request;
    - resolve style;
-   - read design intent, palette, typography, layout, asset policy, surface policy, and medium translation from the concrete style;
+   - consume the concrete style as a `DesignStyleBase` implementation (`resolve`, `getIntent`, `getPalette`, `getTypography`, `getLayoutSystem`, `getMediumTranslation`, `getAssetPolicy`, `getSurfaceTexturePolicy`, `selfCheck`);
    - compose the artifact without style-specific branches in the base workflow;
    - run the concrete style self-check and revise until it passes.
 5. Enforce asset and surface boundaries:
@@ -75,14 +75,14 @@ Load references progressively; do not read every reference by default.
 | Resource | Role | Notes |
 | --- | --- | --- |
 | `references/style_registry.md` | concrete-style registry | Source of truth for style discovery and resolution metadata. |
-| `references/style_contract.md` | formal contract | Interface, data-shape, asset-policy, surface-policy, and self-check definitions. |
+| `references/style_contract.md` | formal contract | `DesignStyleBase` abstract class, implementation-class mapping, data-shape, asset-policy, surface-policy, and self-check definitions. |
 | `references/style_template.md` | extension template | Skeleton for future concrete style implementations. |
 | `references/design_mechanics.md` | shared mechanics | Reusable palette progression, style-owned asset interface, and inactive surface-provider extension rules. |
 | `references/*_style.md` | concrete styles | Style-specific triggers, color, typography, layout, medium translation, assets, and self-checks. |
 | `assets/seu_design_style/` | SEU style-owned assets | Official SEU SVG identity/motif assets; use only through `seu_design_style` asset policy and manifest. |
 | `scripts/validate_styles.py` | style validator | Static conformance check for registry entries, concrete style sections, declared assets, and unavailable provider references. |
 
-No shared texture asset provider is currently bundled. If a future provider is added, it must include a manifest, index, provenance, and explicit opt-in from each concrete style before use.
+The canonical shared texture provider source is Transparent Textures (`https://www.transparenttextures.com/`). No shared texture asset provider is currently bundled; before any concrete style can enable `transparent_textures`, selected files must be added with a manifest, index, provenance, and explicit style opt-in.
 
 ## Extension
 
@@ -90,7 +90,7 @@ To add or update a concrete style:
 
 1. Create or edit `references/<style_name>.md` from `references/style_template.md`.
 2. Register the style in `references/style_registry.md` with aliases, domain cues, medium cues, priority, and asset root.
-3. Implement every interface in `references/style_contract.md` and include an `Implementation Map` near the top of the style file.
+3. Implement `DesignStyleBase` from `references/style_contract.md` and include an `Implementation Map` near the top of the style file.
 4. Keep style-specific decisions inside the concrete style file; keep shared mechanics in `references/design_mechanics.md`.
 5. Add style-owned assets only under `assets/<style_name>/`, include an `ASSET_MANIFEST.md`, and document provenance and allowed/forbidden use.
 6. Run the quality gates before delivery.

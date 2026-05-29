@@ -1,4 +1,4 @@
-﻿# renminbi_color_style
+# renminbi_color_style
 
 Use `renminbi_color_style` for designs inspired by the color language of Chinese RMB banknotes. It should feel valuable, layered, civic, tactile, and quietly premium, with banknote color families translated into modern PPT, web, app, dashboard, and editorial interfaces.
 
@@ -6,8 +6,19 @@ This is a color-and-layout style, not a currency reproduction kit. Use interpret
 
 ## Implementation Map
 
-| Interface | Implemented by |
+Implementation class: `RenminbiColorStyle implements DesignStyleBase`. The table below maps the abstract base methods and their provider facets to concrete document sections.
+
+| Interface / Method | Implemented by |
 | --- | --- |
+| `DesignStyleBase.resolve(request)` | `Triggers` |
+| `DesignStyleBase.getIntent()` | `Intent`, `Anti-Goals` |
+| `DesignStyleBase.getPalette()` | `Color Tokens`, `Series Color Cards`, `Same-Family Progression Cards` |
+| `DesignStyleBase.getTypography()` | `Typography` |
+| `DesignStyleBase.getLayoutSystem()` | `Layout Principles` |
+| `DesignStyleBase.getMediumTranslation(medium)` | `PPT Slide Archetypes`, `Web Translation`, `App / Dashboard Translation`, `Static Visual Translation` |
+| `DesignStyleBase.getAssetPolicy()` | `Asset Interface`, `Asset Rules` |
+| `DesignStyleBase.getSurfaceTexturePolicy()` | `Surface Texture Policy` |
+| `DesignStyleBase.selfCheck(output)` | `Self-Check` |
 | `TriggerMatcher` | `Triggers` |
 | `DesignIntentProvider` | `Intent`, `Anti-Goals` |
 | `PaletteProvider` | `Color Tokens`, `Series Color Cards`, `Same-Family Progression Cards`, `Palette Recipes` |
