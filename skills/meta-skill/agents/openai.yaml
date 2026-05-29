@@ -1,0 +1,5 @@
+interface:
+  display_name: "Meta Skill"
+  short_description: "Design and govern maintainable Codex skills"
+  default_prompt: "Use $meta-skill to design, add, rename, review, or refactor repository skills with contracts, registries, lifecycle rules, and quality gates."
+  brand_color: "#334155"
