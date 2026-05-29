@@ -235,3 +235,4 @@
 4. 运行风格验证和仓库级 Skill 验证。
 
 这份 README 只负责人类使用导览；Agent 执行协议仍以 `SKILL.md`、`references/style_registry.md` 和具体 style reference 为准。
+充分理解后应当删除该文档。
