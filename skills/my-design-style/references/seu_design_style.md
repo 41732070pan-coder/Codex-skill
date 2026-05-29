@@ -183,27 +183,19 @@ Bundled assets are in `assets/seu_design_style/`. Use SVG files directly for web
 
 ## Surface Texture Policy
 
-This style may opt into the shared `transparent_textures` substrate provider when a surface needs subtle tactile depth. Textures must remain lighter than the SEU identity assets and must not compete with auditorium or pine motifs.
+No shared surface texture provider is currently bundled for this skill, so SEU texture support is disabled by default.
 
-- `provider`: `transparent_textures`.
-- `assetRoot`: `assets/transparent_textures/`.
-- `manifestFile`: `assets/transparent_textures/TEXTURE_MANIFEST.md`.
-- `defaultToken`: `dot-micro`.
-- `allowedTokens`: `dot-micro`, `diagonal-noise`, `graph-grid`, `honeycomb-light`, `paper-cream`.
-- `opacityRange`: 3-7% for full backgrounds, 4-8% for isolated panels.
-- `allowedSurfaces`: cover background, section background, data panel, chart backing, sidebar.
+- `provider`: `none`.
+- `assetRoot`: `none`.
+- `manifestFile`: `none`.
+- `defaultToken`: none.
+- `allowedTokens`: none.
+- `opacityRange`: 0-0% until a real provider is added.
+- `allowedSurfaces`: none.
 - `forbiddenSurfaces`: dense paragraph text, small table cells, official logo area, motto artwork area, auditorium/pine motif overlap.
-- `fallbackPolicy`: if a texture weakens academic clarity, remove it and keep the SEU feel through green/yellow rules, silver panels, grid structure, and approved SEU SVG assets.
+- `fallbackPolicy`: keep the SEU feel through green/yellow rules, silver panels, grid structure, and approved SEU SVG assets.
 
-Token guidance:
-
-| Token | Use |
-| --- | --- |
-| `dot-micro` | Default subtle academic ground for light slides and UI panels. |
-| `diagonal-noise` | Technical or engineering section surfaces. |
-| `graph-grid` | Data-heavy explanation, chart backing, or dashboard surface. |
-| `honeycomb-light` | Technology/research section cover only; keep opacity very low. |
-| `paper-cream` | Formal report or defense cover when a warmer paper feel is desired. |
+Future texture support may be added only after a provider directory, manifest, index, provenance, and validator support exist.
 
 ## Asset Rules
 
@@ -236,9 +228,13 @@ Use monochrome variants when color would compete with content. Keep aspect ratio
 
 ## Self-Check
 
-Before finishing, verify:
+Return or simulate this `CheckResult` before finishing:
 
-- Texture, if enabled, stays below content, remains within the style's opacity range, and does not reduce readability.
+- `ok`: true only when no required fixes remain.
+- `issues`: list any concrete SEU style, layout, asset, readability, or responsive problems.
+- `requiredFixes`: list required revisions before delivery.
+
+Minimum checks:
 
 - The artifact is reusable and content-first.
 - The background is mostly light.
@@ -249,3 +245,4 @@ Before finishing, verify:
 - Brand elements appear with purpose and do not crowd the message.
 - Tables, charts, and key/value rows align cleanly.
 - For web/app work, inspect responsive views and make sure no UI text overlaps.
+- No unavailable shared texture provider is referenced in the output.

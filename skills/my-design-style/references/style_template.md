@@ -104,17 +104,17 @@ Define poster/image/card/social/diagram behavior, aspect ratios, safe text zones
 
 ## Surface Texture Policy
 
-Declare whether this style may use shared bottom-surface texture.
+Declare whether this style may use a bundled surface provider. Default to disabled unless all provider files exist.
 
-- `provider`: `transparent_textures` or `none`.
-- `assetRoot`: `assets/transparent_textures/` or `none`.
-- `manifestFile`: `assets/transparent_textures/TEXTURE_MANIFEST.md` when enabled.
+- `provider`: `none` by default; use another value only after adding the provider files and manifest.
+- `assetRoot`: `none` by default; otherwise a real `assets/<provider_name>/` path.
+- `manifestFile`: optional, and only when the file exists.
 - `defaultToken`: one approved texture token, or omit when disabled.
-- `allowedTokens`: texture tokens allowed for this style.
-- `opacityRange`: low-opacity bounds for background and panel usage.
-- `allowedSurfaces`: where texture may appear.
+- `allowedTokens`: texture tokens allowed for this style; use an empty list when disabled.
+- `opacityRange`: low-opacity bounds for background and panel usage; use `[0, 0]` when disabled.
+- `allowedSurfaces`: where texture may appear; use an empty list when disabled.
 - `forbiddenSurfaces`: where texture must not appear.
-- `fallbackPolicy`: what to do when texture harms contrast or style fidelity.
+- `fallbackPolicy`: what to do when texture is unavailable or harms contrast.
 
 ## Asset Rules
 
@@ -125,7 +125,13 @@ Declare whether this style may use shared bottom-surface texture.
 
 ## Self-Check
 
-Before finishing, verify:
+Return or simulate this `CheckResult` shape before finishing:
+
+- `ok`: true only when no required fixes remain.
+- `issues`: concrete style, readability, layout, asset, or medium-specific problems.
+- `requiredFixes`: required revisions before delivery.
+
+Minimum checks:
 
 - Style fidelity.
 - Contrast and readability.

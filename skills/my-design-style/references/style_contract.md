@@ -101,14 +101,15 @@ interface AssetPolicy {
 }
 
 interface SurfaceTexturePolicy {
-  provider: "transparent_textures" | "none";
-  assetRoot: "assets/transparent_textures/" | "none";
-  manifestFile?: "assets/transparent_textures/TEXTURE_MANIFEST.md";
-  defaultToken?: TextureToken;
-  allowedTokens: TextureToken[];
+  provider: "none" | string;
+  assetRoot: "none" | `assets/${string}/`;
+  manifestFile?: string;
+  indexFile?: string;
+  defaultToken?: string;
+  allowedTokens: string[];
   opacityRange: [number, number];
-  allowedSurfaces: SurfaceRole[];
-  forbiddenSurfaces: SurfaceRole[];
+  allowedSurfaces: string[];
+  forbiddenSurfaces: string[];
   fallbackPolicy: string;
 }
 
@@ -152,62 +153,43 @@ type AssetRole =
   | "decorative-rule"
   | "background-texture";
 
-type TextureAssetFormat = "png" | "svg-wrapper";
+type TextureAssetFormat = "png" | "svg-wrapper" | string;
 
-interface TransparentTextureProvider {
-  providerName: "transparent_textures";
-  assetRoot: "assets/transparent_textures/";
-  manifestFile: "assets/transparent_textures/TEXTURE_MANIFEST.md";
-  indexFile: "assets/transparent_textures/texture_index.json";
-  nativeFormat: "png";
-  adapterFormats: ["svg-wrapper"];
-  resolve(token: TextureToken, medium: TargetMedium, preferredFormat?: TextureAssetFormat): TextureManifestItem;
-}
-
-interface TextureManifestItem {
-  token: TextureToken;
-  file: string;              // native PNG tile, source of truth
-  svgWrapper?: string;       // optional adapter, not true vectorization
+interface SurfaceProviderManifestItem {
+  token: string;
+  file: string;
   sourceUrl?: string;
-  sourceFormat: "png";
-  width: number;
-  height: number;
-  bytes?: number;
+  sourceFormat: string;
+  width?: number;
+  height?: number;
   sha256?: string;
   visualCharacter: string;
-  recommendedRoles: SurfaceRole[];
+  recommendedRoles: string[];
   defaultOpacity: [number, number];
-  safePlacement: "tile" | "panel" | "edge-band";
+  safePlacement: "tile" | "panel" | "edge-band" | string;
 }
-
-type TextureToken =
-  | "paper-cream"
-  | "paper-fibers"
-  | "dot-micro"
-  | "diagonal-noise"
-  | "honeycomb-light"
-  | "graph-grid"
-  | "escher-geometry"
-  | "old-map";
-
-type SurfaceRole =
-  | "full-background"
-  | "cover-background"
-  | "section-background"
-  | "data-panel"
-  | "chart-backing"
-  | "sidebar"
-  | "edge-band"
-  | "callout-card";
 ```
+
+## Self-Check Output Contract
+
+Concrete style `Self-Check` sections should produce or simulate this shape before delivery:
+
+```ts
+const result: CheckResult = {
+  ok: boolean,              // true only when no required fixes remain
+  issues: string[],         // concrete visual, contract, asset, or readability problems
+  requiredFixes: string[],  // changes required before final delivery
+};
+```
+
+Use style-specific checks inside that shape. For example, SEU checks logo aspect ratios and institutional restraint; RMB checks non-counterfeit behavior; Chinese traditional color checks named-color and cultural-context fit.
 
 ## Substitutability Rules
 
 - The template workflow should not special-case one style after resolution.
 - If one style needs a new behavior, first add a method or optional interface here, then let every style either implement it or explicitly declare `none`.
 - Concrete styles may have assets, no assets, or user-provided-only assets, but all must expose an `AssetPolicy`.
-- Concrete styles must also expose a `SurfaceTexturePolicy`, even if it declares `provider: none`. Shared textures are optional substrate services, not identity assets.
-
-- Transparent Textures use a raster-first contract: `sourceFormat: png`; `svg-wrapper` is only an adapter boundary and must not be treated as native vector artwork.
+- Concrete styles must also expose a `SurfaceTexturePolicy`, even if it declares `provider: none`. Surface providers are optional substrate services, not identity assets.
+- A style may enable a non-`none` surface provider only when every referenced provider file exists and has provenance documentation.
 - A style may be brand-led, color-led, or motif-led; the workflow should still consume it through the same methods.
 - Medium translation must cover PPT, web, app/dashboard, and static visual output, even if the style simply says to reuse layout/color rules for a medium.

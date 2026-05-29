@@ -292,26 +292,19 @@ For RMB-inspired work:
 
 ## Surface Texture Policy
 
-This style may opt into the shared `transparent_textures` substrate provider to create paper, fiber, or printed-surface depth. The texture should suggest material value without resembling real banknote security features.
+No shared surface texture provider is currently bundled for this skill, so RMB-inspired texture support is disabled by default.
 
-- `provider`: `transparent_textures`.
-- `assetRoot`: `assets/transparent_textures/`.
-- `manifestFile`: `assets/transparent_textures/TEXTURE_MANIFEST.md`.
-- `defaultToken`: `paper-cream`.
-- `allowedTokens`: `paper-cream`, `paper-fibers`, `diagonal-noise`, `graph-grid`.
-- `opacityRange`: 4-9% for paper surfaces, 3-6% for dashboards and chart panels.
-- `allowedSurfaces`: full background, cover background, metric panel, value proposition panel, chart backing.
-- `forbiddenSurfaces`: currency-like denomination panels, serial-number-like areas, fine financial tables, QR/payment codes, legal or compliance text.
-- `fallbackPolicy`: if the texture risks currency imitation or weakens numeric readability, remove it and rely on denomination color progressions, paper neutrals, fine rules, and tabular typography.
+- `provider`: `none`.
+- `assetRoot`: `none`.
+- `manifestFile`: `none`.
+- `defaultToken`: none.
+- `allowedTokens`: none.
+- `opacityRange`: 0-0% until a real provider is added.
+- `allowedSurfaces`: none.
+- `forbiddenSurfaces`: dense text, chart labels, serial-like marks, seal-like marks, legal-tender imitation zones, and any element that could resemble anti-counterfeit artwork.
+- `fallbackPolicy`: keep the style through denomination color progressions, paper/ink contrast, fine rules, financial grids, tables, and original code-native geometry.
 
-Token guidance:
-
-| Token | Use |
-| --- | --- |
-| `paper-cream` | Default banknote-adjacent paper surface for covers and value narratives. |
-| `paper-fibers` | Formal pages, annual-summary pages, or premium report surfaces. |
-| `diagonal-noise` | Subtle print-depth for commercial or fintech pages. |
-| `graph-grid` | Ledger, dashboard, auction, and data-analysis sections. |
+Future texture support may be added only after a provider directory, manifest, index, provenance, and validator support exist. It must not resemble real banknote security features.
 
 ## Asset Rules
 
@@ -332,9 +325,13 @@ Avoid:
 
 ## Self-Check
 
-Before finishing, verify:
+Return or simulate this `CheckResult` before finishing:
 
-- Texture, if enabled, stays below content, remains within the style's opacity range, and does not reduce readability.
+- `ok`: true only when no required fixes remain.
+- `issues`: list any concrete RMB style, readability, layout, data, legal-safety, or counterfeit-risk problems.
+- `requiredFixes`: list required revisions before delivery.
+
+Minimum checks:
 
 - The design is banknote-inspired but not a currency copy.
 - One color family leads; paper, ink, and neutrals carry the reading experience.
@@ -345,3 +342,4 @@ Before finishing, verify:
 - UI surfaces use restrained radii, stable spacing tokens, and robust grids.
 - Chinese and English text fit on mobile, desktop, or slide placeholders.
 - The design feels trustworthy, valuable, and modern rather than festive, casino-like, or counterfeit.
+- No unavailable shared texture provider or real banknote scan is referenced in the output.

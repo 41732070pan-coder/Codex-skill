@@ -76,49 +76,34 @@ A manifest should list: `file`, `role`, intrinsic width/height or ratio, color m
 `seu_design_style` exposes curated assets under `assets/seu_design_style/`. Its reference file names approved uses for logo marks, wordmarks, motto artwork, auditorium silhouettes/patterns, and pine motifs. Those files are the model for future style-owned asset interfaces.
 
 
-## Shared Surface Texture Provider
+## Surface Texture Extension Point
 
-Some artifacts need a subtle bottom-surface texture: paper grain, micro dots, quiet geometric noise, or graph-like backing. This is a framework-level utility, not a concrete style ornament library.
+No shared surface texture asset provider is currently bundled with `my-design-style`. Treat surface texture as an inactive extension point until a provider directory, manifest, index, provenance, and validator support are added.
 
-The shared provider lives under `assets/transparent_textures/` and is documented by `assets/transparent_textures/TEXTURE_MANIFEST.md` plus the machine-readable `texture_index.json`. Concrete styles opt in through `SurfaceTexturePolicy`; if a style does not opt in, the workflow should not apply a texture.
-
-The provider is raster-first because Transparent Textures distributes transparent PNG tiles. `svg_wrappers/*.pattern.svg` exists only as an adapter for SVG-oriented import paths; the PNG remains the source of truth.
+Concrete styles must therefore declare `provider: none` unless all files named by their `SurfaceTexturePolicy` exist in the skill. If a future provider is added, it must be a neutral substrate service, not a global ornament library.
 
 ```ts
 interface SurfaceTexturePolicy {
-  provider: "transparent_textures" | "none";
-  assetRoot: "assets/transparent_textures/" | "none";
-  manifestFile?: "assets/transparent_textures/TEXTURE_MANIFEST.md";
-  indexFile?: "assets/transparent_textures/texture_index.json";
-  nativeFormat?: "png";
-  allowedAdapterFormats?: ("png" | "svg-wrapper")[];
-  defaultToken?: TextureToken;
-  allowedTokens: TextureToken[];
+  provider: "none" | "transparent_textures";
+  assetRoot: "none" | `assets/${string}/`;
+  manifestFile?: string;
+  indexFile?: string;
+  defaultToken?: string;
+  allowedTokens: string[];
   opacityRange: [number, number];
-  allowedSurfaces: SurfaceRole[];
-  forbiddenSurfaces: SurfaceRole[];
+  allowedSurfaces: string[];
+  forbiddenSurfaces: string[];
   fallbackPolicy: string;
 }
 ```
 
-### Texture Resolution Rules
+### Future Provider Rules
 
-- Treat textures as substrate, not motif. They should support surface depth while remaining visually secondary to content, color tokens, typography, and data.
-- The selected concrete style decides which tokens are allowed. The base skill must not pick `old-map`, `honeycomb-light`, or any other token merely because it looks good.
-- Apply textures below text and components, never as a foreground overlay.
-- Use low opacity by default: 2-10% is the normal range. Stronger values require explicit user direction and a successful contrast check.
-- Do not combine shared textures with official identity patterns on the same region unless the concrete style explicitly allows it.
-- For PPT and PDF, use the native PNG tile and precompose it into a raster at the target canvas size. For web/app, repeat the original PNG tile and control strength with a separate opacity layer.
-- For SVG-oriented pipelines, use `svg_wrappers/*.pattern.svg` only as an adapter. Do not treat it as true vector texture geometry.
-- Turning texture off should still leave a complete design. Texture enriches the surface; it must not carry meaning.
-
-### Suggested Style Defaults
-
-| Style | Default token | Allowed tokens | Typical surfaces |
-| --- | --- | --- | --- |
-| `seu_design_style` | `dot-micro` | `dot-micro`, `diagonal-noise`, `graph-grid`, `honeycomb-light`, `paper-cream` | cover background, section background, data panel, chart backing |
-| `renminbi_color_style` | `paper-cream` | `paper-cream`, `paper-fibers`, `diagonal-noise`, `graph-grid` | paper-like full backgrounds, metric panels, value proposition pages |
-| `chinese_traditional_color_style` | `paper-fibers` | `paper-cream`, `paper-fibers`, `old-map`, `escher-geometry`, `diagonal-noise` | editorial backgrounds, museum pages, section pages, edge bands |
+- Add actual files before enabling a provider in any concrete style.
+- Document source, license/provenance, native format, dimensions, checksum, safe placement, and allowed surfaces.
+- Keep textures below content; never use them as motifs, official marks, or semantic data encodings.
+- Turning texture off must still leave a complete design. Texture enriches the surface; it must not carry meaning.
+- If texture weakens contrast or data readability, disable it and preserve style through color, typography, layout, and approved style-owned assets.
 
 ## QA Checklist
 
@@ -126,8 +111,8 @@ interface SurfaceTexturePolicy {
 - Non-primary emphasis uses support colors before repeating the primary.
 - Broad washes use enough contrast with text.
 - Asset role is resolved through the selected style before placement. If a manifest exists, use it to choose the file and compute the contain box.
-- Texture role is resolved through the selected style's `SurfaceTexturePolicy`; shared textures are applied only as low-opacity substrate layers.
+- Surface texture is used only when the selected style declares an available provider and every referenced provider file exists.
 - Asset opacity, scale, and crop support content instead of filling empty space.
 - No generated or downloaded asset imitates official identity assets, legal tender, protected seals, or copyrighted object scans.
-- Texture opacity and placement preserve text contrast and data readability.
+- If surface texture is disabled or unavailable, the design still reads clearly through color, typography, layout, and approved assets.
 - Use only the active style's approved assets; avoid mixing unrelated asset families.
