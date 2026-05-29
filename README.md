@@ -24,7 +24,8 @@
     ├── meta-skill/
     │   ├── SKILL.md
     │   ├── agents/openai.yaml
-    │   └── references/
+    │   ├── references/
+    │   └── scripts/
     └── my-design-style/
         ├── SKILL.md
         ├── agents/openai.yaml
@@ -40,4 +41,4 @@
 4. 详细契约、注册表、模板和领域资料放入 `references/`。
 5. 素材放入所属 Skill 的 `assets/`；跨 Skill 共享素材必须有明确共享提供器。
 6. 更新本 README 的 Skill 列表，以及 `skills/meta-skill/references/skill_registry.md`。
-7. 至少运行 `git diff --check`；如果 Skill 包含脚本、示例产物或可运行代码，应补充对应测试。
+7. 至少运行 `python skills/meta-skill/scripts/validate_skills.py` 和 `git diff --check`；如果 Skill 包含脚本、示例产物或可运行代码，应补充对应测试。

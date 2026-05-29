@@ -5,7 +5,33 @@ description: Extensible visual design system for PPT decks, websites, apps, dash
 
 # My Design Style
 
+## Purpose
+
 Use this skill to turn a requested artifact into a polished visual design using one named style from the `my_design_style` family.
+
+## Triggers And Non-Triggers
+
+| Type | Cues |
+| --- | --- |
+| Trigger | Design or restyle PPT decks, webpages, app screens, dashboards, UI components, templates, or static visual assets. |
+| Trigger | Apply a named house style such as `seu_design_style`, `renminbi_color_style`, or `chinese_traditional_color_style`. |
+| Trigger | Add or validate a new concrete style inside the `my-design-style` framework. |
+| Non-trigger | Repository-level skill governance, renaming, registry policy, or quality-gate design belongs to `meta-skill`. |
+| Ask if ambiguous | The user wants a generic image or illustration rather than a reusable design-system translation. |
+
+## Inputs And Outputs
+
+| Contract | Details |
+| --- | --- |
+| Required inputs | Target artifact or design task, intended medium, content goal, and selected style or enough cues to resolve one. |
+| Optional inputs | Brand constraints, dimensions, source assets, accessibility requirements, output format, and platform constraints. |
+| Normalized shape | `DesignRequest` with medium, goal, audience/context, hard constraints, selected style, asset policy, and output requirements. |
+| Outputs | Style-guided design specifications, PPT/UI/web/dashboard guidance, generated visual assets, or implementation-ready code guidance. |
+| Failure modes | Ask before proceeding when no concrete style can be resolved or when requested assets lack provenance or safe usage rules. |
+
+## References
+
+Load only the references needed for the selected style or extension task. Use `references/style_registry.md` to resolve available styles, `references/style_contract.md` when validating interfaces, `references/style_template.md` when adding a style, `references/design_mechanics.md` for shared mechanics, and one concrete `references/<style_name>.md` for the active style.
 
 Treat `my-design-style` as a small design framework:
 
@@ -238,6 +264,10 @@ These rules apply to every concrete style:
 - Concrete styles must be substitutable through the same workflow.
 - Identity assets require proportion-preserving placement.
 - New styles should extend the framework, not fork the workflow.
+
+## Quality Gate
+
+Before delivery, verify alignment, spacing, hierarchy, text overflow, contrast, responsiveness, image distortion, decorative relevance, asset provenance, and style fidelity. If the artifact no longer reads as the selected concrete style, revise before final output.
 
 ## Bundled Resources
 
