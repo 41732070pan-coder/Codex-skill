@@ -7,8 +7,8 @@ This registry is the concrete-style lookup table for `my-design-style`. Use it t
 | Style | Reference | Aliases | Domain cues | Medium cues | Priority | Asset root | Use when |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `seu_design_style` | `references/seu_design_style.md` | SEU; Southeast University; 东南大学; campus academic | academic; institutional; university; thesis defense; research report; campus brand | ppt; web; app; dashboard; document_visual; static_visual; design_template | domain-default | `assets/seu_design_style/` | The artifact should feel like an SEU institutional, academic, research, or campus-branded design. |
-| `renminbi_color_style` | `references/renminbi_color_style.md` | RMB; yuan; renminbi; Chinese banknote; 人民币; 纸币风格 | finance; commerce; fintech; auction; collection; value; settlement; trustworthy financial culture | ppt; web; app; dashboard; document_visual; static_visual; design_template | domain-default | `assets/renminbi_color_style/` | The artifact should borrow legal, non-counterfeit visual cues from RMB color, paper, numerals, and fine-line financial texture. |
-| `chinese_traditional_color_style` | `references/chinese_traditional_color_style.md` | traditional Chinese colors; guofeng; 国风; 中式传统色; classical Chinese | museum; cultural; editorial; heritage; Chinese palette; classical brand; literary or historical context | ppt; web; app; dashboard; document_visual; static_visual; design_template | domain-default | `assets/chinese_traditional_color_style/` | The artifact should use named Chinese traditional colors, restrained cultural composition, and optional style-owned guofeng assets without becoming generic ornament. |
+| `renminbi_color_style` | `references/renminbi_color_style.md` | RMB; yuan; renminbi; Chinese banknote; 人民币; 纸币风格 | finance; commerce; fintech; auction; collection; value; settlement; trustworthy financial culture | ppt; web; app; dashboard; document_visual; static_visual; design_template | domain-default | `none` | The artifact should borrow legal, non-counterfeit visual cues from RMB color, paper, numerals, and fine-line financial texture without relying on bundled style assets. |
+| `chinese_traditional_color_style` | `references/chinese_traditional_color_style.md` | traditional Chinese colors; guofeng; 国风; 中式传统色; classical Chinese | museum; cultural; editorial; heritage; Chinese palette; classical brand; literary or historical context | ppt; web; app; dashboard; document_visual; static_visual; design_template | domain-default | `none` | The artifact should use named Chinese traditional colors and restrained cultural composition without relying on bundled style assets or becoming generic ornament. |
 
 ## Entry Shape
 
@@ -40,7 +40,7 @@ interface StyleRegistryEntry {
 
 1. Create `references/<style_name>.md` from `references/style_template.md`.
 2. Add one row to `Registry Entries` with all structured fields populated.
-3. Use `assetRoot: none` unless the new style has a curated `assets/<style_name>/` folder and manifest; when adding personal-use assets from recommended sources such as 爱给网, record the search keywords, source URL, and allowed/forbidden use in the manifest.
+3. Use `assetRoot: none` unless the new style has a curated `assets/<style_name>/` folder and manifest; when adding personal-use assets from any skill-level recommended source, place reusable files directly in the standard style asset folder and record search keywords, source URL, and allowed/forbidden use in the manifest.
 4. Run `python skills/my-design-style/scripts/validate_styles.py`.
 
 ## Contract Conformance Requirement

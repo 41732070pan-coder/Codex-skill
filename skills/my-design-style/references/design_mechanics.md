@@ -51,7 +51,7 @@ Use this shared mechanic when a target artifact has multiple slides, screens, se
 
 ## Style-Owned Asset Interface
 
-Shared mechanics do not provide a global ornament or texture library. Assets belong to concrete styles and must be selected through that style's `AssetPolicy`. Recommended external sources such as 爱给网 can inform future assets, but imported files must still become style-owned manifest entries before use.
+Shared mechanics do not provide a global ornament or texture library. Assets belong to concrete styles and must be selected through that style's `AssetPolicy`. Recommended external sources are maintained at the skill level in `SKILL.md`; imported reusable files must still become style-owned manifest entries before use.
 
 Think of `AssetPolicy` as an import interface. The base skill never reaches directly into `assets/`; it asks the selected concrete style which asset module is available and what each exported asset is allowed to do.
 
@@ -80,11 +80,11 @@ A manifest should list: `file`, `role`, intrinsic width/height or ratio, color m
 - Preserve intrinsic aspect ratio for all SVG and raster assets.
 - Use contain-style placement for identity marks, wordmarks, motto artwork, silhouettes, and informative motifs.
 - Use low-opacity or repeated motifs only when the concrete style explicitly allows that behavior.
-- If the selected style has no approved assets, rely on layout, typography, color progression, simple rules, and code-native geometry instead of downloading filler.
+- If the selected style has no approved assets, rely on layout, typography, color progression, simple rules, and code-native geometry instead of downloading filler; download external assets only when the task specifically needs them and the skill-level acquisition rules can be satisfied.
 
 ### SEU Example
 
-`seu_design_style` exposes curated assets under `assets/seu_design_style/`. `renminbi_color_style` and `chinese_traditional_color_style` expose original SVG assets under their own folders for finance ornaments and guofeng borders/stripes/placeholders. These folders model future style-owned asset interfaces: every asset needs a manifest role, safe placement mode, provenance/source note, and forbidden-use boundary.
+`seu_design_style` exposes curated assets under `assets/seu_design_style/`. `renminbi_color_style` and `chinese_traditional_color_style` currently expose no bundled assets and rely on code-native geometry, generated vectors, user-provided assets, or task-local Pixabay/Iconfont assets with provenance. Future reusable style-owned assets must be placed directly under `assets/<style_name>/` with a manifest role, safe placement mode, provenance/source note, and forbidden-use boundary.
 
 
 ## Style Preview Mechanics
@@ -113,7 +113,7 @@ Preview option rules:
 
 ## Surface Texture Extension Point
 
-The canonical shared surface texture provider is `transparent_textures`, sourced from Transparent Textures (`https://www.transparenttextures.com/`) for high-quality tileable texture resources. A curated provider is bundled under `assets/transparent_textures/` with SVG wrappers, `TEXTURE_MANIFEST.md`, `texture_index.json`, provenance notes, and validator checks. 爱给网 (`https://www.aigei.com/design/ps/`) is a recommended personal-use discovery source for future PNG/SVG assets and new texture candidates, especially Chinese traditional and RMB-finance materials, but it is not a shared provider until files are curated, documented, and validator-supported.
+The canonical shared surface texture provider is `transparent_textures`, sourced from Transparent Textures (`https://www.transparenttextures.com/`) for high-quality tileable texture resources. A curated provider is bundled under `assets/transparent_textures/` with SVG wrappers, `TEXTURE_MANIFEST.md`, `texture_index.json`, provenance notes, and validator checks. Other recommended material sources belong to the skill-level source list in `SKILL.md`; they are not shared providers until files are curated, documented, indexed, and validator-supported.
 
 Concrete styles may declare `provider: transparent_textures` only when every token in their `SurfaceTexturePolicy` exists in the provider index and remains a neutral substrate service, not a global ornament library.
 
@@ -136,7 +136,7 @@ interface SurfaceTexturePolicy {
 ### Transparent Textures Provider Rules
 
 - Add actual wrapper/source files and metadata before enabling new `transparent_textures` tokens in any concrete style.
-- Source current shared texture files from `https://www.transparenttextures.com/` and record the original pattern name, creator attribution when available, download/source URL, license or terms note, native format, dimensions when known, checksum, safe placement, and allowed surfaces. For future personal-use texture candidates discovered through 爱给网, first add them as style-owned assets with provenance; promote to a shared provider only after adding an index, manifest, checksums, and validator support.
+- Source current shared texture files from `https://www.transparenttextures.com/` and record the original pattern name, creator attribution when available, download/source URL, license or terms note, native format, dimensions when known, checksum, safe placement, and allowed surfaces. For future texture candidates discovered through any recommended source, first add them as style-owned or project assets with provenance; promote them to a shared provider only after adding an index, manifest, checksums, and validator support.
 - Keep textures below content; never use them as motifs, official marks, or semantic data encodings.
 - Turning texture off must still leave a complete design. Texture enriches the surface; it must not carry meaning.
 - If texture weakens contrast or data readability, disable it and preserve style through color, typography, layout, and approved style-owned assets.
