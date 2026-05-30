@@ -49,7 +49,7 @@ Deliver the Markdown tutorial-design bundle first. Add machine-readable JSON sid
 | Contract | Details |
 | --- | --- |
 | Required inputs | Tutorial source URL/path/text and requested chapter, section, heading, page range, or anchor. |
-| Optional inputs | Time budget, familiarity, learning goal, skip preference, personal relevance hints, and explanation preference. |
+| Optional inputs | Time budget, familiarity, learning goal, skip preference, personal relevance hints, explanation preference, and **implementation variant** (e.g. `pytorch`) when the HTML source has parallel framework code paths. |
 | Normalized shape | `TutorialRequest` in `references/learning_contract.md`. |
 | Required Markdown outputs | `learning_plan.md`, `lecture.md`, `tutorial_structure.md`, `triage.md`, `assessment_plan.md`, `practice_plan.md`, `review_plan.md`, and `source_fidelity.md`. |
 | Optional JSON sidecars | `source_outline.json`, `triage.json`, `learning_route.json`, `review_plan.json`, and `evaluator_report.json` for automation or audit workflows. |
@@ -71,6 +71,7 @@ Load progressively; do not read every reference by default.
 | `references/lecture_template.md` | Writing the Chinese lecture content sidecar. |
 | `references/review_protocol.md` | Designing micro-assessments, practice tasks, and review cards. |
 | `references/evaluator_rubric.md` | Running the final instructional-design self-check. |
+| `references/tune_rubric.md` | skill-tune judge sessions targeting this skill. |
 
 ## Resources
 
@@ -93,6 +94,9 @@ Do not add renderer-specific behavior here. A webpage, PPT, H5, DOCX, or design-
 ## Quality Gates
 
 - Preserve source provenance and distinguish source-derived, paraphrased, inferred, user-supplied, supplementary, and missing evidence.
+- Label non-literal **核心讲解** claims with evidence tags or an **推断展开** table per `references/source_fidelity.md`; never overstate labeling in `source_fidelity.md`.
+- Apply the minimal-source guardrail when scoped body has ≤3 concept sentences: cap inferred expansion and document it explicitly.
+- For HTML sources with **parallel implementation variants**, teach shared concepts once; route non-selected variants to `deferred_ops` and document them in `triage.md` and `source_fidelity.md` **省略项**.
 - Produce the complete required Markdown bundle before any optional renderer handoff.
 - Keep triage explicit: core and supporting material route to teaching content; reference-only material routes to an appendix; filler stays omitted.
 - Keep assessments attempt-first and align objectives, practice, and review cards.

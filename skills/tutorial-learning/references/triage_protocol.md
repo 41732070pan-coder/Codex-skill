@@ -26,7 +26,7 @@ Triage operates on `HypertextBlock[]`, not on a PDF-only text stream. A block ma
 | `supporting` | Helps understanding but is not itself the central concept. | Body if composite score is high enough; otherwise skim. |
 | `reference_only` | Tables, bibliographies, appendices, long examples, API lists, or links for lookup. | Appendix "阅读材料". |
 | `filler` | Repetition, navigation, marketing, empty transitions, decorative prose, duplicated headers/footers. | Omit from body; optional one-line skipped summary. |
-| `deferred_ops` | Setup, installation, IDE operations, rendering/tooling steps not needed for current concept. | Skip body; provide deep-dive/setup link if important. |
+| `deferred_ops` | Setup, installation, IDE operations, rendering/tooling steps, or **parallel implementation paths not selected by the learner** (e.g. alternate framework code in multi-tab HTML). | Skip body; provide deep-dive/setup link; list in triage + source_fidelity **省略项**. |
 
 ## Depth Score
 

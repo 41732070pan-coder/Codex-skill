@@ -39,3 +39,21 @@ Use `references/source_profiles.md` for source-format-specific ingest rules.
 - Do not provide long verbatim copyrighted excerpts; summarize and cite source metadata instead.
 - For medical, legal, financial, safety, or compliance tutorials, generate study aids only and do not replace qualified professional instruction or current standards.
 - Never invent chapter content from a title, TOC, URL slug, or anchor alone.
+
+## Lecture Claim Labeling
+
+Every teaching claim in `lecture.md` **核心讲解** must be traceable without opening other skill files:
+
+| Rule | Detail |
+| --- | --- |
+| Literal source text | Tag inline or in **来源与边界** as `source-derived` or `paraphrased` with a `source_trace_ids` entry. |
+| Non-literal expansion | Tag as `inferred` or `supplementary` inline (e.g. `[推断]`) **or** list subsection titles in `source_fidelity.md` under **推断展开** with evidence type. |
+| No false claims | Do not write in `source_fidelity.md` that the lecture "already labels" inferred content unless those tags or the **推断展开** table exist. |
+
+## Minimal Source Guardrail
+
+When the scoped source body has **≤3 sentences** of concept text (excluding filler):
+
+- Keep **核心讲解** concise; prefer `skim` depth for supporting blocks.
+- Add **推断说明** under **来源与边界** or a short **推断展开** table in `source_fidelity.md` listing each inferred subsection.
+- Do not fabricate worked examples, counterexamples, or misconceptions beyond what one sentence can support; state `[推断]` and lower boundary confidence when expanding pedagogically.

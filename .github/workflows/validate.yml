@@ -1,0 +1,39 @@
+name: Validate
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install render dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install python-pptx Pillow svglib reportlab
+
+      - name: Meta-skill structure
+        run: python skills/meta-skill/scripts/validate_skills.py
+
+      - name: Meta-skill load boundaries
+        run: python skills/meta-skill/scripts/validate_skill_boundaries.py
+
+      - name: my-design-style quality gate
+        run: python skills/my-design-style/scripts/validate_my_design_style.py
+
+      - name: tutorial-learning
+        run: python skills/tutorial-learning/scripts/validate_tutorial_learning.py
+
+      - name: skill-tune
+        run: python skills/skill-tune/scripts/validate_skill_tune.py
+
+      - name: Whitespace and conflict markers
+        run: git diff --check
