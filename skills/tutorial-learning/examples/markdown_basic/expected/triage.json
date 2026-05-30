@@ -6,7 +6,7 @@
       "sourceTrace": {
         "id": "st-md-main",
         "source_format": "markdown",
-        "locator": "source-markdown",
+        "locator": "source.md",
         "blockId": "md-main",
         "boundaryConfidence": "explicit",
         "evidenceType": "source-derived",

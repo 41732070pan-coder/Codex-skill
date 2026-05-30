@@ -6,12 +6,12 @@
       "sourceTrace": {
         "id": "st-txt-main",
         "source_format": "plain_text_with_headings",
-        "locator": "source-plain_text_with_headings",
+        "locator": "source.txt",
         "blockId": "txt-main",
         "boundaryConfidence": "explicit",
         "evidenceType": "source-derived",
         "headingPath": [
-          "Overview"
+          "Retry Strategy"
         ],
         "extractionSlice": "overview"
       },
@@ -43,7 +43,8 @@
         "locator": "source.txt",
         "blockId": "txt-main-noise",
         "boundaryConfidence": "explicit",
-        "evidenceType": "source-derived"
+        "evidenceType": "source-derived",
+        "headingPath": []
       },
       "blockType": "navigation",
       "content_role": "filler",

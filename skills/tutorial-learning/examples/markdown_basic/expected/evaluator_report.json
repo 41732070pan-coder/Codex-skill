@@ -3,7 +3,8 @@
     "source_fidelity": 5,
     "triage_depth_routing": 5,
     "chinese_lecture_quality": 4,
-    "assessment_review": 5
+    "assessment_review": 5,
+    "interactive_web_learning": 5
   },
   "blocking_failures": [],
   "patches": [],

@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """Validate tutorial-learning artifact sidecars with no third-party dependencies."""
 from __future__ import annotations
-import argparse, json, re, sys
+import argparse, html, json, re, sys
 from pathlib import Path
 from minimal_schema import validate_json_schema
 
 ROOT = Path(__file__).resolve().parents[1]
-REQUIRED = ("source_outline.json", "triage.json", "lecture.md", "review_plan.json", "evaluator_report.json")
+REQUIRED = ("source_outline.json", "triage.json", "lecture.md", "learning_plan.md", "interactive_tutorial.html", "review_plan.json", "evaluator_report.json")
 SCHEMA_FILES = {
     "source_outline.json": "source_outline.schema.json",
     "triage.json": "triage.schema.json",
@@ -14,6 +14,11 @@ SCHEMA_FILES = {
     "evaluator_report.json": "evaluator_report.schema.json",
 }
 DEPTH_RANK = {"skip": 0, "skim": 1, "standard": 2, "deep": 3}
+TRACE_FIELDS = ("source_format", "locator", "pageRange", "headingPath", "anchor", "url", "blockId", "extractionSlice", "boundaryConfidence", "evidenceType")
+LEARNING_PLAN_HEADINGS = (
+    "# 学习计划", "## 学习范围与目标", "## 内容规模判断", "## 学习阶段安排",
+    "## 本轮生成范围", "## 后续生成规则", "## 复习节奏",
+)
 LECTURE_HEADINGS = (
     "## 本节目标", "## 来源与边界", "## 学习路线", "## 核心讲解", "## 微测",
     "## 练习任务", "## 复习卡", "## 阅读材料（附录）", "## 复盘",
@@ -44,6 +49,20 @@ def markdown_table(section_text: str) -> tuple[list[str], list[list[str]]]:
     if len(rows) < 2: return [], []
     return rows[0], rows[2:]
 
+def require_unique(items, label: str, root: Path, errors: list[str]):
+    values=[item.get("id") for item in items]
+    require(all(values), f"{root}: {label} ids must be non-empty", errors)
+    require(len(values) == len(set(values)), f"{root}: {label} ids must be unique", errors)
+
+def require_canonical_trace(trace: dict, canonical_traces: dict, label: str, root: Path, errors: list[str]):
+    tid=trace.get("id")
+    require(tid in canonical_traces, f"{root}: {label} references unknown trace {tid}", errors)
+    if tid not in canonical_traces:
+        return
+    canonical=canonical_traces[tid]
+    for field in TRACE_FIELDS:
+        require(trace.get(field) == canonical.get(field), f"{root}: {label} sourceTrace {tid} field {field} conflicts with canonical trace: expected {canonical.get(field)!r}, got {trace.get(field)!r}", errors)
+
 def validate(root: Path) -> list[str]:
     errors=[]
     for name in REQUIRED:
@@ -56,15 +75,23 @@ def validate(root: Path) -> list[str]:
         errors.extend(f"{root/name}: {message}" for message in validate_json_schema(docs[name], schema))
     outline=docs['source_outline.json']; triage=docs['triage.json']; review=docs['review_plan.json']; report=docs['evaluator_report.json']
     lecture=(root/'lecture.md').read_text()
+    learning_plan=(root/'learning_plan.md').read_text()
+    interactive_html=(root/'interactive_tutorial.html').read_text()
     blocks=triage.get('blocks', []); objectives=triage.get('learning_objectives', [])
-    outline_blocks=outline.get('blocks', []); trace_ids={t.get('id') for t in outline.get('sourceTraces', [])}
+    outline_blocks=outline.get('blocks', []); source_traces=outline.get('sourceTraces', [])
+    require_unique(source_traces, 'source trace', root, errors)
+    require_unique(outline_blocks, 'outline block', root, errors)
+    require_unique(blocks, 'triage block', root, errors)
+    require_unique(objectives, 'objective', root, errors)
+    canonical_traces={t.get('id'): t for t in source_traces if t.get('id')}
+    trace_ids=set(canonical_traces)
     outline_block_ids={b.get('id') for b in outline_blocks}; objective_ids=set()
     require(outline_blocks, f"{root}: source_outline.blocks must not be empty", errors)
     require(blocks, f"{root}: triage.blocks must not be empty", errors)
     require(2 <= len(objectives) <= 4, f"{root}: learning_objectives must contain 2-4 entries", errors)
     for block in outline_blocks:
         bid=block.get('id'); trace=block.get('sourceTrace', {})
-        require(trace.get('id') in trace_ids, f"{root}: outline block {bid} references unknown trace {trace.get('id')}", errors)
+        require_canonical_trace(trace, canonical_traces, f'outline block {bid}', root, errors)
     for obj in objectives:
         oid=obj.get('id'); objective_ids.add(oid)
         traces=obj.get('sourceTraceIds', [])
@@ -74,7 +101,8 @@ def validate(root: Path) -> list[str]:
     for block in blocks:
         bid=block.get('id'); role=block.get('content_role'); route=block.get('route'); depth=block.get('depth', {}); trace=block.get('sourceTrace', {})
         require(bid in outline_block_ids, f"{root}: triage block {bid} is missing from source outline", errors)
-        require(trace.get('id') in trace_ids, f"{root}: block {bid} references unknown source trace {trace.get('id')}", errors)
+        require_canonical_trace(trace, canonical_traces, f'triage block {bid}', root, errors)
+        require(trace.get('blockId') == bid, f"{root}: triage block {bid} sourceTrace blockId must match block id", errors)
         require(role in {'core','supporting','reference_only','filler','deferred_ops'}, f"{root}: block {bid} has invalid content_role", errors)
         require(route in {'in_lecture','appendix','skip_with_deep_dive'}, f"{root}: block {bid} has invalid route", errors)
         if route == 'in_lecture': in_lecture_traces.add(trace.get('id'))
@@ -90,6 +118,32 @@ def validate(root: Path) -> list[str]:
             require(rank>=2, f"{root}: block {bid} violates prerequisite-floor guardrail", errors)
         if depth.get('risk_flags'):
             require(rank>=2, f"{root}: block {bid} violates risk-floor guardrail", errors)
+    for heading in LEARNING_PLAN_HEADINGS:
+        require(heading in learning_plan, f"{root}: learning plan needs {heading}", errors)
+    require(re.search(r"交付模式[：:]\s*(complete_course|progressive_chapter)", learning_plan), f"{root}: learning plan needs an explicit delivery mode", errors)
+    require('| 阶段 |' in learning_plan and '| 状态 |' in learning_plan, f"{root}: learning plan needs a staged schedule table with status", errors)
+    mode_match=re.search(r"交付模式[：:]\s*(complete_course|progressive_chapter)", learning_plan)
+    require('<!doctype html' in interactive_html.lower(), f"{root}: interactive tutorial needs an HTML doctype", errors)
+    require('id="home-nav"' in interactive_html and 'aria-label="学习导航"' in interactive_html, f"{root}: interactive tutorial needs accessible homepage navigation", errors)
+    for hook in ('id="learning-plan"', 'lesson-page', 'id="lesson-content"', 'id="micro-test"', 'id="practice-task"', 'id="lesson-complete"', 'id="review-center"'):
+        require(hook in interactive_html, f"{root}: interactive tutorial needs {hook}", errors)
+    for label in ('学习计划', '复习中心', '预测', '用自己的话', '练习任务'):
+        require(label in interactive_html, f"{root}: interactive tutorial needs learner-facing {label}", errors)
+    if mode_match:
+        mode=mode_match.group(1)
+        require(f'data-delivery-mode="{mode}"' in interactive_html, f"{root}: interactive tutorial body must use delivery mode {mode}", errors)
+        if mode == 'progressive_chapter':
+            require('data-page-state="planned"' in interactive_html, f"{root}: progressive interactive tutorial needs planned navigation entries", errors)
+    lesson_content_match=re.search(r'(?s)<section id="lesson-content"[^>]*>(.*?)</section>', interactive_html)
+    lesson_content=re.sub(r'<[^>]+>', ' ', lesson_content_match.group(1)) if lesson_content_match else ''
+    require(len(re.sub(r'\s+', '', lesson_content)) >= 40, f"{root}: interactive tutorial lesson content is too thin", errors)
+    require(re.search(r'[\u4e00-\u9fff]', lesson_content), f"{root}: interactive tutorial lesson content needs Chinese explanation", errors)
+    normalized_core=re.sub(r'\s+', ' ', section(lecture, '## 核心讲解')).strip()
+    normalized_html=re.sub(r'\s+', ' ', html.unescape(re.sub(r'<[^>]+>', ' ', interactive_html))).strip()
+    require(normalized_core and normalized_core in normalized_html, f"{root}: interactive tutorial must render the lecture core explanation", errors)
+    for trace in in_lecture_traces: require(trace in interactive_html, f"{root}: interactive tutorial does not expose routed source trace {trace}", errors)
+    for js_hook in ('localStorage', 'addEventListener', 'showView', 'revealAnswer', 'completeLesson'):
+        require(js_hook in interactive_html, f"{root}: interactive tutorial JavaScript needs {js_hook}", errors)
     fm=frontmatter(lecture)
     require(fm, f"{root}: lecture needs YAML front matter", errors)
     for key in ('skill', 'source_format', 'section_id'):
@@ -125,7 +179,7 @@ def validate(root: Path) -> list[str]:
         require(cid in scheduled, f"{root}: card {cid} needs schedule entry", errors)
         require(cid in cards_section, f"{root}: lecture review table needs card {cid}", errors); covered.update(ids)
     require(len(covered) >= max(1, (len(objective_ids)*4+4)//5), f"{root}: cards must cover at least 80% of objectives", errors)
-    required_scores={'source_fidelity','triage_depth_routing','chinese_lecture_quality','assessment_review'}
+    required_scores={'source_fidelity','triage_depth_routing','chinese_lecture_quality','assessment_review','interactive_web_learning'}
     require(set(report.get('scores', {})) == required_scores, f"{root}: evaluator scores must contain exactly {sorted(required_scores)}", errors)
     failures=report.get('blocking_failures', [])
     require(isinstance(report.get('delivery_allowed'), bool), f"{root}: evaluator delivery_allowed must be boolean", errors)

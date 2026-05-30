@@ -6,7 +6,7 @@
       "sourceTrace": {
         "id": "st-pdf-main",
         "source_format": "pdf",
-        "locator": "source-pdf",
+        "locator": "source.txt",
         "blockId": "pdf-main",
         "boundaryConfidence": "explicit",
         "evidenceType": "source-derived",

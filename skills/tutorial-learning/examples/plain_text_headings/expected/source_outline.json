@@ -36,7 +36,8 @@
         "locator": "source.txt",
         "blockId": "txt-main-noise",
         "boundaryConfidence": "explicit",
-        "evidenceType": "source-derived"
+        "evidenceType": "source-derived",
+        "headingPath": []
       }
     }
   ],

@@ -6,11 +6,10 @@
       "sourceTrace": {
         "id": "st-html-main",
         "source_format": "html",
-        "locator": "source-html",
+        "locator": "source.html",
         "blockId": "html-main",
         "boundaryConfidence": "explicit",
         "evidenceType": "source-derived",
-        "url": "https://example.test/tutorial",
         "anchor": "main",
         "headingPath": [
           "Main concept"
