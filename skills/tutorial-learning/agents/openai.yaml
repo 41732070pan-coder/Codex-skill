@@ -1,0 +1,5 @@
+interface:
+  display_name: "Tutorial Learning"
+  short_description: "Triage tutorials and generate Chinese lectures with spaced review"
+  default_prompt: "Use $tutorial-learning to triage a professional tutorial, score study depth, skip filler, and produce Chinese lecture notes with micro-assessments and review plans. Default medium: pdf-chaptered."
+  brand_color: "#0F766E"
