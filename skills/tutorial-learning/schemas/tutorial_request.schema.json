@@ -121,24 +121,6 @@
       "items": {
         "type": "string"
       }
-    },
-    "design_style": {
-      "type": "object",
-      "properties": {
-        "designSkill": {
-          "type": "string"
-        },
-        "theme": {
-          "type": "string"
-        },
-        "themeVariant": {
-          "type": "string"
-        },
-        "customOverrides": {
-          "type": "object"
-        }
-      },
-      "additionalProperties": false
     }
   },
   "$defs": {

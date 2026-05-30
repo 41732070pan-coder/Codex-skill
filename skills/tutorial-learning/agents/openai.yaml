@@ -1,5 +1,5 @@
 interface:
   display_name: "Tutorial Learning"
-  short_description: "Learn hypertext tutorials with Chinese lectures and spaced review"
-  default_prompt: "Use $tutorial-learning to turn a PDF, HTML, Markdown, or heading-structured tutorial source into a learning plan, focused Chinese lecture notes, source-traced triage, micro-assessments, review cards, and a runnable, homepage-navigated interactive tutorial web page. Keep teaching content primary and choose complete or progressive delivery from content size."
+  short_description: "Design source-traced Chinese tutorial bundles"
+  default_prompt: "Use $tutorial-learning to turn a PDF, HTML, Markdown, or heading-structured tutorial source into medium-neutral course-design documents: a learning plan, focused Chinese lecture notes, tutorial structure, source-traced triage, assessments, practice, review planning, and source-fidelity evidence. Do not choose a visual style or generate a final webpage, slide deck, H5 experience, or other presentation artifact."
   brand_color: "#0F766E"

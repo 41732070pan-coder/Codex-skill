@@ -17,7 +17,7 @@
         "triage_depth_routing",
         "chinese_lecture_quality",
         "assessment_review",
-        "interactive_web_learning"
+        "tutorial_design_completeness"
       ],
       "additionalProperties": false,
       "properties": {
@@ -33,7 +33,7 @@
         "assessment_review": {
           "$ref": "#/$defs/score"
         },
-        "interactive_web_learning": {
+        "tutorial_design_completeness": {
           "$ref": "#/$defs/score"
         }
       }
