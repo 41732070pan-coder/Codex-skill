@@ -56,3 +56,30 @@ Score each category 0–5. Fix any blocking failure before delivery even if the 
 - P1: ...
 - P2: ...
 ```
+
+## Machine-Readable Output
+
+Emit `evaluator_report.json` for automated delivery checks when structured sidecars are produced:
+
+```json
+{
+  "scores": {
+    "source_fidelity": 5,
+    "triage_depth_routing": 4,
+    "chinese_lecture_quality": 4,
+    "assessment_review": 5
+  },
+  "blocking_failures": [],
+  "patches": [
+    { "priority": "P1", "issue": "...", "fix": "..." }
+  ],
+  "delivery_allowed": true
+}
+```
+
+Rules:
+
+- Scores are integers from 0–5.
+- Any blocking failure requires `delivery_allowed: false`.
+- Every patch includes `priority`, `issue`, and `fix`.
+- The Markdown report remains useful as a human-readable summary.

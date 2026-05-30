@@ -1,6 +1,17 @@
 # Hypertext Tutorial Source Profiles
 
-Use these rules when ingesting PDF, HTML, Markdown, or heading-structured tutorial text. Shared triage, lecture, and review behavior lives in the corresponding reference files.
+Each section below is a lightweight `SourceAdapter` profile governed by `source_adapter_contract.md`. Use these rules when ingesting PDF, HTML, Markdown, or heading-structured tutorial text. Shared triage, lecture, and review behavior lives in the corresponding reference files.
+
+## Adapter Discovery
+
+| id | profile | format | status | summary | aliases / cues | ambiguity / fallback | delegated tooling |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `pdf` | `#pdf` | `pdf` | experimental | Build page- and heading-aware outlines from usable PDF text. | PDF path, attachment, page range, chapter | Stop or request accessible extracted text when unreadable. | Delegate rendering and OCR to document-processing tools. |
+| `html` | `#html--web-tutorial` | `html` | experimental | Isolate tutorial main content while preserving URL and anchor traces. | URL, HTML, documentation page, web tutorial | Mark uncertainty when main content cannot be separated. | Delegate low-level crawling or rendering when needed. |
+| `markdown` | `#markdown` | `markdown` | experimental | Preserve heading structure, code, tables, and explicit links. | `.md` path, pasted Markdown, fenced blocks | Preserve generated anchors when available; infer cautiously otherwise. | None by default. |
+| `plain-text-headings` | `#plain-text-with-headings` | `plain_text_with_headings` | experimental | Infer a linear outline from heading-structured text. | pasted text with heading patterns | Ask for more text when only headings or TOC are available. | None by default. |
+
+Add a YAML registry and resolver only when this compact table no longer supports deterministic selection.
 
 ## Source Handling
 

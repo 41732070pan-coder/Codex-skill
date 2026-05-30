@@ -84,6 +84,8 @@ interface DepthScore {
   study_depth: StudyDepth;
   est_minutes: number;
   rationale: string;
+  guardrails_applied?: string[];
+  risk_flags?: ("safety" | "compliance" | "irreversible_operation")[];
 }
 
 interface TriageBlock {
@@ -119,12 +121,54 @@ interface ReviewScheduleEntry {
   due_offsets_days: number[]; // default [1, 3, 7]
 }
 
+interface LearningRoute {
+  blocks: TriageBlock[];
+  est_minutes_total: number;
+}
+
+interface ReviewPlan {
+  section_id: string;
+  cards: ReviewCard[];
+  schedule: ReviewScheduleEntry[];
+}
+
+interface EvaluatorReport {
+  scores: {
+    source_fidelity: number;
+    triage_depth_routing: number;
+    chinese_lecture_quality: number;
+    assessment_review: number;
+  };
+  blocking_failures: string[];
+  patches: { priority: "P0" | "P1" | "P2" | "P3"; issue: string; fix: string }[];
+  delivery_allowed: boolean;
+}
+
 interface TutorialArtifacts {
   lecture_md: string;
-  triage_json: { blocks: TriageBlock[]; skipped_summary: string[] };
-  review_plan_json: { cards: ReviewCard[]; schedule: ReviewScheduleEntry[] };
+  triage_json: { blocks: TriageBlock[]; skipped_summary: string[]; learning_objectives: LearningObjective[] };
+  review_plan_json: ReviewPlan;
+  source_outline_json?: SourceOutline; // recommended audit sidecar
+  evaluator_report_json?: EvaluatorReport; // internal self-check or optional output
 }
 ```
+
+## Architecture Roles
+
+Treat the workflow as a template-method pipeline contract, not as a requirement to implement an object-oriented runtime.
+
+| Role | Responsibility | Output |
+| --- | --- | --- |
+| `TutorialLearningPipeline` | Own the shared stage order and invariants. | `TutorialArtifacts` |
+| `SourceAdapter` | Convert one source medium into the shared intermediate representation. | `SourceOutline` |
+| `TriagePolicy` | Classify blocks and calculate depth with guardrails. | `TriageBlock[]` |
+| `LearningRoutePlanner` | Route blocks to lecture, appendix, or deep dive under the time budget. | `LearningRoute` |
+| `LectureRenderer` | Render the Chinese learner-facing artifact. | `lecture_md` |
+| `AssessmentBuilder` | Create prediction, teach-back, application, and practice items. | assessment sections |
+| `ReviewScheduler` | Create review cards and spaced schedule. | `ReviewPlan` |
+| `Evaluator` | Check fidelity, routing, lecture quality, assessment, and blocking failures. | `EvaluatorReport` |
+
+Only `SourceAdapter` varies by input medium. The later stages remain shared.
 
 ## Workflow Contract
 

@@ -1,0 +1,89 @@
+{
+  "blocks": [
+    {
+      "id": "md-main",
+      "title": "Markdown Basics",
+      "sourceTrace": {
+        "id": "st-md-main",
+        "source_format": "markdown",
+        "locator": "source-markdown",
+        "blockId": "md-main",
+        "boundaryConfidence": "explicit",
+        "evidenceType": "source-derived",
+        "headingPath": [
+          "Overview"
+        ],
+        "extractionSlice": "overview"
+      },
+      "blockType": "paragraph",
+      "content_role": "core",
+      "depth": {
+        "importance": 4,
+        "complexity": 3,
+        "practical_frequency": 3,
+        "prerequisite_value": 4,
+        "goal_relevance": 4,
+        "personal_relevance": 3,
+        "composite": 3.5,
+        "study_depth": "standard",
+        "est_minutes": 8,
+        "rationale": "Core source-backed concept.",
+        "guardrails_applied": [
+          "prerequisite-floor"
+        ]
+      },
+      "route": "in_lecture"
+    },
+    {
+      "id": "md-main-noise",
+      "title": "Noise metadata",
+      "sourceTrace": {
+        "id": "st-md-main-noise",
+        "source_format": "markdown",
+        "locator": "source.md",
+        "blockId": "md-main-noise",
+        "boundaryConfidence": "explicit",
+        "evidenceType": "source-derived"
+      },
+      "blockType": "navigation",
+      "content_role": "filler",
+      "depth": {
+        "importance": 0,
+        "complexity": 0,
+        "practical_frequency": 0,
+        "prerequisite_value": 0,
+        "goal_relevance": 0,
+        "personal_relevance": 0,
+        "composite": 0,
+        "study_depth": "skip",
+        "est_minutes": 0,
+        "rationale": "Noise.",
+        "guardrails_applied": []
+      },
+      "route": "skip_with_deep_dive"
+    }
+  ],
+  "skipped_summary": [
+    "Generated TOC omitted."
+  ],
+  "learning_objectives": [
+    {
+      "id": "lo1",
+      "text": "解释核心机制。",
+      "mastery": "recall",
+      "verifiable": "能够用自己的话说明。",
+      "sourceTraceIds": [
+        "st-md-main"
+      ]
+    },
+    {
+      "id": "lo2",
+      "text": "应用核心机制。",
+      "mastery": "application",
+      "verifiable": "能够完成一个小任务。",
+      "sourceTraceIds": [
+        "st-md-main"
+      ]
+    }
+  ]
+}

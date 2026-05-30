@@ -1,0 +1,11 @@
+{
+  "source": {
+    "format": "markdown",
+    "accessMode": "extracted_text",
+    "locator": "source.md",
+    "licenseOrUseNote": "Fixture content."
+  },
+  "scope": {
+    "section": "Markdown Basics"
+  }
+}
