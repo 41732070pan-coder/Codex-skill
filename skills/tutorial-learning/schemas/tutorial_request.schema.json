@@ -3,30 +3,160 @@
   "$id": "tutorial_request.schema.json",
   "title": "TutorialRequest",
   "type": "object",
-  "required": ["source", "scope"],
+  "required": [
+    "source",
+    "scope"
+  ],
   "properties": {
     "source": {
       "type": "object",
-      "required": ["accessMode"],
+      "required": [
+        "accessMode"
+      ],
       "properties": {
-        "format": { "enum": ["pdf", "html", "markdown", "plain_text_with_headings", "unknown"] },
-        "accessMode": { "enum": ["attached_file", "url", "pasted_excerpt", "extracted_text", "description_only"] },
-        "locator": { "type": "string" }, "url": { "type": "string" }, "path": { "type": "string" },
-        "title": { "type": "string" }, "authorOrPublisher": { "type": "string" }, "licenseOrUseNote": { "type": "string" }
+        "format": {
+          "enum": [
+            "pdf",
+            "html",
+            "markdown",
+            "plain_text_with_headings",
+            "unknown"
+          ]
+        },
+        "accessMode": {
+          "enum": [
+            "attached_file",
+            "url",
+            "pasted_excerpt",
+            "extracted_text",
+            "description_only"
+          ]
+        },
+        "locator": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "path": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "authorOrPublisher": {
+          "type": "string"
+        },
+        "licenseOrUseNote": {
+          "type": "string"
+        }
       },
       "additionalProperties": false
     },
     "scope": {
       "type": "object",
       "properties": {
-        "chapter": { "type": "string" }, "section": { "type": "string" }, "headingPath": { "type": "array", "items": { "type": "string" } },
-        "pageRange": { "$ref": "#/$defs/pageRange" }, "anchor": { "type": "string" }
+        "chapter": {
+          "type": "string"
+        },
+        "section": {
+          "type": "string"
+        },
+        "headingPath": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "pageRange": {
+          "$ref": "#/$defs/pageRange"
+        },
+        "anchor": {
+          "type": "string"
+        }
       },
       "additionalProperties": false
     },
-    "learner_preferences": { "type": "object" },
-    "uncertaintyNotes": { "type": "array", "items": { "type": "string" } }
+    "learner_preferences": {
+      "type": "object",
+      "properties": {
+        "time_budget_minutes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "familiarity": {
+          "enum": [
+            "novice",
+            "rusty",
+            "comfortable"
+          ]
+        },
+        "goal": {
+          "enum": [
+            "exam",
+            "practice",
+            "project",
+            "survey"
+          ]
+        },
+        "personal_relevance_hints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "explanation_preference": {
+          "enum": [
+            "balanced",
+            "intuition-first",
+            "math-focused",
+            "practice-focused"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "uncertaintyNotes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "design_style": {
+      "type": "object",
+      "properties": {
+        "designSkill": {
+          "type": "string"
+        },
+        "theme": {
+          "type": "string"
+        },
+        "themeVariant": {
+          "type": "string"
+        },
+        "customOverrides": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": false
+    }
   },
-  "$defs": { "pageRange": { "type": "array", "prefixItems": [{ "type": "integer", "minimum": 1 }, { "type": "integer", "minimum": 1 }], "minItems": 2, "maxItems": 2 } },
+  "$defs": {
+    "pageRange": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "type": "integer",
+          "minimum": 1
+        },
+        {
+          "type": "integer",
+          "minimum": 1
+        }
+      ],
+      "minItems": 2,
+      "maxItems": 2
+    }
+  },
   "additionalProperties": false
 }

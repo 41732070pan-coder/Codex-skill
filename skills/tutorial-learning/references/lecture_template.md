@@ -40,12 +40,21 @@ Column `深度` must use: skip | skim | standard | deep.
 
 ## 核心讲解
 
-Ordered subsections for `core` and in-lecture `supporting` blocks.
+Render every lesson as an independently studyable unit. Use ordered subsections for `core` and in-lecture `supporting` blocks:
+
+1. **问题场景**：explain the learner-facing problem.
+2. **直觉解释**：build an initial mental model.
+3. **必要定义**：introduce terms, formulas, or boundaries.
+4. **完整正例**：walk through one useful application.
+5. **反例或失败案例**：show a plausible but wrong approach.
+6. **常见误区**：name at least two misconceptions.
+7. **下一课桥接**：explain how this concept will be reused.
 
 - Teach mechanism, not source paste.
 - Use Chinese; keep API names, commands, formulas, identifiers, and URLs in original spelling.
 - For `skim` blocks: ≤ 1 short paragraph.
 - Include source trace ids for major claims when useful.
+- Estimate reading, micro-assessment, practice, and recap minutes separately after generating the lesson. Do not force a fixed 45-minute claim.
 
 ## 跳过与延伸阅读
 
@@ -62,7 +71,13 @@ List `skip_with_deep_dive` entries:
 2. **用自己的话**：…
 3. **应用**（when applicable）：…
 
-Include brief 参考答案 or 评分要点.
+Use attempt-first interaction semantics in the webpage: do not expose full feedback before learner input.
+
+- Objective questions: submit a choice, then show correctness and explanation.
+- Teach-back questions: submit text, then show a self-check rubric. Keyword coverage is only an aid, never a precise grade.
+- Application questions: prefer structured fields when the task has identifiable parts.
+
+Include brief 参考答案 or 评分要点 in this source-traced sidecar for rendering after submission.
 
 ## 练习任务
 
