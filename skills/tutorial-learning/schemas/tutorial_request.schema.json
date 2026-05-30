@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "tutorial_request.schema.json",
+  "title": "TutorialRequest",
+  "type": "object",
+  "required": ["source", "scope"],
+  "properties": {
+    "source": {
+      "type": "object",
+      "required": ["accessMode"],
+      "properties": {
+        "format": { "enum": ["pdf", "html", "markdown", "plain_text_with_headings", "unknown"] },
+        "accessMode": { "enum": ["attached_file", "url", "pasted_excerpt", "extracted_text", "description_only"] },
+        "locator": { "type": "string" }, "url": { "type": "string" }, "path": { "type": "string" },
+        "title": { "type": "string" }, "authorOrPublisher": { "type": "string" }, "licenseOrUseNote": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "scope": {
+      "type": "object",
+      "properties": {
+        "chapter": { "type": "string" }, "section": { "type": "string" }, "headingPath": { "type": "array", "items": { "type": "string" } },
+        "pageRange": { "$ref": "#/$defs/pageRange" }, "anchor": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "learner_preferences": { "type": "object" },
+    "uncertaintyNotes": { "type": "array", "items": { "type": "string" } }
+  },
+  "$defs": { "pageRange": { "type": "array", "prefixItems": [{ "type": "integer", "minimum": 1 }, { "type": "integer", "minimum": 1 }], "minItems": 2, "maxItems": 2 } },
+  "additionalProperties": false
+}

@@ -45,7 +45,10 @@
     └── tutorial-learning/
         ├── SKILL.md
         ├── agents/openai.yaml
-        └── references/
+        ├── examples/
+        ├── references/
+        ├── schemas/
+        └── scripts/
 ```
 
 ## 新增或修改 Skill

@@ -1,0 +1,45 @@
+{
+  "sourceTitle": "PDF Excerpt",
+  "format": "pdf",
+  "structureKind": "page_range",
+  "navigationOrder": [
+    "pdf-main"
+  ],
+  "blocks": [
+    {
+      "id": "pdf-main",
+      "type": "paragraph",
+      "title": "PDF Excerpt",
+      "textSummary": "Traceable lesson content.",
+      "sourceTrace": {
+        "id": "st-pdf-main",
+        "source_format": "pdf",
+        "locator": "source-pdf",
+        "blockId": "pdf-main",
+        "boundaryConfidence": "explicit",
+        "evidenceType": "source-derived",
+        "pageRange": [
+          12,
+          12
+        ],
+        "extractionSlice": "chapter concept"
+      }
+    }
+  ],
+  "sourceTraces": [
+    {
+      "id": "st-pdf-main",
+      "source_format": "pdf",
+      "locator": "source-pdf",
+      "blockId": "pdf-main",
+      "boundaryConfidence": "explicit",
+      "evidenceType": "source-derived",
+      "pageRange": [
+        12,
+        12
+      ],
+      "extractionSlice": "chapter concept"
+    }
+  ],
+  "uncertaintyNotes": []
+}

@@ -1,0 +1,11 @@
+{
+  "source": {
+    "format": "pdf",
+    "accessMode": "extracted_text",
+    "locator": "source.txt",
+    "licenseOrUseNote": "Fixture content."
+  },
+  "scope": {
+    "section": "PDF Excerpt"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "source": {
+    "format": "html",
+    "accessMode": "extracted_text",
+    "locator": "source.html",
+    "licenseOrUseNote": "Fixture content."
+  },
+  "scope": {
+    "section": "HTML Noise Filtering"
+  }
+}

@@ -37,7 +37,7 @@ Turn hypertext tutorial sources into time-efficient Chinese study artifacts. Tre
 | Required inputs | Tutorial source URL/path/text and requested chapter, section, heading, page range, or anchor. |
 | Optional inputs | Time budget, familiarity, learning goal, skip preference, and personal relevance hints. |
 | Normalized shape | `TutorialRequest` in `references/learning_contract.md`. |
-| Outputs | Chinese lecture markdown, content triage, learning route, micro-assessment, practice task when applicable, review cards, and review plan JSON. |
+| Outputs | Chinese lecture markdown, content triage, learning route, micro-assessment, practice task when applicable, review cards, review plan JSON, and machine-readable evaluator report. Preserve source outline JSON as an audit sidecar when structured artifacts are produced. |
 | Failure conditions | Stop or ask when source text is unavailable, rights/use constraints are unclear, the requested unit cannot be located, or only headings/TOC exist without lesson content. |
 
 ## References
@@ -47,6 +47,7 @@ Load progressively; do not read every reference by default.
 | Reference | Load when |
 | --- | --- |
 | `references/learning_contract.md` | Any run; defines the shared tutorial model and workflow. |
+| `references/source_adapter_contract.md` | Extending or auditing lightweight source adapters and their upgrade path. |
 | `references/source_profiles.md` | Handling PDF, HTML, Markdown, or heading-structured text. |
 | `references/source_fidelity.md` | Source trace, page/anchor/heading evidence, uncertainty, rights, or extraction confidence matters. |
 | `references/triage_protocol.md` | Classifying blocks, filler, reference-only material, skip policy, or depth routing. |
@@ -60,10 +61,12 @@ Load progressively; do not read every reference by default.
 | --- | --- |
 | `references/source_profiles.md` | Source-format ingest rules for PDF, HTML, Markdown, and heading-structured text. |
 | References listed above | Shared contracts, templates, and quality criteria loaded only when needed. |
+| `scripts/validate_artifact.py` | Validate structured tutorial artifacts and cross-artifact invariants. |
+| `scripts/run_examples.py` | Run the minimal Markdown, HTML noise, and PDF excerpt regression fixtures. |
 
 ## Extension Points
 
-Add a source-format profile to `references/source_profiles.md` only when it can use the same outline, trace, triage, lecture, and review workflow.
+Add a lightweight source-format adapter profile to `references/source_profiles.md` only when it can use the same outline, trace, triage, lecture, and review workflow. Use `references/source_adapter_contract.md`; add a registry and resolver only when profile count, ambiguity, or adapter-specific resources justify them.
 
 ## Scope Boundary
 

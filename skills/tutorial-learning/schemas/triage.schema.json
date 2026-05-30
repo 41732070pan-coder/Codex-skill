@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "triage.schema.json",
+  "title": "TriageArtifact",
+  "type": "object",
+  "required": ["blocks", "skipped_summary", "learning_objectives"],
+  "properties": {
+    "blocks": { "type": "array", "minItems": 1, "items": { "type": "object", "required": ["id", "title", "sourceTrace", "blockType", "content_role", "depth", "route"], "properties": { "id": { "type": "string" }, "title": { "type": "string" }, "sourceTrace": { "type": "object", "required": ["id"] }, "blockType": { "type": "string" }, "content_role": { "enum": ["core", "supporting", "reference_only", "filler", "deferred_ops"] }, "route": { "enum": ["in_lecture", "appendix", "skip_with_deep_dive"] }, "deep_dive": { "type": "object" }, "depth": { "$ref": "#/$defs/depth" } } } },
+    "skipped_summary": { "type": "array", "items": { "type": "string" } },
+    "learning_objectives": { "type": "array", "minItems": 2, "maxItems": 4, "items": { "type": "object", "required": ["id", "text", "mastery", "verifiable", "sourceTraceIds"], "properties": { "id": { "type": "string" }, "text": { "type": "string" }, "mastery": { "enum": ["exposure", "recall", "application"] }, "verifiable": { "type": "string" }, "sourceTraceIds": { "type": "array", "minItems": 1, "items": { "type": "string" } } } } }
+  },
+  "$defs": { "depth": { "type": "object", "required": ["importance", "complexity", "practical_frequency", "prerequisite_value", "goal_relevance", "personal_relevance", "composite", "study_depth", "est_minutes", "rationale"], "properties": { "importance": { "$ref": "#/$defs/score" }, "complexity": { "$ref": "#/$defs/score" }, "practical_frequency": { "$ref": "#/$defs/score" }, "prerequisite_value": { "$ref": "#/$defs/score" }, "goal_relevance": { "$ref": "#/$defs/score" }, "personal_relevance": { "$ref": "#/$defs/score" }, "composite": { "type": "number", "minimum": 0, "maximum": 5 }, "study_depth": { "enum": ["skip", "skim", "standard", "deep"] }, "est_minutes": { "type": "number", "minimum": 0 }, "rationale": { "type": "string" }, "guardrails_applied": { "type": "array", "items": { "type": "string" } }, "risk_flags": { "type": "array", "items": { "enum": ["safety", "compliance", "irreversible_operation"] } } } }, "score": { "type": "number", "minimum": 0, "maximum": 5 } }
+}

@@ -1,0 +1,11 @@
+{
+  "scores": {
+    "source_fidelity": 5,
+    "triage_depth_routing": 5,
+    "chinese_lecture_quality": 4,
+    "assessment_review": 5
+  },
+  "blocking_failures": [],
+  "patches": [],
+  "delivery_allowed": true
+}

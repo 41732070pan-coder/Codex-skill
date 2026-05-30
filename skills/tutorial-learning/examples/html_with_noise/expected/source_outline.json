@@ -1,0 +1,45 @@
+{
+  "sourceTitle": "HTML Noise Filtering",
+  "format": "html",
+  "structureKind": "anchor_graph",
+  "navigationOrder": [
+    "html-main"
+  ],
+  "blocks": [
+    {
+      "id": "html-main",
+      "type": "paragraph",
+      "title": "HTML Noise Filtering",
+      "textSummary": "Traceable lesson content.",
+      "sourceTrace": {
+        "id": "st-html-main",
+        "source_format": "html",
+        "locator": "source-html",
+        "blockId": "html-main",
+        "boundaryConfidence": "explicit",
+        "evidenceType": "source-derived",
+        "url": "https://example.test/tutorial",
+        "anchor": "main",
+        "headingPath": [
+          "Main concept"
+        ]
+      }
+    }
+  ],
+  "sourceTraces": [
+    {
+      "id": "st-html-main",
+      "source_format": "html",
+      "locator": "source-html",
+      "blockId": "html-main",
+      "boundaryConfidence": "explicit",
+      "evidenceType": "source-derived",
+      "url": "https://example.test/tutorial",
+      "anchor": "main",
+      "headingPath": [
+        "Main concept"
+      ]
+    }
+  ],
+  "uncertaintyNotes": []
+}

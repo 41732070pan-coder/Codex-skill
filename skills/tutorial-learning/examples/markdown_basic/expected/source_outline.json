@@ -1,0 +1,43 @@
+{
+  "sourceTitle": "Markdown Basics",
+  "format": "markdown",
+  "structureKind": "heading_tree",
+  "navigationOrder": [
+    "md-main"
+  ],
+  "blocks": [
+    {
+      "id": "md-main",
+      "type": "paragraph",
+      "title": "Markdown Basics",
+      "textSummary": "Traceable lesson content.",
+      "sourceTrace": {
+        "id": "st-md-main",
+        "source_format": "markdown",
+        "locator": "source-markdown",
+        "blockId": "md-main",
+        "boundaryConfidence": "explicit",
+        "evidenceType": "source-derived",
+        "headingPath": [
+          "Overview"
+        ],
+        "extractionSlice": "overview"
+      }
+    }
+  ],
+  "sourceTraces": [
+    {
+      "id": "st-md-main",
+      "source_format": "markdown",
+      "locator": "source-markdown",
+      "blockId": "md-main",
+      "boundaryConfidence": "explicit",
+      "evidenceType": "source-derived",
+      "headingPath": [
+        "Overview"
+      ],
+      "extractionSlice": "overview"
+    }
+  ],
+  "uncertaintyNotes": []
+}

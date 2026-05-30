@@ -64,6 +64,18 @@ Adjust with `personal_relevance_hints` by at most ±1 per matching concept, capp
 | 3.5–4.4 | standard | `in_lecture` |
 | ≥ 4.5 | deep | `in_lecture`, worked example or practice when applicable |
 
+## Depth Guardrails
+
+Use `composite` as the default routing signal, then apply these minimum-depth rules. Record applied rule ids in `guardrails_applied`.
+
+| Rule id | Condition | Required outcome |
+| --- | --- | --- |
+| `prerequisite-floor` | `prerequisite_value >= 4` and `importance >= 3` | At least `standard`. |
+| `important-skip-deep-dive` | `importance >= 4` and low current learner relevance would otherwise skip the block | Route only as `skip_with_deep_dive`; include a source location or non-fabricated URL. |
+| `risk-floor` | `risk_flags` includes safety, compliance, or irreversible operation | At least `standard`; include a source trace and uncertainty note when evidence is weak. |
+
+Guardrails prevent an average score from hiding a critical dependency or risk.
+
 ## Skip With Deep Dive
 
 When `study_depth === skip` and the topic is important but not currently relevant:
