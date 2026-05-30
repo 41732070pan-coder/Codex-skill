@@ -1,0 +1,39 @@
+{
+  "round": 1,
+  "rubricId": "default_rubric",
+  "dimensionIds": [
+    "taskFit",
+    "clarity",
+    "completeness",
+    "correctness",
+    "artifactAlignment"
+  ],
+  "judgeRole": "product_manager",
+  "isolatedJudge": true,
+  "scores": {
+    "taskFit": 3,
+    "clarity": 4,
+    "completeness": 2,
+    "correctness": 4,
+    "artifactAlignment": 3
+  },
+  "thresholds": {
+    "taskFit": 5,
+    "clarity": 5,
+    "completeness": 5,
+    "correctness": 5,
+    "artifactAlignment": 5
+  },
+  "overall": "fail",
+  "findings": [
+    {
+      "dimension": "taskFit",
+      "score": 3,
+      "gap": "Goal is not measurable",
+      "evidenceQuote": "when users feel it is snappy"
+    }
+  ],
+  "priorityFixes": [
+    "Require a quantitative or binary validator in the objective"
+  ]
+}

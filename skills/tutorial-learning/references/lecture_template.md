@@ -52,6 +52,7 @@ Render every lesson as an independently studyable unit. Use ordered subsections 
 
 - Teach mechanism, not source paste.
 - Use Chinese; keep API names, commands, formulas, identifiers, and URLs in original spelling.
+- **Evidence tags**: any sentence not literally grounded in the source must carry `[推断]`, `[补充]`, or `[改写]`, or appear in the **推断展开** table in `source_fidelity.md`. Do not claim labeling in fidelity docs unless tags or that table exist.
 - For `skim` blocks: ≤ 1 short paragraph.
 - Include source trace ids for major claims when useful.
 - Estimate reading, micro-assessment, practice, and recap minutes separately after generating the lesson. Do not force a fixed 45-minute claim.

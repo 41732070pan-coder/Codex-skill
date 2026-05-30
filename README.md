@@ -4,7 +4,7 @@
 
 ## 仓库定位
 
-本仓库把每个 Skill 作为一个小型能力模块管理：它应具有清晰的触发条件、输入输出、参考资料、素材归属、扩展点和质量门禁。设计、重命名、审查或重构 Skill 时使用 `meta-skill`；当某个 Skill 内部存在可扩展的实现族（如风格、策略、Provider、Adapter、模式）时，也由 `meta-skill` 约束其注册表、解析语义、按需加载边界和升级路径；执行具体领域任务时使用对应业务 Skill。
+本仓库把每个 Skill 作为一个小型能力模块管理：它应具有清晰的触发条件、输入输出、参考资料、素材归属、扩展点和质量门禁。设计、重命名、审查或重构 Skill 时使用 `meta-skill`；当某个 Skill 内部存在可扩展的实现族（如风格、策略、Provider、Adapter、模式）时，也由 `meta-skill` 约束其注册表、解析语义、按需加载边界和升级路径；执行具体领域任务时使用对应业务 Skill；对已有 Skill 在具体场景下跑输出、隔离评审并迭代改进时使用 `skill-tune`。
 
 本仓库不鼓励为一次性、低复用、无扩展需求的简单提示创建 Skill；这类能力通常应保留在普通对话、项目说明或局部脚本中。`meta-skill` 面向值得长期沉淀、维护和扩展的能力模块，而不是为所有简单任务提供治理流程。
 
@@ -21,8 +21,9 @@
 | Skill | 类型 | 位置 | 功能 | 状态 |
 | --- | --- | --- | --- | --- |
 | `meta-skill` | 元 Skill / 治理 | `skills/meta-skill/` | 设计、添加、重命名、审查、重构和治理仓库内的 Skills 与实现族，提供契约、注册表、模板、加载边界、解析语义、升级路径、生命周期和质量门禁规则。 | stable |
-| `my-design-style` | 业务 Skill / 视觉设计 | `skills/my-design-style/` | 为 PPT、网页、App、Dashboard、静态视觉稿和设计模板应用可扩展视觉风格系统；中文人类使用指南见 `skills/my-design-style/README.zh-CN.md`。 | experimental |
-| `tutorial-learning` | 业务 Skill / 学习工作流 | `skills/tutorial-learning/` | 将 PDF、HTML、Markdown、网页教程等教程源转成媒介无关的教程设计中间层：学习计划、中文讲义、结构、triage、测验、练习、复习和来源忠实度文档；最终展示物交给下游渲染 Skill。 | experimental |
+| `skill-tune` | 元 Skill / 迭代调优 | `skills/skill-tune/` | 对已有 Skill 在具体场景下执行 Run → 隔离 Judge → Improve 循环，直至 rubric 达标；记录 `self-iter.md` 与 `tune_sessions/` 产物。不负责 Skill 创建或仓库级治理。 | experimental |
+| `my-design-style` | 业务 Skill / 视觉设计 | `skills/my-design-style/` | 为 PPT、网页、App、Dashboard、前端 Demo、静态视觉稿和设计模板应用可扩展视觉风格系统；中文人类使用指南见 `skills/my-design-style/README.zh-CN.md`。 | experimental |
+| `tutorial-learning` | 业务 Skill / 学习工作流 | `skills/tutorial-learning/` | 将 PDF、HTML、Markdown 及带标题结构的教程源转成带来源追溯、媒介无关的中文课程设计中间层：学习计划、讲义、结构、triage、测验、练习、复习与来源忠实度文档；最终展示物交给下游渲染 Skill。 | experimental |
 
 ## 高层目录结构
 
@@ -35,20 +36,30 @@
     │   ├── agents/openai.yaml
     │   ├── references/
     │   └── scripts/
+    ├── skill-tune/
+    │   ├── SKILL.md
+    │   ├── agents/openai.yaml
+    │   ├── examples/
+    │   ├── references/
+    │   └── scripts/
     ├── my-design-style/
     │   ├── SKILL.md
     │   ├── README.zh-CN.md
     │   ├── agents/openai.yaml
     │   ├── assets/
+    │   ├── examples/
     │   ├── references/
+    │   ├── schemas/
     │   └── scripts/
     └── tutorial-learning/
         ├── SKILL.md
+        ├── self-iter.md
         ├── agents/openai.yaml
         ├── examples/
         ├── references/
         ├── schemas/
-        └── scripts/
+        ├── scripts/
+        └── tune_sessions/
 ```
 
 ## 新增或修改 Skill

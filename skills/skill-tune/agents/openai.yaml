@@ -1,0 +1,5 @@
+interface:
+  display_name: "Skill Tune"
+  short_description: "Iterate skills via isolated judging"
+  default_prompt: "Use $skill-tune to run a scenario against an existing skill, judge the output in isolation, improve the skill until rubric excellence, and log rounds in self-iter.md."
+  brand_color: "#0f766e"

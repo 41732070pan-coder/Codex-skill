@@ -48,6 +48,7 @@ interface TutorialRequest {
     goal?: "exam" | "practice" | "project" | "survey";
     personal_relevance_hints?: string[];
     explanation_preference?: ExplanationPreference;
+    implementation_variant?: string;  // parallel tutorial code-path preference (e.g. pytorch); triage only — not UI, renderer, or runtime stack choice
   };
   uncertaintyNotes?: string[];
 }
@@ -64,6 +65,8 @@ interface LearningRouteStage { id: string; title: string; objective_ids: string[
 interface LearningRoute { stages: LearningRouteStage[]; est_minutes_total: number; designed_scope: string }
 interface EvaluatorReport { scores: { source_fidelity: number; triage_depth_routing: number; chinese_lecture_quality: number; assessment_review: number; tutorial_design_completeness: number }; blocking_failures: string[]; patches: { priority: "P0" | "P1" | "P2" | "P3"; issue: string; fix: string }[]; delivery_allowed: boolean }
 ```
+
+`implementation_variant` selects which **parallel source code path** to teach when a tutorial repeats the same concept for multiple stacks (e.g. D2L framework tabs). It drives triage and lecture content choice only; it does not select a presentation medium, visual style, or downstream renderer implementation.
 
 ## Template-Method Pipeline
 

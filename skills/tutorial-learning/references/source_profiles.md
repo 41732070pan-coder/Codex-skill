@@ -35,6 +35,8 @@ Add a YAML registry and resolver only when this compact table no longer supports
 - Remove navigation, sidebars, comments, cookie banners, ads, duplicate headers/footers, and unrelated marketing copy from learning content.
 - Preserve anchors and URLs for source traces and deep dives.
 - Mark uncertainty if main content cannot be separated from navigation or marketing content.
+- **Parallel implementation variants**: when the page repeats the same concept for multiple stacks (e.g. MXNet / PyTorch / TensorFlow / Paddle tabs or alternating code blocks), treat shared prose as core once and each code path as a variant block. Route the learner-selected `implementation_variant` (from `TutorialRequest.learner_preferences`) to `in_lecture`; route non-selected variants to `deferred_ops` with a deep-dive link to the source URL/anchor. Never duplicate all variants in the lecture body.
+- **Notebook launchers**: Colab, SageMaker Studio Lab, and similar one-click links are usually `filler` or `navigation` unless the scope is environment setup.
 
 ## Markdown
 
