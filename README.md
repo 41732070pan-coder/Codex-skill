@@ -53,11 +53,12 @@
 
 ## 新增或修改 Skill
 
-1. 先使用 `meta-skill` 明确能力目标、触发边界、输入输出、资源策略、扩展点和质量门禁。
-2. 每个维护中的 Skill 放在 `skills/<skill-name>/` 下。
-3. `SKILL.md` 只保留编排、触发条件、工作流和不变量。
-4. 详细契约、注册表、模板和领域资料放入 `references/`；可增长的实现族应通过注册表和 list/resolve/get 脚本发现并按需加载。
-5. 小型实现族不要写成自由文本列表；至少保留稳定 id、实现路径、状态、摘要、别名/cue、歧义说明和 fallback 策略，方便后续无重构升级为机器可读注册表。
-6. 素材放入所属 Skill 的 `assets/`；跨 Skill 共享素材必须有明确共享提供器。
-7. 更新本 README 的 Skill 列表，以及 `skills/meta-skill/references/skill_registry.md`。
-8. 至少运行 `python skills/meta-skill/scripts/validate_skills.py`、`python skills/meta-skill/scripts/validate_skill_boundaries.py` 和 `git diff --check`；如果 Skill 包含脚本或可运行代码，应补充对应测试。
+1. 开始修改前先运行 `python skills/meta-skill/scripts/check_remote_sync.py --fetch`。如果仓库未配置 remote、落后于远端或已经分叉，先配置或整合远端，再继续改动。
+2. 先使用 `meta-skill` 明确能力目标、触发边界、输入输出、资源策略、扩展点和质量门禁。
+3. 每个维护中的 Skill 放在 `skills/<skill-name>/` 下。
+4. `SKILL.md` 只保留编排、触发条件、工作流和不变量。
+5. 详细契约、注册表、模板和领域资料放入 `references/`；可增长的实现族应通过注册表和 list/resolve/get 脚本发现并按需加载。
+6. 小型实现族不要写成自由文本列表；至少保留稳定 id、实现路径、状态、摘要、别名/cue、歧义说明和 fallback 策略，方便后续无重构升级为机器可读注册表。
+7. 素材放入所属 Skill 的 `assets/`；跨 Skill 共享素材必须有明确共享提供器。
+8. 更新本 README 的 Skill 列表，以及 `skills/meta-skill/references/skill_registry.md`。
+9. 至少运行 `python skills/meta-skill/scripts/validate_skills.py`、`python skills/meta-skill/scripts/validate_skill_boundaries.py` 和 `git diff --check`；如果 Skill 包含脚本或可运行代码，应补充对应测试。

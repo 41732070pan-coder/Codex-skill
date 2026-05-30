@@ -39,22 +39,23 @@ This skill also owns the repository standard for **implementation families**: an
 
 ## Workflow
 
-1. **Classify the change**: new skill, rename, refactor, family expansion, implementation addition, registry update, resource-boundary audit, validation update, asset addition, or deprecation.
-2. **Normalize the capability**: define user goal, triggers, non-triggers, expected inputs, expected outputs, constraints, lifecycle status, risk areas, and whether the skill has or will have an implementation family.
-3. **Choose the module shape**:
+1. **Check remote drift**: before editing a Git-backed workspace, run `python skills/meta-skill/scripts/check_remote_sync.py --fetch` when a remote is configured. Stop and integrate remote changes when the branch is behind or diverged; do not guess a missing remote URL.
+2. **Classify the change**: new skill, rename, refactor, family expansion, implementation addition, registry update, resource-boundary audit, validation update, asset addition, or deprecation.
+3. **Normalize the capability**: define user goal, triggers, non-triggers, expected inputs, expected outputs, constraints, lifecycle status, risk areas, and whether the skill has or will have an implementation family.
+4. **Choose the module shape**:
    - Single skill: one `SKILL.md` plus optional references.
    - Governed skill: add contract, registry, template, and validator references.
    - Overlay-aware skill: add a small overlay/decorator contract when users need temporary preference layers over a stable base behavior; do not make decorators mandatory for every skill.
    - Small implementation family: add a concise, table-shaped registry with stable ids, implementation paths, status, aliases/cues, ambiguity policy, fallback policy, and selected-only loading.
    - Growing implementation family: preserve the same entry semantics, then add a machine-readable registry, list/resolve/get scripts, implementation template, and boundary validation.
    - Resource-heavy skill: add asset manifests, examples, providers, or deterministic helpers.
-4. **Apply the load boundary**:
+5. **Apply the load boundary**:
    - During normal use, load `SKILL.md` first, then only the references in the Reference Load Map.
    - For implementation families, do not inspect all implementation files. Use the family registry or list/resolve/get scripts first.
    - Resolve directly when possible; when resolution is ambiguous or missing, provide available implementation ids and summaries so the LLM can choose the most likely option or recommend a close registered option.
    - Direct implementation reads are maintenance-only and should be scoped to the selected implementation or the files being edited.
-5. **Update repository documentation**: keep `README.md` concise; it should list skills and functions, not duplicate internal skill manuals or implementation catalogs.
-6. **Validate**: run available checks. For documentation-only changes, run at least `git diff --check`; for repository-level skill integrity, run `python skills/meta-skill/scripts/validate_skills.py`; for load-boundary work, run `python skills/meta-skill/scripts/validate_skill_boundaries.py`.
+6. **Update repository documentation**: keep `README.md` concise; it should list skills and functions, not duplicate internal skill manuals or implementation catalogs.
+7. **Validate**: run available checks. For documentation-only changes, run at least `git diff --check`; for repository-level skill integrity, run `python skills/meta-skill/scripts/validate_skills.py`; for load-boundary work, run `python skills/meta-skill/scripts/validate_skill_boundaries.py`.
 
 
 ## Normal Use Loading Rule
@@ -162,6 +163,7 @@ Load references progressively. `references/governance_contract.md` is the single
 | `references/implementation_family_template.md` | Copyable skeleton for a governed implementation family inside a skill. | Creating or standardizing a multi-implementation family. |
 | `references/skill_registry.md` | Repository-level inventory for maintained skills. | Adding, removing, renaming, deprecating, or reviewing skill discovery. |
 | `references/quality_gates.md` | Manual and executable quality checks. | Before finalizing any skill change. |
+| `scripts/check_remote_sync.py` | Non-destructive pre-edit fetch and ahead/behind/diverged check. | Before changing a Git-backed skill workspace; configure the intended remote first when none exists. |
 | `scripts/validate_skills.py` | Lightweight repository skill validator with no third-party dependencies. | Before commit or PR, especially after changing skill structure, registries, or README inventory. |
 | `scripts/validate_skill_boundaries.py` | Static checker for oversized entry files, implementation fan-out, asset fan-out, and missing family dispatch scripts. | After changing `SKILL.md`, references, registry layout, or implementation-family rules. |
 
@@ -178,7 +180,7 @@ The `meta-skill` owns no reusable visual or binary assets. Do not add assets to 
 | Registry source-of-truth | Registry + Schema | `references/registry_contract.md` |
 | Progressive loading/resource access | Access policy | `references/resource_access_contract.md` |
 | Repository skill discovery | Registry | `references/skill_registry.md` |
-| Quality enforcement | Quality Gate | `references/quality_gates.md`, `scripts/validate_skills.py`, `scripts/validate_skill_boundaries.py` |
+| Quality enforcement | Quality Gate | `references/quality_gates.md`, `scripts/check_remote_sync.py`, `scripts/validate_skills.py`, `scripts/validate_skill_boundaries.py` |
 | Repository invariants | Policy reference | `references/top_level_skill_constraints.md` |
 
 Before adding detailed prose, answer these questions:

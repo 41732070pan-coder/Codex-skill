@@ -4,6 +4,7 @@ Use these checks before finalizing skill changes.
 
 | Gate | Applies to | Check | Command |
 | --- | --- | --- | --- |
+| Remote drift pre-check | Git-backed skill changes before editing | Fetch intended remote and stop when local history is behind or diverged. Configure the remote explicitly if missing. | `python skills/meta-skill/scripts/check_remote_sync.py --fetch` |
 | Repository skill validation | All skill structure or inventory changes | Front matter, required sections, README inventory, registry inventory, registry columns, and asset manifests are consistent. | `python skills/meta-skill/scripts/validate_skills.py` |
 | Boundary validation | Changes to `SKILL.md`, resource access rules, implementation families, or registries | Entry files stay orchestration-focused; implementation and asset fan-out are limited; growing families expose dispatch scripts. | `python skills/meta-skill/scripts/validate_skill_boundaries.py` |
 | Whitespace | All changes | No trailing whitespace or conflict markers. | `git diff --check` |
@@ -15,6 +16,11 @@ Use these checks before finalizing skill changes.
 | Template boundary | Extensible skill families | Future implementations have a template or documented skeleton. | `python skills/meta-skill/scripts/validate_skill_boundaries.py` / Manual |
 | Asset provenance | Skills with assets | Assets have owner, role, provenance, allowed use, and forbidden use. | `python skills/meta-skill/scripts/validate_skills.py` / Manual |
 | README scope | Repository README | README lists skills and functions without duplicating internal manuals or implementation catalogs. | Manual |
+
+## Pre-Edit Checklist
+
+- Before editing a Git-backed workspace, run `python skills/meta-skill/scripts/check_remote_sync.py --fetch` when the intended remote is configured. Stop and report the limitation when no remote URL is available.
+- If the branch is behind or diverged, integrate fetched remote changes before editing.
 
 ## Rename-Specific Checklist
 
