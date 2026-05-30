@@ -1,0 +1,515 @@
+{
+  "meta": {
+    "title": "my-design-style 框架导览",
+    "subtitle": "以 chinese_traditional_color_style 演示统一 Workflow",
+    "outputFilename": "my-design-style-intro.pptx",
+    "assetRoot": "assets/chinese_traditional_color_style",
+    "sampleSvgMotifs": [
+      "中国风边框.svg",
+      "中国风，笛-01.svg",
+      "云-中国风.svg",
+      "古风物件，中国风，中国结.svg",
+      "中国风玉兔.svg",
+      "古风物件，中国风，伞，古风伞.svg",
+      "中国风，萧.svg",
+      "中国风，埙.svg",
+      "古风物件，中国风，铜钱，圆形方孔钱2.svg",
+      "中国风.svg"
+    ]
+  },
+  "slides": [
+    {
+      "layout": "cover",
+      "chips": ["主风格", "传统色", "契约化", "可验证"],
+      "tagline": "风格 = 结构 + 行为；同一套 Workflow，可替换的具体风格。",
+      "motifs": [
+        {"file": "中国风边框.svg", "x": 0.42, "y": 0.28, "w": 12.5, "h": 6.92, "alpha": 0.32},
+        {"file": "中国风，笛-01.svg", "x": 8.62, "y": 0.72, "w": 4.05, "h": 5.95, "alpha": 0.9},
+        {"file": "云-中国风.svg", "x": 0.55, "y": 5.78, "w": 5.2, "h": 1.25, "alpha": 0.22}
+      ]
+    },
+    {
+      "layout": "agenda",
+      "title": "阅读路径",
+      "subtitle": "从请求规范化到交付自检。",
+      "items": [
+        ["Skill 做什么", "DesignRequest、registry、不变管线。"],
+        ["执行协议", "解析、引用加载、StyleLock、Visual Rhythm。"],
+        ["三种风格", "Intent 与创作空间对比，非禁令清单。"],
+        ["落地提示", "正向请求写法、modifier、质量门。"]
+      ],
+      "motifs": [
+        {"file": "古风物件，中国风，中国结.svg", "x": 10.75, "y": 5.25, "w": 1.9, "h": 1.9, "alpha": 0.72}
+      ]
+    },
+    {
+      "layout": "section",
+      "no": "01",
+      "title": "框架使命",
+      "subtitle": "把视觉风格变成可解析、可组合、可校验的设计系统。",
+      "motifs": [
+        {"file": "中国风玉兔.svg", "x": 8.85, "y": 0.45, "w": 3.95, "h": 6.35, "alpha": 0.14}
+      ]
+    },
+    {
+      "layout": "cards",
+      "title": "为什么用 my-design-style",
+      "subtitle": "减少风格漂移，同时保留各风格的创作空间。",
+      "cols": 2,
+      "cards": [
+        {
+          "head": "执行契约",
+          "body": ["媒介、目标、约束归一为 DesignRequest", "具体风格实现 DesignStyleBase 章节", "交付前跑风格自检与仓库校验"],
+          "accent": "indigo_deep"
+        },
+        {
+          "head": "媒介翻译",
+          "body": ["PPT、Web、App、Dashboard 共用身份逻辑", "版式 archetype 随媒介变化", "多页先规划 Visual Rhythm Plan"],
+          "accent": "bamboo"
+        },
+        {
+          "head": "资产边界",
+          "body": ["每风格独立 assets/<style_name>/", "manifest 记录角色与来源", "缺素材时用色卡、几何与声明的 fallback"],
+          "accent": "cang"
+        },
+        {
+          "head": "预览与锁定",
+          "body": ["previewMode 默认 auto", "高风险任务先 StylePreviewPlan", "否则 StyleLock 记录默认选项并披露"],
+          "accent": "rouge"
+        }
+      ],
+      "motifs": [
+        {"file": "古风物件，中国风，伞，古风伞.svg", "x": 10.95, "y": 1.48, "w": 1.72, "h": 2.35, "alpha": 0.68}
+      ]
+    },
+    {
+      "layout": "cards",
+      "title": "DesignRequest 字段",
+      "subtitle": "用户可自然描述；执行时整理为稳定形状（见 style_contract.md）。",
+      "cols": 2,
+      "cards": [
+        {
+          "head": "必需",
+          "body": ["medium、contentGoal", "explicitStyle 或足够强的 domain cue"],
+          "accent": "indigo_deep"
+        },
+        {
+          "head": "可选",
+          "body": ["audience / context", "constraints：尺寸、平台、可访问性、品牌", "modifiers、previewMode"],
+          "accent": "bamboo"
+        },
+        {
+          "head": "Modifier",
+          "body": ["palette / motif / texture / layout / mood / asset", "与主风格 compose，不默认替代主风格", "冲突时澄清或按 style 文件调和"],
+          "accent": "cang"
+        },
+        {
+          "head": "歧义时",
+          "body": ["两风格置信度接近：问一次", "素材授权不清：降级为参考或请用户提供", "扩展新风格：走 Extension，不 fork Workflow"],
+          "accent": "rouge"
+        }
+      ]
+    },
+    {
+      "layout": "table",
+      "title": "风格注册表（摘要）",
+      "subtitle": "完整条目见 references/style_registry.md。",
+      "columns": ["Style id", "主语义", "典型场景", "资产根"],
+      "col_widths": [2.4, 1.8, 3.4, 2.25],
+      "rows": [
+        ["seu_design_style", "高校学术", "答辩、科研、校园品牌", "assets/seu_design_style/"],
+        ["renminbi_color_style", "中式金融可信", "金融科技、年报、资产叙事", "assets/renminbi_color_style/"],
+        ["chinese_traditional_color_style", "传统色 / 新中式", "文博、茶礼、文化教育", "assets/chinese_traditional_color_style/"]
+      ],
+      "font_size": 7.8
+    },
+    {
+      "layout": "flow",
+      "title": "不变执行管线",
+      "subtitle": "差异只在 references/<style>.md 与资产策略。",
+      "steps": [
+        { "head": "Normalize", "body": ["DesignRequest"] },
+        { "head": "Resolve", "body": ["registry / alias / cue"] },
+        { "head": "Load", "body": ["按需 references"] },
+        { "head": "Compose", "body": ["modifiers + rhythm"] },
+        { "head": "Lock", "body": ["preview 或默认"] },
+        { "head": "Check", "body": ["风格 Self-Check"] }
+      ],
+      "motifs": [
+        {"file": "中国风，萧.svg", "x": 11.05, "y": 2.02, "w": 1.55, "h": 2.15, "alpha": 0.62}
+      ]
+    },
+    {
+      "layout": "style_lock",
+      "locks": [
+        ["色卡系列", "Indigo Scholarly + Ink Paper", "本示例主视觉；对比色卡仅作说明页。"],
+        ["纸感纹理", "rice-paper / 低透明度", "背景与章节页；密集正文区保持干净。"],
+        ["文化手势", "restrained-rules + gallery-labels", "细线、边栏、色签；motif 随页面角色轮换。"],
+        ["资产", "style-owned SVG + code-native", "边框、乐器、云纹、中国结等 SVG；纹理可代码生成。"],
+        ["预览", "previewMode: skip", "内部导览；对外交付可改为 required。"]
+      ],
+      "motifs": [
+        {"file": "中国风，埙.svg", "x": 0.48, "y": 5.82, "w": 1.55, "h": 1.55, "alpha": 0.58}
+      ]
+    },
+    {
+      "layout": "cards",
+      "title": "Visual Rhythm Plan（要点）",
+      "subtitle": "多页产物先规划节奏，再填内容。",
+      "cols": 2,
+      "cards": [
+        {
+          "head": "Archetype 序列",
+          "body": ["封面 → 目录 → 章节 → 概念/对比 → 总结", "每页承担一种信息角色"],
+          "accent": "indigo_deep"
+        },
+        {
+          "head": "视觉锚点",
+          "body": ["每页至少一个非正文锚点", "色卡、表格、流程、侧栏或图像", "锚点服务内容结构"],
+          "accent": "bamboo"
+        },
+        {
+          "head": "Motif 轮换",
+          "body": ["边栏、色签、纹理强度随页变化", "数据密集页降低装饰权重"],
+          "accent": "cang"
+        },
+        {
+          "head": "自检",
+          "body": ["variation checks 来自 rhythm plan", "只修订影响可用性、安全或风格一致性的问题"],
+          "accent": "rouge"
+        }
+      ],
+      "motifs": [
+        {"file": "云-中国风.svg", "x": 9.85, "y": 5.55, "w": 2.95, "h": 0.95, "alpha": 0.24}
+      ]
+    },
+    {
+      "layout": "decision_tree",
+      "title": "如何选择主风格",
+      "subtitle": "优先 explicit style id；domain cue 次之；需要时问一次。",
+      "nodes": [
+        ["高校 / 科研 / 答辩", "seu_design_style", "浅底、绿结构、黄精确强调"],
+        ["金融 / 资产 / 可信价值", "renminbi_color_style", "面额色系、纸感、细线层次"],
+        ["文博 / 国风 / 传统工艺", "chinese_traditional_color_style", "命名色卡、留白、现代可读"]
+      ],
+      "motifs": [
+        {"file": "古风物件，中国风，铜钱，圆形方孔钱2.svg", "x": 0.5, "y": 5.95, "w": 1.05, "h": 1.05, "alpha": 0.42}
+      ]
+    },
+    {
+      "layout": "section",
+      "no": "02",
+      "title": "三种风格：Intent 与创作空间",
+      "subtitle": "各风格 Self-Check 与 Asset Rules 以 references 为准；本页只作方向对比。"
+    },
+    {
+      "layout": "table",
+      "title": "共享运行时章节",
+      "subtitle": "具体风格文件均实现 DesignStyleBase 同一组章节。",
+      "columns": ["章节", "作用"],
+      "col_widths": [3.2, 8.65],
+      "rows": [
+        ["Triggers / Intent", "何时用、要解决什么"],
+        ["Creative Latitude", "允许的探索范围与安全边界"],
+        ["Color Tokens / Typography / Layout", "可执行的视觉系统"],
+        ["Visual Rhythm / Medium Translation", "多页与 Web/App/Dashboard 翻译"],
+        ["Asset Interface / Texture Policy", "素材句柄与 fallback"],
+        ["Modifier Compatibility / Preview / Self-Check", "组合、预览与交付核对"]
+      ],
+      "font_size": 7.4
+    },
+    {
+      "layout": "palette",
+      "title": "对比色卡（说明页）",
+      "subtitle": "不改变本 deck 的中国传统色主视觉。",
+      "groups": [
+        {
+          "name": "SEU Light",
+          "use": "学术结构",
+          "colors": [["绿", "587558"], ["黄", "FDD000"], ["银", "B4B7B9"], ["黑", "231815"], ["白", "FFFFFF"]]
+        },
+        {
+          "name": "RMB 50 Trust",
+          "use": "金融可信",
+          "colors": [["主绿", "496B61"], ["薄荷", "99BFB2"], ["纸", "EEF2EC"], ["墨", "241A17"]]
+        },
+        {
+          "name": "Traditional Indigo",
+          "use": "本示例主卡",
+          "colors": [["靛青", "177CB0"], ["靛蓝", "065279"], ["月白", "D6ECF0"], ["漆黑", "161823"]]
+        }
+      ]
+    },
+    {
+      "layout": "section",
+      "no": "03",
+      "title": "seu_design_style",
+      "subtitle": "可替换内容的学术载体；品牌元素建立结构，内容保持主位。"
+    },
+    {
+      "layout": "cards",
+      "title": "SEU — Intent 与创作空间",
+      "subtitle": "详见 references/seu_design_style.md。",
+      "cols": 2,
+      "cards": [
+        {
+          "head": "Intent",
+          "body": ["标题、论点、图表、表格易替换", "品牌用于身份与页面结构"],
+          "accent": "587558"
+        },
+        {
+          "head": "创作空间",
+          "body": ["可从密实科研到仪式感封面", "建筑/植物/校训 motif 作结构设备", "官方标识比例保持不变形"],
+          "accent": "FDD000"
+        },
+        {
+          "head": "色彩角色",
+          "body": ["浅底默认", "绿 = 层级", "黄 = 短强调与编号"],
+          "accent": "AD986E"
+        },
+        {
+          "head": "交付自检（摘要）",
+          "body": ["浅底、内容优先", "表格与 key/value 对齐", "品牌元素有目的、不挤占阅读路径"],
+          "accent": "6F8B6C"
+        }
+      ]
+    },
+    {
+      "layout": "prompt",
+      "title": "SEU — 请求示例（正向）",
+      "subtitle": "说明媒介、受众、结构与可选 preview。",
+      "prompts": [
+        {
+          "head": "组会 PPT",
+          "text": "请使用 my-design-style 的 seu_design_style，将下列研究内容做成 16:9 学术汇报。受众是导师与课题组；优先图表与表格，封面可适度仪式感。",
+          "accent": "587558"
+        },
+        {
+          "head": "项目页",
+          "text": "请使用 seu_design_style 设计科研项目网页：简介、成员、成果与联系清晰可扫读；绿色结构线、黄色用于关键指标。",
+          "accent": "FDD000"
+        }
+      ]
+    },
+    {
+      "layout": "section",
+      "no": "04",
+      "title": "renminbi_color_style",
+      "subtitle": "纸币印刷的层次与可信感；原创抽象，非法定货币复刻。"
+    },
+    {
+      "layout": "cards",
+      "title": "RMB 色彩 — Intent 与创作空间",
+      "subtitle": "详见 references/renminbi_color_style.md。",
+      "cols": 2,
+      "cards": [
+        {
+          "head": "Intent",
+          "body": ["内容优先、层次丰富、纸感表面", "价值感来自设计系统而非真钞图像"],
+          "accent": "496B61"
+        },
+        {
+          "head": "创作空间",
+          "body": ["面额色系、细线、水印感面板、编辑时刻", "红金可作价值信号，需与纸墨平衡"],
+          "accent": "364A88"
+        },
+        {
+          "head": "安全边界",
+          "body": ["Self-Check：是否 trustworthy 而非 counterfeit", "使用原创线条与授权素材", "图表与控件可读性优先"],
+          "accent": "6A4D31"
+        },
+        {
+          "head": "数字体验",
+          "body": ["金额与百分比对齐", "红色留给主值或风险信号", "Dashboard 保持常规金融控件"],
+          "accent": "443459"
+        }
+      ]
+    },
+    {
+      "layout": "prompt",
+      "title": "RMB 色彩 — 请求示例（正向）",
+      "subtitle": "同时说明想要的气质与媒介。",
+      "prompts": [
+        {
+          "head": "产品首页",
+          "text": "请使用 renminbi_color_style 设计企业金融产品首页：可信、纸感、面额色系与细线；需要原创抽象金融视觉，交付前按该风格 Self-Check 核对。",
+          "accent": "496B61"
+        },
+        {
+          "head": "年报 PPT",
+          "text": "请使用 renminbi_color_style 做年度经营报告 PPT：指标、结构、风险与计划页型完整；数字对齐，红色用于核心结论。",
+          "accent": "BD0E2B"
+        }
+      ]
+    },
+    {
+      "layout": "section",
+      "no": "05",
+      "title": "chinese_traditional_color_style",
+      "subtitle": "命名色卡为纪律；当代构图承载文化气质。",
+      "motifs": [
+        {"file": "古风物件，中国风，中国结 (1).svg", "x": 10.9, "y": 0.55, "w": 1.75, "h": 1.75, "alpha": 0.55}
+      ]
+    },
+    {
+      "layout": "cards",
+      "title": "中国传统色 — Intent 与创作空间",
+      "subtitle": "详见 references/chinese_traditional_color_style.md。",
+      "cols": 2,
+      "cards": [
+        {
+          "head": "Intent",
+          "body": ["从完整系列色卡出发", "色名增加文化纹理，层级仍现代可靠"],
+          "accent": "indigo_deep"
+        },
+        {
+          "head": "创作空间",
+          "body": ["博物馆静、茶礼暖、节庆仪式、山水档案均可", "motif 在服务于主题时可出现", "控件角色保持可识别"],
+          "accent": "bamboo"
+        },
+        {
+          "head": "排版",
+          "body": ["正文现代黑体；宋体用于标题或引语", "12 列网格；装饰不扛主信息"],
+          "accent": "cang"
+        },
+        {
+          "head": "交付自检（摘要）",
+          "body": ["是否从完整色卡开始", "主卡 + 至多一张辅助卡", "是否克制而当代，而非符号堆叠"],
+          "accent": "rouge"
+        }
+      ]
+    },
+    {
+      "layout": "palette",
+      "title": "本示例工作色卡",
+      "subtitle": "Indigo Scholarly + Ink Paper。",
+      "groups": [
+        {
+          "name": "Indigo Scholarly",
+          "use": "主结构",
+          "colors": [["靛青", "177CB0"], ["靛蓝", "065279"], ["宝蓝", "4B5CC4"], ["月白", "D6ECF0"]]
+        },
+        {
+          "name": "Ink Paper",
+          "use": "正文与对比",
+          "colors": [["漆黑", "161823"], ["墨色", "50616D"], ["精白", "FFFFFF"], ["象牙", "FFFBF0"]]
+        },
+        {
+          "name": "Bamboo Jade",
+          "use": "辅助对比（说明）",
+          "colors": [["竹青", "789262"], ["玉色", "2EDFA3"], ["素", "E0F0E9"]]
+        }
+      ],
+      "motifs": [
+        {"file": "中国风玉兔.svg", "x": 11.0, "y": 5.35, "w": 1.45, "h": 1.45, "alpha": 0.5}
+      ]
+    },
+    {
+      "layout": "prompt",
+      "title": "中国传统色 — 请求示例（正向）",
+      "subtitle": "描述场景、色卡方向与 previewMode。",
+      "prompts": [
+        {
+          "head": "文博 PPT",
+          "text": "请使用 chinese_traditional_color_style 做文博主题 PPT：靛青或苍山色系、留白、现代可读；previewMode 为 required 时先给两版色卡预览。",
+          "accent": "indigo_deep"
+        },
+        {
+          "head": "茶品牌页",
+          "text": "请使用 chinese_traditional_color_style，主卡 Apricot Gold 或 Bamboo Jade；输出 token、字体层级与商品卡片规则。",
+          "accent": "apricot"
+        }
+      ]
+    },
+    {
+      "layout": "section",
+      "no": "06",
+      "title": "Modifier 与质量门",
+      "subtitle": "微调主风格；交付前跑脚本与 Self-Check。"
+    },
+    {
+      "layout": "cards",
+      "title": "Modifier 原则",
+      "subtitle": "见 references/style_modifier_contract.md（含 SEU 枫叶示例）。",
+      "cols": 2,
+      "cards": [
+        {
+          "head": "可调",
+          "body": ["palette / motif / texture / layout / mood / asset", "priority hard vs soft"],
+          "accent": "indigo_deep"
+        },
+        {
+          "head": "保留",
+          "body": ["主风格色卡纪律与资产边界", "identity 角色不被 modifier 替换"],
+          "accent": "bamboo"
+        },
+        {
+          "head": "好组合",
+          "body": ["SEU + 少量深红 accent", "RMB + 10 元蓝分析 dashboard", "传统色 + 竹青教育场景"],
+          "accent": "cang"
+        },
+        {
+          "head": "需澄清",
+          "body": ["modifier 试图整体替换主风格", "与 Self-Check 冲突的纹理或素材", "授权不明的下载素材"],
+          "accent": "rouge"
+        }
+      ],
+      "motifs": [
+        {"file": "中国风.svg", "x": 11.02, "y": 1.38, "w": 1.62, "h": 1.62, "alpha": 0.52}
+      ]
+    },
+    {
+      "layout": "table",
+      "title": "交付核对（摘要）",
+      "subtitle": "完整 Quality Gate 见 SKILL.md。",
+      "columns": ["项", "通过时"],
+      "col_widths": [2.8, 9.05],
+      "rows": [
+        ["风格解析", "主风格唯一，reason 可说明"],
+        ["合同", "validate_styles.py 通过"],
+        ["节奏", "多页有锚点与 archetype 变化"],
+        ["资产", "仅用 active asset root；比例保持"],
+        ["Self-Check", "具体风格 CheckResult 无 material 问题"]
+      ],
+      "font_size": 7.5
+    },
+    {
+      "layout": "cards",
+      "title": "扩展新风格",
+      "subtitle": "Extension 章节步骤。",
+      "cols": 2,
+      "cards": [
+        {
+          "head": "Reference",
+          "body": ["从 style_template.md 起草", "Contract Conformance 置顶"],
+          "accent": "indigo_deep"
+        },
+        {
+          "head": "Registry + assets",
+          "body": ["注册 style_registry.md", "assets/<name>/ + ASSET_MANIFEST.md"],
+          "accent": "bamboo"
+        },
+        {
+          "head": "共享 mechanics",
+          "body": ["palette / rhythm 进 design_mechanics.md", "不 fork 基线 Workflow"],
+          "accent": "cang"
+        },
+        {
+          "head": "验证",
+          "body": ["validate_styles.py", "meta-skill validate_skills.py", "人工视觉抽查"],
+          "accent": "rouge"
+        }
+      ]
+    },
+    {
+      "layout": "section",
+      "no": "END",
+      "title": "先选对风格，再锁住节奏",
+      "subtitle": "示例 deck 仅演示流程；真实任务以 references 与 Self-Check 为准。",
+      "motifs": [
+        {"file": "中国风边框.svg", "x": 0.5, "y": 0.35, "w": 12.35, "h": 6.75, "alpha": 0.28},
+        {"file": "云-中国风.svg", "x": 7.2, "y": 5.65, "w": 5.4, "h": 1.2, "alpha": 0.18}
+      ]
+    }
+  ]
+}

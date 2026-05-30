@@ -12,7 +12,7 @@ This manifest lists the curated `transparent_textures` shared surface provider f
 
 ## Usage Rules
 
-- Use through a concrete style's `SurfaceTexturePolicy`; never browse this provider directly from the base workflow.
+- Use through a concrete style's `SurfaceTexturePolicy`; the base workflow consumes provider handles rather than browsing provider files directly.
 - Keep opacity within the active style's `opacityRange`.
 - Place textures below content as background, panel, or edge-band substrate only.
 - Disable texture when contrast, data readability, legal safety, or brand/identity placement would be harmed.

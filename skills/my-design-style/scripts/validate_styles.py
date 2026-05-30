@@ -18,12 +18,14 @@ SKILL_DIR = ROOT / "skills" / "my-design-style"
 REFERENCES = SKILL_DIR / "references"
 REGISTRY = REFERENCES / "style_registry.md"
 STYLE_TEMPLATE = REFERENCES / "style_template.md"
+ASSETS = SKILL_DIR / "assets"
+REQUIRED_MANIFEST = "ASSET_MANIFEST.md"
 
 REQUIRED_SECTIONS = [
     "Contract Conformance",
     "Triggers",
     "Intent",
-    "Anti-Goals",
+    "Creative Latitude",
     "Color Tokens",
     "Typography",
     "Layout Principles",
@@ -49,7 +51,7 @@ REQUIRED_PROVIDER_METADATA = [
     "allowedTokens",
     "opacityRange",
     "allowedSurfaces",
-    "forbiddenSurfaces",
+    "protectedSurfaces",
     "fallbackPolicy",
 ]
 
@@ -236,10 +238,10 @@ def validate_surface_policy(reference: str, surface_section: str) -> list[str]:
             f"{reference} allowedSurfaces must be a string list such as [] or [\"surface\"]"
         )
 
-    forbidden_surfaces = parse_markdown_list(policy.get("forbiddenSurfaces"))
-    if forbidden_surfaces is None:
+    protected_surfaces = parse_markdown_list(policy.get("protectedSurfaces"))
+    if protected_surfaces is None:
         errors.append(
-            f"{reference} forbiddenSurfaces must be a string list such as [] or [\"surface\"]"
+            f"{reference} protectedSurfaces must be a string list such as [] or [\"surface\"]"
         )
 
     fallback_policy = policy.get("fallbackPolicy", "").strip()
@@ -261,13 +263,48 @@ def validate_surface_policy(reference: str, surface_section: str) -> list[str]:
             "allowedTokens": "[]",
             "opacityRange": "[0, 0]",
             "allowedSurfaces": "[]",
-            "forbiddenSurfaces": "[]",
+            "protectedSurfaces": "[]",
         }
         for key, expected in expected_disabled.items():
             if policy.get(key) != expected:
                 errors.append(f"{reference} disabled texture policy must set {key}: {expected}")
     else:
         errors.extend(validate_enabled_surface_policy(reference, policy, allowed_tokens))
+
+    return errors
+
+
+def expected_asset_root(style: str) -> str:
+    return f"assets/{style}/"
+
+
+def validate_asset_boundary(style: str, asset_root: str, reference: str) -> list[str]:
+    """Verify required style asset boundary exists without inspecting file inventories."""
+    errors: list[str] = []
+    expected = expected_asset_root(style)
+
+    if asset_root == "none":
+        errors.append(
+            f"{reference} registry asset root must be {expected!r}, not 'none'"
+        )
+        return errors
+
+    if asset_root != expected:
+        errors.append(
+            f"{reference} registry asset root {asset_root!r} must equal {expected!r}"
+        )
+
+    asset_dir = ASSETS / style
+    if not asset_dir.is_dir():
+        errors.append(
+            f"{style} missing required asset directory: assets/{style}/"
+        )
+
+    manifest = asset_dir / REQUIRED_MANIFEST
+    if asset_dir.is_dir() and not manifest.is_file():
+        errors.append(
+            f"{style} missing required manifest: assets/{style}/{REQUIRED_MANIFEST}"
+        )
 
     return errors
 
@@ -310,9 +347,11 @@ def validate_style(row: dict[str, str]) -> list[str]:
             f"{reference} assetRoot {declared_asset_root!r} does not match registry {asset_root!r}"
         )
 
-    # Do not inspect the contents of declared asset roots here. Asset bundles are
-    # runtime inputs that may be customized by users, so framework validation only
-    # checks that the style reference and registry agree on the declared handle.
+    errors.extend(validate_asset_boundary(style, asset_root, reference))
+
+    # Bundled file inventories are runtime inputs that may be customized by users;
+    # framework validation only checks required boundary shape plus
+    # registry/reference agreement on the declared handle.
 
     for required_rhythm_key in [
         "rhythmScope",
@@ -320,7 +359,7 @@ def validate_style(row: dict[str, str]) -> list[str]:
         "archetypeVarietyRule",
         "motifRotation",
         "assetFallbackRule",
-        "antiMonotonyCheck",
+        "variationCheck",
     ]:
         if required_rhythm_key not in rhythm_section:
             errors.append(f"{reference} Visual Rhythm System is missing {required_rhythm_key}")

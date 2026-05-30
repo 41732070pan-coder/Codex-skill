@@ -6,7 +6,7 @@ Use `<style_name>` for <primary use cases>. It should feel <personality words>.
 
 Implements `DesignStyleBase` as `<ImplementationClass>`.
 
-Required runtime sections: Triggers, Intent, Anti-Goals, Color Tokens, Typography, Layout Principles, PPT Slide Archetypes, Visual Rhythm System, Web Translation, App / Dashboard Translation, Static Visual Translation, Asset Interface, Surface Texture Policy, Asset Rules, Modifier Compatibility, Preview Option Sets, Self-Check.
+Required runtime sections: Triggers, Intent, Creative Latitude, Color Tokens, Typography, Layout Principles, PPT Slide Archetypes, Visual Rhythm System, Web Translation, App / Dashboard Translation, Static Visual Translation, Asset Interface, Surface Texture Policy, Asset Rules, Modifier Compatibility, Preview Option Sets, Self-Check.
 
 ## Triggers
 
@@ -21,11 +21,11 @@ Use this style when the user asks for:
 
 Define the design purpose, impression, and reusable behavior.
 
-## Anti-Goals
+## Creative Latitude
 
-- List visual clichés to avoid.
-- List legal, brand, or accessibility hazards.
-- List outcomes that would make the style generic or off-style.
+- Describe where the model may be bold, playful, luxurious, minimal, dense, atmospheric, illustrative, or experimental while preserving the style identity.
+- List positive composition ranges such as palette breadth, motif intensity, imagery, motion, density, and editorial or product-led variants.
+- Name only hard safety boundaries that protect law, brand identity, asset provenance, accessibility, or factual clarity.
 
 ## Color Tokens
 
@@ -78,10 +78,10 @@ For multi-page or multi-screen artifacts, define a deck/page-level variation pla
 
 - `rhythmScope`: single surface | multi-slide deck | multi-screen flow | long page.
 - `visualAnchorRule`: every slide/screen/major section needs at least one non-body-text visual anchor such as a diagram, chart, swatch, label frame, rail, callout, motif, image, or texture treatment.
-- `archetypeVarietyRule`: do not use the same layout skeleton too many times in sequence; vary scale, columns, anchor placement, and density by information role.
+- `archetypeVarietyRule`: vary scale, columns, anchor placement, and density by information role across multi-surface artifacts.
 - `motifRotation`: rotate approved style motifs or explicitly use `motif-off` when content density requires it.
 - `assetFallbackRule`: compare runtime assets, approved network-sourced candidates, code-native geometry, typography, color blocks, diagrams, and user-provided assets; choose the style-faithful option that best prevents empty or monotonous surfaces.
-- `antiMonotonyCheck`: verify that visual anchors, archetypes, motif treatments, and density levels vary across the artifact without becoming decorative clutter.
+- `variationCheck`: verify that visual anchors, archetypes, motif treatments, and density levels create useful variety across the artifact.
 
 ## Web Translation
 
@@ -97,9 +97,9 @@ Define poster/image/card/social/diagram behavior, aspect ratios, safe text zones
 
 ## Asset Interface
 
-- `assetRoot`: `assets/<style_name>/` or `none`.
-- `importMode`: `style-owned`, `none`, or `user-provided-only`.
-- `manifestFile`: optional opaque provenance handle; do not require the framework to inspect it.
+- `assetRoot`: `assets/<style_name>/` (required for every concrete style, even when the inventory starts empty).
+- `importMode`: `style-owned`, or `user-provided-only` when the style never ships bundled files but still reserves the boundary for task-local imports.
+- `manifestFile`: `ASSET_MANIFEST.md` inside the style asset boundary; treat as an opaque provenance handle in framework docs.
 - `availableAssets`: abstract handles or roles; do not enumerate file names or assert folder contents.
 - `usageRoles`: approved roles.
 - `placementRules`: aspect ratio, contain/crop/repeat behavior, opacity, and safe regions.
@@ -118,30 +118,30 @@ Declare whether this style may use a surface provider. Provider contents under `
 - `allowedTokens`: texture tokens allowed for this style; use `[]` when disabled.
 - `opacityRange`: low-opacity bounds for background and panel usage; use `[0, 0]` when disabled.
 - `allowedSurfaces`: where texture may appear; use `[]` when disabled.
-- `forbiddenSurfaces`: where texture must not appear; use `[]` when disabled.
+- `protectedSurfaces`: where texture needs extra care or an off-state fallback; use `[]` when disabled.
 - `fallbackPolicy`: what to do when texture is unavailable or harms contrast.
 
 ## Asset Rules
 
-- Preserve intrinsic aspect ratio.
-- Use only the active style's assets.
-- Avoid generic downloaded filler.
-- Explain legal or brand constraints.
+- Preserve intrinsic aspect ratio for informative assets.
+- Use assets through the active style's policy or documented user/task-local sources.
+- Prefer assets with semantic value over generic filler.
+- Explain legal or brand constraints as positive safety boundaries.
 
 ## Modifier Compatibility
 
-Every concrete style must implement `DesignStyleBase.getModifierCompatibility()` here. State whether modifiers are accepted and how the abstract workflow should accept, downgrade, or reject them. Use restrictive values if this style should not accept modifiers beyond ordinary constraints.
+Every concrete style must implement `DesignStyleBase.getModifierCompatibility()` here. State whether modifiers are accepted and how the abstract workflow should compose, soften, clarify, or refuse them. Use narrower values only when this style should stay close to ordinary constraints.
 
 - `acceptsModifiers`: true | false.
 - `allowedTargets`: palette, motif, texture, layout, mood, asset, or none.
 - `allowedSources`: style-owned, user-provided, generated-vector, shared-provider, code-native, none.
 - `defaultIntensity`: subtle | balanced | expressive.
-- `conflictPolicy`: <base invariants that outrank modifiers and downgrade/reject rules>.
+- `conflictPolicy`: <base anchors that guide modifier composition and clarification rules>.
 - `promotionPolicy`: <when a recurring expressive modifier becomes a new concrete style>.
 
 Hard invariants:
 
-- <Rules modifiers must not break.>
+- <Rules modifiers should preserve.>
 
 Allowed soft modifiers:
 
@@ -157,7 +157,7 @@ Modifier self-check additions:
 
 - `previewSurface`: combined style board plus small artifact sample.
 - `defaultOptionSets`: palette, texture when enabled, layout density, mood, asset or motif when relevant.
-- `styleLockRules`: record selected options, rejected or downgraded changes, and locked decisions; do not silently change them during final generation.
+- `styleLockRules`: record selected options, reconciled changes, and locked decisions; keep final generation aligned with them.
 
 | Option Set | Target | Default | Options | Rules |
 | --- | --- | --- | --- | --- |
@@ -176,7 +176,7 @@ Minimum checks:
 - Style fidelity.
 - Contrast and readability.
 - Alignment and spacing.
-- Visual anchor coverage, archetype variety, motif rotation, and anti-monotony behavior for multi-surface outputs.
+- Visual anchor coverage, archetype variety, motif rotation, and variation behavior for multi-surface outputs.
 - Overflow/responsiveness.
 - Asset legality, role fit, and non-distortion.
 - Medium-specific correctness.

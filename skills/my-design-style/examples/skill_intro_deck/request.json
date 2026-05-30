@@ -1,0 +1,32 @@
+{
+  "medium": "ppt",
+  "contentGoal": "teach",
+  "audience": "Skill maintainers and designers learning the framework",
+  "context": "Internal walkthrough deck; not a client deliverable",
+  "explicitStyle": "chinese_traditional_color_style",
+  "constraints": {
+    "dimensions": "16:9",
+    "platform": "PowerPoint / python-pptx",
+    "outputFormat": "pptx",
+    "accessibility": ["readable body text on slides", "sufficient contrast on color swatches"]
+  },
+  "modifiers": [
+    {
+      "id": "indigo_scholarly_primary",
+      "target": "palette",
+      "operation": "add",
+      "priority": "soft",
+      "intensity": "balanced",
+      "value": "Indigo Scholarly + Ink Paper",
+      "compatibilityRules": [
+        "Keep chinese_traditional_color_style color-card discipline",
+        "Other style palettes appear only as comparison swatches on dedicated slides"
+      ]
+    }
+  ],
+  "previewMode": "skip",
+  "previewConstraints": {
+    "sampleContent": "Framework overview with brief comparisons of three registered styles",
+    "maxOptionsPerGroup": 2
+  }
+}

@@ -50,20 +50,32 @@ Use this skill to translate a target artifact into one named visual style from t
    - resolve the base style;
    - extract requested modifiers from explicit modifier language, source assets, brand requirements, or constraints;
    - consume the concrete style through runtime concepts: style resolution, style identity, visual system, medium translation, resource policy, composition policy, and quality gate;
-   - compose a `ComposedStylePlan` only when modifiers satisfy the selected style's composition policy and base invariants; downgrade or reject conflicting modifiers instead of silently replacing the base style;
+   - compose a `ComposedStylePlan` by blending compatible modifiers with the selected style's identity, medium needs, and safety boundaries; ask for clarification only when a modifier would replace the base style or create legal, brand, provenance, or accessibility risk;
    - decide preview behavior from `previewMode` (`auto` by default): use explicit preview approval for ambiguous, high-stakes, public-facing, brand-sensitive, or user-requested preview work; otherwise create an internal `StyleLock` from style defaults and continue;
    - for multi-slide, multi-screen, long-page, or dense static outputs, create a `VisualRhythmPlan` before detailed composition: archetype sequence, per-surface visual anchors, motif/texture rotation, layout-density variation, and asset fallback choices;
    - when preview is needed, generate one style preview image or preview surface from the `StylePreviewPlan`, present its `StyleOptionSet[]`, and wait for user approval or replacement choices before full artifact generation;
    - when preview is not needed, record the locked defaults in `StyleLock` and disclose the important locked choices in the final note;
    - compose the artifact without style-specific branches in the base workflow and without silently changing locked palette, texture, layout density, visual rhythm, motif, or asset decisions;
-   - run the concrete style self-check, anti-monotony checks from the visual rhythm plan, preview/lock consistency checks, and any modifier self-check rules, then revise until they pass.
+   - run the concrete style self-check, variation checks from the visual rhythm plan, preview/lock consistency checks, and any modifier self-check rules, then revise only issues that materially affect usability, safety, or the requested style.
 5. Enforce asset and surface boundaries:
-   - use only assets exposed by the active style's runtime `AssetPolicy`; do not infer availability from the repository tree.
-   - treat `assets/` as an opaque, user-editable resource boundary: do not document, enumerate, or validate its internal file state from skill-level instructions or code.
+   - use only assets exposed by the active style's runtime `AssetPolicy`; resolve the required boundary at `assets/<style_name>/` through the registry and style reference, not by browsing arbitrary folders.
+   - treat `assets/<style_name>/` as an opaque, user-editable resource boundary: every concrete style must have the directory and `ASSET_MANIFEST.md`, while bundled-file inventories stay in manifests or task-local documentation.
    - preserve intrinsic aspect ratios for logos, wordmarks, motifs, and other informative assets whenever the active policy exports such assets.
    - apply shared texture providers only when the active style declares a provider handle and fallback behavior; do not inspect provider files as part of the base workflow.
    - treat runtime assets, code-native geometry, generated vectors, user-provided assets, and lawfully sourced network materials as comparable design inputs; choose the mix that best preserves style fidelity, relevance, and visual variety.
 6. Deliver the artifact or code with a concise note of the style used, any assets used, and any unresolved constraints.
+
+## Examples
+
+Optional fixtures under `examples/` illustrate the workflow above; they do not add rules beyond `references/` and concrete style files. Load them only when learning the pipeline, maintaining the skill, or reproducing the sample deck — not on every design trigger.
+
+| Need | Load |
+| --- | --- |
+| See a normalized `DesignRequest` and how it maps to workflow steps | `examples/skill_intro_deck/request.json` and `examples/skill_intro_deck/NOTES.md` |
+| Runnable PPT reference (python-pptx) | `examples/skill_intro_deck/build_deck.py` with `examples/skill_intro_deck/content_outline.json` |
+| Example index and regenerate command | `examples/README.md` |
+
+Example copy uses **Intent**, **Creative Latitude**, and **Self-Check** language from style references. It does not ship extra imperative bans; safety and style fidelity stay in the active `references/<style_name>.md` at delivery time.
 
 ## References
 
@@ -90,8 +102,9 @@ Load references progressively; do not read every reference by default.
 | `references/style_template.md` | extension template | Skeleton for future concrete style implementations. |
 | `references/design_mechanics.md` | shared mechanics | Reusable palette progression, visual-rhythm planning, style-owned asset interface, and active surface-provider rules. |
 | `references/*_style.md` | concrete styles | Style-specific triggers, color, typography, layout, medium translation, opaque asset policy, and self-checks. |
-| `assets/` | opaque asset boundary | User-editable runtime resources. Skill documents and validators must not describe whether this tree contains files, which files it contains, or whether any bundle is complete. |
-| `scripts/validate_styles.py` | style validator | Static conformance check for registry entries, concrete style sections, asset handles, surface-policy shape, and runtime fallback metadata without inspecting `assets/`. |
+| `assets/<style_name>/` | style-owned asset boundary | Required for every concrete style, even when empty. User-editable runtime resources; file inventories stay inside `ASSET_MANIFEST.md`, not in framework references. |
+| `scripts/validate_styles.py` | style validator | Static conformance check for registry entries, concrete style sections, required asset boundaries, asset handles, surface-policy shape, and runtime fallback metadata without inspecting bundled file inventories. |
+| `examples/` | optional fixtures | Sample `DesignRequest`, workflow notes, slide copy, and `skill_intro_deck/build_deck.py` for regenerating an intro PPT. |
 
 ## Recommended Material Sources And Network Acquisition
 
@@ -104,13 +117,13 @@ Material discovery is a skill-level capability, not a concrete-style implementat
 
 Acquisition rules:
 
-- Search and compare task-relevant materials for design fit, rhythm, and semantic value; download only candidates that are likely to improve the current artifact or an explicit skill-asset extension, and do not download decorative filler.
-- Do not create source-specific subdirectories such as `assets/<style_name>/<source_name>/`; `assets/<style_name>/` is the standard style asset boundary.
+- Search and compare task-relevant materials for design fit, rhythm, and semantic value; download candidates when they clearly improve the artifact or an explicit skill-asset extension.
+- Keep imported reusable files inside the standard `assets/<style_name>/` boundary rather than source-specific subdirectories such as `assets/<style_name>/<source_name>/`.
 - Before using a downloaded asset, record source URL, source name, download date, file type, dimensions when known, size, SHA-256, intended role, safe placement, and license/usage notes in task documentation or in asset-bundle documentation maintained inside the asset boundary.
 - Prefer no-login, no-paywall sources. Do not bypass login, VIP, paywall, watermark, rate-limit, robots/access-control, API-key-only, or licensing flows; if rights are unclear, use the material only as a reference or ask the user to provide a licensed file.
 - Public, commercial, brand-sensitive, identity-sensitive, financial, legal/security-document-adjacent, people/trademark/logo/brand-containing, or photo-based work requires explicit rights and safety review before downloaded third-party files become final production assets.
 
-Concrete styles may opt in to texture providers only through explicit `SurfaceTexturePolicy` handles, declared fallback behavior, and provenance expectations; framework validation must not inspect provider internals under `assets/`. For new external acquisition, use only Pixabay and Iconfont unless the skill-level source table is intentionally updated later. External sources never override style anti-goals, asset boundaries, readability, or provenance requirements.
+Concrete styles may opt in to texture providers only through explicit `SurfaceTexturePolicy` handles, declared fallback behavior, and provenance expectations; framework validation leaves provider internals under `assets/` opaque. For new external acquisition, use only Pixabay and Iconfont unless the skill-level source table is intentionally updated later. External sources should support style identity, asset boundaries, readability, and provenance requirements.
 
 ## Extension
 
@@ -120,7 +133,7 @@ To add or update a concrete style:
 2. Register the style in `references/style_registry.md` with aliases, domain cues, medium cues, priority, and asset root.
 3. Implement `DesignStyleBase` from `references/style_contract.md` and include a concise `Contract Conformance` section near the top of the style file.
 4. Keep style-specific decisions inside the concrete style file; keep shared mechanics in `references/design_mechanics.md`.
-5. If a style needs reusable assets, keep them inside the opaque `assets/` boundary and expose only stable policy handles and runtime fallback rules from skill documents; record provenance and file-level details inside the asset bundle or task documentation, not in framework instructions.
+5. Create `assets/<style_name>/` and `assets/<style_name>/ASSET_MANIFEST.md` for every concrete style, even when the inventory starts empty. Keep reusable files inside that boundary and expose only stable policy handles and runtime fallback rules from skill documents; record provenance and file-level details inside the asset bundle or task documentation, not in framework instructions.
 6. Run the quality gates before delivery.
 
 ## Design Invariants
@@ -128,10 +141,10 @@ To add or update a concrete style:
 - Style is structure plus behavior, not only colors.
 - Concrete styles must be substitutable through the same dispatch workflow.
 - Shared mechanics must stay reusable and style-neutral.
-- Semantic roles and readability beat decorative preference.
-- Multi-page visual rhythm requires planned anchors, archetype variation, motif rotation, and anti-monotony checks.
+- Semantic roles and readability guide decorative preference without narrowing creative exploration.
+- Multi-page visual rhythm uses planned anchors, archetype variation, motif rotation, and variation checks to create range without forcing a single conservative look.
 - Identity and motif assets require proportion-preserving placement.
-- Asset availability must be resolved at runtime through `AssetPolicy`; every style must provide fallback behavior without requiring skill documents to know the current contents of `assets/`.
+- Asset availability must be resolved at runtime through `AssetPolicy`; every concrete style must provide fallback behavior and a required `assets/<style_name>/` boundary with `ASSET_MANIFEST.md`, even when the inventory is empty.
 - New styles extend the framework; they do not fork the base workflow.
 
 ## Quality Gate

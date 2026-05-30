@@ -8,7 +8,7 @@ Use `StyleModifier[]` when:
 
 - The base style is still clear and should remain dominant.
 - The requested change is local, seasonal, tonal, or one-off.
-- The change can be accepted, downgraded, or rejected without creating a new style reference file.
+- The change can be composed, softened, or clarified without creating a new style reference file.
 - The requested asset is user-provided, generated as simple code-native/vector decoration, or comes from a declared provider.
 
 Create or propose a new concrete style instead when:
@@ -26,9 +26,9 @@ Canonical data shapes for `StyleModifier`, `ComposedStylePlan`, and related styl
 
 1. Resolve the base style first.
 2. Extract requested modifiers from explicit wording, source assets, `brandRequirements`, and constraints.
-3. Read base-style invariants and modifier rules from `DesignStyleBase.getModifierCompatibility()`, plus intent, anti-goals, palette, asset policy, surface policy, and self-check.
+3. Read base-style invariants and modifier rules from `DesignStyleBase.getModifierCompatibility()`, plus intent, creative latitude, palette, asset policy, surface policy, and self-check.
 4. Classify each modifier by target, operation, priority, intensity, source, and role.
-5. Accept compatible modifiers, downgrade over-strong modifiers, and reject unsafe or unavailable modifiers.
+5. Accept compatible modifiers, soften over-strong modifiers when needed, and clarify unsafe or unavailable modifiers.
 6. Produce a `ComposedStylePlan` before generating the artifact.
 7. Run the base style self-check plus all modifier self-check rules.
 
@@ -36,19 +36,19 @@ Canonical data shapes for `StyleModifier`, `ComposedStylePlan`, and related styl
 
 - Hard base-style invariants from `getModifierCompatibility()` outrank soft modifiers.
 - A soft modifier may add an accent, motif, or mood only if the base style remains recognizable.
-- A `replace` operation must be treated as risky. Do not replace identity colors, official marks, or required layout structure unless the user explicitly chooses a new style direction.
+- Treat a `replace` operation as a possible style-direction change; preserve identity colors, official marks, or required layout structure unless the user explicitly chooses a new direction.
 - `expressive` modifiers should be labeled as a variant of the base style. If they repeatedly recur, propose a new concrete style.
-- Record every downgrade or rejection in `ComposedStylePlan.rejectedOrDowngradedChanges`.
+- Record every softened, clarified, or refused change in `ComposedStylePlan.reconciledChanges`.
 
 ## Asset Source Rules
 
 - `style-owned`: only assets exposed by the active style's runtime `AssetPolicy`.
 - `user-provided`: use only for the current request unless the user asks to install or register the asset.
-- `generated-vector` or `code-native`: use simple abstract geometry or vector motifs; do not imitate official marks, seals, protected logos, currency, or copyrighted scans.
-- `shared-provider`: allowed only when the active style exposes a provider handle, fallback behavior, and provenance expectations; do not inspect provider files from the framework.
+- `generated-vector` or `code-native`: use original geometry or vector motifs, especially when official marks, seals, protected logos, currency, or copyrighted scans would raise provenance risk.
+- `shared-provider`: allowed when the active style exposes a provider handle, fallback behavior, and provenance expectations.
 - `none`: use color, layout, typography, and simple rules instead of external assets.
 
-Modifier assets are not official base-style assets unless the active style policy exposes them at runtime. Decorative motifs must not replace logo, wordmark, motto, institutional marks, or required identity anchors.
+Modifier assets become official base-style assets only when the active style policy exposes them at runtime. Decorative motifs should complement logo, wordmark, motto, institutional marks, or required identity anchors.
 
 ## Intensity Levels
 
@@ -67,7 +67,7 @@ Modifier self-checks should verify:
 - Added motifs stay outside the main reading path unless the base style permits stronger placement.
 - Asset provenance and allowed source are clear.
 - Modifier intensity matches the user's request and the final visual weight.
-- Downgraded or rejected modifier requests are disclosed when they affect the output.
+- Softened, clarified, or refused modifier requests are disclosed when they affect the output.
 
 ## Example: SEU With Maple And Deep Crimson
 
@@ -89,12 +89,12 @@ const plan: ComposedStylePlan = {
         opacity: "low-to-medium"
       },
       compatibilityRules: [
-        "Must not replace SEU identity, wordmark, motto, architectural, or botanical asset roles.",
+        "Keep SEU identity, wordmark, motto, architectural, and botanical asset roles intact.",
         "Must stay outside the main reading path.",
-        "Must be abstract/vector-like, not photographic filler."
+        "Use an abstract/vector-like treatment with clear visual purpose."
       ],
       selfCheckRules: [
-        "Maple motif is decorative and never described as official SEU identity.",
+        "Maple motif is decorative and described separately from official SEU identity.",
         "Motif does not crowd titles, figures, tables, or speaker metadata."
       ]
     },
@@ -113,7 +113,7 @@ const plan: ComposedStylePlan = {
       },
       compatibilityRules: [
         "SEU green remains the structural hierarchy color.",
-        "Deep crimson must not replace global title/header green.",
+        "Deep crimson remains a secondary accent beside global title/header green.",
         "Red wash may be used only when text contrast remains strong."
       ],
       selfCheckRules: [
@@ -126,9 +126,9 @@ const plan: ComposedStylePlan = {
     "Use abstract maple motifs as decorative secondary elements.",
     "Add deep crimson as a seasonal accent palette."
   ],
-  rejectedOrDowngradedChanges: [
-    "Do not make crimson the global title, header, or structure color.",
-    "Do not treat maple motifs as SEU official assets."
+  reconciledChanges: [
+    "Crimson was kept secondary rather than made the global title, header, or structure color.",
+    "Maple motifs were treated as decorative seasonal assets rather than SEU official assets."
   ],
   palettePlan: {
     hierarchy: "SEU green",
