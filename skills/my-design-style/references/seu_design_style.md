@@ -6,7 +6,7 @@ Use `seu_design_style` for designs inspired by the Southeast University master d
 
 Implements `DesignStyleBase` as `SeuDesignStyle`.
 
-Required runtime sections: Triggers, Intent, Anti-Goals, Color Tokens, Typography, Layout Principles, PPT Slide Archetypes, Visual Rhythm System, Web Translation, App / Dashboard Translation, Static Visual Translation, Asset Interface, Surface Texture Policy, Asset Rules, Modifier Compatibility, Preview Option Sets, Self-Check.
+Required runtime sections: Triggers, Intent, Creative Latitude, Color Tokens, Typography, Layout Principles, PPT Slide Archetypes, Visual Rhythm System, Web Translation, App / Dashboard Translation, Static Visual Translation, Asset Interface, Surface Texture Policy, Asset Rules, Modifier Compatibility, Preview Option Sets, Self-Check.
 
 ## Triggers
 
@@ -20,14 +20,13 @@ Use this style when the user asks for:
 
 Design a reusable carrier for content, not a decorative poster. The page or screen should make titles, arguments, figures, tables, and workflows easy to replace. Brand elements should establish identity and page structure, while the content stays visually primary.
 
-## Anti-Goals
+## Creative Latitude
 
-- Keep the default visual system light rather than relying on full-page dark backgrounds.
-- Prefer SVG or vector identity assets when they are available.
-- Avoid overloading one page with identity, wordmark, motto, architectural, botanical, and multiple pattern roles at high intensity.
-- Use decoration only when it supports identity, hierarchy, or structure.
-- Preserve the aspect ratio of identity marks, school marks, motto roles, and architectural motifs.
-- Keep main content in robust grids, columns, tables, or containers instead of fragile absolute placement.
+- The style can range from research-dense to ceremonial-spacious as long as the page still feels academic, institutional, and reusable.
+- Use SEU identity assets confidently on covers, transitions, headers, and closing pages; vary scale, placement, and motif intensity by information role.
+- Explore architectural, botanical, motto, and rule-based motifs as structural devices, including richer cover treatments when the deck needs ceremony.
+- Preserve identity asset aspect ratios and content legibility as safety boundaries for official marks and dense academic material.
+- Keep main content in robust grids, columns, tables, or containers so expressive identity moments remain editable.
 
 ## Color Tokens
 
@@ -42,7 +41,7 @@ Design a reusable carrier for content, not a decorative poster. The page or scre
 | `seu-silver` | `#B4B7B9` | Light backgrounds, table rules, support panels. |
 | `white` | `#FFFFFF` | Main background. |
 
-Use a light system: white or very light silver backgrounds, green for hierarchy, yellow for precise emphasis. Avoid one-note green screens; balance with white space, black text, silver rules, and occasional gold/orange accents.
+Use a light system by default: white or very light silver backgrounds, green for hierarchy, yellow for precise emphasis, plus white space, black text, silver rules, and occasional gold/orange accents to keep the palette alive.
 
 ### Series Color Cards
 
@@ -127,18 +126,18 @@ Use a deck-level visual rhythm plan so SEU identity feels deliberate instead of 
 - `rhythmScope`: for PPT decks, map each slide to an archetype before drawing; for web/app work, map each major view or section to an information role.
 - `visualAnchorRule`: every slide or major screen needs one non-body-text anchor: approved SEU identity asset, architectural/botanical/motto motif, chart, table, process diagram, figure frame, numbered agenda block, or green/yellow rule system.
 - `archetypeVarietyRule`: no more than two consecutive slides should use the same title/body skeleton; alternate identity-heavy moments, evidence/data pages, explanation pages, and transition pages.
-- `motifRotation`: rotate logo lockup, architectural silhouette, motto role, botanical motif, thin green/yellow rules, and motif-off states; never repeat the same brand asset at the same size on every page.
+- `motifRotation`: rotate logo lockup, architectural silhouette, motto role, botanical motif, thin green/yellow rules, and motif-off states; vary brand asset size and placement across pages.
 - `assetFallbackRule`: when an SEU asset is not appropriate, use academic diagrams, aligned tables, figure labels, thin rules, and structured white space rather than decorative filler.
-- `antiMonotonyCheck`: confirm that white space feels intentional, each page has a clear academic anchor, and brand motifs support hierarchy without crowding the message.
+- `variationCheck`: confirm that white space, academic anchors, and brand motifs vary with the information role and keep the deck lively without crowding the message.
 
 ## Web Translation
 
-For websites, avoid turning this into a marketing hero unless the user explicitly asks for one. Build the actual useful page first: dashboard, research page, project detail, lab portal, event page, or data interface.
+For websites, build the actual useful page first: dashboard, research page, project detail, lab portal, event page, data interface, or a more expressive hero when the user's goal calls for it.
 
 Use:
 
 - A light header with thin green/yellow top rule.
-- Compact logo lockup in the header; never repeat it in every card.
+- Compact logo lockup in the header; card-level identity can vary through rules, color, or small markers.
 - Section titles with green text and the green/yellow accent rule.
 - Dense but calm content areas for academic information, figures, tables, timelines, and evidence blocks.
 - Cards only for repeated items or genuinely framed tools; keep border radius restrained, around 6-8px.
@@ -146,11 +145,10 @@ Use:
 - Silver or soft green backgrounds for secondary panels.
 - Footer or edge ornament using architectural auxiliary pattern at low opacity or small scale.
 
-Avoid:
+Use With Care:
 
-- Purple/blue gradient hero treatments.
-- Decorative blobs, heavy shadows, and large rounded promotional cards.
-- Big full-screen brand blocks that obscure actual information.
+- Rich hero treatments, shadows, and promotional card layouts can work when they still feel institutional and leave the actual information easy to scan.
+- Full-screen brand blocks are strongest for admissions, ceremony, or keynote moments; research and dashboard pages should reveal useful content early.
 
 ## App / Dashboard Translation
 
@@ -160,7 +158,7 @@ Use an institutional operations feel:
 - Tables, filters, tabs, segmented controls, and charts should be compact and scannable.
 - Use chart palettes led by green, yellow, silver, black, and optional orange; reserve navy for contrast.
 - Use badges and status indicators sparingly. Prefer icons plus concise labels.
-- Keep repeated components aligned to a stable grid. Dynamic data must not resize cards or shift controls unexpectedly.
+- Keep repeated components aligned to a stable grid so dynamic data does not resize cards or shift controls unexpectedly.
 
 ## Static Visual Translation
 
@@ -197,7 +195,7 @@ SEU texture support is enabled through the `transparent_textures` provider handl
 - `allowedTokens`: ["textured-paper", "clean-gray-paper"]
 - `opacityRange`: [0.02, 0.06]
 - `allowedSurfaces`: ["slide-background", "section-divider", "quiet-panel", "web-section"]
-- `forbiddenSurfaces`: ["dense paragraph text", "small table cells", "official logo area", "motto artwork area", "architectural/botanical motif overlap"]
+- `protectedSurfaces`: ["dense paragraph text", "small table cells", "official logo area", "motto artwork area", "architectural/botanical motif overlap"]
 - `fallbackPolicy`: disable texture and keep the SEU feel through green/yellow rules, silver panels, grid structure, and approved runtime asset roles.
 
 Use texture only when it stays below content and does not compete with SEU identity marks.
@@ -216,7 +214,7 @@ Aspect ratio is a hard requirement:
 Runtime asset handles:
 
 - Use only abstract asset roles exported by the active policy, such as identity, wordmark, lockup, motto, architectural motif, pattern, color-card, or botanical motif roles.
-- Do not name or require specific files from this style reference; file-level details belong inside the asset boundary.
+- Name abstract roles rather than fixed files from this style reference; file-level details belong inside the asset boundary.
 - Use monochrome or lower-emphasis variants only when the runtime policy exposes them and color would compete with content. Keep aspect ratios intact; a slightly smaller correctly proportioned asset is always preferable to a larger distorted one.
 
 ## Modifier Compatibility
@@ -227,17 +225,17 @@ Use modifiers only as controlled overlays on the SEU base style. The standard st
 - `allowedTargets`: palette, motif, texture, layout, mood, asset.
 - `allowedSources`: style-owned, user-provided, generated-vector, code-native, shared-provider only when explicitly enabled by the surface policy, and none.
 - `defaultIntensity`: subtle for content pages, balanced for cover or section transitions.
-- `conflictPolicy`: preserve SEU identity hierarchy, light academic structure, official asset boundaries, and content-first layout; downgrade or reject modifiers that replace the SEU identity system.
+- `conflictPolicy`: compose modifiers around SEU identity hierarchy, light academic structure, official asset boundaries, and content-first layout; clarify requests that would replace the SEU identity system.
 - `promotionPolicy`: promote recurring expressive variants such as an autumn-crimson SEU deck into a new concrete style only when they need durable palette rules, assets, registry metadata, or validators.
 
-Hard invariants:
+Core identity anchors:
 
 - SEU green remains the primary structure and hierarchy color for titles, headers, rules, section systems, and navigation states.
-- SEU yellow remains a precise accent for short rules, active markers, and key highlights; it should not become a broad background.
-- The artifact must remain mostly light, reusable, and content-first.
-- Official SEU identity asset roles from the runtime policy cannot be replaced by modifier motifs, user-provided decoration, or generated graphics.
-- Modifier motifs cannot be described as official SEU assets unless they are added to the SEU runtime asset policy through a separate style update.
-- Main content must remain in robust grids, columns, tables, or containers.
+- SEU yellow works best as a precise accent for short rules, active markers, and key highlights.
+- The artifact stays reusable and content-first even when covers or transitions become more ceremonial.
+- Official SEU identity asset roles from the runtime policy remain distinct from modifier motifs, user-provided decoration, or generated graphics.
+- Modifier motifs are described as seasonal or decorative unless they are added to the SEU runtime asset policy through a separate style update.
+- Main content stays in robust grids, columns, tables, or containers.
 
 Allowed soft modifiers:
 
@@ -248,21 +246,21 @@ Allowed soft modifiers:
 
 SEU-compatible autumn example:
 
-| Modifier | Tokens / Motifs | Allowed Use | Forbidden Use |
+| Modifier | Tokens / Motifs | Strong Use | Use With Care |
 | --- | --- | --- | --- |
-| Deep crimson accent | `#7A1E2C`, `#9D2933`, `#B36D61`, `#F3E6E3` | Secondary seasonal accent, quote-rule edge, section-page detail, small footer line, abstract maple motif color. | Replacing SEU green in all titles, page headers, navigation, or primary structure. |
-| Maple motif | Abstract vector or user-provided decorative motif | Cover corner, section transition, footer strip, low-opacity edge ornament. | Official identity mark, logo substitute, dense content background, or repeated high-intensity filler. |
+| Deep crimson accent | `#7A1E2C`, `#9D2933`, `#B36D61`, `#F3E6E3` | Secondary seasonal accent, quote-rule edge, section-page detail, small footer line, abstract maple motif color. | Global title, header, navigation, or primary structure color when the output should remain standard SEU style. |
+| Maple motif | Abstract vector or user-provided decorative motif | Cover corner, section transition, footer strip, low-opacity edge ornament. | Official identity mark, logo substitute, dense content background, or repeated high-intensity system motif. |
 
 For balanced autumn variants, use SEU green for structure, SEU yellow for precise highlights, deep crimson for secondary atmosphere, and maple motifs only as decorative modifiers. If the user asks for crimson or maple to dominate the deck, label the result as an expressive SEU-inspired variant or propose a new concrete style instead of presenting it as standard `seu_design_style`.
 
 ## Preview Option Sets
 
-`getPreviewOptions(request, composedPlan)` exposes preview choices. In `previewMode: auto`, explicit preview is used only when ambiguity, stakes, brand sensitivity, or user request requires it. Otherwise the model creates an internal `StyleLock` from the default option sets and proceeds. When a preview is used, it should show a title/header sample, SEU green/yellow palette strip, a content card, a quiet panel, an approved SEU identity or motif placement, and the active texture substrate. `applyStyleLock(styleLock, composedPlan)` must preserve the locked texture, layout density, palette hierarchy, and asset placement decisions in the final artifact.
+`getPreviewOptions(request, composedPlan)` exposes preview choices. In `previewMode: auto`, explicit preview is used only when ambiguity, stakes, brand sensitivity, or user request requires it. Otherwise the model creates an internal `StyleLock` from the default option sets and proceeds. When a preview is used, it should show a title/header sample, SEU green/yellow palette strip, a content card, a quiet panel, an approved SEU identity or motif placement, and the active texture substrate. `applyStyleLock(styleLock, composedPlan)` preserves the locked texture, layout density, palette hierarchy, and asset placement decisions in the final artifact.
 
 | Option Set | Target | Default | Options | Rules |
 | --- | --- | --- | --- | --- |
-| `seu-texture` | texture | `textured-paper` | `textured-paper`; `clean-gray-paper`; `texture-off` | Tokens must come from `allowedTokens`; keep opacity in `[0.02, 0.06]`; never cover logos, motto artwork, dense text, table cells, or SEU motif overlaps. |
-| `seu-layout-density` | layout | `academic-balanced` | `academic-balanced`; `research-dense`; `ceremonial-spacious` | Keep stable grids and content-first hierarchy; do not turn the deck or page into a poster. |
+| `seu-texture` | texture | `textured-paper` | `textured-paper`; `clean-gray-paper`; `texture-off` | Tokens come from `allowedTokens`; keep opacity in `[0.02, 0.06]`; protect logos, motto artwork, dense text, table cells, and SEU motif overlaps. |
+| `seu-layout-density` | layout | `academic-balanced` | `academic-balanced`; `research-dense`; `ceremonial-spacious` | Keep stable grids and content-first hierarchy even when the deck or page becomes more poster-like. |
 | `seu-identity-emphasis` | asset | `header-lockup` | `header-lockup`; `cover-anchor`; `quiet-footer-mark`; `motif-off` | Use only runtime assets exposed by this style policy; preserve intrinsic aspect ratios; decorative motifs stay secondary. |
 
 Preview option behavior:
@@ -270,7 +268,7 @@ Preview option behavior:
 - `textured-paper` gives the default soft institutional paper grain.
 - `clean-gray-paper` gives a cooler, more restrained substrate for dashboards, data pages, and research-heavy sections.
 - `texture-off` disables provider texture while retaining SEU style through green/yellow structure, silver panels, typography, grids, and approved runtime assets.
-- Style locks must record the selected texture token or `texture-off`, selected density, selected identity emphasis, and any downgraded modifiers.
+- Style locks record the selected texture token or `texture-off`, selected density, selected identity emphasis, and any softened modifiers.
 
 ## Self-Check
 

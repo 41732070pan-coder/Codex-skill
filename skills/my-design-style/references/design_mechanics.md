@@ -17,7 +17,7 @@ A style should not stop at one primary color plus unrelated accents. When a user
 
 ### Rules
 
-- Choose colors from the style's source palette first. Do not invent extra tints when the source palette already contains usable neighbors.
+- Choose colors from the style's source palette first, then add extra tints only when they serve a clear medium, contrast, or mood need.
 - The progression should feel like one family under different pressure: not a rainbow and not six unrelated accents.
 - Use `primary` sparingly. Most emphasis should use `support-strong`, `support-mid`, or `support-soft` so the page can show hierarchy without overusing the main color.
 - Use `wash` for broad surfaces only when text contrast remains strong.
@@ -47,18 +47,18 @@ Use this shared mechanic when a target artifact has multiple slides, screens, se
 2. Assign one non-body-text visual anchor to every slide/screen/major section. Anchors can be informational diagrams, charts, tables, swatches, imagery, structural rails, label frames, texture bands, or approved motifs.
 3. Rotate visual treatments across the artifact: scale, column count, anchor side, motif type, texture on/off, and density.
 4. When internet access is available and safe for the task, search relevant material sources as part of design exploration; compare sourced candidates with runtime assets, generated vectors, code-native geometry, typography, charts, diagrams, rules, and lawful user-provided assets before choosing the least monotonous style-faithful option.
-5. Add anti-monotony checks to the final quality gate; variety must not override readability, provenance, brand safety, or style anti-goals.
+5. Add variation checks to the final quality gate; variety should preserve readability, provenance, brand safety, and style safety boundaries.
 
 ## Style-Owned Asset Interface
 
 Shared mechanics do not provide a global ornament or texture library. Assets belong to concrete styles and must be selected through that style's `AssetPolicy`. Recommended external sources are maintained at the skill level in `SKILL.md`; imported reusable files need provenance, but file-level state stays inside the opaque asset bundle or task documentation.
 
-Think of `AssetPolicy` as an import interface. The base skill never reaches directly into `assets/`; it asks the selected concrete style for stable handles, allowed roles, and fallback behavior without assuming the current bundle contents.
+Think of `AssetPolicy` as an import interface. The base skill asks the selected concrete style for stable handles, allowed roles, and fallback behavior without assuming the current bundle contents.
 
 ```ts
 interface AssetPolicy {
-  assetRoot: `assets/${styleName}/` | "none";
-  importMode: "style-owned" | "none" | "user-provided-only";
+  assetRoot: `assets/${styleName}/`;
+  importMode: "style-owned" | "user-provided-only";
   manifestFile?: string;
   availableAssets: Record<string, AssetRole[]> | "none";
   placementRules: PlacementRule[];
@@ -69,18 +69,23 @@ interface AssetPolicy {
 
 ### Opaque Asset Boundary Contract
 
-Skill-level references may declare abstract asset handles, allowed roles, placement rules, and fallback behavior, but they must not enumerate asset files or assert whether an asset folder is empty, populated, complete, or missing.
+Skill-level references may declare abstract asset handles, allowed roles, placement rules, and fallback behavior while file inventories stay in manifests or task-local documentation.
 
-File-level provenance, dimensions, checksums, and source notes belong inside the asset bundle or task-local documentation. The framework treats those details as runtime data that users may replace without editing the skill instructions.
+Every concrete style must still maintain:
+
+- `assets/<style_name>/`
+- `assets/<style_name>/ASSET_MANIFEST.md`
+
+File-level provenance, dimensions, checksums, and source notes belong inside the asset bundle or task-local documentation. The framework treats those details as runtime data that users may replace without editing the skill instructions, but the boundary directory itself is a required structural invariant checked by `validate_styles.py`.
 
 ### Rules
 
-- Use only assets exposed by the active style's `AssetPolicy`; never borrow files by browsing another style's asset boundary.
-- Do not assume files from another style are interchangeable, even when the visual topic seems related.
+- Use assets exposed by the active style's `AssetPolicy`, or document another style's asset boundary as an intentional hybrid/user-provided source.
+- Treat files from another style as a deliberate hybrid or user-provided source, not as automatic shared clip art.
 - Preserve intrinsic aspect ratio for all SVG and raster assets that the active policy exports.
 - Use contain-style placement for identity marks, wordmarks, motto artwork, silhouettes, and informative motifs.
 - Use low-opacity or repeated motifs only when the concrete style explicitly allows that behavior.
-- Use network discovery proactively for task-relevant material comparison when allowed; runtime assets, generated vectors, code-native geometry, user-provided assets, and sourced candidates should be weighed together for style fidelity, semantic fit, provenance safety, and anti-monotony value.
+- Use network discovery proactively for task-relevant material comparison when allowed; runtime assets, generated vectors, code-native geometry, user-provided assets, and sourced candidates should be weighed together for style fidelity, semantic fit, provenance safety, and variation value.
 
 
 ## Style Preview Mechanics
@@ -101,15 +106,15 @@ Preview option rules:
 
 - Keep the same preview surface while swapping options so users compare like-for-like.
 - Expose only options that are valid under the active style's palette, asset policy, surface texture policy, and modifier compatibility rules.
-- Include a safe off/fallback option for texture or motif choices when disabling them still preserves the style.
-- Do not browse provider assets directly; texture options must be declared by the style's `SurfaceTexturePolicy` handles and remain backed by runtime fallback behavior.
+- Include an off/fallback option for texture or motif choices when disabling them still preserves the style.
+- Use texture options declared by the style's `SurfaceTexturePolicy` handles and backed by runtime fallback behavior.
 - For ordinary direct artifact requests, create an internal `StyleLock` from style defaults and proceed without stopping for approval.
-- Do not produce the complete deck, website, app, or dashboard before approval when explicit preview is requested or auto-mode decides approval is needed.
+- When explicit preview approval is requested or auto-mode decides approval is needed, use the preview as the decision surface before committing to the complete deck, website, app, or dashboard.
 - The final artifact must match the approved or internally locked palette family, texture token or off state, layout density, motif level, and asset emphasis.
 
 ## Surface Texture Extension Point
 
-Shared surface providers are optional texture services exposed through `SurfaceTexturePolicy` handles. Provider internals under `assets/` are opaque to the framework; style documents may name provider handles and tokens, but they must not describe the provider's current file inventory or completeness.
+Shared surface providers are optional texture services exposed through `SurfaceTexturePolicy` handles. Provider internals under `assets/` are opaque to the framework; style documents may name provider handles and tokens while inventory/completeness details stay in manifests or task-local documentation.
 
 Concrete styles may declare a provider only as a neutral substrate service, not a global ornament library, and must provide fallback behavior for cases where the runtime bundle differs from the author's local bundle.
 
@@ -124,7 +129,7 @@ interface SurfaceTexturePolicy {
   allowedTokens: string[];
   opacityRange: [number, number];
   allowedSurfaces: string[];
-  forbiddenSurfaces: string[];
+  protectedSurfaces: string[];
   fallbackPolicy: string;
 }
 ```
@@ -132,8 +137,8 @@ interface SurfaceTexturePolicy {
 ### Surface Provider Rules
 
 - Keep provider file inventories, source records, checksums, and wrapper metadata inside the provider bundle or task-local documentation rather than framework references.
-- Keep textures below content; never use them as motifs, official marks, or semantic data encodings.
-- Turning texture off must still leave a complete design. Texture enriches the surface; it must not carry meaning.
+- Keep textures below content; use them as surface character rather than official marks or semantic data encodings.
+- Turning texture off should still leave a complete design. Texture enriches the surface; meaning should come from color, type, layout, imagery, and data.
 - If texture weakens contrast or data readability, disable it and preserve style through color, typography, layout, and approved style-owned assets.
 
 ## QA Checklist
@@ -141,9 +146,9 @@ interface SurfaceTexturePolicy {
 - The chosen color progression has at least four useful steps, not just a primary and one pale tint.
 - Non-primary emphasis uses support colors before repeating the primary.
 - Broad washes use enough contrast with text.
-- Asset role is resolved through the selected style before placement. Use runtime metadata exposed by the active policy to choose handles and compute contain boxes; do not inspect asset folders directly.
-- Surface texture is used only when the selected style declares a provider handle and fallback behavior; do not validate provider file existence from the framework.
+- Asset role is resolved through the selected style before placement. Use runtime metadata exposed by the active policy to choose handles and compute contain boxes.
+- Surface texture is used when the selected style declares a provider handle and fallback behavior; provider file existence stays outside framework validation.
 - Asset opacity, scale, and crop support content instead of filling empty space.
-- No generated or downloaded asset imitates official identity assets, legal tender, protected seals, or copyrighted object scans.
+- Generated or downloaded assets stay original or properly licensed when they evoke official identity systems, legal tender, protected seals, or copyrighted object scans.
 - If surface texture is disabled or unavailable, the design still reads clearly through color, typography, layout, and approved assets.
-- Use only runtime assets exposed by the active style policy; avoid mixing unrelated asset families.
+- Use runtime assets exposed by the active style policy, or document intentional hybrid/user-provided asset families.

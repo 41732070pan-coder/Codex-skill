@@ -6,7 +6,7 @@ Use `chinese_traditional_color_style` for designs based on named Chinese traditi
 
 Implements `DesignStyleBase` as `ChineseTraditionalColorStyle`.
 
-Required runtime sections: Triggers, Intent, Anti-Goals, Color Tokens, Typography, Layout Principles, PPT Slide Archetypes, Visual Rhythm System, Web Translation, App / Dashboard Translation, Static Visual Translation, Asset Interface, Surface Texture Policy, Asset Rules, Modifier Compatibility, Preview Option Sets, Self-Check.
+Required runtime sections: Triggers, Intent, Creative Latitude, Color Tokens, Typography, Layout Principles, PPT Slide Archetypes, Visual Rhythm System, Web Translation, App / Dashboard Translation, Static Visual Translation, Asset Interface, Surface Texture Policy, Asset Rules, Modifier Compatibility, Preview Option Sets, Self-Check.
 
 Primary references:
 
@@ -26,14 +26,13 @@ Use this style when the user asks for:
 
 Use the named color system as a disciplined palette source. Each artifact must start from one complete series color card, then apply a compact set of semantic tokens. Color names may add cultural texture, but layout, contrast, hierarchy, and interaction states must stay modern and reliable.
 
-## Anti-Goals
+## Creative Latitude
 
-- Do not use every traditional color at once. This is a library, not a confetti system.
-- Avoid fake-antique paper, excessive texture, dense frames, seals, clouds, fans, and calligraphy unless the subject truly needs them.
-- Avoid illegible pale-on-pale combinations. Many traditional colors are subtle; pair them with ink, white, or controlled deep colors.
-- Do not turn UI controls into decorative labels. Buttons, tabs, filters, tables, sliders, and inputs should remain recognizable.
-- Avoid large unbroken red/gold festival pages unless the request is explicitly ceremonial.
-- Avoid "ancient = serif everywhere." Use serif/Song type as accent, not dense UI body text.
+- Explore the full expressive range of named Chinese color cards: museum calm, poetic editorial, tea craft warmth, festival ceremony, landscape archive, botanical study, and premium cultural product work.
+- Motifs such as frames, seals, clouds, fans, calligraphy, instruments, animals, paper, and lattice bands are available when they serve the subject, hierarchy, or atmosphere.
+- Large red/gold ceremonial surfaces, dense editorial pages, or highly illustrative hero moments can work when the request calls for ceremony, storytelling, or public-facing cultural impact.
+- Use subtle palettes, pale washes, and Song/Ming typography creatively while protecting contrast and dense-body readability.
+- UI controls, dashboards, and tables can carry cultural styling, but their component role and interaction state should stay recognizable.
 
 ## Color Tokens
 
@@ -98,7 +97,7 @@ Every design using this style must start from at least one complete series color
 
 Hard requirements:
 
-- Do not invent colors for this style when a matching source color exists.
+- Choose from source colors whenever a matching color exists; add neutral fallback colors only for contrast, accessibility, or medium constraints.
 - Preserve every color name and HEX value from the complete source cards.
 - Treat each source series as a full card: one primary plus all remaining colors as auxiliary colors.
 - For implementation tokens, use the stable source-token format below so every color can be addressed without ad hoc pinyin.
@@ -198,15 +197,15 @@ For charts, choose colors from one complete source series first; add a second se
 - Use Song/Ming type for large editorial titles, quotations, covers, museum labels, or chapter transitions: Source Han Serif SC, Noto Serif CJK SC, SimSun fallback.
 - Keep body text readable and modern. Traditional colors carry the cultural tone; typography should not become costume.
 - Use tabular numerals for dashboards, dates, inventory IDs, catalog numbers, and chart labels.
-- Chinese color names may appear as small labels, chips, swatches, or section markers. Do not overuse vertical text unless the layout is explicitly editorial.
+- Chinese color names may appear as small labels, chips, swatches, section markers, or stronger editorial elements when the layout benefits from them.
 
 ## Layout Principles
 
 - Use the same progressive, reference-driven structure as robust design-system documentation: tokens first, then components, then page patterns, then validation.
 - Build on stable grids: 12-column web grids, 8px spacing increments, and fixed comparison columns for dashboards and tables.
-- For PPT, use generous margins, clear title/content zones, and repeatable archetypes; never rely on decorative absolute positioning for the main information.
+- For PPT, use generous margins, clear title/content zones, and repeatable archetypes; decorative absolute positioning works best as a supporting layer around stable content zones.
 - Use decorative cultural motifs as surface texture or edge structure only: fine rules, seal-like square markers, book margins, gallery labels, scroll-inspired vertical rails.
-- Keep cards to individual repeated objects or tools. Avoid nested cards and heavy ornamental frames.
+- Keep cards to individual repeated objects or tools; use nested surfaces or ornamental frames only when they clarify hierarchy rather than adding weight.
 - Pair subtle colors with deep ink. Pale traditional colors need contrast from `ct-black-primary`, `ct-ink-soft`, or white surfaces.
 - For dense interfaces, reduce ornament density and use color mainly for navigation state, category, risk, charts, and selected rows.
 
@@ -214,7 +213,7 @@ For charts, choose colors from one complete source series first; add a second se
 
 Follow the same information architecture used by strong skills and mature design systems:
 
-- Start with intent and anti-goals so later design choices do not drift into decoration.
+- Start with intent and creative latitude so later design choices stay purposeful while leaving room for expressive interpretation.
 - Put color tokens and complete source cards before layout recipes, because this style is color-library driven.
 - Separate reusable working cards from complete source inventory: working cards guide everyday design, complete cards preserve the full source.
 - Describe components by role and state, not by ornamental appearance. A button is still a button; a chart is still a chart.
@@ -239,14 +238,14 @@ For slide decks, use 16:9 by default.
 
 ## Visual Rhythm System
 
-Use a deck-level visual rhythm plan so traditional color work feels restrained but not empty. 克制 does not mean blank; it means low-density, explainable visual gestures that serve structure.
+Use a deck-level visual rhythm plan so traditional color work can be restrained, expressive, or ceremonial without becoming empty. 克制 means low-density, explainable visual gestures that serve structure.
 
 - `rhythmScope`: for PPT decks, assign every slide to a content archetype before drawing; for web/app work, assign each major section to a museum, editorial, catalog, dashboard, or component role.
 - `visualAnchorRule`: every slide or major section needs one non-body-text anchor: named-color swatch strip, color chip matrix, diagram, comparison table, gallery label, book rail, seal-like dot, fine-rule frame, quote block, lawful image, or low-opacity paper texture.
 - `archetypeVarietyRule`: no more than two consecutive slides should use the same title/body skeleton; alternate cover/agenda, color legend, concept diagram, data/table, editorial/object, and closing patterns.
-- `motifRotation`: rotate restrained-rules, gallery-labels, seal-dot-accents, book rails, swatch strips, texture-off states, and motif-off for dense data; never add clouds, fans, lanterns, dragons, or calligraphy as filler.
+- `motifRotation`: rotate restrained-rules, gallery-labels, seal-dot-accents, book rails, swatch strips, texture-off states, motif-off for dense data, and stronger cultural motifs when they serve the subject.
 - `assetFallbackRule`: use runtime-approved border/stripe/placeholder roles when they fit the content, plus code-native geometry, color swatches, typographic labels, diagrams, and approved texture tokens before leaving large empty zones.
-- `antiMonotonyCheck`: confirm that each page has a visible anchor beyond body text, at least three approved motif treatments appear across decks longer than six slides, and decoration supports hierarchy rather than filling space.
+- `variationCheck`: confirm that each page has a visible anchor beyond body text, motif treatments vary across decks longer than six slides, and decoration supports hierarchy rather than merely filling space.
 
 ## Web Translation
 
@@ -261,12 +260,12 @@ Use:
 - Clear component states: hover, active, selected, disabled, error, success.
 - Small cultural gestures: square markers, thin vertical rails, caption blocks, seal-red active dots, fine separators.
 
-Avoid:
+Use With Care:
 
-- Full-screen abstract gradient pages.
-- Dark, blurred, stock-like images when the object or cultural subject should be inspectable.
-- Text over high-detail texture.
-- Oversized decorative hero cards instead of useful content.
+- Full-screen abstract gradient pages can work as expressive cultural moments when tied to a selected source color card.
+- Dark, blurred, or atmospheric images should reveal enough of the object or cultural subject when inspection matters.
+- Text over high-detail texture needs a strong surface or mask.
+- Decorative hero cards work best when they also carry useful content or a clear interaction path.
 
 ## App / Dashboard Translation
 
@@ -275,9 +274,9 @@ Use a quiet cultural-operations feel:
 - Navigation should be compact and scannable; active state can use one traditional color plus a shape/icon.
 - Tables, filters, tabs, segmented controls, and charts must remain conventional and accessible.
 - Use color chips for categories, collections, dynasties, artifact materials, inventory states, or content status.
-- Do not rely only on red/green status. Pair color with label, icon, or shape.
+- Pair red/green status with label, icon, or shape so the state stays accessible.
 - Use `Ink Paper`, `Cang Mountain`, or `Indigo Scholarly` as default dashboard bases; add other cards for category systems.
-- Check responsive text carefully: Chinese color names and cultural labels must not overlap buttons, cards, or table columns.
+- Check responsive text carefully so Chinese color names and cultural labels have stable room around buttons, cards, and table columns.
 
 ## Static Visual Translation
 
@@ -291,12 +290,12 @@ For posters, title cards, diagrams, thumbnails, or cultural static visuals:
 
 ## Asset Interface
 
-This style uses an opaque runtime `AssetPolicy`. Do not infer the current file state of any asset boundary; use declared roles, provenance expectations, and fallback behavior only.
+Use cultural motif roles exposed by the runtime `AssetPolicy`. The asset boundary is opaque and may be edited by users; file inventory details belong in the manifest or task-local documentation.
 
-- `assetRoot`: `none`.
-- `importMode`: `none`.
-- `manifestFile`: `none`.
-- `availableAssets`: runtime-approved or generated cultural visual roles; no file names are declared in this style document.
+- `assetRoot`: `assets/chinese_traditional_color_style/`.
+- `importMode`: `style-owned`.
+- `manifestFile`: opaque asset-bundle provenance handle.
+- `availableAssets`: optional cultural motif, border, instrument, animal, and texture-like illustration roles when exposed by the runtime policy.
 - `usageRoles`: named color cards, generated or code-native border frames, horizontal stripes, vertical pattern bands, placeholder image panels, user-provided cultural imagery, generated bitmap visuals, color swatches, lawful object imagery, task-local Pixabay/Iconfont assets with provenance, and small code-native motifs.
 - `placementRules`: keep cultural imagery secondary to content unless the artifact is explicitly an object, museum, or editorial view; keep motifs low-density and away from dense text.
 - `fallbackPolicy`: use named color cards, ink/paper contrast, typography, grid, code-native geometry, generated vectors, and lawful user-provided or task-local sourced assets when runtime assets are unavailable or inappropriate.
@@ -304,10 +303,10 @@ This style uses an opaque runtime `AssetPolicy`. Do not infer the current file s
 When an artifact needs Chinese traditional visual material:
 
 - Use generated or code-native border frames for title cards, chapter pages, posters, and museum-style labels when a border is useful.
-- Use generated or code-native stripes and side bands as sparse page rhythm devices; do not stack them on every page.
+- Use generated or code-native stripes and side bands as page rhythm devices, varying scale and frequency across the artifact.
 - Use neutral placeholder panels only temporarily when final user-provided photography, object imagery, or illustration is not available.
 - For PPT/UI structure, prefer clean layout, restrained color, typography, thin rules, tabs, tables, and code-native geometry over ornamental filler.
-- Do not assume every Chinese theme needs dragons, clouds, seals, folding fans, mountains, or calligraphy.
+- Choose dragons, clouds, seals, folding fans, mountains, calligraphy, or other cultural motifs when they help the specific theme.
 - Prefer color, whitespace, text hierarchy, and composition over decorative symbolism.
 
 ## Surface Texture Policy
@@ -323,43 +322,43 @@ Traditional-color texture support is enabled through the `transparent_textures` 
 - `allowedTokens`: ["rice-paper", "paper-fibers", "handmade-paper", "textured-paper"]
 - `opacityRange`: [0.03, 0.08]
 - `allowedSurfaces`: ["page-background", "museum-panel", "cover-wash", "editorial-background"]
-- `forbiddenSurfaces`: ["dense body text", "color-swatch labels", "small museum metadata", "chart labels", "generated calligraphy", "seal-like marks"]
+- `protectedSurfaces`: ["dense body text", "color-swatch labels", "small museum metadata", "chart labels", "generated calligraphy", "seal-like marks"]
 - `fallbackPolicy`: disable texture and keep the style through named color cards, ink/paper contrast, typography, margins, fine rules, and code-native geometry.
 
-Texture must not make the artifact fake-antique or reduce legibility.
+Texture should add tactility while preserving contemporary fit and legibility.
 
 ## Asset Rules
 
 Allowed:
 
-- Generated or code-native border frames, lattice stripes, placeholder image panels, and vertical pattern bands that do not depend on a fixed bundled file inventory.
+- Generated or code-native border frames, lattice stripes, placeholder image panels, and vertical pattern bands that remain available even when the bundled file inventory changes.
 - Original or lawfully sourced cultural imagery, museum objects, textiles, ceramics, landscapes, ink textures, paper texture, or generated raster visuals.
 - CSS/SVG fine-line patterns, seal-like geometry, book margin rails, quiet texture, and swatches.
 - Color chips named with Chinese color names and HEX.
 
-Avoid:
+Use With Care:
 
-- Copying copyrighted artwork or museum photography without permission.
-- Low-resolution decorative textures that make text blurry.
-- Overusing seals, clouds, dragons, fans, lanterns, or calligraphy as filler.
+- Copyrighted artwork or museum photography needs permission or a clearly lawful source.
+- Low-resolution decorative textures should stay away from reading paths and export-critical surfaces.
+- Seals, clouds, dragons, fans, lanterns, or calligraphy are strongest when they have subject relevance rather than filler status.
 
 ## Modifier Compatibility
 
-Chinese traditional color modifiers are supported when they preserve the named-color discipline, cultural restraint, contrast, and modern component usability of the base style. Use modifiers to tune a selected color-series plan, not to turn the artifact into generic ornament.
+Chinese traditional color modifiers can push the style toward ceremony, poetry, craft, museum, botanical, archive, or product modes while preserving named-color discipline, contrast, and modern component usability.
 
 - `acceptsModifiers`: true.
 - `allowedTargets`: palette, motif, texture, layout, mood, asset.
 - `allowedSources`: style-owned when declared, user-provided, generated-vector, code-native, shared-provider only when explicitly enabled by the surface policy, and none.
 - `defaultIntensity`: subtle for app/dashboard work, balanced for editorial, cultural, or PPT section pages.
-- `conflictPolicy`: preserve named source colors, readable ink/surface contrast, and modern component roles; downgrade or reject modifiers that create confetti palettes, fake-antique clutter, or illegible pale-on-pale layouts.
+- `conflictPolicy`: compose modifiers around named source colors, readable ink/surface contrast, and modern component roles; clarify requests that would create incoherent palettes, weak contrast, or unusable component states.
 - `promotionPolicy`: promote recurring named variants such as Song editorial, museum object, tea craft, or festival ceremony modes into concrete styles only when they need durable palette recipes, assets, registry metadata, or validators.
 
-Hard invariants:
+Core style anchors:
 
-- Start from one complete source series or documented palette recipe; do not mix many unrelated traditional colors just because they are available.
-- Keep cultural motifs secondary to content, navigation, data, and component states.
-- Preserve contrast by pairing pale colors with ink, white, or controlled deep colors.
-- Do not make UI controls unrecognizable through ornamental labels, frames, or excessive calligraphy.
+- Start from one complete source series or documented palette recipe; broad color-library views may intentionally show more.
+- Cultural motifs can become expressive anchors on covers, section pages, editorial surfaces, and hero moments, while dense content keeps navigation, data, and component states clear.
+- Pair pale colors with ink, white, or controlled deep colors to preserve contrast.
+- Keep UI controls recognizable even when they carry ornamental labels, frames, or calligraphic accents.
 
 Allowed soft modifiers:
 
@@ -370,8 +369,8 @@ Allowed soft modifiers:
 
 Modifier self-check additions:
 
-- The result still uses named-color logic rather than a generic red/gold or antique palette.
-- Added motifs are restrained and do not crowd body text, controls, charts, or object metadata.
+- The result still uses named-color logic rather than an untraceable generic palette.
+- Added motifs have clear scale and placement choices around body text, controls, charts, or object metadata.
 - Pale modifiers maintain readable contrast.
 - Any recurring expressive modifier is identified as a candidate concrete style rather than silently becoming the base style.
 
@@ -382,15 +381,15 @@ Modifier self-check additions:
 | Option Set | Target | Default | Options | Rules |
 | --- | --- | --- | --- | --- |
 | `traditional-color-series` | palette | context-dependent named source series or documented palette recipe | selected source series; adjacent source series; documented recipe; neutral ink-paper fallback | Start from one complete named-color logic; avoid mixing many unrelated traditional colors. |
-| `traditional-paper-texture` | texture | `rice-paper` | `rice-paper`; `paper-fibers`; `handmade-paper`; `textured-paper`; `texture-off` | Tokens must come from `allowedTokens`; keep opacity in `[0.03, 0.08]`; never weaken swatch labels, metadata, chart labels, or generated calligraphy. |
-| `cultural-motif-level` | motif | `restrained-rules` | `restrained-rules`; `gallery-labels`; `seal-dot-accents`; `motif-off` | Motifs stay low-density, code-native or generated-vector, and never become generic antique filler. |
+| `traditional-paper-texture` | texture | `rice-paper` | `rice-paper`; `paper-fibers`; `handmade-paper`; `textured-paper`; `texture-off` | Tokens come from `allowedTokens`; keep opacity in `[0.03, 0.08]`; protect swatch labels, metadata, chart labels, and generated calligraphy. |
+| `cultural-motif-level` | motif | `restrained-rules` | `restrained-rules`; `gallery-labels`; `seal-dot-accents`; `motif-off` | Motifs stay code-native or generated-vector and carry a clear cultural or structural role. |
 | `traditional-asset-emphasis` | asset | `generated-subtle` | `generated-subtle`; `code-native-border-frame`; `code-native-lattice-stripe`; `placeholder-panel`; `code-native-vertical-band`; `asset-off` | Use generated/code-native or task-local sourced assets with provenance; keep one clear asset role per surface. |
 
 Preview option behavior:
 
-- Texture choices are paper tactility only; they must not make the artifact fake-antique.
+- Texture choices are paper tactility only; pair them with modern hierarchy so the artifact does not collapse into fake-antique treatment.
 - `texture-off` preserves the style through named colors, ink/paper contrast, margins, fine rules, and modern component structure.
-- Style locks must record the selected color series or recipe, texture token or `texture-off`, motif level, selected asset emphasis or `asset-off`, layout density, and any downgraded expressive modifier.
+- Style locks record the selected color series or recipe, texture token or `texture-off`, motif level, selected asset emphasis or `asset-off`, layout density, and any softened expressive modifier.
 
 ## Self-Check
 

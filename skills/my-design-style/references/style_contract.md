@@ -63,7 +63,7 @@ interface ComposedStylePlan {
   baseStyle: StyleName;
   modifiers: StyleModifier[];
   acceptedChanges: string[];
-  rejectedOrDowngradedChanges: string[];
+  reconciledChanges: string[];
   palettePlan?: Record<string, unknown>;
   motifPlan?: Record<string, unknown>;
   assetPlan?: Record<string, unknown>;
@@ -109,7 +109,7 @@ interface StyleLock {
   medium: TargetMedium;
   selectedOptions: Record<string, string>;
   acceptedModifiers: string[];
-  rejectedOrDowngradedChanges: string[];
+  reconciledChanges: string[];
   lockedDecisions: Record<string, unknown>;
 }
 
@@ -120,7 +120,7 @@ interface VisualRhythmPlan {
   motifRotation: string[];
   texturePlan?: string[];
   assetFallbacks: string[];
-  antiMonotonyChecks: string[];
+  variationChecks: string[];
 }
 ```
 
@@ -131,7 +131,7 @@ The style family is modeled as one abstract base class plus concrete implementat
 ```ts
 abstract class DesignStyleBase {
   abstract resolve(request: DesignRequest): StyleResolution;
-  abstract getIntent(): { intent: string; antiGoals: string[] };
+  abstract getIntent(): { intent: string; creativeLatitude: string[]; safetyBoundaries?: string[] };
   abstract getPalette(): {
     colorTokens: Record<string, { hex: string; role: string }>;
     seriesCards: SeriesColorCard[];
@@ -157,7 +157,7 @@ class RenminbiColorStyle implements DesignStyleBase {}
 class ChineseTraditionalColorStyle implements DesignStyleBase {}
 ```
 
-`resolve()` owns trigger matching and returns `StyleResolution`. The `get*()` methods expose design intent, palette, typography, layout, visual rhythm, medium translation, asset policy, surface texture policy, and modifier compatibility without forcing the base workflow to branch on a style name. `getModifierCompatibility()` is the style-specific contract for accepting, downgrading, or rejecting `StyleModifier[]`; it must exist for every concrete style, even if the style declares that no modifiers are allowed beyond ordinary constraints. `selfCheck()` is the final style-specific quality gate.
+`resolve()` owns trigger matching and returns `StyleResolution`. The `get*()` methods expose design intent, palette, typography, layout, visual rhythm, medium translation, asset policy, surface texture policy, and modifier compatibility without forcing the base workflow to branch on a style name. `getModifierCompatibility()` is the style-specific contract for composing `StyleModifier[]` with the base style while preserving identity and safety boundaries. `selfCheck()` is the final style-specific quality gate.
 
 ## Required Provider Interfaces
 
@@ -173,7 +173,7 @@ interface TriggerMatcher {
 }
 
 interface DesignIntentProvider {
-  getIntent(): { intent: string; antiGoals: string[] };
+  getIntent(): { intent: string; creativeLatitude: string[]; safetyBoundaries?: string[] };
 }
 
 interface PaletteProvider {
@@ -211,7 +211,7 @@ interface VisualRhythmProvider {
     archetypeVarietyRule: string;
     motifRotation: string[];
     assetFallbackRule: string;
-    antiMonotonyCheck: string[];
+    variationCheck: string[];
   };
 }
 
@@ -221,8 +221,8 @@ interface ComponentTranslator {
 
 interface AssetPolicy {
   // Returned by DesignStyleBase.getAssetPolicy().
-  assetRoot: `assets/${string}/` | "none";
-  importMode: "style-owned" | "none" | "user-provided-only";
+  assetRoot: `assets/${string}/`;
+  importMode: "style-owned" | "user-provided-only";
   manifestFile?: string;
   availableAssets: Record<string, AssetRole[]> | "none";
   placementRules: string[];
@@ -241,7 +241,7 @@ interface SurfaceTexturePolicy {
   allowedTokens: string[];
   opacityRange: [number, number];
   allowedSurfaces: string[];
-  forbiddenSurfaces: string[];
+  protectedSurfaces: string[];
   fallbackPolicy: string;
 }
 
@@ -293,7 +293,7 @@ Rules:
 - Texture options may reference only tokens declared by the active style's `SurfaceTexturePolicy.allowedTokens`; include a texture-off option when turning texture off leaves a complete design.
 - Palette options must preserve the active style's semantic color hierarchy and accessibility requirements.
 - For legal- or identity-sensitive styles, preview prompts must demonstrate the interpreted style without copying protected source artifacts.
-- Final artifact generation must not silently change locked palette, texture, layout density, visual rhythm, motif, or asset decisions. If a locked option cannot be implemented in the target medium, stop and ask for an approved substitute unless the task is low-stakes and an equivalent fallback is already declared by the active style.
+- Final artifact generation stays aligned with locked palette, texture, layout density, visual rhythm, motif, or asset decisions. If a locked option cannot be implemented in the target medium, stop and ask for an approved substitute unless the task is low-stakes and an equivalent fallback is already declared by the active style.
 
 
 ## Visual Rhythm Contract
@@ -304,15 +304,15 @@ For each generated artifact, the active style must provide or derive a `VisualRh
 
 1. Map each slide, screen, or major section to a declared archetype or explicit information role.
 2. Assign at least one non-body-text visual anchor to each slide/screen/major section. Anchors may be informational, structural, decorative, or textural, but they must support hierarchy.
-3. Rotate approved motif treatments, texture states, layout skeletons, and density levels; do not repeat the same skeleton for long consecutive runs.
-4. Use material discovery as a standard design-comparison input when browsing is allowed: compare runtime imagery with lawfully sourced candidates, generated vectors, code-native geometry, charts, diagrams, typographic labels, swatches, rules, and lawful user-provided assets, then choose the style-faithful option with the strongest semantic and anti-monotony value.
-5. Add anti-monotony checks to `selfCheckPlan` and final `Self-Check`; visual variety must not break accessibility, asset provenance, brand rules, or style-specific anti-goals.
+3. Rotate motif treatments, texture states, layout skeletons, and density levels to keep creative range visible across the artifact.
+4. Use material discovery as a standard design-comparison input when browsing is allowed: compare runtime imagery with lawfully sourced candidates, generated vectors, code-native geometry, charts, diagrams, typographic labels, swatches, rules, and lawful user-provided assets, then choose the style-faithful option with the strongest semantic and variation value.
+5. Add variation checks to `selfCheckPlan` and final `Self-Check`; visual variety should preserve accessibility, asset provenance, brand rules, and style safety boundaries.
 
-The visual rhythm plan is not permission to add filler. A slide can choose `motif-off` or `texture-off` when density, legibility, legal safety, or brand restraint requires it, but it still needs a clear content or structure anchor.
+The visual rhythm plan is permission to explore scale, density, imagery, and motif range. When density, legibility, legal safety, or brand fit calls for it, a slide can choose `motif-off` or `texture-off` while still keeping a clear content or structure anchor.
 
 ## Modifier Composition Contract
 
-Style modifiers are data-level overlays for user-requested changes that should not become new concrete styles by default. The base workflow may compose modifiers after style resolution, but modifiers must pass the selected style's `getModifierCompatibility()` policy, preserve base-style invariants, and avoid silently replacing identity colors, official assets, or safety constraints. Load `style_modifier_contract.md` when modifier extraction, compatibility checks, downgrade decisions, or modifier self-check rules are needed.
+Style modifiers are data-level overlays for user-requested changes that should not become new concrete styles by default. The base workflow may compose modifiers after style resolution, preserving base-style identity, official assets, and safety constraints while allowing expressive variants. Load `style_modifier_contract.md` when modifier extraction, compatibility checks, composition decisions, or modifier self-check rules are needed.
 
 ```ts
 interface StyleComposer {
@@ -320,16 +320,16 @@ interface StyleComposer {
 }
 ```
 
-`ComposedStylePlan.rejectedOrDowngradedChanges` should record any request that was unsafe, unavailable, or too strong for the base style. If a modifier would dominate the base style at `expressive` intensity, identify the result as a base-style variant or propose a new concrete style instead of presenting it as the untouched base style.
+`ComposedStylePlan.reconciledChanges` should record any request that was softened, clarified, unavailable, or too strong for the base style. If a modifier would dominate the base style at `expressive` intensity, identify the result as a base-style variant or propose a new concrete style instead of presenting it as the untouched base style.
 
 ## Asset Provider Contract
 
-Treat each style asset boundary as an opaque runtime module. The base workflow must not browse `assets/` directly, choose arbitrary files, or assert what files are present; it must ask the active concrete style for abstract roles, handles, and fallback behavior.
+Treat each style asset boundary as an opaque runtime module rooted at `assets/<style_name>/`. The base workflow asks the active concrete style for abstract roles, handles, and fallback behavior instead of choosing arbitrary files or asserting what files are present. Every concrete style must still provide the boundary directory and `ASSET_MANIFEST.md`; static validation checks that requirement without inspecting file inventories.
 
 ```ts
 interface AssetProvider {
   styleName: StyleName;
-  root: `assets/${string}/` | "none";
+  root: `assets/${string}/`;
   roles: AssetRole[];
   fallbackPolicy: string;
   resolve(role: AssetRole, medium: TargetMedium): RuntimeAssetHandle[];
@@ -377,7 +377,7 @@ interface RuntimeSurfaceHandle {
 
 When a style enables a shared texture provider, framework references may name the provider and abstract tokens, but provider records, source URLs, checksums, wrapper files, and index contents stay inside the opaque asset boundary or task-local documentation.
 
-Enable a provider in a concrete style only as a neutral tiled surface substrate with explicit fallback behavior. Do not use provider availability to imply a global ornament library, and do not make framework validation depend on the provider's current files.
+Enable a provider in a concrete style as a neutral tiled surface substrate with explicit fallback behavior. Provider availability should not imply a global ornament library or make framework validation depend on the provider's current files.
 
 ## Self-Check Output Contract
 
@@ -391,7 +391,7 @@ const result: CheckResult = {
 };
 ```
 
-Use style-specific checks inside that shape. For example, SEU checks logo aspect ratios and institutional restraint; RMB checks non-counterfeit behavior; Chinese traditional color checks named-color and cultural-context fit. Multi-page or multi-screen outputs must also check visual anchor coverage, archetype variety, motif rotation, and whether any fallback asset strategy left pages visually empty.
+Use style-specific checks inside that shape. For example, SEU checks logo aspect ratios and institutional fit; RMB checks non-counterfeit behavior; Chinese traditional color checks named-color and cultural-context fit. Multi-page or multi-screen outputs should also check visual anchor coverage, archetype variety, motif rotation, and whether any fallback asset strategy left pages visually empty.
 
 ## Substitutability Rules
 
@@ -405,4 +405,4 @@ Use style-specific checks inside that shape. For example, SEU checks logo aspect
 - A style may enable a non-`none` surface provider only through stable policy handles, provenance expectations, and fallback behavior; provider file verification belongs inside the runtime asset bundle or task documentation.
 - A style may be brand-led, color-led, or motif-led; the workflow should still consume it through the same methods.
 - Medium translation must cover PPT, web, app/dashboard, and static visual output, even if the style simply says to reuse layout/color rules for a medium.
-- Concrete styles must expose a `Visual Rhythm System`; multi-page and multi-screen outputs must use it to plan visual anchors, archetype variation, motif rotation, and anti-monotony checks before final generation.
+- Concrete styles must expose a `Visual Rhythm System`; multi-page and multi-screen outputs must use it to plan visual anchors, archetype variation, motif rotation, and variation checks before final generation.

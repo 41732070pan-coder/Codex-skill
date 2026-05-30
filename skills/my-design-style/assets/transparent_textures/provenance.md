@@ -10,7 +10,7 @@ Transparent Textures presents transparent PNG patterns, creator names, download 
 
 - Acquisition date: 2026-05-29.
 - Network note: the runtime proxy blocked direct binary downloads from `www.transparenttextures.com`, so this provider stores local SVG wrapper files that reference the canonical upstream PNG URLs and capture source metadata. The wrappers are treated as the bundled provider records; the raw upstream PNG binaries are not vendored in this repository.
-- Format policy: `sourceFormat: svg-wrapper` means the local file is an SVG tiling wrapper around a Transparent Textures PNG URL. Do not represent wrapper files as native Transparent Textures SVGs.
+- Format policy: `sourceFormat: svg-wrapper` means the local file is an SVG tiling wrapper around a Transparent Textures PNG URL; represent wrapper files with that source format rather than as native Transparent Textures SVGs.
 - License / terms note: each source page records creator attribution and Subtle Patterns origin. Verify upstream license/terms before redistributing raw PNG binaries or repackaging this provider outside this skill workspace.
 
 ## Curated Source Pages

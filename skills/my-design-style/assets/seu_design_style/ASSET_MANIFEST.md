@@ -34,6 +34,6 @@ This manifest is the style-owned asset module for `seu_design_style`. Import the
 ## Import Rules
 
 - Identity marks, wordmarks, motto artwork, building silhouettes, and pine motifs must use contain-style placement.
-- Pattern assets marked `repeatable` may repeat or crop, but must not be non-uniformly scaled.
+- Pattern assets marked `repeatable` may repeat or crop while keeping uniform scale.
 - The color card is source evidence and should not be placed as filler unless the user asks for a style reference sheet.
 - A smaller correctly proportioned identity asset is better than a larger distorted one.
