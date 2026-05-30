@@ -23,7 +23,8 @@
           12,
           12
         ],
-        "extractionSlice": "chapter concept"
+        "extractionSlice": "chapter concept",
+        "granularity": "paragraph"
       }
     },
     {
@@ -37,7 +38,8 @@
         "locator": "source.txt",
         "blockId": "pdf-main-noise",
         "boundaryConfidence": "explicit",
-        "evidenceType": "source-derived"
+        "evidenceType": "source-derived",
+        "granularity": "outline"
       }
     }
   ],
@@ -53,7 +55,8 @@
         12,
         12
       ],
-      "extractionSlice": "chapter concept"
+      "extractionSlice": "chapter concept",
+      "granularity": "paragraph"
     },
     {
       "id": "st-pdf-main-noise",
@@ -61,7 +64,8 @@
       "locator": "source.txt",
       "blockId": "pdf-main-noise",
       "boundaryConfidence": "explicit",
-      "evidenceType": "source-derived"
+      "evidenceType": "source-derived",
+      "granularity": "outline"
     }
   ],
   "uncertaintyNotes": []

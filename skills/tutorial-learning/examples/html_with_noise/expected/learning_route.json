@@ -1,0 +1,40 @@
+{
+  "stages": [
+    {
+      "id": "html_with_noise-lesson",
+      "title": "HTML Noise Filtering",
+      "objective_ids": [
+        "lo1",
+        "lo2"
+      ],
+      "prerequisite_stage_ids": [],
+      "study_depth": "standard",
+      "est_minutes": 8,
+      "status": "designed",
+      "preview": "掌握当前范围的核心机制，并完成微测、练习和复习卡。"
+    },
+    {
+      "id": "html_with_noise-review",
+      "title": "间隔复习",
+      "objective_ids": [
+        "lo1",
+        "lo2"
+      ],
+      "prerequisite_stage_ids": [
+        "html_with_noise-lesson"
+      ],
+      "study_depth": "skim",
+      "est_minutes": 5,
+      "status": "planned",
+      "preview": "在第 1、3、7 天主动回忆复习卡。"
+    }
+  ],
+  "est_minutes_total": 13,
+  "designed_scope": "HTML Noise Filtering",
+  "design_mode": "chapter_tutorial",
+  "evidence_granularity": "paragraph",
+  "learner_profile_summary": "画像：`beginner / novice / practice / general / balanced`。",
+  "personalization_decisions": [
+    "来源范围很短，仅设计 1 个证据充分的概念 lesson，不用模板内容填充到 3 个 lesson。"
+  ]
+}

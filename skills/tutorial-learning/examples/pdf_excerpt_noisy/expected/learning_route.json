@@ -1,0 +1,40 @@
+{
+  "stages": [
+    {
+      "id": "pdf_excerpt_noisy-lesson",
+      "title": "PDF Excerpt",
+      "objective_ids": [
+        "lo1",
+        "lo2"
+      ],
+      "prerequisite_stage_ids": [],
+      "study_depth": "standard",
+      "est_minutes": 8,
+      "status": "designed",
+      "preview": "掌握当前范围的核心机制，并完成微测、练习和复习卡。"
+    },
+    {
+      "id": "pdf_excerpt_noisy-review",
+      "title": "间隔复习",
+      "objective_ids": [
+        "lo1",
+        "lo2"
+      ],
+      "prerequisite_stage_ids": [
+        "pdf_excerpt_noisy-lesson"
+      ],
+      "study_depth": "skim",
+      "est_minutes": 5,
+      "status": "planned",
+      "preview": "在第 1、3、7 天主动回忆复习卡。"
+    }
+  ],
+  "est_minutes_total": 13,
+  "designed_scope": "PDF Excerpt",
+  "design_mode": "chapter_tutorial",
+  "evidence_granularity": "paragraph",
+  "learner_profile_summary": "画像：`beginner / novice / practice / general / balanced`。",
+  "personalization_decisions": [
+    "正文只有一句机制说明，因此仅生成 1 个受限 lesson，并明确不扩写来源没有提供的机制细节。"
+  ]
+}

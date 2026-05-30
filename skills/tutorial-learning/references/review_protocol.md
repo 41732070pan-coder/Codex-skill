@@ -1,5 +1,11 @@
 # Review Protocol
 
+## Diagnostic Feedback Loop
+
+For each lesson, define the first-attempt prompt, diagnosed capability, expected evidence, and feedback guidance for wrong or uncertain answers. Feed mistakes into review-card selection and downstream renderer handoff; do not require a runtime implementation here.
+
+Use a suitable mix of: `prediction | concept_explanation | calculation | code_reading | diagnosis | transfer`. Route-overview questions may test prioritization, but chapter-tutorial assessments must test actual lesson knowledge.
+
 ## Review Cards
 
 Per section, emit 3–5 `ReviewCard` entries:
@@ -50,4 +56,4 @@ Default `due_offsets_days` per card: `[1, 3, 7]`.
 
 ## Runtime Review State (Optional Enhancement)
 
-The first implementation may keep cards and day 1/3/7 reminders lightweight. When runtime scheduling is added, persist `last_reviewed_at`, `next_due_at`, `review_count`, `stage`, and the learner response `forgot | fuzzy | mastered` into `state/learner_state.json` according to `learner_state_contract.md`. Surface due topics in the rebuilt `state/next_lesson_context.json` before next-lesson generation. Do not block the core progressive lesson flow on a complex adaptive algorithm.
+Keep cards and day 1/3/7 reminders medium-neutral. A downstream runtime may persist learner responses or add adaptive scheduling, but this skill only specifies the review design and handoff guidance.

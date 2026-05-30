@@ -39,7 +39,7 @@ Adapters may:
 - recognize format and access-mode cues;
 - identify structural signals;
 - remove or label source-specific noise;
-- emit source traces and uncertainty notes;
+- emit source traces with evidence granularity and uncertainty notes;
 - stop or delegate when low-level extraction is needed.
 
 Adapters must not:

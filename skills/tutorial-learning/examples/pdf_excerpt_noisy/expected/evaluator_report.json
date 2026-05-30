@@ -1,10 +1,13 @@
 {
   "scores": {
     "source_fidelity": 5,
+    "source_evidence_depth": 5,
     "triage_depth_routing": 5,
     "chinese_lecture_quality": 4,
-    "assessment_review": 5,
-    "interactive_web_learning": 5
+    "lesson_learning_value": 4,
+    "assessment_diagnostics": 4,
+    "personalization": 4,
+    "tutorial_design_completeness": 5
   },
   "blocking_failures": [],
   "patches": [],

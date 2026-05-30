@@ -10,6 +10,9 @@ source_title: "<title>"
 source_locator: "<url or path>"
 section_id: "<stable section id>"
 section_title: "<Chinese section title>"
+design_mode: route_overview|chapter_tutorial
+evidence_granularity: outline|section|paragraph|code
+lesson_count: <number>
 est_minutes_total: <number>
 learning_objectives:
   - id: lo1
@@ -24,13 +27,21 @@ triage_summary:
 ---
 ```
 
+## 教学模式与证据边界
+
+State `route_overview` or `chapter_tutorial`, the strongest evidence granularity, and the allowed teaching depth. If the mode is `chapter_tutorial`, explain whether this is a normal chapter with 3–5 lessons or a narrow section with a smaller evidence-backed lesson set.
+
+## 章节知识地图
+
+Map concepts, dependencies, lesson ids, and source trace ids. In route-overview mode, keep this at orientation depth.
+
 ## 本节目标
 
 2–4 bullets tied to `learning_objectives`. Each objective must be observable and source-traced.
 
 ## 来源与边界
 
-Short table: source trace id | locator/page/anchor/heading | boundary confidence | evidence type.
+Short table: source trace id | locator/page/anchor/heading | granularity | boundary confidence | evidence type.
 
 ## 学习路线
 
@@ -40,7 +51,7 @@ Column `深度` must use: skip | skim | standard | deep.
 
 ## 核心讲解
 
-Render every lesson as an independently studyable unit. Use ordered subsections for `core` and in-lecture `supporting` blocks:
+In `chapter_tutorial` mode, use `### Lesson <id>：<source-specific title>` for every lesson. Render every lesson as an independently studyable unit. Do not repeat generic prose across lessons. In `route_overview` mode, explicitly label the content as orientation and do not simulate deep lessons. Use ordered subsections for `core` and in-lecture `supporting` blocks:
 
 1. **问题场景**：explain the learner-facing problem.
 2. **直觉解释**：build an initial mental model.
@@ -63,6 +74,10 @@ List `skip_with_deep_dive` entries:
 - **为何跳过** …
 - **深入** [label](url) or source location note.
 
+## 诊断反馈
+
+For each lesson, state the diagnosed capability and wrong-answer feedback guidance. Keep runtime interaction implementation downstream.
+
 ## 微测
 
 3–5 items. **Item 1 must be 预测** (no method hints in the prompt):
@@ -71,7 +86,7 @@ List `skip_with_deep_dive` entries:
 2. **用自己的话**：…
 3. **应用**（when applicable）：…
 
-Use attempt-first interaction semantics in the webpage: do not expose full feedback before learner input.
+Use attempt-first semantics in the assessment plan: place prompts before answer guidance so learners attempt retrieval before inspecting feedback.
 
 - Objective questions: submit a choice, then show correctness and explanation.
 - Teach-back questions: submit text, then show a self-check rubric. Keyword coverage is only an aid, never a precise grade.

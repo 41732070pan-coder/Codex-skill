@@ -3,18 +3,179 @@
   "$id": "source_outline.schema.json",
   "title": "SourceOutline",
   "type": "object",
-  "required": ["format", "structureKind", "navigationOrder", "blocks", "sourceTraces", "uncertaintyNotes"],
+  "required": [
+    "format",
+    "structureKind",
+    "navigationOrder",
+    "blocks",
+    "sourceTraces",
+    "uncertaintyNotes"
+  ],
   "properties": {
-    "sourceTitle": { "type": "string" },
-    "format": { "enum": ["pdf", "html", "markdown", "plain_text_with_headings", "unknown"] },
-    "structureKind": { "enum": ["outline", "heading_tree", "page_range", "anchor_graph", "linear_document"] },
-    "navigationOrder": { "type": "array", "items": { "type": "string" } },
-    "blocks": { "type": "array", "items": { "$ref": "#/$defs/block" }, "minItems": 1 },
-    "sourceTraces": { "type": "array", "items": { "$ref": "#/$defs/trace" }, "minItems": 1 },
-    "uncertaintyNotes": { "type": "array", "items": { "type": "string" } }
+    "sourceTitle": {
+      "type": "string"
+    },
+    "format": {
+      "enum": [
+        "pdf",
+        "html",
+        "markdown",
+        "plain_text_with_headings",
+        "unknown"
+      ]
+    },
+    "structureKind": {
+      "enum": [
+        "outline",
+        "heading_tree",
+        "page_range",
+        "anchor_graph",
+        "linear_document"
+      ]
+    },
+    "navigationOrder": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "blocks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/block"
+      },
+      "minItems": 1
+    },
+    "sourceTraces": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/trace"
+      },
+      "minItems": 1
+    },
+    "uncertaintyNotes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
   },
   "$defs": {
-    "trace": { "type": "object", "required": ["id", "source_format", "boundaryConfidence", "evidenceType"], "properties": { "id": { "type": "string" }, "source_format": { "enum": ["pdf", "html", "markdown", "plain_text_with_headings", "unknown"] }, "locator": { "type": "string" }, "pageRange": { "type": "array", "items": { "type": "integer" }, "minItems": 2, "maxItems": 2 }, "headingPath": { "type": "array", "items": { "type": "string" } }, "anchor": { "type": "string" }, "url": { "type": "string" }, "blockId": { "type": "string" }, "extractionSlice": { "type": "string" }, "boundaryConfidence": { "enum": ["explicit", "inferred-high", "inferred-medium", "inferred-low"] }, "evidenceType": { "enum": ["source-derived", "paraphrased", "inferred", "user-supplied", "supplementary", "missing"] } } },
-    "block": { "type": "object", "required": ["id", "type", "sourceTrace"], "properties": { "id": { "type": "string" }, "type": { "enum": ["heading", "paragraph", "code", "table", "figure", "callout", "exercise", "navigation", "sidebar", "appendix", "reference"] }, "title": { "type": "string" }, "textSummary": { "type": "string" }, "sourceTrace": { "$ref": "#/$defs/trace" } } }
+    "trace": {
+      "type": "object",
+      "required": [
+        "id",
+        "source_format",
+        "boundaryConfidence",
+        "evidenceType",
+        "granularity"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "source_format": {
+          "enum": [
+            "pdf",
+            "html",
+            "markdown",
+            "plain_text_with_headings",
+            "unknown"
+          ]
+        },
+        "locator": {
+          "type": "string"
+        },
+        "pageRange": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "headingPath": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "anchor": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "blockId": {
+          "type": "string"
+        },
+        "extractionSlice": {
+          "type": "string"
+        },
+        "boundaryConfidence": {
+          "enum": [
+            "explicit",
+            "inferred-high",
+            "inferred-medium",
+            "inferred-low"
+          ]
+        },
+        "evidenceType": {
+          "enum": [
+            "source-derived",
+            "paraphrased",
+            "inferred",
+            "user-supplied",
+            "supplementary",
+            "missing"
+          ]
+        },
+        "granularity": {
+          "enum": [
+            "outline",
+            "section",
+            "paragraph",
+            "code"
+          ]
+        }
+      }
+    },
+    "block": {
+      "type": "object",
+      "required": [
+        "id",
+        "type",
+        "sourceTrace"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "heading",
+            "paragraph",
+            "code",
+            "table",
+            "figure",
+            "callout",
+            "exercise",
+            "navigation",
+            "sidebar",
+            "appendix",
+            "reference"
+          ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "textSummary": {
+          "type": "string"
+        },
+        "sourceTrace": {
+          "$ref": "#/$defs/trace"
+        }
+      }
+    }
   }
 }

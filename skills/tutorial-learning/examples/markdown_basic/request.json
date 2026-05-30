@@ -7,5 +7,14 @@
   },
   "scope": {
     "section": "Markdown Basics"
+  },
+  "design_mode": "chapter_tutorial",
+  "learner_preferences": {
+    "familiarity": "novice",
+    "goal": "practice",
+    "audience": "beginner",
+    "target_domain": "general",
+    "explanation_preference": "balanced",
+    "time_budget_minutes": 20
   }
 }

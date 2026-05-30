@@ -13,6 +13,19 @@ Use this contract whenever a lesson, triage block, or assessment depends on sour
 | `supplementary` | Added by the assistant as general context or deep-dive guidance. | Mark as supplementary; do not present as source content. |
 | `missing` | Needed evidence is absent or inaccessible. | Ask, stop, or emit a limited orientation only. |
 
+## Evidence Granularity
+
+Record the strongest supported granularity on every `SourceTrace`. Granularity controls how deep the generated teaching may go.
+
+| Granularity | Evidence example | Allowed output depth |
+| --- | --- | --- |
+| `outline` | TOC item, chapter title, navigation label | Route priority and orientation only. Label the result as a guided overview. |
+| `section` | Heading plus section-level summary or bounded excerpt | Chapter knowledge map and candidate lessons; keep explanations limited. |
+| `paragraph` | Source paragraph, table, worked prose example | Concept explanation, source-grounded example, diagnostic check, and practice. |
+| `code` | Source code block, notebook cell, command, or runnable snippet | Code experiment: prediction, expected result, modification, common error, and transfer task. |
+
+Do not upgrade granularity merely because a topic is familiar. General knowledge added beyond the available source is `supplementary`, not source-derived.
+
 ## Boundary Confidence
 
 | Confidence | Use when |
@@ -39,3 +52,5 @@ Use `references/source_profiles.md` for source-format-specific ingest rules.
 - Do not provide long verbatim copyrighted excerpts; summarize and cite source metadata instead.
 - For medical, legal, financial, safety, or compliance tutorials, generate study aids only and do not replace qualified professional instruction or current standards.
 - Never invent chapter content from a title, TOC, URL slug, or anchor alone.
+- If evidence is outline-only, emit `route_overview`; do not generate a chapter tutorial that merely looks complete.
+- If a paragraph- or code-level claim lacks a supporting trace, downgrade the claim, mark it supplementary, or ask for a richer source excerpt.

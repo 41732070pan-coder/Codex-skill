@@ -1,0 +1,40 @@
+{
+  "stages": [
+    {
+      "id": "plain_text_headings-lesson",
+      "title": "Retry Strategy",
+      "objective_ids": [
+        "lo1",
+        "lo2"
+      ],
+      "prerequisite_stage_ids": [],
+      "study_depth": "standard",
+      "est_minutes": 8,
+      "status": "designed",
+      "preview": "掌握当前范围的核心机制，并完成微测、练习和复习卡。"
+    },
+    {
+      "id": "plain_text_headings-review",
+      "title": "间隔复习",
+      "objective_ids": [
+        "lo1",
+        "lo2"
+      ],
+      "prerequisite_stage_ids": [
+        "plain_text_headings-lesson"
+      ],
+      "study_depth": "skim",
+      "est_minutes": 5,
+      "status": "planned",
+      "preview": "在第 1、3、7 天主动回忆复习卡。"
+    }
+  ],
+  "est_minutes_total": 13,
+  "designed_scope": "Retry Strategy",
+  "design_mode": "chapter_tutorial",
+  "evidence_granularity": "paragraph",
+  "learner_profile_summary": "画像：`beginner / novice / practice / general / balanced`。",
+  "personalization_decisions": [
+    "来源包含可操作规则，设计 1 个诊断型 lesson；错误目录留作查阅材料。"
+  ]
+}

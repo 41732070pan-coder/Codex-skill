@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "learning_route.schema.json",
+  "title": "LearningRoute",
+  "type": "object",
+  "required": [
+    "design_mode",
+    "evidence_granularity",
+    "learner_profile_summary",
+    "personalization_decisions",
+    "stages",
+    "est_minutes_total",
+    "designed_scope"
+  ],
+  "properties": {
+    "design_mode": {
+      "enum": [
+        "route_overview",
+        "chapter_tutorial"
+      ]
+    },
+    "evidence_granularity": {
+      "enum": [
+        "outline",
+        "section",
+        "paragraph",
+        "code"
+      ]
+    },
+    "learner_profile_summary": {
+      "type": "string"
+    },
+    "personalization_decisions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "stages": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "title",
+          "objective_ids",
+          "prerequisite_stage_ids",
+          "study_depth",
+          "est_minutes",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "objective_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "prerequisite_stage_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "study_depth": {
+            "enum": [
+              "skip",
+              "skim",
+              "standard",
+              "deep"
+            ]
+          },
+          "est_minutes": {
+            "type": "number",
+            "minimum": 0
+          },
+          "status": {
+            "enum": [
+              "designed",
+              "planned",
+              "deferred"
+            ]
+          },
+          "preview": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "est_minutes_total": {
+      "type": "number",
+      "minimum": 0
+    },
+    "designed_scope": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

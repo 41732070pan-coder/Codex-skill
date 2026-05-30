@@ -13,7 +13,8 @@
         "headingPath": [
           "Overview"
         ],
-        "extractionSlice": "overview"
+        "extractionSlice": "overview",
+        "granularity": "paragraph"
       },
       "blockType": "paragraph",
       "content_role": "core",
@@ -43,7 +44,8 @@
         "locator": "source.md",
         "blockId": "md-main-noise",
         "boundaryConfidence": "explicit",
-        "evidenceType": "source-derived"
+        "evidenceType": "source-derived",
+        "granularity": "outline"
       },
       "blockType": "navigation",
       "content_role": "filler",

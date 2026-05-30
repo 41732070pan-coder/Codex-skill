@@ -22,7 +22,8 @@
         "headingPath": [
           "Retry Strategy"
         ],
-        "extractionSlice": "overview"
+        "extractionSlice": "overview",
+        "granularity": "paragraph"
       }
     },
     {
@@ -37,7 +38,8 @@
         "blockId": "txt-main-noise",
         "boundaryConfidence": "explicit",
         "evidenceType": "source-derived",
-        "headingPath": []
+        "headingPath": [],
+        "granularity": "outline"
       }
     }
   ],
@@ -52,7 +54,8 @@
       "headingPath": [
         "Retry Strategy"
       ],
-      "extractionSlice": "overview"
+      "extractionSlice": "overview",
+      "granularity": "paragraph"
     },
     {
       "id": "st-txt-main-noise",
@@ -61,7 +64,8 @@
       "blockId": "txt-main-noise",
       "boundaryConfidence": "explicit",
       "evidenceType": "source-derived",
-      "headingPath": []
+      "headingPath": [],
+      "granularity": "outline"
     }
   ],
   "uncertaintyNotes": []

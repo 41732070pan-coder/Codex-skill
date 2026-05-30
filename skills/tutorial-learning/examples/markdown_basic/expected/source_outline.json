@@ -24,7 +24,8 @@
         "headingPath": [
           "Overview"
         ],
-        "extractionSlice": "overview"
+        "extractionSlice": "overview",
+        "granularity": "paragraph"
       }
     },
     {
@@ -42,7 +43,8 @@
         "headingPath": [
           "Overview"
         ],
-        "extractionSlice": "build --fast"
+        "extractionSlice": "build --fast",
+        "granularity": "code"
       }
     },
     {
@@ -60,7 +62,8 @@
         "headingPath": [
           "Overview"
         ],
-        "extractionSlice": "--fast | quicker"
+        "extractionSlice": "--fast | quicker",
+        "granularity": "paragraph"
       }
     },
     {
@@ -74,7 +77,8 @@
         "locator": "source.md",
         "blockId": "md-main-noise",
         "boundaryConfidence": "explicit",
-        "evidenceType": "source-derived"
+        "evidenceType": "source-derived",
+        "granularity": "outline"
       }
     }
   ],
@@ -89,7 +93,8 @@
       "headingPath": [
         "Overview"
       ],
-      "extractionSlice": "overview"
+      "extractionSlice": "overview",
+      "granularity": "paragraph"
     },
     {
       "id": "st-md-code",
@@ -101,7 +106,8 @@
       "headingPath": [
         "Overview"
       ],
-      "extractionSlice": "build --fast"
+      "extractionSlice": "build --fast",
+      "granularity": "code"
     },
     {
       "id": "st-md-table",
@@ -113,7 +119,8 @@
       "headingPath": [
         "Overview"
       ],
-      "extractionSlice": "--fast | quicker"
+      "extractionSlice": "--fast | quicker",
+      "granularity": "paragraph"
     },
     {
       "id": "st-md-main-noise",
@@ -121,7 +128,8 @@
       "locator": "source.md",
       "blockId": "md-main-noise",
       "boundaryConfidence": "explicit",
-      "evidenceType": "source-derived"
+      "evidenceType": "source-derived",
+      "granularity": "outline"
     }
   ],
   "uncertaintyNotes": []

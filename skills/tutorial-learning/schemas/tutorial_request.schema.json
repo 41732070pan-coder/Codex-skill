@@ -8,6 +8,12 @@
     "scope"
   ],
   "properties": {
+    "design_mode": {
+      "enum": [
+        "route_overview",
+        "chapter_tutorial"
+      ]
+    },
     "source": {
       "type": "object",
       "required": [
@@ -112,6 +118,24 @@
             "math-focused",
             "practice-focused"
           ]
+        },
+        "audience": {
+          "enum": [
+            "beginner",
+            "ml_transition",
+            "engineer",
+            "exam_review",
+            "researcher"
+          ]
+        },
+        "target_domain": {
+          "enum": [
+            "general",
+            "cv",
+            "nlp",
+            "llm",
+            "deployment"
+          ]
         }
       },
       "additionalProperties": false
@@ -121,24 +145,6 @@
       "items": {
         "type": "string"
       }
-    },
-    "design_style": {
-      "type": "object",
-      "properties": {
-        "designSkill": {
-          "type": "string"
-        },
-        "theme": {
-          "type": "string"
-        },
-        "themeVariant": {
-          "type": "string"
-        },
-        "customOverrides": {
-          "type": "object"
-        }
-      },
-      "additionalProperties": false
     }
   },
   "$defs": {

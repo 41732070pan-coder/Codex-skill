@@ -22,7 +22,8 @@
         "anchor": "main",
         "headingPath": [
           "Main concept"
-        ]
+        ],
+        "granularity": "paragraph"
       }
     },
     {
@@ -36,7 +37,8 @@
         "locator": "source.html",
         "blockId": "html-main-noise",
         "boundaryConfidence": "explicit",
-        "evidenceType": "source-derived"
+        "evidenceType": "source-derived",
+        "granularity": "outline"
       }
     }
   ],
@@ -51,7 +53,8 @@
       "anchor": "main",
       "headingPath": [
         "Main concept"
-      ]
+      ],
+      "granularity": "paragraph"
     },
     {
       "id": "st-html-main-noise",
@@ -59,7 +62,8 @@
       "locator": "source.html",
       "blockId": "html-main-noise",
       "boundaryConfidence": "explicit",
-      "evidenceType": "source-derived"
+      "evidenceType": "source-derived",
+      "granularity": "outline"
     }
   ],
   "uncertaintyNotes": []

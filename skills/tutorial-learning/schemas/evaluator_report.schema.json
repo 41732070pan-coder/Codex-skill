@@ -14,14 +14,20 @@
       "type": "object",
       "required": [
         "source_fidelity",
+        "source_evidence_depth",
         "triage_depth_routing",
         "chinese_lecture_quality",
-        "assessment_review",
-        "interactive_web_learning"
+        "lesson_learning_value",
+        "assessment_diagnostics",
+        "personalization",
+        "tutorial_design_completeness"
       ],
       "additionalProperties": false,
       "properties": {
         "source_fidelity": {
+          "$ref": "#/$defs/score"
+        },
+        "source_evidence_depth": {
           "$ref": "#/$defs/score"
         },
         "triage_depth_routing": {
@@ -30,10 +36,16 @@
         "chinese_lecture_quality": {
           "$ref": "#/$defs/score"
         },
-        "assessment_review": {
+        "lesson_learning_value": {
           "$ref": "#/$defs/score"
         },
-        "interactive_web_learning": {
+        "assessment_diagnostics": {
+          "$ref": "#/$defs/score"
+        },
+        "personalization": {
+          "$ref": "#/$defs/score"
+        },
+        "tutorial_design_completeness": {
           "$ref": "#/$defs/score"
         }
       }

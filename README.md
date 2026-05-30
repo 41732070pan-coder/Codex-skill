@@ -22,7 +22,7 @@
 | --- | --- | --- | --- | --- |
 | `meta-skill` | 元 Skill / 治理 | `skills/meta-skill/` | 设计、添加、重命名、审查、重构和治理仓库内的 Skills 与实现族，提供契约、注册表、模板、加载边界、解析语义、升级路径、生命周期和质量门禁规则。 | stable |
 | `my-design-style` | 业务 Skill / 视觉设计 | `skills/my-design-style/` | 为 PPT、网页、App、Dashboard、静态视觉稿和设计模板应用可扩展视觉风格系统；中文人类使用指南见 `skills/my-design-style/README.zh-CN.md`。 | experimental |
-| `tutorial-learning` | 业务 Skill / 学习工作流 | `skills/tutorial-learning/` | 将 PDF、HTML、Markdown、网页教程等超文本教程源转成中文学习讲义、内容 triage、微测、练习和复习卡。 | experimental |
+| `tutorial-learning` | 业务 Skill / 学习工作流 | `skills/tutorial-learning/` | 将 PDF、HTML、Markdown、网页教程等教程源转成媒介无关的教程设计中间层；支持路线导览与章节教程双模式、证据分级、个性化路线、课时讲解、诊断测验、实践和复习，最终展示物交给下游渲染 Skill。 | experimental |
 
 ## 高层目录结构
 

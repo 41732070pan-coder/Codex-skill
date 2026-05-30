@@ -13,7 +13,8 @@
         "headingPath": [
           "Retry Strategy"
         ],
-        "extractionSlice": "overview"
+        "extractionSlice": "overview",
+        "granularity": "paragraph"
       },
       "blockType": "paragraph",
       "content_role": "core",
@@ -44,7 +45,8 @@
         "blockId": "txt-main-noise",
         "boundaryConfidence": "explicit",
         "evidenceType": "source-derived",
-        "headingPath": []
+        "headingPath": [],
+        "granularity": "outline"
       },
       "blockType": "navigation",
       "content_role": "filler",
