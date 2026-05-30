@@ -1,5 +1,85 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema", "$id": "evaluator_report.schema.json", "title": "EvaluatorReport", "type": "object", "required": ["scores", "blocking_failures", "patches", "delivery_allowed"],
-  "properties": { "scores": { "type": "object", "required": ["source_fidelity", "triage_depth_routing", "chinese_lecture_quality", "assessment_review"], "additionalProperties": false, "properties": { "source_fidelity": { "$ref": "#/$defs/score" }, "triage_depth_routing": { "$ref": "#/$defs/score" }, "chinese_lecture_quality": { "$ref": "#/$defs/score" }, "assessment_review": { "$ref": "#/$defs/score" } } }, "blocking_failures": { "type": "array", "items": { "type": "string" } }, "patches": { "type": "array", "items": { "type": "object", "required": ["priority", "issue", "fix"], "properties": { "priority": { "enum": ["P0", "P1", "P2", "P3"] }, "issue": { "type": "string" }, "fix": { "type": "string" } } } }, "delivery_allowed": { "type": "boolean" } },
-  "$defs": { "score": { "type": "integer", "minimum": 0, "maximum": 5 } }
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "evaluator_report.schema.json",
+  "title": "EvaluatorReport",
+  "type": "object",
+  "required": [
+    "scores",
+    "blocking_failures",
+    "patches",
+    "delivery_allowed"
+  ],
+  "properties": {
+    "scores": {
+      "type": "object",
+      "required": [
+        "source_fidelity",
+        "triage_depth_routing",
+        "chinese_lecture_quality",
+        "assessment_review",
+        "interactive_web_learning"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "source_fidelity": {
+          "$ref": "#/$defs/score"
+        },
+        "triage_depth_routing": {
+          "$ref": "#/$defs/score"
+        },
+        "chinese_lecture_quality": {
+          "$ref": "#/$defs/score"
+        },
+        "assessment_review": {
+          "$ref": "#/$defs/score"
+        },
+        "interactive_web_learning": {
+          "$ref": "#/$defs/score"
+        }
+      }
+    },
+    "blocking_failures": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "patches": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "priority",
+          "issue",
+          "fix"
+        ],
+        "properties": {
+          "priority": {
+            "enum": [
+              "P0",
+              "P1",
+              "P2",
+              "P3"
+            ]
+          },
+          "issue": {
+            "type": "string"
+          },
+          "fix": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "delivery_allowed": {
+      "type": "boolean"
+    }
+  },
+  "$defs": {
+    "score": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 5
+    }
+  }
 }

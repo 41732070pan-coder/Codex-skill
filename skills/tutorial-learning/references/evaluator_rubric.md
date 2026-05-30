@@ -33,6 +33,14 @@ Score each category 0–5. Fix any blocking failure before delivery even if the 
 - Review cards map to objectives and source traces.
 - Spaced schedule uses day 1/3/7 or a justified variant.
 
+### 5. Interactive Tutorial Web Learning (0–5)
+
+- `learning_plan.md` explains the full learning arrangement before rendering.
+- Runnable `interactive_tutorial.html` contains the actual routed tutorial explanation, not only layout notes or placeholders.
+- Delivery mode is explicitly `complete_course` or `progressive_chapter` and justified from routed content size.
+- Homepage navigation contains the plan, all current and planned lessons, and review center.
+- The current lesson wires micro-test feedback, practice, completion, and review-card behavior; future lessons remain visible as planned entries in progressive mode.
+
 ## Blocking Failures
 
 - Fabricated source content.
@@ -40,6 +48,7 @@ Score each category 0–5. Fix any blocking failure before delivery even if the 
 - Rights/use uncertainty ignored when it materially affects output.
 - Filler appears in the lecture body as core content.
 - Reference-only content becomes a learning objective without an explicit user goal.
+- Interactive tutorial HTML omits the learning plan, homepage navigation, routed teaching content, current lesson interactions, or progressive-mode planned lessons.
 
 ## Output Format
 
@@ -67,7 +76,8 @@ Emit `evaluator_report.json` for automated delivery checks when structured sidec
     "source_fidelity": 5,
     "triage_depth_routing": 4,
     "chinese_lecture_quality": 4,
-    "assessment_review": 5
+    "assessment_review": 5,
+    "interactive_web_learning": 5
   },
   "blocking_failures": [],
   "patches": [

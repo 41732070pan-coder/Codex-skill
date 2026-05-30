@@ -5,7 +5,7 @@ import json, subprocess, sys
 from pathlib import Path
 from minimal_schema import validate_json_schema
 ROOT=Path(__file__).resolve().parents[1]
-REFS={'learning_contract.md','source_adapter_contract.md','source_profiles.md','source_fidelity.md','triage_protocol.md','lecture_template.md','review_protocol.md','evaluator_rubric.md'}
+REFS={'learning_contract.md','source_adapter_contract.md','source_profiles.md','source_fidelity.md','triage_protocol.md','lecture_template.md','review_protocol.md','interactive_webpage_contract.md','evaluator_rubric.md'}
 SCHEMAS={'tutorial_request.schema.json','source_outline.schema.json','triage.schema.json','review_plan.schema.json','evaluator_report.schema.json'}
 EXAMPLES={'markdown_basic','html_with_noise','pdf_excerpt_noisy','plain_text_headings'}
 def load_json(path: Path, errors: list[str]):

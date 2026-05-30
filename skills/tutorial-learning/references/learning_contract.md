@@ -138,14 +138,27 @@ interface EvaluatorReport {
     triage_depth_routing: number;
     chinese_lecture_quality: number;
     assessment_review: number;
+    interactive_web_learning: number;
   };
   blocking_failures: string[];
   patches: { priority: "P0" | "P1" | "P2" | "P3"; issue: string; fix: string }[];
   delivery_allowed: boolean;
 }
 
+type WebpageDeliveryMode = "complete_course" | "progressive_chapter";
+
+interface LearningPlan {
+  delivery_mode: WebpageDeliveryMode;
+  estimated_total_minutes: number;
+  estimated_lesson_pages: number;
+  generated_scope: string;
+  planned_pages: { id: string; title: string; path: string; status: "ready" | "current" | "planned" | "completed"; unlock_condition?: string }[];
+}
+
 interface TutorialArtifacts {
-  lecture_md: string;
+  learning_plan_md: string; // emit first
+  interactive_tutorial_html: string; // runnable learner-facing web page
+  lecture_md: string; // source-traced content sidecar
   triage_json: { blocks: TriageBlock[]; skipped_summary: string[]; learning_objectives: LearningObjective[] };
   review_plan_json: ReviewPlan;
   source_outline_json?: SourceOutline; // recommended audit sidecar
@@ -166,6 +179,8 @@ Treat the workflow as a template-method pipeline contract, not as a requirement 
 | `LectureRenderer` | Render the Chinese learner-facing artifact. | `lecture_md` |
 | `AssessmentBuilder` | Create prediction, teach-back, application, and practice items. | assessment sections |
 | `ReviewScheduler` | Create review cards and spaced schedule. | `ReviewPlan` |
+| `LearningPlanRenderer` | Arrange the full study route before interactive rendering and estimate content size. | `learning_plan_md` |
+| `InteractiveTutorialRenderer` | Render routed teaching content, homepage navigation, micro-tests, practice, completion, and review interactions into a runnable page. | `interactive_tutorial_html` |
 | `Evaluator` | Check fidelity, routing, lecture quality, assessment, and blocking failures. | `EvaluatorReport` |
 
 Only `SourceAdapter` varies by input medium. The later stages remain shared.
@@ -180,7 +195,9 @@ Only `SourceAdapter` varies by input medium. The later stages remain shared.
 | Plan study route | Apply skip/skim/standard/deep and route blocks to body, appendix, or deep dive. | routed blocks |
 | Generate lecture | Produce Chinese markdown per `lecture_template.md`. | `lecture_md` |
 | Generate assessment | Produce micro-test, practice task when applicable, and review cards. | assessment + cards |
-| Emit artifacts | Bundle markdown and structured review sidecars. | `TutorialArtifacts` |
+| Plan learning delivery | Arrange the complete study route, estimate lesson-page count and minutes, and choose `complete_course` or `progressive_chapter`. | `learning_plan_md` |
+| Render interactive tutorial | Render homepage navigation, learning plan, current lesson content, micro-tests, practice, completion, review interactions, and planned future routes. | `interactive_tutorial_html` |
+| Emit artifacts | Bundle the learner-facing plan and runnable HTML with structured audit/review sidecars. | `TutorialArtifacts` |
 | Self-check | Verify quality criteria and stop on blocking issues. | pass/fail + issues |
 
 ## Assessment Minimum
@@ -201,3 +218,12 @@ Per section, `## 微测` must include at least:
 - Total `est_minutes` for in-lecture blocks should not exceed `time_budget_minutes` when set; trim skim blocks first.
 - Learning objectives: 2–4 per section, each with verifiable criteria and source trace ids.
 - Do not teach from headings alone. If only a title, TOC, or navigation tree is available, ask for text or generate only a clearly labeled orientation.
+
+## Interactive Tutorial Web Delivery Invariants
+
+- Emit the complete learning arrangement before the interactive tutorial page.
+- Use `complete_course` by default only for a small route (guideline: at most 3 lesson pages and at most 90 minutes); otherwise use `progressive_chapter`.
+- In `progressive_chapter`, fully render the first learnable chapter or section now and keep future pages visible as `planned` homepage-navigation entries.
+- Every interactive page has homepage navigation containing the learning plan, all lesson pages, and the review center.
+- The runnable HTML teaches the routed source content and wires usable micro-test, practice, completion, and review interactions.
+- Read `interactive_webpage_contract.md` for the content-first HTML contract and quality gate.
