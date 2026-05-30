@@ -1,0 +1,51 @@
+{
+  "familyName": "tutorial-implementations",
+  "ownerSkill": "professional-tutorial-learning",
+  "version": 1,
+  "defaultImplementation": "pdf-chaptered",
+  "implementations": [
+    {
+      "id": "pdf-chaptered",
+      "displayName": "Chaptered PDF Tutorial",
+      "status": "experimental",
+      "kind": "medium-structure-implementation",
+      "summary": "Use for public or user-provided tutorial PDFs that have chapters, sections, exercises, examples, or a table of contents.",
+      "implementationPath": "implementations/pdf-chaptered.md",
+      "exactAliases": [
+        "pdf-chaptered",
+        "chaptered-pdf",
+        "pdf tutorial",
+        "chaptered pdf tutorial"
+      ],
+      "contextualAliases": [
+        "pdf",
+        "book",
+        "ebook",
+        "textbook"
+      ],
+      "mediumCues": [
+        "pdf",
+        "application/pdf"
+      ],
+      "domainCues": [
+        "chapter",
+        "section",
+        "table of contents",
+        "exercises",
+        "professional tutorial"
+      ],
+      "negativeCues": [
+        "video",
+        "playlist",
+        "podcast",
+        "interactive-only"
+      ],
+      "ambiguityRisks": [
+        "A PDF may be a reference manual, paper, slide deck, or legal document rather than a tutorial.",
+        "A tutorial may be web-native despite having printable PDF pages."
+      ],
+      "fallbackPolicy": "recommend-registered",
+      "assetRoot": "none"
+    }
+  ]
+}
