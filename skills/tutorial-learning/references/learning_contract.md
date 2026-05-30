@@ -13,6 +13,8 @@ type HypertextBlockType = "heading" | "paragraph" | "code" | "table" | "figure" 
 type ContentRole = "core" | "supporting" | "reference_only" | "filler" | "deferred_ops";
 type StudyDepth = "skip" | "skim" | "standard" | "deep";
 type MasteryLevel = "exposure" | "recall" | "application";
+type LessonState = "completed" | "current" | "ready-to-generate" | "locked";
+type ExplanationPreference = "balanced" | "intuition-first" | "math-focused" | "practice-focused";
 
 interface SourceTrace {
   id: string;
@@ -51,7 +53,9 @@ interface TutorialRequest {
     familiarity?: "novice" | "rusty" | "comfortable";
     goal?: "exam" | "practice" | "project" | "survey";
     personal_relevance_hints?: string[];
+    explanation_preference?: ExplanationPreference;
   };
+  design_style?: TutorialDesignStyleRequest;
   uncertaintyNotes?: string[];
 }
 
@@ -107,6 +111,41 @@ interface LearningObjective {
   sourceTraceIds: string[];
 }
 
+interface TutorialDesignStyleRequest {
+  designSkill?: string; // default "my-design-style"
+  theme?: string; // default "chinese-traditional-color-style"
+  themeVariant?: string; // default "academy-calm"
+  customOverrides?: Record<string, unknown>;
+}
+
+interface LearningSignal {
+  topic_id: string;
+  kind: "first_attempt_error" | "repeated_attempt" | "uncertain" | "unfinished_optional_practice" | "due_review";
+  detail?: string;
+}
+
+interface LearnerState {
+  version: number;
+  course_id: string;
+  updated_at: string; // ISO 8601
+  preferences: { explanation_preference: ExplanationPreference };
+  lesson_records: Record<string, unknown>[];
+  review_records: Record<string, unknown>[];
+  notes: Record<string, unknown>[];
+}
+
+interface NextLessonContext {
+  version: number;
+  course_id: string;
+  generated_at: string; // ISO 8601
+  trigger: "initial" | "next_lesson_generation" | "manual_resume";
+  next_lesson_id: string;
+  source_state_file: "state/learner_state.json";
+  explanation_preference: ExplanationPreference;
+  completed_lesson_ids: string[];
+  learning_signals: LearningSignal[];
+}
+
 interface ReviewCard {
   id: string;
   prompt: string;
@@ -152,7 +191,9 @@ interface LearningPlan {
   estimated_total_minutes: number;
   estimated_lesson_pages: number;
   generated_scope: string;
-  planned_pages: { id: string; title: string; path: string; status: "ready" | "current" | "planned" | "completed"; unlock_condition?: string }[];
+  planned_pages: { id: string; title: string; path: string; status: LessonState; unlock_condition?: string; preview?: string }[];
+  explanation_preference?: ExplanationPreference;
+  design_style?: TutorialDesignStyleRequest;
 }
 
 interface TutorialArtifacts {
@@ -163,6 +204,8 @@ interface TutorialArtifacts {
   review_plan_json: ReviewPlan;
   source_outline_json?: SourceOutline; // recommended audit sidecar
   evaluator_report_json?: EvaluatorReport; // internal self-check or optional output
+  learner_state_json: LearnerState; // state/learner_state.json; durable local learner submissions and confirmations
+  next_lesson_context_json: NextLessonContext; // state/next_lesson_context.json; compact model-facing extraction
 }
 ```
 
@@ -179,6 +222,9 @@ Treat the workflow as a template-method pipeline contract, not as a requirement 
 | `LectureRenderer` | Render the Chinese learner-facing artifact. | `lecture_md` |
 | `AssessmentBuilder` | Create prediction, teach-back, application, and practice items. | assessment sections |
 | `ReviewScheduler` | Create review cards and spaced schedule. | `ReviewPlan` |
+| `LearnerStateStore` | Persist learner submissions and confirmations locally, then rebuild compact next-lesson context before model use. | `state/learner_state.json` + `state/next_lesson_context.json` |
+| `ProgressiveGenerationController` | For long tutorials, preserve route visibility, learning signals, explicit next-lesson generation, and lock explanations. | progressive lesson state |
+| `DesignStyleResolver` | Resolve a pluggable visual theme without changing pedagogy or interaction invariants. | theme tokens and component rules |
 | `LearningPlanRenderer` | Arrange the full study route before interactive rendering and estimate content size. | `learning_plan_md` |
 | `InteractiveTutorialRenderer` | Render routed teaching content, homepage navigation, micro-tests, practice, completion, and review interactions into a runnable page. | `interactive_tutorial_html` |
 | `Evaluator` | Check fidelity, routing, lecture quality, assessment, and blocking failures. | `EvaluatorReport` |
@@ -196,6 +242,7 @@ Only `SourceAdapter` varies by input medium. The later stages remain shared.
 | Generate lecture | Produce Chinese markdown per `lecture_template.md`. | `lecture_md` |
 | Generate assessment | Produce micro-test, practice task when applicable, and review cards. | assessment + cards |
 | Plan learning delivery | Arrange the complete study route, estimate lesson-page count and minutes, and choose `complete_course` or `progressive_chapter`. | `learning_plan_md` |
+| Persist learner state | Initialize local state files; update durable state on meaningful learner actions; rebuild compact context before next-lesson generation or resume. | `state/learner_state.json` + `state/next_lesson_context.json` |
 | Render interactive tutorial | Render homepage navigation, learning plan, current lesson content, micro-tests, practice, completion, review interactions, and planned future routes. | `interactive_tutorial_html` |
 | Emit artifacts | Bundle the learner-facing plan and runnable HTML with structured audit/review sidecars. | `TutorialArtifacts` |
 | Self-check | Verify quality criteria and stop on blocking issues. | pass/fail + issues |
@@ -223,7 +270,8 @@ Per section, `## 微测` must include at least:
 
 - Emit the complete learning arrangement before the interactive tutorial page.
 - Use `complete_course` by default only for a small route (guideline: at most 3 lesson pages and at most 90 minutes); otherwise use `progressive_chapter`.
-- In `progressive_chapter`, fully render the first learnable chapter or section now and keep future pages visible as `planned` homepage-navigation entries.
+- In `progressive_chapter`, fully render the first learnable chapter or section now and keep future pages visible as inspectable `ready-to-generate` or `locked` homepage-navigation entries.
 - Every interactive page has homepage navigation containing the learning plan, all lesson pages, and the review center.
 - The runnable HTML teaches the routed source content and wires usable micro-test, practice, completion, and review interactions.
+- Persist meaningful learner submissions and confirmations using `learner_state_contract.md`; rebuild compact local context immediately before next-lesson generation.
 - Read `interactive_webpage_contract.md` for the content-first HTML contract and quality gate.

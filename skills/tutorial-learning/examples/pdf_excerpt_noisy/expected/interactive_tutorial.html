@@ -18,7 +18,7 @@
     @media (max-width: 600px) { nav { flex-direction: column; } button { width: 100%; } }
   </style>
 </head>
-<body data-delivery-mode="complete_course">
+<body data-design-skill="my-design-style" data-theme="chinese-traditional-color-style" data-delivery-mode="complete_course">
 <header><h1>PDF Excerpt</h1><p>内容优先的交互式中文教程 · 当前进度：<strong id="progress">未完成</strong></p></header>
 <nav id="home-nav" aria-label="学习导航">
   <button type="button" data-view="home" onclick="showView('home', this)" aria-current="page">学习主页</button>
@@ -77,12 +77,18 @@
   <section id="review-center" class="view" hidden><h2>复习中心</h2><p>建议在学习后第 1、3、7 天复习。点击卡片按钮显示提示。</p><article class="review-card"><h3>rc1</h3><p>用自己的话解释核心机制。</p><button type="button" onclick="revealAnswer(this)">显示提示</button><p class="answer" hidden>说明关键关系。</p></article>
 <article class="review-card"><h3>rc2</h3><p>预测一次机制结果。</p><button type="button" onclick="revealAnswer(this)">显示提示</button><p class="answer" hidden>检查结果是否符合关系。</p></article>
 <article class="review-card"><h3>rc3</h3><p>应用机制解决一个小问题。</p><button type="button" onclick="revealAnswer(this)">显示提示</button><p class="answer" hidden>给出可检查步骤。</p></article></section>
+  <section id="state-export"><h2>学习记录</h2><p>静态页面会先在浏览器中缓存进度。继续下一课或切换模型会话前，请导出本地 JSON 文件。</p><button type="button" onclick="exportLearnerState()">下载学习记录</button> <button type="button" onclick="downloadNextLessonContext()">导出下一课上下文</button></section>
 </main>
 <script>
 const storageKey = 'tutorial-learning-pdf_excerpt_noisy';
 function showView(id, trigger) { document.querySelectorAll('.view').forEach(v => v.hidden = v.id !== id && !(id === 'plan' && v.id === 'learning-plan')); document.querySelectorAll('#home-nav button').forEach(b => b.removeAttribute('aria-current')); if (trigger) trigger.setAttribute('aria-current', 'page'); }
 function checkMicroTest() { document.getElementById('micro-feedback').hidden = false; }
 function revealAnswer(button) { button.nextElementSibling.hidden = false; }
+function learnerState() { return { version: 1, course_id: storageKey, updated_at: new Date().toISOString(), preferences: { explanation_preference: 'balanced' }, lesson_records: [{ lesson_id: storageKey, status: localStorage.getItem(storageKey) || 'current' }], review_records: [], notes: [] }; }
+function downloadJson(filename, value) { const link = document.createElement('a'); link.href = URL.createObjectURL(new Blob([JSON.stringify(value, null, 2)], { type: 'application/json' })); link.download = filename; link.click(); URL.revokeObjectURL(link.href); }
+function exportLearnerState() { downloadJson('learner_state.json', learnerState()); }
+function buildNextLessonContext() { return { version: 1, course_id: storageKey, generated_at: new Date().toISOString(), trigger: 'manual_resume', next_lesson_id: '', source_state_file: 'state/learner_state.json', explanation_preference: 'balanced', completed_lesson_ids: localStorage.getItem(storageKey) === 'completed' ? [storageKey] : [], learning_signals: [] }; }
+function downloadNextLessonContext() { downloadJson('next_lesson_context.json', buildNextLessonContext()); }
 function completeLesson() { localStorage.setItem(storageKey, 'completed'); document.getElementById('progress').textContent = '已完成'; }
 if (localStorage.getItem(storageKey) === 'completed') document.getElementById('progress').textContent = '已完成';
 document.querySelectorAll('#home-nav button').forEach(button => button.addEventListener('keydown', event => { if (event.key === 'Enter') button.click(); }));

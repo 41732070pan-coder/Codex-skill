@@ -47,3 +47,7 @@ Default `due_offsets_days` per card: `[1, 3, 7]`.
 - No card asks the learner to copy verbatim from the source.
 - Duplicate cards across adjacent sections are avoided.
 - Application cards include a checkable expected behavior or answer criterion.
+
+## Runtime Review State (Optional Enhancement)
+
+The first implementation may keep cards and day 1/3/7 reminders lightweight. When runtime scheduling is added, persist `last_reviewed_at`, `next_due_at`, `review_count`, `stage`, and the learner response `forgot | fuzzy | mastered` into `state/learner_state.json` according to `learner_state_contract.md`. Surface due topics in the rebuilt `state/next_lesson_context.json` before next-lesson generation. Do not block the core progressive lesson flow on a complex adaptive algorithm.

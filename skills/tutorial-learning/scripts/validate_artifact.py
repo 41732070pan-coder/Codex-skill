@@ -6,12 +6,14 @@ from pathlib import Path
 from minimal_schema import validate_json_schema
 
 ROOT = Path(__file__).resolve().parents[1]
-REQUIRED = ("source_outline.json", "triage.json", "lecture.md", "learning_plan.md", "interactive_tutorial.html", "review_plan.json", "evaluator_report.json")
+REQUIRED = ("source_outline.json", "triage.json", "lecture.md", "learning_plan.md", "interactive_tutorial.html", "review_plan.json", "evaluator_report.json", "state/learner_state.json", "state/next_lesson_context.json")
 SCHEMA_FILES = {
     "source_outline.json": "source_outline.schema.json",
     "triage.json": "triage.schema.json",
     "review_plan.json": "review_plan.schema.json",
     "evaluator_report.json": "evaluator_report.schema.json",
+    "state/learner_state.json": "learner_state.schema.json",
+    "state/next_lesson_context.json": "next_lesson_context.schema.json",
 }
 DEPTH_RANK = {"skip": 0, "skim": 1, "standard": 2, "deep": 3}
 TRACE_FIELDS = ("source_format", "locator", "pageRange", "headingPath", "anchor", "url", "blockId", "extractionSlice", "boundaryConfidence", "evidenceType")
@@ -125,6 +127,7 @@ def validate(root: Path) -> list[str]:
     mode_match=re.search(r"交付模式[：:]\s*(complete_course|progressive_chapter)", learning_plan)
     require('<!doctype html' in interactive_html.lower(), f"{root}: interactive tutorial needs an HTML doctype", errors)
     require('id="home-nav"' in interactive_html and 'aria-label="学习导航"' in interactive_html, f"{root}: interactive tutorial needs accessible homepage navigation", errors)
+    require('data-design-skill="my-design-style"' in interactive_html and 'data-theme="chinese-traditional-color-style"' in interactive_html, f"{root}: interactive tutorial must expose the default pluggable Chinese traditional design theme", errors)
     for hook in ('id="learning-plan"', 'lesson-page', 'id="lesson-content"', 'id="micro-test"', 'id="practice-task"', 'id="lesson-complete"', 'id="review-center"'):
         require(hook in interactive_html, f"{root}: interactive tutorial needs {hook}", errors)
     for label in ('学习计划', '复习中心', '预测', '用自己的话', '练习任务'):
@@ -133,7 +136,10 @@ def validate(root: Path) -> list[str]:
         mode=mode_match.group(1)
         require(f'data-delivery-mode="{mode}"' in interactive_html, f"{root}: interactive tutorial body must use delivery mode {mode}", errors)
         if mode == 'progressive_chapter':
-            require('data-page-state="planned"' in interactive_html, f"{root}: progressive interactive tutorial needs planned navigation entries", errors)
+            require('data-page-state="ready-to-generate"' in interactive_html, f"{root}: progressive interactive tutorial needs a ready-to-generate navigation entry", errors)
+            require('data-page-state="locked"' in interactive_html, f"{root}: progressive interactive tutorial needs inspectable locked navigation entries", errors)
+            for progressive_hook in ('生成并开始下一课', 'generateNextLesson', 'explanationPreference'):
+                require(progressive_hook in interactive_html, f"{root}: progressive interactive tutorial needs {progressive_hook}", errors)
     lesson_content_match=re.search(r'(?s)<section id="lesson-content"[^>]*>(.*?)</section>', interactive_html)
     lesson_content=re.sub(r'<[^>]+>', ' ', lesson_content_match.group(1)) if lesson_content_match else ''
     require(len(re.sub(r'\s+', '', lesson_content)) >= 40, f"{root}: interactive tutorial lesson content is too thin", errors)
@@ -142,8 +148,9 @@ def validate(root: Path) -> list[str]:
     normalized_html=re.sub(r'\s+', ' ', html.unescape(re.sub(r'<[^>]+>', ' ', interactive_html))).strip()
     require(normalized_core and normalized_core in normalized_html, f"{root}: interactive tutorial must render the lecture core explanation", errors)
     for trace in in_lecture_traces: require(trace in interactive_html, f"{root}: interactive tutorial does not expose routed source trace {trace}", errors)
-    for js_hook in ('localStorage', 'addEventListener', 'showView', 'revealAnswer', 'completeLesson'):
+    for js_hook in ('localStorage', 'addEventListener', 'showView', 'revealAnswer', 'completeLesson', 'exportLearnerState', 'buildNextLessonContext'):
         require(js_hook in interactive_html, f"{root}: interactive tutorial JavaScript needs {js_hook}", errors)
+    require('下载学习记录' in interactive_html and '导出下一课上下文' in interactive_html, f"{root}: portable tutorial needs visible learner-state and next-context export actions", errors)
     fm=frontmatter(lecture)
     require(fm, f"{root}: lecture needs YAML front matter", errors)
     for key in ('skill', 'source_format', 'section_id'):
