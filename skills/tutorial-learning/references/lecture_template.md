@@ -71,7 +71,7 @@ List `skip_with_deep_dive` entries:
 2. **用自己的话**：…
 3. **应用**（when applicable）：…
 
-Use attempt-first interaction semantics in the webpage: do not expose full feedback before learner input.
+Use attempt-first semantics in the assessment plan: place prompts before answer guidance so learners attempt retrieval before inspecting feedback.
 
 - Objective questions: submit a choice, then show correctness and explanation.
 - Teach-back questions: submit text, then show a self-check rubric. Keyword coverage is only an aid, never a precise grade.
