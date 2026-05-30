@@ -3,7 +3,8 @@
   "format": "pdf",
   "structureKind": "page_range",
   "navigationOrder": [
-    "pdf-main"
+    "pdf-main",
+    "pdf-main-noise"
   ],
   "blocks": [
     {
@@ -14,7 +15,7 @@
       "sourceTrace": {
         "id": "st-pdf-main",
         "source_format": "pdf",
-        "locator": "source-pdf",
+        "locator": "source.txt",
         "blockId": "pdf-main",
         "boundaryConfidence": "explicit",
         "evidenceType": "source-derived",
@@ -24,13 +25,27 @@
         ],
         "extractionSlice": "chapter concept"
       }
+    },
+    {
+      "id": "pdf-main-noise",
+      "type": "navigation",
+      "title": "Noise metadata",
+      "textSummary": "Filtered source noise.",
+      "sourceTrace": {
+        "id": "st-pdf-main-noise",
+        "source_format": "pdf",
+        "locator": "source.txt",
+        "blockId": "pdf-main-noise",
+        "boundaryConfidence": "explicit",
+        "evidenceType": "source-derived"
+      }
     }
   ],
   "sourceTraces": [
     {
       "id": "st-pdf-main",
       "source_format": "pdf",
-      "locator": "source-pdf",
+      "locator": "source.txt",
       "blockId": "pdf-main",
       "boundaryConfidence": "explicit",
       "evidenceType": "source-derived",
@@ -39,6 +54,14 @@
         12
       ],
       "extractionSlice": "chapter concept"
+    },
+    {
+      "id": "st-pdf-main-noise",
+      "source_format": "pdf",
+      "locator": "source.txt",
+      "blockId": "pdf-main-noise",
+      "boundaryConfidence": "explicit",
+      "evidenceType": "source-derived"
     }
   ],
   "uncertaintyNotes": []

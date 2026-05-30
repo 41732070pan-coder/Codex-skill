@@ -1,0 +1,5 @@
+LESSON: Retry Strategy
+
+Retry transient failures with a bounded attempt count.
+
+REFERENCE: Full error catalog

@@ -1,0 +1,11 @@
+{
+  "source": {
+    "format": "plain_text_with_headings",
+    "accessMode": "extracted_text",
+    "locator": "source.txt",
+    "licenseOrUseNote": "Fixture content."
+  },
+  "scope": {
+    "section": "Retry Strategy"
+  }
+}

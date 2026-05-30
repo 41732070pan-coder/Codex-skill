@@ -1,6 +1,6 @@
 # Lecture Template (Chinese)
 
-Use this shape for each tutorial section lecture. YAML front matter is required.
+Use this shape for each tutorial section lecture. YAML front matter and every level-two section below are required. When a conditional section does not apply, keep the heading and state that it is not applicable.
 
 ```yaml
 ---
@@ -66,7 +66,7 @@ Include brief 参考答案 or 评分要点.
 
 ## 练习任务
 
-One small practice or transfer task when the section contains procedural, conceptual-transfer, code, tool, or diagnostic content. Include expected checks.
+One small practice or transfer task when the section contains procedural, conceptual-transfer, code, tool, or diagnostic content. Include expected checks. Otherwise state that no practice task is needed.
 
 ## 复习卡
 
@@ -82,4 +82,3 @@ Bullet list of `reference_only` blocks, useful source links, tables, appendices,
 
 - 今天节省的时间来自跳过了哪些 filler 或 reference-only 内容？
 - 哪张复习卡应该在下一次学习前先做主动回忆？
-```

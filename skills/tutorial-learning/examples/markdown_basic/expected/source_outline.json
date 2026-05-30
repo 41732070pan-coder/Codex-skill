@@ -3,7 +3,10 @@
   "format": "markdown",
   "structureKind": "heading_tree",
   "navigationOrder": [
-    "md-main"
+    "md-main",
+    "md-code",
+    "md-table",
+    "md-main-noise"
   ],
   "blocks": [
     {
@@ -14,7 +17,7 @@
       "sourceTrace": {
         "id": "st-md-main",
         "source_format": "markdown",
-        "locator": "source-markdown",
+        "locator": "source.md",
         "blockId": "md-main",
         "boundaryConfidence": "explicit",
         "evidenceType": "source-derived",
@@ -23,13 +26,63 @@
         ],
         "extractionSlice": "overview"
       }
+    },
+    {
+      "id": "md-code",
+      "type": "code",
+      "title": "build command",
+      "textSummary": "build --fast",
+      "sourceTrace": {
+        "id": "st-md-code",
+        "source_format": "markdown",
+        "locator": "source.md",
+        "blockId": "md-code",
+        "boundaryConfidence": "explicit",
+        "evidenceType": "source-derived",
+        "headingPath": [
+          "Overview"
+        ],
+        "extractionSlice": "build --fast"
+      }
+    },
+    {
+      "id": "md-table",
+      "type": "table",
+      "title": "option table",
+      "textSummary": "--fast | quicker",
+      "sourceTrace": {
+        "id": "st-md-table",
+        "source_format": "markdown",
+        "locator": "source.md",
+        "blockId": "md-table",
+        "boundaryConfidence": "explicit",
+        "evidenceType": "source-derived",
+        "headingPath": [
+          "Overview"
+        ],
+        "extractionSlice": "--fast | quicker"
+      }
+    },
+    {
+      "id": "md-main-noise",
+      "type": "navigation",
+      "title": "Noise metadata",
+      "textSummary": "Generated TOC omitted.",
+      "sourceTrace": {
+        "id": "st-md-main-noise",
+        "source_format": "markdown",
+        "locator": "source.md",
+        "blockId": "md-main-noise",
+        "boundaryConfidence": "explicit",
+        "evidenceType": "source-derived"
+      }
     }
   ],
   "sourceTraces": [
     {
       "id": "st-md-main",
       "source_format": "markdown",
-      "locator": "source-markdown",
+      "locator": "source.md",
       "blockId": "md-main",
       "boundaryConfidence": "explicit",
       "evidenceType": "source-derived",
@@ -37,6 +90,38 @@
         "Overview"
       ],
       "extractionSlice": "overview"
+    },
+    {
+      "id": "st-md-code",
+      "source_format": "markdown",
+      "locator": "source.md",
+      "blockId": "md-code",
+      "boundaryConfidence": "explicit",
+      "evidenceType": "source-derived",
+      "headingPath": [
+        "Overview"
+      ],
+      "extractionSlice": "build --fast"
+    },
+    {
+      "id": "st-md-table",
+      "source_format": "markdown",
+      "locator": "source.md",
+      "blockId": "md-table",
+      "boundaryConfidence": "explicit",
+      "evidenceType": "source-derived",
+      "headingPath": [
+        "Overview"
+      ],
+      "extractionSlice": "--fast | quicker"
+    },
+    {
+      "id": "st-md-main-noise",
+      "source_format": "markdown",
+      "locator": "source.md",
+      "blockId": "md-main-noise",
+      "boundaryConfidence": "explicit",
+      "evidenceType": "source-derived"
     }
   ],
   "uncertaintyNotes": []
