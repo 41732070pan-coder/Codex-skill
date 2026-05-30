@@ -1,5 +1,0 @@
-interface:
-  display_name: "Professional Tutorial Learning"
-  short_description: "Turn tutorials into focused lessons"
-  default_prompt: "Use $professional-tutorial-learning to convert a PDF, web course, video transcript, or professional tutorial into markdown lessons, knowledge-point maps, practice, checkpoints, and review plans."
-  brand_color: "#2563EB"

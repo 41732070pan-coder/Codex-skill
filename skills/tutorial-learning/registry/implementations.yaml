@@ -1,0 +1,13 @@
+family: implementations
+owner_skill: tutorial-learning
+profile: single-active
+entries:
+  - id: hypertext-tutorial
+    displayName: Hypertext Tutorial
+    status: stable
+    summary: PDF, HTML, Markdown, and heading-structured tutorial sources with source fidelity, triage, Chinese lecture output, review cards, and H5 projection stubs.
+    implementationPath: implementations/hypertext-tutorial/SKILL.impl.md
+    aliases: [hypertext-tutorial, hypertext, pdf, html, markdown, md, web, docs, documentation, textbook, chapter, section, tutorial]
+    sourceFormats: [pdf, html, markdown, plain_text_with_headings]
+    domainCues: [超文本, 教程, 教材, 讲义, 文档, 章节, 小节]
+    fallbackPolicy: recommend-registered
