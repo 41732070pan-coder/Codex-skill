@@ -1,0 +1,67 @@
+{
+  "sourceTitle": "Retry Strategy",
+  "format": "plain_text_with_headings",
+  "structureKind": "linear_document",
+  "navigationOrder": [
+    "txt-main",
+    "txt-main-noise"
+  ],
+  "blocks": [
+    {
+      "id": "txt-main",
+      "type": "paragraph",
+      "title": "Retry Strategy",
+      "textSummary": "Retry transient failures with a bounded attempt count.",
+      "sourceTrace": {
+        "id": "st-txt-main",
+        "source_format": "plain_text_with_headings",
+        "locator": "source.txt",
+        "blockId": "txt-main",
+        "boundaryConfidence": "explicit",
+        "evidenceType": "source-derived",
+        "headingPath": [
+          "Retry Strategy"
+        ],
+        "extractionSlice": "overview"
+      }
+    },
+    {
+      "id": "txt-main-noise",
+      "type": "navigation",
+      "title": "Noise metadata",
+      "textSummary": "Generated TOC omitted.",
+      "sourceTrace": {
+        "id": "st-txt-main-noise",
+        "source_format": "plain_text_with_headings",
+        "locator": "source.txt",
+        "blockId": "txt-main-noise",
+        "boundaryConfidence": "explicit",
+        "evidenceType": "source-derived"
+      }
+    }
+  ],
+  "sourceTraces": [
+    {
+      "id": "st-txt-main",
+      "source_format": "plain_text_with_headings",
+      "locator": "source.txt",
+      "blockId": "txt-main",
+      "boundaryConfidence": "explicit",
+      "evidenceType": "source-derived",
+      "headingPath": [
+        "Retry Strategy"
+      ],
+      "extractionSlice": "overview"
+    },
+    {
+      "id": "st-txt-main-noise",
+      "source_format": "plain_text_with_headings",
+      "locator": "source.txt",
+      "blockId": "txt-main-noise",
+      "boundaryConfidence": "explicit",
+      "evidenceType": "source-derived",
+      "headingPath": []
+    }
+  ],
+  "uncertaintyNotes": []
+}

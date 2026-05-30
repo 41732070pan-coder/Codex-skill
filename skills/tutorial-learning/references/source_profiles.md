@@ -4,14 +4,14 @@ Each section below is a lightweight `SourceAdapter` profile governed by `source_
 
 ## Adapter Discovery
 
-| id | profile | format | status | summary | aliases / cues | ambiguity / fallback | delegated tooling |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| `pdf` | `#pdf` | `pdf` | experimental | Build page- and heading-aware outlines from usable PDF text. | PDF path, attachment, page range, chapter | Stop or request accessible extracted text when unreadable. | Delegate rendering and OCR to document-processing tools. |
-| `html` | `#html--web-tutorial` | `html` | experimental | Isolate tutorial main content while preserving URL and anchor traces. | URL, HTML, documentation page, web tutorial | Mark uncertainty when main content cannot be separated. | Delegate low-level crawling or rendering when needed. |
-| `markdown` | `#markdown` | `markdown` | experimental | Preserve heading structure, code, tables, and explicit links. | `.md` path, pasted Markdown, fenced blocks | Preserve generated anchors when available; infer cautiously otherwise. | None by default. |
-| `plain-text-headings` | `#plain-text-with-headings` | `plain_text_with_headings` | experimental | Infer a linear outline from heading-structured text. | pasted text with heading patterns | Ask for more text when only headings or TOC are available. | None by default. |
+| id | profile | format | status | accepted access modes | required trace fields | summary | aliases / cues | ambiguity / fallback | delegated tooling |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `pdf` | `#pdf` | `pdf` | experimental | attached file, extracted text, pasted excerpt | id, source format, locator or page range, boundary confidence, evidence type | Build page- and heading-aware outlines from usable PDF text. | PDF path, attachment, page range, chapter | Stop or request accessible extracted text when unreadable. | Delegate rendering and OCR to document-processing tools. |
+| `html` | `#html--web-tutorial` | `html` | experimental | URL, extracted text, pasted excerpt | id, source format, URL or locator, anchor when available, boundary confidence, evidence type | Isolate tutorial main content while preserving URL and anchor traces. | URL, HTML, documentation page, web tutorial | Mark uncertainty when main content cannot be separated. | Delegate low-level crawling or rendering when needed. |
+| `markdown` | `#markdown` | `markdown` | experimental | attached file, extracted text, pasted excerpt | id, source format, locator, heading path when available, boundary confidence, evidence type | Preserve heading structure, code, tables, and explicit links. | `.md` path, pasted Markdown, fenced blocks | Preserve generated anchors when available; infer cautiously otherwise. | None by default. |
+| `plain-text-headings` | `#plain-text-with-headings` | `plain_text_with_headings` | experimental | extracted text, pasted excerpt | id, source format, locator or extraction slice, boundary confidence, evidence type | Infer a linear outline from heading-structured text. | pasted text with heading patterns | Ask for more text when only headings or TOC are available. | None by default. |
 
-Add a YAML registry and resolver only when this compact table no longer supports deterministic selection.
+Add a YAML registry and resolver only when this compact table no longer supports deterministic selection. See `source_adapter_contract.md` for mechanical upgrade triggers. Profile-specific outline signals, noise rules, and failure modes remain in the source-handling sections below.
 
 ## Source Handling
 

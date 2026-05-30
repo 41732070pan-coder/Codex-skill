@@ -20,7 +20,15 @@ interface SourceAdapterProfile {
 
 ## Registry Upgrade Path
 
-The adapter family is intentionally small, so `source_profiles.md` is the source of truth. Add a YAML registry and list/resolve/get scripts only when profile count, aliases, ambiguity, or profile-specific resources make deterministic dispatch necessary.
+The adapter family is intentionally small, so `source_profiles.md` is the source of truth. Keep each Markdown profile aligned with `SourceAdapterProfile` so a later registry migration remains mechanical.
+
+Add a YAML registry and list/resolve/get scripts when any trigger makes deterministic dispatch or profile-specific validation necessary:
+
+- source profiles exceed five;
+- aliases or cues overlap enough to make selection ambiguous;
+- one adapter owns dedicated assets or external tools;
+- one adapter needs special validation rules; or
+- examples or review reveal incorrect adapter selection.
 
 Each profile must preserve upgrade-compatible metadata: stable `id`, status, cues, summary, ambiguity risks, fallback policy, and delegated tooling.
 

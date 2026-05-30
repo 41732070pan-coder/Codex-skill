@@ -61,8 +61,9 @@ Load progressively; do not read every reference by default.
 | --- | --- |
 | `references/source_profiles.md` | Source-format ingest rules for PDF, HTML, Markdown, and heading-structured text. |
 | References listed above | Shared contracts, templates, and quality criteria loaded only when needed. |
-| `scripts/validate_artifact.py` | Validate structured tutorial artifacts and cross-artifact invariants. |
-| `scripts/run_examples.py` | Run the minimal Markdown, HTML noise, and PDF excerpt regression fixtures. |
+| `scripts/minimal_schema.py` | Execute the dependency-free JSON Schema subset used by validators. |
+| `scripts/validate_artifact.py` | Validate structured tutorial artifacts, lecture template conformance, and cross-artifact invariants. |
+| `scripts/run_examples.py` | Run the Markdown, HTML noise, PDF excerpt, and plain-text heading regression fixtures. |
 
 ## Extension Points
 
