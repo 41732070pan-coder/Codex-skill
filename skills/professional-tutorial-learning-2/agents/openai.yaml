@@ -1,7 +1,0 @@
-interface:
-  display_name: "Professional Tutorial Learning"
-  short_description: "Turn tutorials into focused lectures and reviews."
-  default_prompt: "Use $professional-tutorial-learning to turn this tutorial into focused Chinese lecture notes with quizzes and review cards."
-
-policy:
-  allow_implicit_invocation: true

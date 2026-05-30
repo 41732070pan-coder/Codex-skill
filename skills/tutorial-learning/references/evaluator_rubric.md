@@ -1,55 +1,58 @@
-# Evaluator Rubric (Lab / Audit)
+# Evaluator Rubric
 
-Score each category 0–5. Total /30. Provide **≥3** prioritized patches (`P0`–`P2`).
+Score each category 0–5. Fix any blocking failure before delivery even if the numeric score is otherwise high.
 
 ## Categories
 
-### 1. Triage (0–5)
+### 1. Source Fidelity (0–5)
 
-- Filler truly omitted from body; not mislabeled as core.
-- Reference-only in appendix only.
-- Skip + deep_dive justified when important but low personal use.
+- Source traces identify page ranges, anchors, heading paths, URLs, or extraction slices.
+- Boundary and extraction uncertainty are explicit.
+- Source-derived, inferred, supplementary, and user-supplied content are not conflated.
+- No lesson content is invented from headings or navigation alone.
 
-### 2. Depth routing (0–5)
+### 2. Triage And Depth Routing (0–5)
 
-- `est_minutes` sum reasonable vs `time_budget`.
-- skim/standard/deep matches composite scores.
-- No over-deep treatment of low-importance blocks.
+- Filler, navigation, duplicated headers/footers, sidebars, and decorative content are omitted from the lecture body.
+- Reference-only content goes to the appendix.
+- Core/supporting decisions match the requested scope and learning objectives.
+- Time budget trims skim/supporting material before core material.
+- Important skipped content has a source location or non-fabricated deep dive.
 
-### 3. Lecture quality (0–5)
+### 3. Chinese Lecture Quality (0–5)
 
-- Chinese clear; terms preserved.
-- 2–4 verifiable objectives; not PDF paste.
-- Mechanism-first explanations.
+- Chinese is clear and mechanism-first.
+- Identifiers, commands, formulas, API names, and URLs preserve original spelling.
+- Objectives are 2–4, verifiable, and source-traced.
+- The lesson is not a source paste.
 
-### 4. Assessment (0–5)
+### 4. Assessment And Review (0–5)
 
-- Micro-test checks understanding (predict, self-explain, apply).
-- Review cards align with objectives.
+- Micro-test includes prediction, teach-back, and application when applicable.
+- Practice task is checkable when the section supports practice.
+- Review cards map to objectives and source traces.
+- Spaced schedule uses day 1/3/7 or a justified variant.
 
-### 5. Skill maintainability (0–5)
+## Blocking Failures
 
-- Contracts executable; load boundaries clean.
-- No overlap with `pdf` / `c-os-learning-tutor`.
-- Templates referenced, not duplicated ad hoc.
+- Fabricated source content.
+- Long verbatim copyrighted excerpts without user-provided permission and necessity.
+- Rights/use uncertainty ignored when it materially affects output.
+- Filler appears in the lecture body as core content.
+- Reference-only content becomes a learning objective without an explicit user goal.
 
-### 6. Migration (0–5)
-
-- Rounds 1–5: score N/A or 3/5 baseline if single source only.
-- Rounds 6–10: same pipeline on second source without forked one-off rules.
-
-## Output format
+## Output Format
 
 ```markdown
 ## Scores
-| Category | Score | Note |
-...
+| Category | Score | Evidence | Patch |
+| --- | ---: | --- | --- |
+
+## Blocking failures
+- None / ...
 
 ## Top patches
 - P0: ...
 - P1: ...
 - P2: ...
-
-## Adopted next round
-- [ ] item
 ```

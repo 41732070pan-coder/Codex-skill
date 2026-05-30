@@ -1,24 +1,26 @@
 # Review Protocol
 
-## Review cards
+## Review Cards
 
 Per section, emit 3–5 `ReviewCard` entries:
 
-- Mix `recall` (definitions, steps) and `application` (small scenario).
-- At least one "用自己的话解释 …" prompt.
-- `answer_hint` is for self-grading, not shown in lecture body by default.
+- Mix `recall` and `application` prompts.
+- At least one prompt asks the learner to explain a concept in their own words.
+- Each card maps to one or more learning objective ids.
+- Each card carries source trace ids for auditability.
+- `answer_hint` is for self-grading and should not become source-paste.
 
-## Spaced schedule (simplified SM-2)
+## Spaced Schedule
 
 Default `due_offsets_days` per card: `[1, 3, 7]`.
 
 | Day | Action |
 | --- | --- |
-| 1 | Active recall without notes |
-| 3 | Recall + connect to prior section |
-| 7 | Application or teach-back |
+| 1 | Active recall without notes. |
+| 3 | Recall + connect to a prior section or source trace. |
+| 7 | Application, teach-back, or transfer. |
 
-## review_plan.json shape
+## review_plan.json Shape
 
 ```json
 {
@@ -29,7 +31,8 @@ Default `due_offsets_days` per card: `[1, 3, 7]`.
       "prompt": "...",
       "answer_hint": "...",
       "mastery": "recall",
-      "due_offsets_days": [1, 3, 7]
+      "objective_ids": ["lo1"],
+      "source_trace_ids": ["st1"]
     }
   ],
   "schedule": [
@@ -38,8 +41,9 @@ Default `due_offsets_days` per card: `[1, 3, 7]`.
 }
 ```
 
-## Quality gate
+## Quality Gate
 
-- Cards map to learning objectives (coverage ≥ 80%).
-- No card asks to copy verbatim from PDF.
-- Duplicate cards across adjacent sections avoided.
+- Cards cover at least 80% of learning objectives.
+- No card asks the learner to copy verbatim from the source.
+- Duplicate cards across adjacent sections are avoided.
+- Application cards include a checkable expected behavior or answer criterion.

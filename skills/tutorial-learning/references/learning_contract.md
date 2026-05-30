@@ -1,34 +1,86 @@
 # Learning Contract
 
-Formal interface for `tutorial-learning`. `SKILL.md` owns orchestration; medium implementations satisfy `TutorialLearningBase`.
+Shared interface for learning from PDF, HTML, Markdown, and heading-structured tutorial sources.
 
 ## Core Types
 
 ```ts
-type TutorialMedium = "pdf-chaptered" | "video-chaptered" | "web-docs" | string;
-type StructureProfile = "micro" | "chaptered" | "course-long";
+type HypertextSourceFormat = "pdf" | "html" | "markdown" | "plain_text_with_headings" | "unknown";
+type SourceAccessMode = "attached_file" | "url" | "pasted_excerpt" | "extracted_text" | "description_only";
+type BoundaryConfidence = "explicit" | "inferred-high" | "inferred-medium" | "inferred-low";
+type EvidenceType = "source-derived" | "paraphrased" | "inferred" | "user-supplied" | "supplementary" | "missing";
+type HypertextBlockType = "heading" | "paragraph" | "code" | "table" | "figure" | "callout" | "exercise" | "navigation" | "sidebar" | "appendix" | "reference";
 type ContentRole = "core" | "supporting" | "reference_only" | "filler" | "deferred_ops";
 type StudyDepth = "skip" | "skim" | "standard" | "deep";
 type MasteryLevel = "exposure" | "recall" | "application";
 
+interface SourceTrace {
+  id: string;
+  source_format: HypertextSourceFormat;
+  locator?: string;
+  pageRange?: [number, number];
+  headingPath?: string[];
+  anchor?: string;
+  url?: string;
+  blockId?: string;
+  extractionSlice?: string;
+  boundaryConfidence: BoundaryConfidence;
+  evidenceType: EvidenceType;
+}
+
 interface TutorialRequest {
-  medium?: TutorialMedium;
-  source: { url?: string; path?: string; title?: string; license?: string };
-  scope: { chapter?: string; section?: string; pageRange?: [number, number] };
-  structureProfile?: StructureProfile;
-  overlays?: {
+  source: {
+    format?: HypertextSourceFormat;
+    accessMode: SourceAccessMode;
+    locator?: string;
+    url?: string;
+    path?: string;
+    title?: string;
+    authorOrPublisher?: string;
+    licenseOrUseNote?: string;
+  };
+  scope: {
+    chapter?: string;
+    section?: string;
+    headingPath?: string[];
+    pageRange?: [number, number];
+    anchor?: string;
+  };
+  learner_preferences?: {
     time_budget_minutes?: number;
     familiarity?: "novice" | "rusty" | "comfortable";
-    goal?: "exam" | "practice" | "survey";
+    goal?: "exam" | "practice" | "project" | "survey";
     personal_relevance_hints?: string[];
   };
+  uncertaintyNotes?: string[];
+}
+
+interface HypertextBlock {
+  id: string;
+  type: HypertextBlockType;
+  title?: string;
+  textSummary?: string;
+  sourceTrace: SourceTrace;
+}
+
+interface SourceOutline {
+  sourceTitle?: string;
+  format: HypertextSourceFormat;
+  structureKind: "outline" | "heading_tree" | "page_range" | "anchor_graph" | "linear_document";
+  navigationOrder: string[];
+  blocks: HypertextBlock[];
+  sourceTraces: SourceTrace[];
+  uncertaintyNotes: string[];
 }
 
 interface DepthScore {
-  importance: number;       // 0-5
-  complexity: number;         // 0-5
-  personal_relevance: number; // 0-5
-  composite: number;          // rounded mean or weighted
+  importance: number;            // 0-5
+  complexity: number;            // 0-5
+  practical_frequency: number;   // 0-5
+  prerequisite_value: number;    // 0-5
+  goal_relevance: number;        // 0-5
+  personal_relevance: number;    // 0-5
+  composite: number;
   study_depth: StudyDepth;
   est_minutes: number;
   rationale: string;
@@ -37,6 +89,8 @@ interface DepthScore {
 interface TriageBlock {
   id: string;
   title: string;
+  sourceTrace: SourceTrace;
+  blockType: HypertextBlockType;
   content_role: ContentRole;
   depth: DepthScore;
   route: "in_lecture" | "appendix" | "skip_with_deep_dive";
@@ -48,13 +102,7 @@ interface LearningObjective {
   text: string;
   mastery: MasteryLevel;
   verifiable: string;
-}
-
-interface TutorialArtifacts {
-  lecture_md: string;
-  triage_json: { blocks: TriageBlock[]; skipped_summary: string[] };
-  review_plan_json: { cards: ReviewCard[]; schedule: ReviewScheduleEntry[] };
-  h5_stub_json?: H5LessonStub;
+  sourceTraceIds: string[];
 }
 
 interface ReviewCard {
@@ -62,6 +110,8 @@ interface ReviewCard {
   prompt: string;
   answer_hint: string;
   mastery: MasteryLevel;
+  objective_ids: string[];
+  source_trace_ids: string[];
 }
 
 interface ReviewScheduleEntry {
@@ -69,46 +119,41 @@ interface ReviewScheduleEntry {
   due_offsets_days: number[]; // default [1, 3, 7]
 }
 
-interface H5LessonStub {
-  h5_lesson_id: string;
-  learning_objective_ids: string[];
-  schema_version: "0.1-stub";
+interface TutorialArtifacts {
+  lecture_md: string;
+  triage_json: { blocks: TriageBlock[]; skipped_summary: string[] };
+  review_plan_json: { cards: ReviewCard[]; schedule: ReviewScheduleEntry[] };
 }
 ```
 
-## TutorialLearningBase (Template Method)
-
-Every medium implementation MUST implement these stages in order:
+## Workflow Contract
 
 | Stage | Responsibility | Output |
 | --- | --- | --- |
-| `normalizeRequest` | Validate source, scope, overlays | `TutorialRequest` |
-| `ingestSource` | Fetch/read source; build TOC map | `SourceOutline` |
-| `triageContent` | Label blocks with role + depth | `TriageBlock[]` |
-| `planStudyRoute` | Apply skip/skim/deep/deep_dive | routed blocks |
-| `generateLecture` | Chinese markdown per `lecture_template.md` | `lecture_md` |
-| `generateAssessment` | Micro-test + review cards | assessment + cards |
-| `emitArtifacts` | Bundle files | `TutorialArtifacts` |
-| `selfCheck` | Quality gate | pass/fail + issues |
+| Normalize request | Validate source, scope, rights note, learner preferences, and requested artifact types. | `TutorialRequest` |
+| Ingest source | Read supplied source and build a traceable outline. | `SourceOutline` |
+| Triage content | Label blocks with content role, evidence, and depth scores. | `TriageBlock[]` |
+| Plan study route | Apply skip/skim/standard/deep and route blocks to body, appendix, or deep dive. | routed blocks |
+| Generate lecture | Produce Chinese markdown per `lecture_template.md`. | `lecture_md` |
+| Generate assessment | Produce micro-test, practice task when applicable, and review cards. | assessment + cards |
+| Emit artifacts | Bundle markdown and structured review sidecars. | `TutorialArtifacts` |
+| Self-check | Verify quality criteria and stop on blocking issues. | pass/fail + issues |
 
-## Assessment minimum (per section)
+## Assessment Minimum
 
-Micro-assessment (`## 微测`) must include at least:
+Per section, `## 微测` must include at least:
 
-1. One **预测** item (prediction before reveal).
-2. One **用自己的话** item (recall / teach-back).
-3. One **应用** or transfer item when any objective is `application`.
+1. One **预测** item before explanation or reveal.
+2. One **用自己的话** item for recall / teach-back.
+3. One **应用** or transfer item when any objective has `mastery: application`.
 
 ## Invariants
 
+- PDF, HTML, Markdown, and heading-structured text use the same source-outline model.
 - Only `core` and selected `supporting` blocks appear in the lecture body.
-- `filler` never appears in the body; summarize in `skipped_summary` only.
-- `reference_only` goes to appendix, not learning objectives.
-- `skip` route requires `deep_dive` when `importance >= 3` and `personal_relevance < 3`.
-- Total `est_minutes` for in-lecture blocks should not exceed `time_budget_minutes` when set (trim skim first).
-- Learning objectives: 2–4 per section, each with verifiable criterion.
-
-## Overlap
-
-- PDF bytes/rendering: `pdf` skill.
-- OS/kernel lesson narrative: `c-os-learning-tutor`.
+- `filler` never appears in the body; summarize it in `skipped_summary` only when useful for trust.
+- `reference_only` goes to an appendix, not learning objectives.
+- `skip` route requires `deep_dive` when `importance >= 3` and current learner relevance is low.
+- Total `est_minutes` for in-lecture blocks should not exceed `time_budget_minutes` when set; trim skim blocks first.
+- Learning objectives: 2–4 per section, each with verifiable criteria and source trace ids.
+- Do not teach from headings alone. If only a title, TOC, or navigation tree is available, ask for text or generate only a clearly labeled orientation.

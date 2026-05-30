@@ -1,22 +1,22 @@
 # Lecture Template (Chinese)
 
-Use this shape for each section lecture. YAML front matter is required.
+Use this shape for each tutorial section lecture. YAML front matter is required.
 
 ```yaml
 ---
 skill: tutorial-learning
-medium: pdf-chaptered
-source_title: "<book title>"
-source_url: "<url>"
-section_id: "<e.g. ch01-s01>"
+source_format: pdf|html|markdown|plain_text_with_headings
+source_title: "<title>"
+source_locator: "<url or path>"
+section_id: "<stable section id>"
 section_title: "<Chinese section title>"
-h5_lesson_id: "<medium>-<slug>-<section_id>"
 est_minutes_total: <number>
 learning_objectives:
   - id: lo1
     text: "<Chinese objective>"
     mastery: exposure|recall|application
     verifiable: "<how to verify>"
+    source_trace_ids: [st1]
 triage_summary:
   core_blocks: <n>
   skipped_blocks: <n>
@@ -26,11 +26,15 @@ triage_summary:
 
 ## 本节目标
 
-2–4 bullets tied to `learning_objectives`.
+2–4 bullets tied to `learning_objectives`. Each objective must be observable and source-traced.
+
+## 来源与边界
+
+Short table: source trace id | locator/page/anchor/heading | boundary confidence | evidence type.
 
 ## 学习路线
 
-**Required.** Short table: block title | 深度 | 预计分钟 | 说明
+**Required.** Short table: block title | 角色 | 深度 | 预计分钟 | 说明.
 
 Column `深度` must use: skip | skim | standard | deep.
 
@@ -38,16 +42,17 @@ Column `深度` must use: skip | skim | standard | deep.
 
 Ordered subsections for `core` and in-lecture `supporting` blocks.
 
-- Teach mechanism, not copy-paste from PDF.
-- Use 中文; keep API names, commands, formulas in original form.
+- Teach mechanism, not source paste.
+- Use Chinese; keep API names, commands, formulas, identifiers, and URLs in original spelling.
 - For `skim` blocks: ≤ 1 short paragraph.
+- Include source trace ids for major claims when useful.
 
 ## 跳过与延伸阅读
 
 List `skip_with_deep_dive` entries:
 
 - **为何跳过** …
-- **深入** [label](url)
+- **深入** [label](url) or source location note.
 
 ## 微测
 
@@ -55,21 +60,26 @@ List `skip_with_deep_dive` entries:
 
 1. **预测**：…
 2. **用自己的话**：…
-3. **应用**（optional）：…
+3. **应用**（when applicable）：…
 
 Include brief 参考答案 or 评分要点.
 
+## 练习任务
+
+One small practice or transfer task when the section contains procedural, conceptual-transfer, code, tool, or diagnostic content. Include expected checks.
+
 ## 复习卡
 
-| 卡片 | 提示 | 掌握层次 |
-| --- | --- | --- |
-| rc1 | … | recall |
+| 卡片 | 提示 | 掌握层次 | 目标 |
+| --- | --- | --- | --- |
+| rc1 | … | recall | lo1 |
 
 ## 阅读材料（附录）
 
-Bullet list of `reference_only` items — not exam core.
+Bullet list of `reference_only` blocks, useful source links, tables, appendices, or source metadata. These are not exam/core objectives unless explicitly stated.
 
 ## 复盘
 
-- 今天节省的时间来自跳过了哪些 filler？
-- 下一节建议先复习哪张卡片？
+- 今天节省的时间来自跳过了哪些 filler 或 reference-only 内容？
+- 哪张复习卡应该在下一次学习前先做主动回忆？
+```
