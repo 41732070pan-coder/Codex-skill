@@ -1,14 +1,12 @@
 # Learning Contract
 
-Formal interface for `tutorial-learning`. `SKILL.md` owns orchestration; the single active implementation, `hypertext-tutorial`, satisfies `TutorialLearningBase`.
+Shared interface for learning from PDF, HTML, Markdown, and heading-structured tutorial sources.
 
 ## Core Types
 
 ```ts
-type TutorialImplementation = "hypertext-tutorial";
 type HypertextSourceFormat = "pdf" | "html" | "markdown" | "plain_text_with_headings" | "unknown";
 type SourceAccessMode = "attached_file" | "url" | "pasted_excerpt" | "extracted_text" | "description_only";
-type SourceTrust = "public" | "user_provided" | "uncertain";
 type BoundaryConfidence = "explicit" | "inferred-high" | "inferred-medium" | "inferred-low";
 type EvidenceType = "source-derived" | "paraphrased" | "inferred" | "user-supplied" | "supplementary" | "missing";
 type HypertextBlockType = "heading" | "paragraph" | "code" | "table" | "figure" | "callout" | "exercise" | "navigation" | "sidebar" | "appendix" | "reference";
@@ -31,18 +29,15 @@ interface SourceTrace {
 }
 
 interface TutorialRequest {
-  implementation?: TutorialImplementation;
   source: {
     format?: HypertextSourceFormat;
     accessMode: SourceAccessMode;
-    trust: SourceTrust;
     locator?: string;
     url?: string;
     path?: string;
     title?: string;
     authorOrPublisher?: string;
     licenseOrUseNote?: string;
-    accessDate?: string;
   };
   scope: {
     chapter?: string;
@@ -51,7 +46,7 @@ interface TutorialRequest {
     pageRange?: [number, number];
     anchor?: string;
   };
-  overlays?: {
+  learner_preferences?: {
     time_budget_minutes?: number;
     familiarity?: "novice" | "rusty" | "comfortable";
     goal?: "exam" | "practice" | "project" | "survey";
@@ -85,7 +80,7 @@ interface DepthScore {
   prerequisite_value: number;    // 0-5
   goal_relevance: number;        // 0-5
   personal_relevance: number;    // 0-5
-  composite: number;             // rounded weighted result
+  composite: number;
   study_depth: StudyDepth;
   est_minutes: number;
   rationale: string;
@@ -110,13 +105,6 @@ interface LearningObjective {
   sourceTraceIds: string[];
 }
 
-interface TutorialArtifacts {
-  lecture_md: string;
-  triage_json: { blocks: TriageBlock[]; skipped_summary: string[] };
-  review_plan_json: { cards: ReviewCard[]; schedule: ReviewScheduleEntry[] };
-  h5_stub_json?: HypertextLessonProjection;
-}
-
 interface ReviewCard {
   id: string;
   prompt: string;
@@ -131,32 +119,25 @@ interface ReviewScheduleEntry {
   due_offsets_days: number[]; // default [1, 3, 7]
 }
 
-interface HypertextLessonProjection {
-  schema_version: "0.2-hypertext-stub";
-  h5_lesson_id: string;
-  source_trace_ids: string[];
-  concept_ids: string[];
-  learning_objective_ids: string[];
-  review_card_ids: string[];
-  interaction_ids: string[];
-  progress_key: string;
+interface TutorialArtifacts {
+  lecture_md: string;
+  triage_json: { blocks: TriageBlock[]; skipped_summary: string[] };
+  review_plan_json: { cards: ReviewCard[]; schedule: ReviewScheduleEntry[] };
 }
 ```
 
-## TutorialLearningBase
-
-The active implementation MUST implement these stages in order:
+## Workflow Contract
 
 | Stage | Responsibility | Output |
 | --- | --- | --- |
-| `normalizeRequest` | Validate source, scope, rights note, overlays, and requested artifact types. | `TutorialRequest` |
-| `ingestSource` | Read/fetch supplied source and build a hypertext outline with source traces. | `SourceOutline` |
-| `triageContent` | Label blocks with content role, evidence, and depth scores. | `TriageBlock[]` |
-| `planStudyRoute` | Apply skip/skim/standard/deep and route blocks to body, appendix, or deep dive. | routed blocks |
-| `generateLecture` | Produce Chinese markdown per `lecture_template.md`. | `lecture_md` |
-| `generateAssessment` | Produce micro-test, practice task, and review cards. | assessment + cards |
-| `emitArtifacts` | Bundle markdown and structured sidecars/projection stubs. | `TutorialArtifacts` |
-| `selfCheck` | Verify quality gate and stop on blocking issues. | pass/fail + issues |
+| Normalize request | Validate source, scope, rights note, learner preferences, and requested artifact types. | `TutorialRequest` |
+| Ingest source | Read supplied source and build a traceable outline. | `SourceOutline` |
+| Triage content | Label blocks with content role, evidence, and depth scores. | `TriageBlock[]` |
+| Plan study route | Apply skip/skim/standard/deep and route blocks to body, appendix, or deep dive. | routed blocks |
+| Generate lecture | Produce Chinese markdown per `lecture_template.md`. | `lecture_md` |
+| Generate assessment | Produce micro-test, practice task when applicable, and review cards. | assessment + cards |
+| Emit artifacts | Bundle markdown and structured review sidecars. | `TutorialArtifacts` |
+| Self-check | Verify quality criteria and stop on blocking issues. | pass/fail + issues |
 
 ## Assessment Minimum
 
@@ -168,8 +149,7 @@ Per section, `## 微测` must include at least:
 
 ## Invariants
 
-- PDF, HTML, Markdown, and heading-structured text are source formats under `hypertext-tutorial`.
-- Non-hypertext carrier sources are out of scope.
+- PDF, HTML, Markdown, and heading-structured text use the same source-outline model.
 - Only `core` and selected `supporting` blocks appear in the lecture body.
 - `filler` never appears in the body; summarize it in `skipped_summary` only when useful for trust.
 - `reference_only` goes to an appendix, not learning objectives.
@@ -177,9 +157,3 @@ Per section, `## 微测` must include at least:
 - Total `est_minutes` for in-lecture blocks should not exceed `time_budget_minutes` when set; trim skim blocks first.
 - Learning objectives: 2–4 per section, each with verifiable criteria and source trace ids.
 - Do not teach from headings alone. If only a title, TOC, or navigation tree is available, ask for text or generate only a clearly labeled orientation.
-
-## Overlap
-
-- Low-level PDF extraction, OCR, rendering, and layout QA belong to document/PDF tooling.
-- Repository-level skill governance belongs to `meta-skill`.
-- Frontend implementation of an H5 app is outside this skill unless explicitly requested; this skill only emits a projection contract.

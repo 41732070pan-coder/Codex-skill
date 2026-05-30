@@ -47,7 +47,7 @@ Default composite:
 composite = round((importance + complexity + practical_frequency + prerequisite_value + goal_relevance + personal_relevance) / 6, 1)
 ```
 
-Default `personal_relevance` from overlay `familiarity`:
+Default `personal_relevance` from learner preference `familiarity`:
 
 | familiarity | default personal_relevance |
 | --- | --- |
@@ -71,14 +71,6 @@ When `study_depth === skip` and the topic is important but not currently relevan
 - State one sentence explaining why it is skipped now.
 - Provide `deep_dive`: official docs, source page/anchor, publisher errata, or user-provided resource.
 - Never fabricate a URL.
-
-## Source-Format Heuristics
-
-- PDF front matter, copyright, repeated page headers/footers, and TOC duplicates are structure or reference, not learning content.
-- HTML navigation, sidebars, comments, cookie banners, ads, and unrelated marketing copy are filler.
-- Markdown generated TOCs and repeated badges are navigation/reference, not objectives.
-- Wide tables, full operator charts, large API lists, and notation-heavy appendices default to `reference_only`.
-- Exercises become `core` or `supporting` only when they test a concept in the selected scope.
 
 ## Self-Check
 

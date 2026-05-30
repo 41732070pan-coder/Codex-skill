@@ -5,13 +5,11 @@ Use this shape for each tutorial section lecture. YAML front matter is required.
 ```yaml
 ---
 skill: tutorial-learning
-implementation: hypertext-tutorial
 source_format: pdf|html|markdown|plain_text_with_headings
 source_title: "<title>"
 source_locator: "<url or path>"
 section_id: "<stable section id>"
 section_title: "<Chinese section title>"
-h5_lesson_id: "hypertext-tutorial-<slug>-<section_id>"
 est_minutes_total: <number>
 learning_objectives:
   - id: lo1
