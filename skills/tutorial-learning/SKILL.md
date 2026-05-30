@@ -38,7 +38,7 @@ Turn hypertext tutorial sources into time-efficient Chinese study artifacts. Tre
 | Optional inputs | Time budget, familiarity, learning goal, skip preference, and personal relevance hints. |
 | Normalized shape | `TutorialRequest` in `references/learning_contract.md`. |
 | Outputs | Chinese lecture markdown, content triage, learning route, micro-assessment, practice task when applicable, review cards, and review plan JSON. |
-| Failure modes | Stop or ask when source text is unavailable, rights/use constraints are unclear, the requested unit cannot be located, or only headings/TOC exist without lesson content. |
+| Failure conditions | Stop or ask when source text is unavailable, rights/use constraints are unclear, the requested unit cannot be located, or only headings/TOC exist without lesson content. |
 
 ## References
 
@@ -47,7 +47,7 @@ Load progressively; do not read every reference by default.
 | Reference | Load when |
 | --- | --- |
 | `references/learning_contract.md` | Any run; defines the shared tutorial model and workflow. |
-| `implementations/hypertext-tutorial/SKILL.impl.md` | Handling PDF, HTML, Markdown, or heading-structured text. |
+| `references/source_profiles.md` | Handling PDF, HTML, Markdown, or heading-structured text. |
 | `references/source_fidelity.md` | Source trace, page/anchor/heading evidence, uncertainty, rights, or extraction confidence matters. |
 | `references/triage_protocol.md` | Classifying blocks, filler, reference-only material, skip policy, or depth routing. |
 | `references/lecture_template.md` | Generating or reviewing Chinese lecture markdown. |
@@ -58,12 +58,12 @@ Load progressively; do not read every reference by default.
 
 | Resource | Role |
 | --- | --- |
-| `implementations/hypertext-tutorial/SKILL.impl.md` | Source-format ingest rules for PDF, HTML, Markdown, and heading-structured text. |
+| `references/source_profiles.md` | Source-format ingest rules for PDF, HTML, Markdown, and heading-structured text. |
 | References listed above | Shared contracts, templates, and quality criteria loaded only when needed. |
 
 ## Extension Points
 
-Add a source-format profile to `implementations/hypertext-tutorial/SKILL.impl.md` only when it can use the same outline, trace, triage, lecture, and review workflow.
+Add a source-format profile to `references/source_profiles.md` only when it can use the same outline, trace, triage, lecture, and review workflow.
 
 ## Scope Boundary
 

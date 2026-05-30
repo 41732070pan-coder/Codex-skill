@@ -31,7 +31,7 @@ A `SourceTrace` should preserve at least one stable locator when available:
 - Markdown: file path or URL, heading path, explicit anchor if present.
 - Plain text with headings: heading path and extraction slice.
 
-Use `implementations/hypertext-tutorial/SKILL.impl.md` for source-format-specific ingest rules.
+Use `references/source_profiles.md` for source-format-specific ingest rules.
 
 ## Rights And Safety
 

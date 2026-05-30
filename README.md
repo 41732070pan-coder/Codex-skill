@@ -45,7 +45,6 @@
     └── tutorial-learning/
         ├── SKILL.md
         ├── agents/openai.yaml
-        ├── implementations/hypertext-tutorial/
         └── references/
 ```
 
