@@ -90,7 +90,7 @@ File-level provenance, dimensions, checksums, and source notes belong inside the
 
 ## Style Preview Mechanics
 
-Use the preview phase to make style choices visible before committing to a full PPT, web page, app screen, dashboard, or static visual when preview is requested or auto-mode detects ambiguity, high stakes, public-facing delivery, brand sensitivity, or high regeneration cost. The preview is not the final artifact; it is a compact decision surface for user approval when approval is needed.
+Use the preview phase to make style choices visible before committing to a full PPT, web page, app screen, dashboard, or static visual when preview is requested or auto-mode detects ambiguity, high stakes, public-facing delivery, brand sensitivity, or high regeneration cost. The preview is not the final artifact; it is a compact decision surface for user approval when approval is needed. It may be one style board or a small `template-series` when the user requests reusable templates or cross-surface consistency needs validation.
 
 Default preview surface:
 
@@ -101,10 +101,11 @@ Default preview surface:
 - `component sample`: one card, one table/chart fragment, and one button/tag/navigation state when relevant.
 - `surface sample`: background, panel, edge band, and texture token or texture-off state.
 - `asset or motif sample`: only assets, motifs, or generated geometry allowed by the active style's policy.
+- `template-series` alternative: keep the same tokens and option sets, but show a small set of representative archetypes instead of one combined board. For PPT, prefer cover, image-led, table/chart, and process slides; for web/app/dashboard, prefer shell, navigation, functional content, information display, and statistics surfaces as relevant.
 
 Preview option rules:
 
-- Keep the same preview surface while swapping options so users compare like-for-like.
+- Keep the same preview surface, or the same archetype set for a `template-series`, while swapping options so users compare like-for-like.
 - Expose only options that are valid under the active style's palette, asset policy, surface texture policy, and modifier compatibility rules.
 - Include an off/fallback option for texture or motif choices when disabling them still preserves the style.
 - Use texture options declared by the style's `SurfaceTexturePolicy` handles and backed by runtime fallback behavior.
