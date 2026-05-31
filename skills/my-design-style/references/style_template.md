@@ -155,7 +155,7 @@ Modifier self-check additions:
 
 `getPreviewOptions(request, composedPlan)` exposes preview choices. In `previewMode: auto`, explicit preview is used only when ambiguity, stakes, brand or cultural sensitivity, or user request requires it. Otherwise the model creates an internal `StyleLock` from the default option sets and proceeds. Apply approved or internally locked choices through `applyStyleLock(styleLock, composedPlan)` so the final output matches the locked preview decisions.
 
-- `previewSurface`: combined style board plus small artifact sample.
+- `previewSurface`: combined style board plus small artifact sample by default; use `template-series` with representative `previewArchetypes` when the user requests reusable templates or multi-surface validation.
 - `defaultOptionSets`: palette, texture when enabled, layout density, mood, asset or motif when relevant.
 - `styleLockRules`: record selected options, reconciled changes, and locked decisions; keep final generation aligned with them.
 

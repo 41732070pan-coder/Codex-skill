@@ -76,7 +76,8 @@ interface StylePreviewPlan {
   baseStyle: StyleName;
   medium: TargetMedium;
   previewMode: "required" | "skip" | "auto";
-  previewSurface: "style-board" | "artifact-sample" | "combined" | string;
+  previewSurface: "style-board" | "artifact-sample" | "combined" | "template-series" | string;
+  previewArchetypes?: string[];
   previewPrompt: string;
   selectedDefaults: Record<string, string>;
   optionSets: StyleOptionSet[];
@@ -282,8 +283,8 @@ Auto-mode sequence:
 
 1. Build `ComposedStylePlan` from the base style and compatible modifiers.
 2. Decide whether explicit preview is needed from user intent, ambiguity, stakes, and regeneration cost.
-3. If preview is needed, call `getPreviewOptions(request, composedPlan)`, generate one preview image or preview surface from `StylePreviewPlan.previewPrompt`, present `StyleOptionSet[]`, and iterate until the user approves.
-4. Build or confirm a `VisualRhythmPlan` for multi-page/multi-screen work, including archetype sequence, visual anchors, motif rotation, and fallback assets.
+3. If preview is needed, call `getPreviewOptions(request, composedPlan)`, then generate either one compact preview surface or a representative `template-series` from `StylePreviewPlan.previewPrompt`. Use `template-series` when the user requests reusable templates or when multi-slide/multi-screen work needs cross-surface validation; select a small set of representative `previewArchetypes` rather than generating the full artifact. Present `StyleOptionSet[]`, and iterate until the user approves.
+4. Build or confirm a `VisualRhythmPlan` for multi-page/multi-screen work, including archetype sequence, visual anchors, motif rotation, and fallback assets; when a template series was approved, use its archetypes as the representative rhythm anchors.
 5. If preview is not needed, choose default options from the active style's preview defaults and create an internal `StyleLock` that includes visual-rhythm decisions.
 6. Call `applyStyleLock(styleLock, composedPlan)` and generate the final artifact only from locked decisions.
 
@@ -292,6 +293,7 @@ Rules:
 - `StyleOptionSet` values must come from the active style's palette, visual rhythm system, asset policy, surface texture policy, modifier compatibility rules, or user-provided assets.
 - Texture options may reference only tokens declared by the active style's `SurfaceTexturePolicy.allowedTokens`; include a texture-off option when turning texture off leaves a complete design.
 - Palette options must preserve the active style's semantic color hierarchy and accessibility requirements.
+- A `template-series` preview is a compact approval set, not the complete artifact. For PPT, prefer representative archetypes such as cover, image-led, table/chart, and process slides; for web/app/dashboard, prefer representative shell, navigation, functional content, information display, and statistics surfaces as relevant to the request.
 - For legal- or identity-sensitive styles, preview prompts must demonstrate the interpreted style without copying protected source artifacts.
 - Final artifact generation stays aligned with locked palette, texture, layout density, visual rhythm, motif, or asset decisions. If a locked option cannot be implemented in the target medium, stop and ask for an approved substitute unless the task is low-stakes and an equivalent fallback is already declared by the active style.
 
