@@ -9,7 +9,7 @@ Use `StyleModifier[]` when:
 - The base style is still clear and should remain dominant.
 - The requested change is local, seasonal, tonal, or one-off.
 - The change can be composed, softened, or clarified without creating a new style reference file.
-- The requested asset is user-provided, generated as simple code-native/vector decoration, or comes from a declared provider.
+- The requested asset is visible in the active style boundary, user-provided, generated, network-sourced, or comes from a declared provider.
 
 Create or propose a new concrete style instead when:
 
@@ -26,29 +26,31 @@ Canonical data shapes for `StyleModifier`, `ComposedStylePlan`, and related styl
 
 1. Resolve the base style first.
 2. Extract requested modifiers from explicit wording, source assets, `brandRequirements`, and constraints.
-3. Read base-style invariants and modifier rules from `DesignStyleBase.getModifierCompatibility()`, plus intent, creative latitude, palette, asset policy, surface policy, and self-check.
+3. Read base-style identity and modifier rules from `DesignStyleBase.getModifierCompatibility()`, plus intent, creative latitude, palette, asset policy, surface policy, and self-check.
 4. Classify each modifier by target, operation, priority, intensity, source, and role.
-5. Accept compatible modifiers, soften over-strong modifiers when needed, and clarify unsafe or unavailable modifiers.
+5. Accept compatible modifiers, soften over-strong modifiers when needed, and clarify only concrete blockers: inaccessible contrast or missing files.
 6. Produce a `ComposedStylePlan` before generating the artifact.
 7. Run the base style self-check plus all modifier self-check rules.
 
 ## Conflict Handling
 
-- Hard base-style invariants from `getModifierCompatibility()` outrank soft modifiers.
+- Hard base-style identity from `getModifierCompatibility()` outranks soft modifiers.
 - A soft modifier may add an accent, motif, or mood only if the base style remains recognizable.
-- Treat a `replace` operation as a possible style-direction change; preserve identity colors, official marks, or required layout structure unless the user explicitly chooses a new direction.
+- Treat a `replace` operation as a possible style-direction change; preserve identity colors or required layout structure unless the user explicitly chooses a new direction.
 - `expressive` modifiers should be labeled as a variant of the base style. If they repeatedly recur, propose a new concrete style.
-- Record every softened, clarified, or refused change in `ComposedStylePlan.reconciledChanges`.
+- Record every softened or clarified change in `ComposedStylePlan.reconciledChanges`.
 
 ## Asset Source Rules
 
-- `style-owned`: only assets exposed by the active style's runtime `AssetPolicy`.
-- `user-provided`: use only for the current request unless the user asks to install or register the asset.
-- `generated-vector` or `code-native`: use original geometry or vector motifs, especially when official marks, seals, protected logos, currency, or copyrighted scans would raise provenance risk.
-- `shared-provider`: allowed when the active style exposes a provider handle, fallback behavior, and provenance expectations.
-- `none`: use color, layout, typography, and simple rules instead of external assets.
+- `style-owned`: assets exposed by the active style's runtime `AssetPolicy`.
+- `user-provided`: use for the current request unless the user asks to install or register the asset.
+- `generated-vector` or `generated-bitmap`: use generated material when the style needs richer imagery.
+- `network`: download task-relevant materials when the user has not forbidden browsing and the material improves semantic fit or visual variety.
+- `code-native`: use geometry for structure, diagrams, charts, and simple ornament; do not use code-native shapes as a global replacement for available assets.
+- `shared-provider`: allowed when the active style exposes a provider handle and fallback behavior.
+- `none`: use only for local asset-off exceptions, wireframes, dense data surfaces, or explicit user constraints.
 
-Modifier assets become official base-style assets only when the active style policy exposes them at runtime. Decorative motifs should complement logo, wordmark, motto, institutional marks, or required identity anchors.
+Modifier assets become base-style assets when the active style policy exposes them at runtime. Decorative motifs complement logo, wordmark, motto, or identity anchors. Visible assets, network-sourced files, and generated material are usable by default; note the asset source/path and role in the final QA note when useful.
 
 ## Intensity Levels
 
@@ -65,9 +67,10 @@ Modifier self-checks should verify:
 - The base style still passes its own self-check.
 - Added colors meet contrast needs and do not replace protected identity roles.
 - Added motifs stay outside the main reading path unless the base style permits stronger placement.
-- Asset provenance and allowed source are clear.
+- The asset source is clear.
+- A normal non-wireframe artifact uses 5-10 visual assets or asset roles for richness; when the visible inventory is thin, download or generate assets to reach that range.
 - Modifier intensity matches the user's request and the final visual weight.
-- Softened, clarified, or refused modifier requests are disclosed when they affect the output.
+- Softened or clarified modifier requests are disclosed when they affect the output.
 
 ## Example: SEU With Maple And Deep Crimson
 

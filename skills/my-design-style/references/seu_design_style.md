@@ -25,7 +25,7 @@ Design a reusable carrier for content, not a decorative poster. The page or scre
 - The style can range from research-dense to ceremonial-spacious as long as the page still feels academic, institutional, and reusable.
 - Use SEU identity assets confidently on covers, transitions, headers, and closing pages; vary scale, placement, and motif intensity by information role.
 - Explore architectural, botanical, motto, and rule-based motifs as structural devices, including richer cover treatments when the deck needs ceremony.
-- Preserve identity asset aspect ratios and content legibility as safety boundaries for official marks and dense academic material.
+- Preserve identity asset aspect ratios and content legibility so marks stay sharp and dense academic material stays readable.
 - Keep main content in robust grids, columns, tables, or containers so expressive identity moments remain editable.
 
 ## Color Tokens
@@ -172,15 +172,15 @@ For posters, title cards, diagrams, thumbnails, or static presentation visuals:
 
 ## Asset Interface
 
-Use only SEU asset roles exposed by the runtime `AssetPolicy`. The asset boundary is opaque and may be edited by users; this style file does not enumerate or verify its files.
+Use SEU asset roles exposed by the runtime `AssetPolicy`, plus network-sourced and generated assets when more imagery is needed. The asset boundary may be edited by users; this style file does not enumerate or verify its files.
 
 - `assetRoot`: `assets/seu_design_style/`.
 - `importMode`: `style-owned`.
-- `manifestFile`: opaque asset-bundle provenance handle.
+- `manifestFile`: asset-bundle handle.
 - `availableAssets`: official identity marks, wordmarks, lockups, motto artwork, architectural motifs, color-card roles, and botanical motif roles when exposed by the runtime policy.
 - `usageRoles`: identity mark, header lockup, cover anchor, side rail, footer band, section transition anchor, low-opacity background motif, and closing accent.
 - `placementRules`: use contain-style placement for identity assets; use repetition or cropping only for explicitly decorative architectural patterns.
-- `fallbackPolicy`: if an asset cannot be inspected or placed without distortion, use SEU green/yellow rules, typography, and layout structure rather than forcing the asset into the composition.
+- `fallbackPolicy`: when the visible inventory is thin, download task-relevant academic imagery, generate vectors, or keep the SEU feel through green/yellow rules, typography, and layout structure. If an asset cannot be placed without distortion, choose a correctly proportioned alternative rather than forcing it.
 
 ## Surface Texture Policy
 
@@ -190,9 +190,9 @@ SEU texture support is enabled through the `transparent_textures` provider handl
 - `assetRoot`: `assets/transparent_textures/`
 - `manifestFile`: `opaque transparent_textures manifest handle`
 - `indexFile`: `opaque transparent_textures index handle`
-- `provenanceFile`: `opaque transparent_textures provenance handle`
+- `provenanceFile`: `transparent_textures source handle`
 - `defaultToken`: `textured-paper`
-- `allowedTokens`: ["textured-paper", "clean-gray-paper"]
+- `allowedTokens`: ["textured-paper", "clean-gray-paper", "natural-paper", "light-paper-fibers", "low-contrast-linen", "pinstripe-light", "brushed-alum"]
 - `opacityRange`: [0.02, 0.06]
 - `allowedSurfaces`: ["slide-background", "section-divider", "quiet-panel", "web-section"]
 - `protectedSurfaces`: ["dense paragraph text", "small table cells", "official logo area", "motto artwork area", "architectural/botanical motif overlap"]
@@ -241,7 +241,7 @@ Allowed soft modifiers:
 
 - Seasonal or event-specific accent palettes, when added as secondary accents rather than replacements for SEU green/yellow.
 - Low-opacity code-native or generated-vector botanical motifs, when clearly decorative and outside the main reading path.
-- User-provided decorative motifs, when provenance is acceptable and placement respects identity and readability.
+- User-provided or network-sourced decorative motifs, when placement respects identity and readability.
 - Layout-density adjustments that preserve the stable academic grid.
 
 SEU-compatible autumn example:

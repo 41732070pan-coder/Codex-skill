@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-label="Maze White seamless texture">
+  <title>Maze White texture</title>
+  <desc>Self-contained seamless tiled geometric motif (Maze White). PNG tile inlined as base64 data URI; no network dependency, renders offline and in headless export. Tile 46x23.</desc>
+  <defs>
+    <pattern id="maze-white" patternUnits="userSpaceOnUse" width="46" height="23">
+      <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAXBAMAAACG4mBhAAAALVBMVEW/v7/GxsbBwcHAwMDHx8fDw8PGxsbHx8fExMTExMS8vLzGxsbIyMi6urq3t7fYOU9pAAAAD3RSTlMwWjo1YEBVZUpFKlBqJSCof7U2AAACD0lEQVR4Xh2RTWsaURiFX2a4kNFNYx3HoS7GxlprKdw6JUwUF5JJVOzi3ipJoCun2pHQzQQZEsxiUhOErhSHLFwZs7ETAn4VS5ddSKGbQlelm/yU3mb/vJznPQccv8yd1VHEEILHaqfo2z/yTENYB1jo2fEKUxuft7Vc9/Fa+GBXcY/BX3r7yV/kUd7g1LMZ9x73dEPQ29B5cB1adDXi2ulx07s5nYxtxS2kobc97JzwSwNJM5Tz6GUJvxF0ZwhbpbLWzoR2FWpvuF/D3nIOboHvAz4vAJ46FQNFAsLpO2852dIdrQVzQZ8jKXtjkT1buSSJ0AbDOzkoYbelLmfXpjikRoqlMBmt8AzMuRCcZ0LluOW7OhnS/zK+/e3fEG3hRCG1kPllP1ZHkiE0Hby54wMU/PYrTzIWyTy6d+o11Au+NgNCd1SL8EtZlQyGf7Zg3BxsriCAQuci6rNqNIYn137eVqYyFwGrTHOEFryXRcxwnqtdNNQaiYIkoi/IrL74+wMoe6D7PP/QkyYjiK82gIqJOhXvZWR+OkDrSho4SUx3DkdBW2F4r1HtPuGmBlcHErf7NOC5IgoaQg6eisP4KhmzQEyxhGpbIHtF7BZvX4mcGRitTyGYjFsKbWH0gfzRHVTtRq1k7GgErwcjk0XOR1L6ihUpc7UZlz+8g7CqsIMKG+XjwtGa3fj3bMxWDv4B8aOpHqtLHxYAAAAASUVORK5CYII=" width="46" height="23" preserveAspectRatio="xMidYMid slice"/>
+    </pattern>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#maze-white)"/>
+</svg>

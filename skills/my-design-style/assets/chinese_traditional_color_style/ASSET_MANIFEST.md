@@ -1,17 +1,16 @@
 # Chinese Traditional Color Style Asset Manifest
 
-This manifest documents the existing asset boundary for `chinese_traditional_color_style`. Import these files only through that style's `AssetPolicy`; do not use them as a general repository-wide clip-art pool.
+This manifest documents the asset boundary for `chinese_traditional_color_style`. Import these files through that style's `AssetPolicy`.
 
-## Provenance And Use Policy
+## Use Policy
 
 | Field | Value |
 | --- | --- |
 | Owner skill | `my-design-style` |
 | Concrete style | `chinese_traditional_color_style` |
 | Asset role | Chinese traditional motifs, ornaments, instruments, animals, and texture-like cultural illustration support. |
-| Provenance | Existing repository assets; file-level upstream provenance was not added in this change. |
-| Allowed use | Use as optional decorative or cultural support when the selected style's asset policy permits it. |
-| Safety boundary | Keep motifs separate from official brand identity, use them through the active style policy, and preserve proportion-sensitive artwork. |
+| Allowed use | Use as decorative or cultural support when the selected style fits. |
+| Placement | Keep motifs through the active style policy and preserve proportion-sensitive artwork. |
 
 ## File Inventory
 
@@ -36,4 +35,4 @@ This manifest documents the existing asset boundary for `chinese_traditional_col
 
 - Use motifs at an intensity that fits the topic; decorative assets work best when they support hierarchy or atmosphere.
 - Prefer contain-style placement; keep cloud, knot, and border assets away from dense body text.
-- Add provenance rows before importing new files into this boundary.
+- Add a row when importing new files into this boundary so they can be re-found.
