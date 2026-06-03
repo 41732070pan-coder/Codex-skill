@@ -74,9 +74,8 @@ Optional fixtures under `examples/` illustrate the workflow above; they do not a
 
 | Need | Load |
 | --- | --- |
-| See a normalized `DesignRequest` and how it maps to workflow steps | `examples/skill_intro_deck/request.json` and `examples/skill_intro_deck/NOTES.md` |
-| Runnable PPT reference (python-pptx) | `examples/skill_intro_deck/build_deck.py` with `examples/skill_intro_deck/content_outline.json` |
-| Example index and regenerate command | `examples/README.md` |
+| End-to-end deck built in `chinese_traditional_color_style`, with StyleLock, page sequence, and quality-gate notes | `examples/chinese_traditional_guide_deck/README.md` |
+| Runnable PPT reference (python-pptx + Pillow) and its generated texture asset | `examples/chinese_traditional_guide_deck/build_deck.py` and `examples/chinese_traditional_guide_deck/assets/` |
 
 Example copy uses **Intent**, **Creative Latitude**, and **Self-Check** language from style references. It does not ship extra imperative bans; style fidelity stays in the active `references/<style_name>.md` at delivery time.
 
@@ -107,7 +106,7 @@ Load references progressively; do not read every reference by default.
 | `references/*_style.md` | concrete styles | Style-specific triggers, color, typography, layout, medium translation, opaque asset policy, and self-checks. |
 | `assets/<style_name>/` | style-owned asset boundary | Required for every concrete style. User-editable runtime resources; an empty folder means "download/generate assets at runtime", never "ship without assets". File inventories stay inside `ASSET_MANIFEST.md`, not in framework references. |
 | `scripts/validate_styles.py` | style validator | Static conformance check for registry entries, concrete style sections, required asset boundaries, asset handles, surface-policy shape, and runtime fallback metadata without inspecting bundled file inventories. |
-| `examples/` | optional fixtures | Sample `DesignRequest`, workflow notes, slide copy, and `skill_intro_deck/build_deck.py` for regenerating an intro PPT. |
+| `examples/` | optional fixtures | Worked sample deck (`chinese_traditional_guide_deck/`): StyleLock notes, page sequence, and `build_deck.py` for regenerating the PPT plus its texture asset. |
 
 ## Recommended Material Sources And Network Acquisition
 
@@ -146,6 +145,7 @@ To add or update a concrete style:
 - Shared mechanics must stay reusable and style-neutral.
 - Semantic roles and readability guide decorative preference without narrowing creative exploration.
 - Asset-rich output is the default for visual artifacts: use visible style assets, texture providers, sourced materials, generated assets, and user-provided files to create visual range. When a style's visible inventory is empty or thin, download or generate assets; shape-only output is reserved for explicit wireframe/data-diagram requests.
+- Asset use is governed by purpose, not volume: every asset earns its place through a semantic or structural role, and the richness range guides coverage rather than imposing a quota. Drop assets that duplicate an existing anchor, fight the visual hierarchy, weaken contrast or legibility, burden load, or decorate without meaning — asset-rich is never asset-cluttered.
 - Multi-page visual rhythm uses planned anchors, archetype variation, motif rotation, and variation checks to create range without forcing a single conservative look.
 - Identity and motif assets require proportion-preserving placement.
 - Asset availability is resolved at runtime through `AssetPolicy` plus inspection of visible files in the selected asset boundary; every concrete style provides a network/generation fallback and a required `assets/<style_name>/` boundary with `ASSET_MANIFEST.md`. An empty boundary triggers network download or generation.
