@@ -80,7 +80,7 @@ For multi-page or multi-screen artifacts, define a deck/page-level variation pla
 - `visualAnchorRule`: every slide/screen/major section needs at least one non-body-text visual anchor such as a diagram, chart, swatch, label frame, rail, callout, motif, image, or texture treatment.
 - `archetypeVarietyRule`: vary scale, columns, anchor placement, and density by information role across multi-surface artifacts.
 - `motifRotation`: rotate approved style motifs or explicitly use `motif-off` when content density requires it.
-- `assetFallbackRule`: compare runtime assets, approved network-sourced candidates, code-native geometry, typography, color blocks, diagrams, and user-provided assets; choose the style-faithful option that best prevents empty or monotonous surfaces.
+- `assetFallbackRule`: compare visible runtime assets, shared providers, network-sourced candidates, generated bitmap/vector assets, user-provided assets, code-native geometry, typography, color blocks, and diagrams; choose the style-faithful option that best prevents empty or monotonous surfaces. Shape-only output is an exception, not the default.
 - `variationCheck`: verify that visual anchors, archetypes, motif treatments, and density levels create useful variety across the artifact.
 
 ## Web Translation
@@ -98,12 +98,12 @@ Define poster/image/card/social/diagram behavior, aspect ratios, safe text zones
 ## Asset Interface
 
 - `assetRoot`: `assets/<style_name>/` (required for every concrete style, even when the inventory starts empty).
-- `importMode`: `style-owned`, or `user-provided-only` when the style never ships bundled files but still reserves the boundary for task-local imports.
+- `importMode`: normally `style-owned-visible` or `personal-visible-assets`; use `user-provided-only` only when the style never ships bundled files but still reserves the boundary for task-local imports.
 - `manifestFile`: `ASSET_MANIFEST.md` inside the style asset boundary; treat as an opaque provenance handle in framework docs.
 - `availableAssets`: abstract handles or roles; do not enumerate file names or assert folder contents.
-- `usageRoles`: approved roles.
+- `usageRoles`: approved roles for style-owned files, shared providers, user-provided assets, generated vectors, generated bitmaps, sourced external materials, and code-native geometry.
 - `placementRules`: aspect ratio, contain/crop/repeat behavior, opacity, and safe regions.
-- `fallbackPolicy`: what to do when runtime assets are unavailable, unapproved, or inappropriate.
+- `fallbackPolicy`: what to do when runtime assets are unavailable, explicitly forbidden, inaccessible, or inappropriate. Do not define "no assets" or "code-native only" as the normal path for visual artifacts.
 
 ## Surface Texture Policy
 
@@ -124,7 +124,9 @@ Declare whether this style may use a surface provider. Provider contents under `
 ## Asset Rules
 
 - Preserve intrinsic aspect ratio for informative assets.
-- Use assets through the active style's policy or documented user/task-local sources.
+- Use visible assets through the active style's policy or documented user/task-local sources.
+- For personal/non-commercial work, allow visible style-owned assets by default when they fit the artifact; stricter rights checks are for public/commercial/sensitive outputs.
+- Target 5-10 distinct assets or asset roles in normal multi-surface artifacts; record an exception for wireframes, tiny outputs, missing assets, or concrete safety blockers.
 - Prefer assets with semantic value over generic filler.
 - Explain legal or brand constraints as positive safety boundaries.
 
@@ -134,7 +136,7 @@ Every concrete style must implement `DesignStyleBase.getModifierCompatibility()`
 
 - `acceptsModifiers`: true | false.
 - `allowedTargets`: palette, motif, texture, layout, mood, asset, or none.
-- `allowedSources`: style-owned, user-provided, generated-vector, shared-provider, code-native, none.
+- `allowedSources`: style-owned, user-provided, generated-vector, generated-bitmap, network, shared-provider, code-native, none.
 - `defaultIntensity`: subtle | balanced | expressive.
 - `conflictPolicy`: <base anchors that guide modifier composition and clarification rules>.
 - `promotionPolicy`: <when a recurring expressive modifier becomes a new concrete style>.
@@ -155,8 +157,8 @@ Modifier self-check additions:
 
 `getPreviewOptions(request, composedPlan)` exposes preview choices. In `previewMode: auto`, explicit preview is used only when ambiguity, stakes, brand or cultural sensitivity, or user request requires it. Otherwise the model creates an internal `StyleLock` from the default option sets and proceeds. Apply approved or internally locked choices through `applyStyleLock(styleLock, composedPlan)` so the final output matches the locked preview decisions.
 
-- `previewSurface`: combined style board plus small artifact sample by default; use `template-series` with representative `previewArchetypes` when the user requests reusable templates or multi-surface validation.
-- `defaultOptionSets`: palette, texture when enabled, layout density, mood, asset or motif when relevant.
+- `previewSurface`: combined style board plus small artifact sample.
+- `defaultOptionSets`: palette, texture when enabled, layout density, mood, asset or motif. For normal visual artifacts, the default asset/motif option should be asset-rich, not asset-off.
 - `styleLockRules`: record selected options, reconciled changes, and locked decisions; keep final generation aligned with them.
 
 | Option Set | Target | Default | Options | Rules |
@@ -179,4 +181,5 @@ Minimum checks:
 - Visual anchor coverage, archetype variety, motif rotation, and variation behavior for multi-surface outputs.
 - Overflow/responsiveness.
 - Asset legality, role fit, and non-distortion.
+- Asset count/range: ordinary non-wireframe artifacts should use 5-10 distinct assets or asset roles, or record why that was impossible or inappropriate.
 - Medium-specific correctness.

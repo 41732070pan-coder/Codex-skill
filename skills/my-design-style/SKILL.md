@@ -50,19 +50,21 @@ Use this skill to translate a target artifact into one named visual style from t
    - resolve the base style;
    - extract requested modifiers from explicit modifier language, source assets, brand requirements, or constraints;
    - consume the concrete style through runtime concepts: style resolution, style identity, visual system, medium translation, resource policy, composition policy, and quality gate;
-   - compose a `ComposedStylePlan` by blending compatible modifiers with the selected style's identity, medium needs, and safety boundaries; ask for clarification only when a modifier would replace the base style or create legal, brand, provenance, or accessibility risk;
+   - compose a `ComposedStylePlan` by blending compatible modifiers with the selected style's identity, medium needs, and safety boundaries; in personal-use work, treat visible style-owned assets, user-provided files, shared providers, generated assets, and allowed network materials as usable by default, and ask for clarification only when the user requests commercial/public release, impersonation, sensitive identity use, legal-tender reproduction, or an asset whose source is not visible enough to cite;
    - decide preview behavior from `previewMode` (`auto` by default): use explicit preview approval for ambiguous, high-stakes, public-facing, brand-sensitive, or user-requested preview work; otherwise create an internal `StyleLock` from style defaults and continue;
-   - for multi-slide, multi-screen, long-page, or dense static outputs, create a `VisualRhythmPlan` before detailed composition: archetype sequence, per-surface visual anchors, motif/texture rotation, layout-density variation, and asset fallback choices;
-   - when preview is needed, generate either one compact style preview surface or a representative `template-series` from the `StylePreviewPlan`: use a template series when the user requests reusable templates or when a multi-slide/multi-screen artifact needs cross-surface validation; keep it smaller than the final artifact, present its `StyleOptionSet[]`, and wait for user approval or replacement choices before full artifact generation;
+   - for multi-slide, multi-screen, long-page, or dense static outputs, create a `VisualRhythmPlan` before detailed composition: archetype sequence, per-surface visual anchors, motif/texture rotation, layout-density variation, and an `AssetUsePlan` that selects about 5-10 distinct asset roles or files for a normal deck/page unless the user forbids assets, the artifact is tiny, or the active style has too few relevant visible assets;
+   - when preview is needed, generate one style preview image or preview surface from the `StylePreviewPlan`, present its `StyleOptionSet[]`, and wait for user approval or replacement choices before full artifact generation;
    - when preview is not needed, record the locked defaults in `StyleLock` and disclose the important locked choices in the final note;
    - compose the artifact without style-specific branches in the base workflow and without silently changing locked palette, texture, layout density, visual rhythm, motif, or asset decisions;
+   - do not adopt a "no external assets", "no assets", or "code-native/shape-first" strategy as the default for visual artifacts; code-native geometry is a supporting layer for diagrams, layout, and simple generated ornaments, not a replacement for available style imagery, motif assets, identity assets, textures, or task-relevant sourced materials.
    - run the concrete style self-check, variation checks from the visual rhythm plan, preview/lock consistency checks, and any modifier self-check rules, then revise only issues that materially affect usability, safety, or the requested style.
 5. Enforce asset and surface boundaries:
-   - use only assets exposed by the active style's runtime `AssetPolicy`; resolve the required boundary at `assets/<style_name>/` through the registry and style reference, not by browsing arbitrary folders.
-   - treat `assets/<style_name>/` as an opaque, user-editable resource boundary: every concrete style must have the directory and `ASSET_MANIFEST.md`, while bundled-file inventories stay in manifests or task-local documentation.
+   - inspect the active style's `assets/<style_name>/ASSET_MANIFEST.md` and visible files when building a real artifact; the framework docs stay inventory-opaque, but runtime generation must use the available asset boundary instead of assuming assets are absent.
+   - for personal/non-commercial work, visible assets inside the active style boundary, shared provider boundary, user-provided inputs, and no-login/no-paywall network results are allowed by default when their role fits the artifact; record their source/path and use role in task-local notes or the final QA note.
+   - use another style's asset boundary only as an explicit hybrid/user-provided source; disclose that choice rather than treating it as part of the base style.
    - preserve intrinsic aspect ratios for logos, wordmarks, motifs, and other informative assets whenever the active policy exports such assets.
-   - apply shared texture providers only when the active style declares a provider handle and fallback behavior; do not inspect provider files as part of the base workflow.
-   - treat runtime assets, code-native geometry, generated vectors, user-provided assets, and lawfully sourced network materials as comparable design inputs; choose the mix that best preserves style fidelity, relevance, and visual variety.
+   - apply shared texture providers when the active style declares a provider handle and fallback behavior; use visible provider assets when they improve the surface, and disable them only when they harm contrast or layout.
+   - treat runtime assets, downloaded materials, generated bitmap/vector assets, user-provided assets, and code-native geometry as a prioritized mix: prefer semantically relevant assets and motifs for visual richness, use generated/code-native shapes for structure and diagrams, and use asset-off only when assets are unavailable, explicitly forbidden, or materially harmful.
 6. Deliver the artifact or code with a concise note of the style used, any assets used, and any unresolved constraints.
 
 ## Examples
@@ -108,7 +110,7 @@ Load references progressively; do not read every reference by default.
 
 ## Recommended Material Sources And Network Acquisition
 
-Material discovery is a skill-level capability, not a concrete-style implementation detail. For runnable design work, use network discovery as an active design option when internet access is available: browse recommended sources for task-relevant materials, compare them with runtime assets, generated vectors, code-native geometry, and user-provided assets, then use the option that best preserves the selected style while reducing monotony. Do this even when runtime assets are available, unless the user forbids browsing, the environment is offline, the task is too sensitive for external search, or the current artifact clearly needs no external visual material. Keep this source list extensible; future sources should be added here rather than hard-coded into individual style files.
+Material discovery is a skill-level capability, not a concrete-style implementation detail. For runnable design work, use network discovery as an active design option when internet access is available: browse recommended sources for task-relevant materials, compare them with runtime assets, generated vectors, code-native geometry, and user-provided assets, then use the option that best preserves the selected style while reducing monotony. Do this even when runtime assets are available, unless the user forbids browsing, the environment is offline, the task is too sensitive for external search, or the current artifact clearly needs no external visual material. For ordinary personal/non-commercial work, do not treat brand or copyright caution as a reason to remove all visible assets; use visible assets with provenance notes and reserve stricter approval for public, commercial, legal, financial-security, or impersonation-sensitive outputs. Keep this source list extensible; future sources should be added here rather than hard-coded into individual style files.
 
 | Source | Best for | Integration rule |
 | --- | --- | --- |
@@ -118,10 +120,12 @@ Material discovery is a skill-level capability, not a concrete-style implementat
 Acquisition rules:
 
 - Search and compare task-relevant materials for design fit, rhythm, and semantic value; download candidates when they clearly improve the artifact or an explicit skill-asset extension.
+- For a normal multi-slide deck, website, app mockup, dashboard, or static visual, target about 5-10 distinct visual assets or asset roles across the artifact. Count style-owned SVGs, texture wrappers, sourced images/icons, generated bitmap/vector assets, and user-provided files; do not count plain rectangles, lines, text boxes, or routine chart shapes.
+- A zero-media or shape-only artifact is acceptable only when the user explicitly asks for it, the output is a pure wireframe/data diagram, the active style has no relevant visible assets and browsing/generation is unavailable, or asset use would create a concrete legal/safety problem. Record the reason when this exception is used.
 - Keep imported reusable files inside the standard `assets/<style_name>/` boundary rather than source-specific subdirectories such as `assets/<style_name>/<source_name>/`.
 - Before using a downloaded asset, record source URL, source name, download date, file type, dimensions when known, size, SHA-256, intended role, safe placement, and license/usage notes in task documentation or in asset-bundle documentation maintained inside the asset boundary.
-- Prefer no-login, no-paywall sources. Do not bypass login, VIP, paywall, watermark, rate-limit, robots/access-control, API-key-only, or licensing flows; if rights are unclear, use the material only as a reference or ask the user to provide a licensed file.
-- Public, commercial, brand-sensitive, identity-sensitive, financial, legal/security-document-adjacent, people/trademark/logo/brand-containing, or photo-based work requires explicit rights and safety review before downloaded third-party files become final production assets.
+- Prefer no-login, no-paywall sources. Do not bypass login, VIP, paywall, watermark, rate-limit, robots/access-control, API-key-only, or licensing flows; if rights are unclear, keep the source note and use the material only for personal/internal artifacts unless the user supplies a licensed file or requests a public/commercial release.
+- Public, commercial, brand-sensitive, identity-sensitive, financial, legal/security-document-adjacent, people/trademark/logo/brand-containing, or photo-based work requires explicit rights and safety review before downloaded third-party files become final production assets. This stricter review does not apply by default to local personal drafts unless the user says the artifact will be published or commercialized.
 
 Concrete styles may opt in to texture providers only through explicit `SurfaceTexturePolicy` handles, declared fallback behavior, and provenance expectations; framework validation leaves provider internals under `assets/` opaque. For new external acquisition, use only Pixabay and Iconfont unless the skill-level source table is intentionally updated later. External sources should support style identity, asset boundaries, readability, and provenance requirements.
 
@@ -142,9 +146,10 @@ To add or update a concrete style:
 - Concrete styles must be substitutable through the same dispatch workflow.
 - Shared mechanics must stay reusable and style-neutral.
 - Semantic roles and readability guide decorative preference without narrowing creative exploration.
+- Asset-rich output is the default for visual artifacts: use visible style assets, texture providers, sourced materials, generated assets, and user-provided files to create visual range; shape-only and no-asset strategies are exceptions that need an explicit reason.
 - Multi-page visual rhythm uses planned anchors, archetype variation, motif rotation, and variation checks to create range without forcing a single conservative look.
 - Identity and motif assets require proportion-preserving placement.
-- Asset availability must be resolved at runtime through `AssetPolicy`; every concrete style must provide fallback behavior and a required `assets/<style_name>/` boundary with `ASSET_MANIFEST.md`, even when the inventory is empty.
+- Asset availability must be resolved at runtime through `AssetPolicy` plus inspection of visible files in the selected asset boundary; every concrete style must provide fallback behavior and a required `assets/<style_name>/` boundary with `ASSET_MANIFEST.md`, even when the inventory is empty.
 - New styles extend the framework; they do not fork the base workflow.
 
 ## Quality Gate
@@ -154,4 +159,4 @@ Before delivery or commit:
 - Run `python skills/my-design-style/scripts/validate_styles.py` for style-family conformance.
 - Run `python skills/meta-skill/scripts/validate_skills.py` for repository-level skill structure.
 - Run `git diff --check` for whitespace and conflict markers.
-- Manually verify visual outputs for alignment, spacing, hierarchy, text overflow, contrast, responsiveness, visual-anchor coverage, archetype variation, motif rotation, image distortion, decorative relevance, asset provenance, and style fidelity.
+- Manually verify visual outputs for alignment, spacing, hierarchy, text overflow, contrast, responsiveness, visual-anchor coverage, archetype variation, motif rotation, image distortion, decorative relevance, asset provenance, asset count/range, and style fidelity. If fewer than 5 distinct assets or asset roles are used in a normal non-wireframe visual artifact, verify and record the exception reason.

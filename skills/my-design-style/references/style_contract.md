@@ -67,6 +67,7 @@ interface ComposedStylePlan {
   palettePlan?: Record<string, unknown>;
   motifPlan?: Record<string, unknown>;
   assetPlan?: Record<string, unknown>;
+  assetUsePlan?: AssetUsePlan;
   visualRhythmPlan?: VisualRhythmPlan;
   previewPlan?: StylePreviewPlan;
   selfCheckPlan: string[];
@@ -76,8 +77,7 @@ interface StylePreviewPlan {
   baseStyle: StyleName;
   medium: TargetMedium;
   previewMode: "required" | "skip" | "auto";
-  previewSurface: "style-board" | "artifact-sample" | "combined" | "template-series" | string;
-  previewArchetypes?: string[];
+  previewSurface: "style-board" | "artifact-sample" | "combined" | string;
   previewPrompt: string;
   selectedDefaults: Record<string, string>;
   optionSets: StyleOptionSet[];
@@ -122,6 +122,22 @@ interface VisualRhythmPlan {
   texturePlan?: string[];
   assetFallbacks: string[];
   variationChecks: string[];
+}
+
+interface AssetUsePlan {
+  defaultMode: "asset-rich" | "asset-light-exception" | "wireframe" | string;
+  targetDistinctAssets: "5-10" | string;
+  selectedAssets: Array<{
+    id: string;
+    source: "style-owned" | "shared-provider" | "user-provided" | "network" | "generated-bitmap" | "generated-vector" | string;
+    pathOrUrl?: string;
+    role: string;
+    surfaces: string[];
+    usage: "informational" | "identity" | "decorative" | "textural" | "iconic" | string;
+    provenanceNote: string;
+  }>;
+  shapeOnlyExceptionReason?: string;
+  checks: string[];
 }
 ```
 
@@ -223,7 +239,7 @@ interface ComponentTranslator {
 interface AssetPolicy {
   // Returned by DesignStyleBase.getAssetPolicy().
   assetRoot: `assets/${string}/`;
-  importMode: "style-owned" | "user-provided-only";
+  importMode: "style-owned" | "user-provided-only" | "style-owned-visible" | "personal-visible-assets";
   manifestFile?: string;
   availableAssets: Record<string, AssetRole[]> | "none";
   placementRules: string[];
@@ -283,19 +299,19 @@ Auto-mode sequence:
 
 1. Build `ComposedStylePlan` from the base style and compatible modifiers.
 2. Decide whether explicit preview is needed from user intent, ambiguity, stakes, and regeneration cost.
-3. If preview is needed, call `getPreviewOptions(request, composedPlan)`, then generate either one compact preview surface or a representative `template-series` from `StylePreviewPlan.previewPrompt`. Use `template-series` when the user requests reusable templates or when multi-slide/multi-screen work needs cross-surface validation; select a small set of representative `previewArchetypes` rather than generating the full artifact. Present `StyleOptionSet[]`, and iterate until the user approves.
-4. Build or confirm a `VisualRhythmPlan` for multi-page/multi-screen work, including archetype sequence, visual anchors, motif rotation, and fallback assets; when a template series was approved, use its archetypes as the representative rhythm anchors.
+3. If preview is needed, call `getPreviewOptions(request, composedPlan)`, generate one preview image or preview surface from `StylePreviewPlan.previewPrompt`, present `StyleOptionSet[]`, and iterate until the user approves.
+4. Build or confirm a `VisualRhythmPlan` and `AssetUsePlan` for multi-page/multi-screen work, including archetype sequence, visual anchors, motif rotation, selected visible assets, sourced/generated materials, and fallback assets.
 5. If preview is not needed, choose default options from the active style's preview defaults and create an internal `StyleLock` that includes visual-rhythm decisions.
 6. Call `applyStyleLock(styleLock, composedPlan)` and generate the final artifact only from locked decisions.
 
 Rules:
 
-- `StyleOptionSet` values must come from the active style's palette, visual rhythm system, asset policy, surface texture policy, modifier compatibility rules, or user-provided assets.
+- `StyleOptionSet` values must come from the active style's palette, visual rhythm system, asset policy, visible asset boundary, surface texture policy, modifier compatibility rules, user-provided assets, generated assets, or task-local network materials.
 - Texture options may reference only tokens declared by the active style's `SurfaceTexturePolicy.allowedTokens`; include a texture-off option when turning texture off leaves a complete design.
 - Palette options must preserve the active style's semantic color hierarchy and accessibility requirements.
-- A `template-series` preview is a compact approval set, not the complete artifact. For PPT, prefer representative archetypes such as cover, image-led, table/chart, and process slides; for web/app/dashboard, prefer representative shell, navigation, functional content, information display, and statistics surfaces as relevant to the request.
 - For legal- or identity-sensitive styles, preview prompts must demonstrate the interpreted style without copying protected source artifacts.
 - Final artifact generation stays aligned with locked palette, texture, layout density, visual rhythm, motif, or asset decisions. If a locked option cannot be implemented in the target medium, stop and ask for an approved substitute unless the task is low-stakes and an equivalent fallback is already declared by the active style.
+- A normal non-wireframe visual artifact should not lock `asset-off`, `motif-off`, or shape-only defaults globally. These options are local exceptions for dense pages, inaccessible contrast, missing assets, or explicit user constraints.
 
 
 ## Visual Rhythm Contract
@@ -307,10 +323,11 @@ For each generated artifact, the active style must provide or derive a `VisualRh
 1. Map each slide, screen, or major section to a declared archetype or explicit information role.
 2. Assign at least one non-body-text visual anchor to each slide/screen/major section. Anchors may be informational, structural, decorative, or textural, but they must support hierarchy.
 3. Rotate motif treatments, texture states, layout skeletons, and density levels to keep creative range visible across the artifact.
-4. Use material discovery as a standard design-comparison input when browsing is allowed: compare runtime imagery with lawfully sourced candidates, generated vectors, code-native geometry, charts, diagrams, typographic labels, swatches, rules, and lawful user-provided assets, then choose the style-faithful option with the strongest semantic and variation value.
-5. Add variation checks to `selfCheckPlan` and final `Self-Check`; visual variety should preserve accessibility, asset provenance, brand rules, and style safety boundaries.
+4. Use material discovery as a standard design-comparison input when browsing is allowed: compare runtime imagery with visible style-owned assets, shared texture providers, sourced candidates, generated bitmap/vector assets, user-provided assets, charts, diagrams, typographic labels, swatches, rules, and code-native geometry, then choose the style-faithful option with the strongest semantic and variation value.
+5. For ordinary personal-use decks, websites, apps, dashboards, and static visuals, plan about 5-10 distinct assets or asset roles across the artifact. Count real files, generated assets, sourced images/icons, and texture providers; do not count ordinary rectangles, rules, text boxes, or basic chart shapes.
+6. Add variation checks to `selfCheckPlan` and final `Self-Check`; visual variety should preserve accessibility, asset provenance, brand rules, and style safety boundaries.
 
-The visual rhythm plan is permission to explore scale, density, imagery, and motif range. When density, legibility, legal safety, or brand fit calls for it, a slide can choose `motif-off` or `texture-off` while still keeping a clear content or structure anchor.
+The visual rhythm plan is permission to explore scale, density, imagery, and motif range. When density, legibility, legal safety, or brand fit calls for it, a slide can choose `motif-off` or `texture-off` while still keeping a clear content or structure anchor. It is not permission to make an entire artifact shape-only unless the user asks for a wireframe/data-diagram style or the `AssetUsePlan.shapeOnlyExceptionReason` records a concrete blocker.
 
 ## Modifier Composition Contract
 
