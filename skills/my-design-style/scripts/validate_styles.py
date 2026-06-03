@@ -9,6 +9,7 @@ statically; visual quality remains a manual quality gate.
 from __future__ import annotations
 
 import ast
+import json
 import re
 import sys
 from pathlib import Path
@@ -376,12 +377,77 @@ def validate_style(row: dict[str, str]) -> list[str]:
     return errors
 
 
+def validate_shared_texture_providers() -> list[str]:
+    """Guard the shipped shared texture providers against silent render failure.
+
+    Unlike per-style asset boundaries (which are user-customizable and opaque to
+    the framework), a shared surface provider referenced by SurfaceTexturePolicy
+    handles is framework infrastructure: if its wrapper SVGs render blank, every
+    style that enables the provider silently falls back to texture-off. We check
+    that each declared wrapper exists, is non-trivial, carries renderable paint,
+    and does NOT depend on a remote/external href (which fails offline, behind a
+    proxy, or in headless SVG-to-bitmap export).
+    """
+    errors: list[str] = []
+    if not ASSETS.is_dir():
+        return errors
+
+    for index_path in ASSETS.glob("*/texture_index.json"):
+        provider_dir = index_path.parent
+        rel = index_path.relative_to(ROOT)
+        try:
+            data = json.loads(index_path.read_text(encoding="utf-8"))
+        except (ValueError, OSError) as exc:
+            errors.append(f"{rel} is not valid JSON: {exc}")
+            continue
+
+        textures = data.get("textures")
+        if not isinstance(textures, list) or not textures:
+            errors.append(f"{rel} must list at least one texture")
+            continue
+
+        for tex in textures:
+            token = tex.get("token", "<unknown>")
+            wrapper_rel = tex.get("file", "")
+            if not wrapper_rel:
+                errors.append(f"{rel} token {token!r} is missing a wrapper file path")
+                continue
+
+            wrapper = provider_dir / wrapper_rel
+            if not wrapper.is_file():
+                errors.append(
+                    f"{rel} token {token!r} references missing wrapper: {wrapper_rel}"
+                )
+                continue
+
+            svg = wrapper.read_text(encoding="utf-8")
+            if re.search(r"href\s*=\s*[\"']\s*https?:", svg, re.IGNORECASE):
+                errors.append(
+                    f"{wrapper.relative_to(ROOT)} references a remote href; texture "
+                    "will render blank offline/headless. Inline the texture instead."
+                )
+            has_paint = (
+                "feTurbulence" in svg
+                or "<pattern" in svg
+                or "data:image" in svg
+                or re.search(r"<(rect|circle|path|polygon|line|image)\b", svg)
+            )
+            if not has_paint:
+                errors.append(
+                    f"{wrapper.relative_to(ROOT)} has no renderable paint "
+                    "(feTurbulence, pattern, inline data, or shape)."
+                )
+
+    return errors
+
+
 def validate() -> list[str]:
     errors: list[str] = []
     if not REGISTRY.exists():
         return [f"missing registry: {REGISTRY.relative_to(ROOT)}"]
 
     errors.extend(validate_contract_conformance_docs())
+    errors.extend(validate_shared_texture_providers())
 
     rows = parse_registry()
     if not rows:

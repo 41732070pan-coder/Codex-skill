@@ -241,7 +241,7 @@ For slide decks, use 16:9 by default.
 Use a deck-level visual rhythm plan so traditional color work can be restrained, expressive, or ceremonial without becoming empty. 克制 means low-density, explainable visual gestures that serve structure.
 
 - `rhythmScope`: for PPT decks, assign every slide to a content archetype before drawing; for web/app work, assign each major section to a museum, editorial, catalog, dashboard, or component role.
-- `visualAnchorRule`: every slide or major section needs one non-body-text anchor: named-color swatch strip, color chip matrix, diagram, comparison table, gallery label, book rail, seal-like dot, fine-rule frame, quote block, lawful image, or low-opacity paper texture.
+- `visualAnchorRule`: every slide or major section needs one non-body-text anchor: named-color swatch strip, color chip matrix, diagram, comparison table, gallery label, book rail, seal-like dot, fine-rule frame, quote block, image, or low-opacity paper texture.
 - `archetypeVarietyRule`: no more than two consecutive slides should use the same title/body skeleton; alternate cover/agenda, color legend, concept diagram, data/table, editorial/object, and closing patterns.
 - `motifRotation`: rotate restrained-rules, gallery-labels, seal-dot-accents, book rails, swatch strips, texture-off states, motif-off for dense data, and stronger cultural motifs when they serve the subject.
 - `assetFallbackRule`: use runtime-approved border/stripe/placeholder roles when they fit the content, plus code-native geometry, color swatches, typographic labels, diagrams, and approved texture tokens before leaving large empty zones.
@@ -290,22 +290,22 @@ For posters, title cards, diagrams, thumbnails, or cultural static visuals:
 
 ## Asset Interface
 
-Use cultural motif roles exposed by the runtime `AssetPolicy`. The asset boundary is opaque and may be edited by users; file inventory details belong in the manifest or task-local documentation.
+Use cultural motif roles exposed by the runtime `AssetPolicy`, plus network-sourced and generated assets. The asset boundary may be edited by users; file inventory details belong in the manifest.
 
 - `assetRoot`: `assets/chinese_traditional_color_style/`.
 - `importMode`: `style-owned`.
-- `manifestFile`: opaque asset-bundle provenance handle.
+- `manifestFile`: asset-bundle handle.
 - `availableAssets`: optional cultural motif, border, instrument, animal, and texture-like illustration roles when exposed by the runtime policy.
-- `usageRoles`: named color cards, generated or code-native border frames, horizontal stripes, vertical pattern bands, placeholder image panels, user-provided cultural imagery, generated bitmap visuals, color swatches, lawful object imagery, task-local Pixabay/Iconfont assets with provenance, and small code-native motifs.
+- `usageRoles`: named color cards, generated or code-native border frames, horizontal stripes, vertical pattern bands, placeholder image panels, user-provided cultural imagery, generated bitmap visuals, color swatches, object imagery, network-sourced Pixabay/Iconfont assets, and small code-native motifs.
 - `placementRules`: keep cultural imagery secondary to content unless the artifact is explicitly an object, museum, or editorial view; keep motifs low-density and away from dense text.
-- `fallbackPolicy`: use named color cards, ink/paper contrast, typography, grid, code-native geometry, generated vectors, and lawful user-provided or task-local sourced assets when runtime assets are unavailable or inappropriate.
+- `fallbackPolicy`: when the visible inventory is thin, download task-relevant cultural imagery, generate vectors, or use named color cards, ink/paper contrast, typography, grid, and code-native geometry.
 
 When an artifact needs Chinese traditional visual material:
 
 - Use generated or code-native border frames for title cards, chapter pages, posters, and museum-style labels when a border is useful.
 - Use generated or code-native stripes and side bands as page rhythm devices, varying scale and frequency across the artifact.
-- Use neutral placeholder panels only temporarily when final user-provided photography, object imagery, or illustration is not available.
-- For PPT/UI structure, prefer clean layout, restrained color, typography, thin rules, tabs, tables, and code-native geometry over ornamental filler.
+- Use neutral placeholder panels only temporarily when final photography, object imagery, or illustration is not yet downloaded.
+- For PPT/UI structure, balance clean layout, restrained color, typography, thin rules, tabs, tables, code-native geometry, and downloaded imagery.
 - Choose dragons, clouds, seals, folding fans, mountains, calligraphy, or other cultural motifs when they help the specific theme.
 - Prefer color, whitespace, text hierarchy, and composition over decorative symbolism.
 
@@ -315,11 +315,11 @@ Traditional-color texture support is enabled through the `transparent_textures` 
 
 - `provider`: `transparent_textures`
 - `assetRoot`: `assets/transparent_textures/`
-- `manifestFile`: `opaque transparent_textures manifest handle`
-- `indexFile`: `opaque transparent_textures index handle`
-- `provenanceFile`: `opaque transparent_textures provenance handle`
+- `manifestFile`: `transparent_textures manifest handle`
+- `indexFile`: `transparent_textures index handle`
+- `provenanceFile`: `transparent_textures source handle`
 - `defaultToken`: `rice-paper`
-- `allowedTokens`: ["rice-paper", "paper-fibers", "handmade-paper", "textured-paper"]
+- `allowedTokens`: ["rice-paper", "paper-fibers", "handmade-paper", "textured-paper", "natural-paper", "beige-paper", "light-paper-fibers", "lined-paper", "gray-floral", "stardust", "low-contrast-linen"]
 - `opacityRange`: [0.03, 0.08]
 - `allowedSurfaces`: ["page-background", "museum-panel", "cover-wash", "editorial-background"]
 - `protectedSurfaces`: ["dense body text", "color-swatch labels", "small museum metadata", "chart labels", "generated calligraphy", "seal-like marks"]
@@ -332,13 +332,12 @@ Texture should add tactility while preserving contemporary fit and legibility.
 Allowed:
 
 - Generated or code-native border frames, lattice stripes, placeholder image panels, and vertical pattern bands that remain available even when the bundled file inventory changes.
-- Original or lawfully sourced cultural imagery, museum objects, textiles, ceramics, landscapes, ink textures, paper texture, or generated raster visuals.
+- Cultural imagery, museum objects, textiles, ceramics, landscapes, ink textures, paper texture, network-sourced images, or generated raster visuals.
 - CSS/SVG fine-line patterns, seal-like geometry, book margin rails, quiet texture, and swatches.
 - Color chips named with Chinese color names and HEX.
 
 Use With Care:
 
-- Copyrighted artwork or museum photography needs permission or a clearly lawful source.
 - Low-resolution decorative textures should stay away from reading paths and export-critical surfaces.
 - Seals, clouds, dragons, fans, lanterns, or calligraphy are strongest when they have subject relevance rather than filler status.
 
@@ -364,7 +363,7 @@ Allowed soft modifiers:
 
 - Mood or seasonal adjustments that select a different source series or add one controlled accent.
 - Generated-vector or code-native cultural gestures such as thin rules, square markers, gallery labels, scroll-like rails, or seal-like dots when they stay low density.
-- User-provided imagery, object photos, or cultural assets when provenance is acceptable and placement supports the content.
+- User-provided or network-sourced imagery, object photos, or cultural assets when placement supports the content.
 - Layout-density adjustments for editorial, museum, dashboard, or product contexts while preserving stable grids.
 
 Modifier self-check additions:
@@ -383,14 +382,14 @@ Modifier self-check additions:
 | `traditional-color-series` | palette | context-dependent named source series or documented palette recipe | selected source series; adjacent source series; documented recipe; neutral ink-paper fallback | Start from one complete named-color logic; avoid mixing many unrelated traditional colors. |
 | `traditional-paper-texture` | texture | `rice-paper` | `rice-paper`; `paper-fibers`; `handmade-paper`; `textured-paper`; `texture-off` | Tokens come from `allowedTokens`; keep opacity in `[0.03, 0.08]`; protect swatch labels, metadata, chart labels, and generated calligraphy. |
 | `cultural-motif-level` | motif | `restrained-rules` | `restrained-rules`; `gallery-labels`; `seal-dot-accents`; `motif-off` | Motifs stay code-native or generated-vector and carry a clear cultural or structural role; `motif-off` is a local dense/readability exception, not a whole-artifact default. |
-| `traditional-asset-emphasis` | asset | `generated-subtle` | `generated-subtle`; `code-native-border-frame`; `code-native-lattice-stripe`; `placeholder-panel`; `code-native-vertical-band`; `asset-off` | Use generated/code-native or task-local sourced assets with provenance; keep one clear asset role per surface. `asset-off` is a local exception only and requires an `AssetUsePlan.shapeOnlyExceptionReason` if applied across the whole artifact. |
+| `traditional-asset-emphasis` | asset | `generated-subtle` | `generated-subtle`; `code-native-border-frame`; `code-native-lattice-stripe`; `placeholder-panel`; `code-native-vertical-band`; `sourced-imagery` | Use generated/code-native, network-sourced, or user-provided assets; keep one clear asset role per surface. |
 
 Preview option behavior:
 
 - Texture choices are paper tactility only; pair them with modern hierarchy so the artifact does not collapse into fake-antique treatment.
 - `texture-off` preserves the style through named colors, ink/paper contrast, margins, fine rules, and modern component structure.
-- Do not use `asset-off`, `motif-off`, or shape-only delivery as the global default for ordinary non-wireframe visual artifacts. Use them only for explicit user constraints, dense data/readability needs, missing relevant assets, or concrete rights/safety blockers, and record the exception reason when the whole artifact is affected.
-- Style locks record the selected color series or recipe, texture token or `texture-off`, motif level, selected asset emphasis or `asset-off`, layout density, and any softened expressive modifier.
+- Do not use `motif-off` or shape-only delivery as the global default for ordinary non-wireframe visual artifacts. Use them only for explicit user constraints or dense data/readability needs. When the visible inventory is thin, download or generate assets.
+- Style locks record the selected color series or recipe, texture token or `texture-off`, motif level, selected asset emphasis, layout density, and any softened expressive modifier.
 
 ## Self-Check
 

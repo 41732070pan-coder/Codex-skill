@@ -7,8 +7,8 @@ This registry is the concrete-style lookup table for `my-design-style`. Use it t
 | Style | Reference | Aliases | Domain cues | Medium cues | Priority | Asset root | Use when |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `seu_design_style` | `references/seu_design_style.md` | SEU; Southeast University; 东南大学; campus academic | academic; institutional; university; thesis defense; research report; campus brand | ppt; web; app; dashboard; document_visual; static_visual; design_template | domain-default | `assets/seu_design_style/` | The artifact should feel like an SEU institutional, academic, research, or campus-branded design. |
-| `renminbi_color_style` | `references/renminbi_color_style.md` | RMB; yuan; renminbi; Chinese banknote; 人民币; 纸币风格 | finance; commerce; fintech; auction; collection; value; settlement; trustworthy financial culture | ppt; web; app; dashboard; document_visual; static_visual; design_template | domain-default | `assets/renminbi_color_style/` | The artifact should borrow legal, non-counterfeit visual cues from RMB color, paper, numerals, and fine-line financial texture while using runtime assets only through the active policy. |
-| `chinese_traditional_color_style` | `references/chinese_traditional_color_style.md` | traditional Chinese colors; guofeng; 国风; 中式传统色; classical Chinese | museum; cultural; editorial; heritage; Chinese palette; classical brand; literary or historical context | ppt; web; app; dashboard; document_visual; static_visual; design_template | domain-default | `assets/chinese_traditional_color_style/` | The artifact should use named Chinese traditional colors and restrained cultural composition while using runtime assets only through the active policy and avoiding generic ornament. |
+| `renminbi_color_style` | `references/renminbi_color_style.md` | RMB; yuan; renminbi; Chinese banknote; 人民币; 纸币风格 | finance; commerce; fintech; auction; collection; value; settlement; trustworthy financial culture | ppt; web; app; dashboard; document_visual; static_visual; design_template | domain-default | `assets/renminbi_color_style/` | The artifact should borrow visual cues from RMB color, paper, numerals, and fine-line financial texture, using runtime, network-sourced, generated, and currency assets through the active policy. |
+| `chinese_traditional_color_style` | `references/chinese_traditional_color_style.md` | traditional Chinese colors; guofeng; 国风; 中式传统色; classical Chinese | museum; cultural; editorial; heritage; Chinese palette; classical brand; literary or historical context | ppt; web; app; dashboard; document_visual; static_visual; design_template | domain-default | `assets/chinese_traditional_color_style/` | The artifact should use named Chinese traditional colors and restrained cultural composition, using runtime, network-sourced, generated, and cultural assets through the active policy. |
 
 ## Entry Shape
 
@@ -40,7 +40,7 @@ interface StyleRegistryEntry {
 
 1. Create `references/<style_name>.md` from `references/style_template.md`.
 2. Add one row to `Registry Entries` with all structured fields populated.
-3. Create `assets/<style_name>/` and `assets/<style_name>/ASSET_MANIFEST.md` even when the inventory starts empty. Set registry `assetRoot` and the style file `Asset Interface.assetRoot` to `assets/<style_name>/`. Keep file names, provenance rows, and checksums inside the asset bundle or task documentation rather than framework references.
+3. Create `assets/<style_name>/` and `assets/<style_name>/ASSET_MANIFEST.md`. The inventory may start empty; an empty boundary means assets are downloaded or generated at runtime. Set registry `assetRoot` and the style file `Asset Interface.assetRoot` to `assets/<style_name>/`. Keep file names inside the asset bundle or task documentation rather than framework references.
 4. Run `python skills/my-design-style/scripts/validate_styles.py`.
 
 ## Contract Conformance Requirement
@@ -49,4 +49,4 @@ Every concrete style file must contain a concise `Contract Conformance` section 
 
 Required runtime sections: Triggers, Intent, Creative Latitude, Color Tokens, Typography, Layout Principles, PPT Slide Archetypes, Visual Rhythm System, Web Translation, App / Dashboard Translation, Static Visual Translation, Asset Interface, Surface Texture Policy, Asset Rules, Modifier Compatibility, Preview Option Sets, Self-Check.
 
-Asset availability is a runtime concern. A style must define `AssetPolicy` handles and fallback behavior. Every concrete style must have `assets/<style_name>/` and `ASSET_MANIFEST.md`; framework documents keep bundled-file inventory details in manifests or task-local documentation, while `validate_styles.py` verifies the required boundary exists.
+Asset availability is a runtime concern. A style must define `AssetPolicy` handles and a network/generation fallback. Every concrete style must have `assets/<style_name>/` and `ASSET_MANIFEST.md`; framework documents keep bundled-file inventory details in manifests, while `validate_styles.py` verifies the required boundary exists. An empty boundary means assets are fetched or generated at runtime.

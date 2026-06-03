@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-label="Pyramid seamless texture">
+  <title>Pyramid texture</title>
+  <desc>Self-contained seamless tiled geometric motif (Pyramid). PNG tile inlined as base64 data URI; no network dependency, renders offline and in headless export. Tile 16x16.</desc>
+  <defs>
+    <pattern id="pyramid" patternUnits="userSpaceOnUse" width="16" height="16">
+      <image href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAATklEQVQ4y2NgAIInz17YMqABYsUo0kx1A4lW+PTZi7j7Dx+lUWzztes30wbYZmyAWJuxGkKqzSj8oWczzoAk2mZshgyczUDNuqTaDOMDADz1vO3QVThgAAAAAElFTkSuQmCC" width="16" height="16" preserveAspectRatio="xMidYMid slice"/>
+    </pattern>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#pyramid)"/>
+</svg>

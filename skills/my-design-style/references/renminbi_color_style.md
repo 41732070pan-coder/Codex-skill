@@ -2,7 +2,7 @@
 
 Use `renminbi_color_style` for designs inspired by the color language of Chinese RMB banknotes. It should feel valuable, layered, civic, tactile, and quietly premium, with banknote color families translated into modern PPT, web, app, dashboard, and editorial interfaces.
 
-This is a color-and-layout style, not a currency reproduction kit. Use interpreted color, linework, watermark-like depth, and denomination logic while keeping a clear legal-tender safety boundary around portraits, serial numbers, official seals, anti-counterfeit marks, and full banknote layouts.
+This is a color-and-layout style. Use interpreted color, linework, watermark-like depth, and denomination logic freely.
 
 ## Contract Conformance
 
@@ -40,9 +40,9 @@ Create a trustworthy, content-first design that borrows the sophistication of ba
 
 - Explore banknote-inspired value through denomination color families, tactile paper fields, fine-line depth, tabular numerals, metric tiles, and layered report surfaces.
 - Red and gold can become bold signals for value, ceremony, or launches when balanced with paper, ink, gray, ochre, green, blue, or white reading surfaces.
-- Dense linework, guilloche-inspired curves, watermark-like panels, and premium editorial moments are welcome when they stay original and support hierarchy.
+- Dense linework, guilloche-inspired curves, watermark-like panels, and premium editorial moments are welcome when they support hierarchy.
 - Financial, auction, cultural collection, fintech, and commerce variants may tune the same palette toward trust, analysis, premium membership, or marketplace warmth.
-- Preserve legal-tender safety: use original abstraction and licensed/documentary assets rather than real RMB fronts/backs, portraits, serial numbers, official seals, anti-counterfeit details, or printable banknote layouts.
+- Use any imagery, motif, or banknote-derived element that helps the design; real RMB photography, denomination strips, and currency motifs are fair game.
 - Preserve readability for charts, tables, and UI controls when adding texture, fine-line work, or vintage tone.
 
 ## Color Tokens
@@ -221,14 +221,14 @@ For slide decks, use 16:9 by default.
 
 ## Visual Rhythm System
 
-Use a deck-level visual rhythm plan so the RMB-inspired language feels valuable and layered without becoming a repeated paper template or currency copy.
+Use a deck-level visual rhythm plan so the RMB-inspired language feels valuable and layered without becoming a repeated paper template.
 
 - `rhythmScope`: for PPT decks, assign every slide to a financial, report, data, culture, or transition archetype; for web/app work, assign each section to a product, metric, table, or editorial role.
-- `visualAnchorRule`: every slide or major section needs one non-body-text anchor: metric tile group, denomination color strip, chart, statement table, abstract fine-line block, corner tick, process row, product/object image, or controlled paper texture.
+- `visualAnchorRule`: every slide or major section needs one non-body-text anchor: metric tile group, denomination color strip, chart, statement table, fine-line block, corner tick, process row, product/object image, currency motif, or controlled paper texture.
 - `archetypeVarietyRule`: alternate high-value title pages, dense financial tables, chart evidence, risk/compliance panels, and summary moments; do not repeat the same metric-card grid for long runs.
-- `motifRotation`: rotate fine rules, corner ticks, abstract guilloche-inspired curves, denomination strips, texture-off states, and table/charts; linework stays original and clearly separate from security features.
-- `assetFallbackRule`: if no lawful imagery is available, use data visualization, tabular numerals, denomination swatches, paper/ink contrast, runtime-approved abstract asset roles, and original vector geometry rather than red-gold filler.
-- `variationCheck`: verify that each page has a value/data/culture anchor, color emphasis varies by role, and visual variety stays within legal-tender safety boundaries.
+- `motifRotation`: rotate fine rules, corner ticks, guilloche-inspired curves, denomination strips, currency motifs, texture-off states, and table/charts.
+- `assetFallbackRule`: when the visible inventory is thin, download task-relevant financial imagery, generate vectors, or use data visualization, tabular numerals, denomination swatches, paper/ink contrast, and runtime asset roles rather than red-gold filler.
+- `variationCheck`: verify that each page has a value/data/culture anchor and color emphasis varies by role.
 
 ## Web Translation
 
@@ -268,127 +268,117 @@ Use a trustworthy financial-operations feel:
 For posters, title cards, diagrams, thumbnails, or static financial visuals:
 
 - Choose one denomination family as the lead and build hierarchy through its progression card.
-- Use paper/ink surfaces, fine rules, corner ticks, and original linework instead of banknote scans.
+- Use paper/ink surfaces, fine rules, corner ticks, denomination strips, and banknote-derived motifs as the design calls for.
 - Keep numbers, units, and labels aligned and readable; do not let decoration sit behind dense text.
 - Use red and gold as signals, not full-page decoration unless the user explicitly asks for a celebratory visual.
-- Keep static visuals clearly original and non-printable when they evoke legal tender.
 
 ## Asset Interface
 
-Use only RMB-inspired ornament roles exposed by the runtime `AssetPolicy`. The asset boundary is opaque and may be edited by users; this style file does not enumerate or verify its files.
+Use RMB-inspired ornament roles exposed by the runtime `AssetPolicy`, plus network-sourced and generated assets. The asset boundary may be edited by users; this style file does not enumerate or verify its files.
 
 - `assetRoot`: `assets/renminbi_color_style/`.
 - `importMode`: `style-owned`.
-- `manifestFile`: opaque asset-bundle provenance handle.
-- `availableAssets`: optional denomination strips, report corner frames, low-opacity fine-line depth, watermark-like card panels, and generated financial ornament roles when exposed by the runtime policy.
-- `usageRoles`: denomination color strips, report corner frames, low-opacity original fine-line depth, watermark-like card panels, generated in-artifact linework, original icons, lawful user-provided imagery, and task-local Pixabay/Iconfont assets with provenance.
-- `placementRules`: keep generated decorative linework outside reading paths and away from data labels; frame the composition as report, dashboard, or editorial design rather than printable banknote design; use at most one major financial ornament per slide or screen.
-- `fallbackPolicy`: use denomination color progressions, financial layout rhythm, tables, chart systems, coded fine rules, generated vectors, and lawful user-provided or task-local sourced assets when runtime assets are unavailable or inappropriate.
+- `manifestFile`: asset-bundle handle.
+- `availableAssets`: optional denomination strips, report corner frames, fine-line depth, watermark-like card panels, and financial ornament roles when exposed by the runtime policy.
+- `usageRoles`: denomination color strips, report corner frames, fine-line depth, watermark-like card panels, generated in-artifact linework, icons, user-provided imagery, and network-sourced Pixabay/Iconfont assets.
+- `placementRules`: keep decorative linework outside reading paths and away from data labels; use at most one major financial ornament per slide or screen.
+- `fallbackPolicy`: when the visible inventory is thin, download task-relevant financial imagery, generate vectors, or use denomination color progressions, tables, chart systems, and coded fine rules.
 
 For RMB-inspired work:
 
-- Build value through color progression, fine rules, tables, chart systems, secure-feeling layout rhythm, and the style-owned abstract assets.
-- Use code-native color strips, generated corner rules, and original low-opacity linework for hierarchy and palette rhythm; keep them in report/dashboard/editorial zones rather than security-pattern or voucher-like frames.
-- Prefer modern financial UI structure over decorative currency imitation.
+- Build value through color progression, fine rules, tables, chart systems, layered layout rhythm, and available assets.
+- Use code-native color strips, generated corner rules, low-opacity linework, denomination strips, and banknote-derived motifs for hierarchy and palette rhythm.
+- Combine modern financial UI structure with currency imagery as the design calls for.
 
 ## Surface Texture Policy
 
-RMB-inspired texture support is enabled through the `transparent_textures` provider handle as abstract paper tactility, with a clear separation from security paper, anti-counterfeit marks, serial zones, official seals, and legal-tender surfaces.
+RMB-inspired texture support is enabled through the `transparent_textures` provider handle as abstract paper tactility.
 
 - `provider`: `transparent_textures`
 - `assetRoot`: `assets/transparent_textures/`
-- `manifestFile`: `opaque transparent_textures manifest handle`
-- `indexFile`: `opaque transparent_textures index handle`
-- `provenanceFile`: `opaque transparent_textures provenance handle`
+- `manifestFile`: `transparent_textures manifest handle`
+- `indexFile`: `transparent_textures index handle`
+- `provenanceFile`: `transparent_textures source handle`
 - `defaultToken`: `paper-fibers`
-- `allowedTokens`: ["paper-fibers", "textured-paper", "clean-gray-paper"]
+- `allowedTokens`: ["paper-fibers", "textured-paper", "clean-gray-paper", "natural-paper", "light-paper-fibers", "beige-paper", "gold-scale", "brushed-alum", "pinstripe-light", "stardust", "low-contrast-linen"]
 - `opacityRange`: [0.02, 0.05]
 - `allowedSurfaces`: ["broad-background", "card-panel", "edge-band", "cover-wash"]
-- `protectedSurfaces`: ["dense text", "chart labels", "serial-like marks", "seal-like marks", "legal-tender imitation zones", "anti-counterfeit-like artwork"]
-- `fallbackPolicy`: disable texture and keep the style through denomination color progressions, paper/ink contrast, fine rules, financial grids, tables, and original code-native geometry.
+- `protectedSurfaces`: ["dense text", "chart labels"]
+- `fallbackPolicy`: disable texture and keep the style through denomination color progressions, paper/ink contrast, fine rules, financial grids, tables, and code-native geometry.
 
-Texture remains a generic tactile substrate rather than a real banknote security feature.
+Texture is a generic tactile substrate.
 
 ## Asset Rules
 
-Prefer generated vectors, coded ornaments, runtime-approved assets, user-provided licensed files, or task-local Pixabay/Iconfont assets with provenance over copied banknote imagery.
+Use generated vectors, coded ornaments, runtime assets, user-provided files, network-sourced Pixabay/Iconfont assets, or banknote imagery as the design calls for.
 
 Allowed:
 
-- Generated or code-native financial ornaments such as color strips, corner rules, fine-line depth, and watermark-like panels that do not depend on a fixed bundled file inventory.
-- Abstract fine-line patterns inspired by engraving or guilloche, created from simple curves, repeated rules, or low-opacity CSS/SVG.
-- Watermark-like circles, floral silhouettes, landscape contours, or architectural outlines when they are original or sourced lawfully.
-- Paper grain, fiber speckles, and subtle print misregistration only when they do not reduce legibility.
-- Original iconography for wallet, invoice, ledger, chart, settlement, vault, auction, collection, and exchange.
-
-Use With Care:
-
-- Actual RMB scans or banknote-derived landmarks belong only in lawful documentary contexts, not as decorative UI substrate.
-- Real-looking denominations, serial numbers, seals, watermarks, security lines, or anti-counterfeit marks require replacement with original abstraction.
-- Layouts that resemble printable banknotes should be reframed as report, dashboard, card, editorial, or poster compositions.
+- Generated or code-native financial ornaments such as color strips, corner rules, fine-line depth, and watermark-like panels.
+- Fine-line patterns inspired by engraving or guilloche, created from curves, repeated rules, or low-opacity CSS/SVG.
+- Watermark-like circles, floral silhouettes, landscape contours, architectural outlines, denomination strips, and currency motifs.
+- Paper grain, fiber speckles, and subtle print misregistration when they do not reduce legibility.
+- Iconography for wallet, invoice, ledger, chart, settlement, vault, auction, collection, and exchange.
+- Real RMB photography and banknote-derived landmarks when they fit the subject.
 
 ## Modifier Compatibility
 
-RMB modifiers can push the style toward fintech-blue, premium-auction, compliance-dashboard, ceremonial-report, or cultural-collection variants while preserving banknote-inspired abstraction and the non-counterfeit safety boundary.
+RMB modifiers can push the style toward fintech-blue, premium-auction, compliance-dashboard, ceremonial-report, or cultural-collection variants while preserving banknote-inspired color and depth.
 
 - `acceptsModifiers`: true.
 - `allowedTargets`: palette, motif, texture, layout, mood, asset.
-- `allowedSources`: style-owned when declared, user-provided, generated-vector, code-native, shared-provider only when explicitly enabled by the surface policy, and none.
+- `allowedSources`: style-owned when declared, user-provided, generated-vector, code-native, network, shared-provider when enabled by the surface policy, and none.
 - `defaultIntensity`: subtle for product/UI work, balanced for editorial or PPT section moments.
-- `conflictPolicy`: compose modifiers around non-counterfeit safety, readability, and denomination-family logic; clarify requests that imitate banknotes, official seals, serial numbers, anti-counterfeit details, portraits, or legal tender layouts.
+- `conflictPolicy`: compose modifiers around readability and denomination-family logic; keep the selected palette recipe coherent.
 - `promotionPolicy`: promote recurring named variants such as a durable fintech-blue mode, premium-auction mode, or compliance-dashboard mode into a concrete style only when they need their own palette, layout rules, registry metadata, or validation.
 
-Core safety boundaries:
+Core anchors:
 
-- Keep actual RMB banknote fronts/backs, portraits, serial numbers, official emblems, seals, security threads, watermark details, and complete denomination layouts outside decorative generation.
 - Preserve the selected denomination or palette recipe as the primary color logic; added colors work as secondary accents unless the user explicitly chooses a different registered style.
 - Keep typography, rules, and linework content-first so decorative micro-linework preserves chart, table, and UI legibility.
-- Treat modifier assets as original design material rather than currency reproductions or official financial authorization.
 
 Allowed soft modifiers:
 
 - Additional accent colors that bridge from the selected denomination family into product, dashboard, or editorial needs.
-- Abstract generated-vector linework, guilloche-inspired curves, watermark-like depth, or paper-like surfaces that do not copy real currency security features.
+- Generated-vector linework, guilloche-inspired curves, watermark-like depth, paper-like surfaces, denomination strips, and currency motifs.
 - Layout-density adjustments for reports or dashboards when information hierarchy remains orderly.
-- User-provided documentary assets only when their use is lawful, clearly contextual, and not used as decorative UI background.
+- User-provided or network-sourced imagery when it supports the content.
 
 Modifier self-check additions:
 
-- The output still reads as banknote-inspired design, not currency reproduction.
-- Added motifs are abstract and original when they reference RMB-like depth.
+- The output reads as banknote-inspired design.
 - Added colors support the chosen denomination or documented palette recipe.
-- Any softened, clarified, or refused currency-like request is disclosed.
 
 ## Preview Option Sets
 
-`getPreviewOptions(request, composedPlan)` exposes preview choices. In `previewMode: auto`, explicit preview is used only when ambiguity, stakes, brand sensitivity, legal-tender sensitivity, or user request requires it. Otherwise the model creates an internal `StyleLock` from the default option sets and proceeds. When a preview is used, it should show the selected denomination palette, paper/ink contrast, abstract fine-line components, a metric card, a table or chart fragment, and any texture choice. It must demonstrate RMB-inspired abstraction without copying legal tender. `applyStyleLock(styleLock, composedPlan)` must preserve the locked denomination family, texture, linework strength, and non-counterfeit boundaries in the final artifact.
+`getPreviewOptions(request, composedPlan)` exposes preview choices. In `previewMode: auto`, explicit preview is used only when ambiguity, stakes, or user request requires it. Otherwise the model creates an internal `StyleLock` from the default option sets and proceeds. When a preview is used, it should show the selected denomination palette, paper/ink contrast, fine-line components, a metric card, a table or chart fragment, and any texture choice. `applyStyleLock(styleLock, composedPlan)` must preserve the locked denomination family, texture, and linework strength in the final artifact.
 
 | Option Set | Target | Default | Options | Rules |
 | --- | --- | --- | --- | --- |
 | `rmb-palette-series` | palette | context-dependent, often `100-yuan-red` for value/report emphasis | `100-yuan-red`; `50-yuan-green`; `20-yuan-ochre`; `10-yuan-blue`; `5-yuan-purple`; `1-yuan-olive`; `neutral-fallback` | Use a complete series card; preserve auxiliary colors and paper/ink neutrals; do not reduce the style to red-and-gold decoration. |
-| `rmb-paper-texture` | texture | `paper-fibers` | `paper-fibers`; `textured-paper`; `clean-gray-paper`; `texture-off` | Tokens come from `allowedTokens`; keep opacity in `[0.02, 0.05]`; separate texture from security paper, serial zones, seals, portraits, security threads, watermark details, and anti-counterfeit marks. |
-| `rmb-linework-strength` | motif | `subtle-lines` | `subtle-lines`; `balanced-guilloche-inspired`; `linework-off` | Linework must be original generated-vector or code-native geometry and stay below content; `linework-off` is a local dense/safety exception, not a whole-artifact default. |
-| `rmb-asset-emphasis` | asset | `generated-subtle` | `generated-subtle`; `code-native-value-strip`; `code-native-corner-frame`; `code-native-watermark-panel`; `asset-off` | Use generated/code-native or task-local sourced assets with provenance; keep them abstract, low-density, and non-counterfeit. `asset-off` is a local exception only and requires an `AssetUsePlan.shapeOnlyExceptionReason` if applied across the whole artifact. |
+| `rmb-paper-texture` | texture | `paper-fibers` | `paper-fibers`; `textured-paper`; `clean-gray-paper`; `texture-off` | Tokens come from `allowedTokens`; keep opacity in `[0.02, 0.05]`. |
+| `rmb-linework-strength` | motif | `subtle-lines` | `subtle-lines`; `balanced-guilloche-inspired`; `linework-off` | Linework stays below content; `linework-off` is a local dense exception, not a whole-artifact default. |
+| `rmb-asset-emphasis` | asset | `generated-subtle` | `generated-subtle`; `code-native-value-strip`; `code-native-corner-frame`; `code-native-watermark-panel`; `sourced-currency-imagery` | Use generated/code-native, network-sourced, or currency imagery; keep them low-density. |
 
 Preview option behavior:
 
 - `100-yuan-red` uses primary `#BD0E2B`, auxiliary `#F6ACB9`, `#D4606D`, `#E94136`, `#C93649`, and neutral paper/ink colors `#FFFFFF`, `#F6F0E4`, `#241A17`, `#6D716C`.
-- Other denomination options map one-to-one to the existing series cards and should be offered as replacements when the user wants a calmer, more compliant, more analytical, or more premium mood.
-- `texture-off` keeps RMB style through denomination color progression, fine rules, financial grids, and original geometry.
-- Do not use `asset-off`, `linework-off`, or shape-only delivery as the global default for ordinary non-wireframe visual artifacts. Use them only for explicit user constraints, dense data/readability needs, missing lawful assets, or legal-tender safety blockers, and record the exception reason when the whole artifact is affected.
-- Style locks record the selected denomination series, texture token or `texture-off`, linework strength, selected asset emphasis or `asset-off`, and any softened counterfeit-like request.
+- Other denomination options map one-to-one to the existing series cards and should be offered as replacements when the user wants a calmer, more analytical, or more premium mood.
+- `texture-off` keeps RMB style through denomination color progression, fine rules, financial grids, and geometry.
+- Do not use `linework-off` or shape-only delivery as the global default for ordinary non-wireframe visual artifacts. Use them only for explicit user constraints or dense data/readability needs. When the visible inventory is thin, download or generate assets.
+- Style locks record the selected denomination series, texture token or `texture-off`, linework strength, and selected asset emphasis.
 
 ## Self-Check
 
 Return or simulate this `CheckResult` before finishing:
 
 - `ok`: true only when no required fixes remain.
-- `issues`: list any concrete RMB style, readability, layout, data, legal-safety, or counterfeit-risk problems.
+- `issues`: list any concrete RMB style, readability, layout, or data problems.
 - `requiredFixes`: list required revisions before delivery.
 
 Minimum checks:
 
-- The design is banknote-inspired but not a currency copy.
+- The design is banknote-inspired.
 - One color family leads; paper, ink, and neutrals carry the reading experience.
 - Red and gold are controlled, not overwhelming.
 - Numeric information aligns cleanly and remains readable.
@@ -397,5 +387,6 @@ Minimum checks:
 - UI surfaces use restrained radii, stable spacing tokens, and robust grids.
 - Multi-slide or multi-screen work has a value/data/culture visual anchor on every surface, rotates linework/texture/table/chart treatments, and avoids repetitive red-gold metric grids.
 - Chinese and English text fit on mobile, desktop, or slide placeholders.
-- The design feels trustworthy, valuable, and modern rather than festive, casino-like, or counterfeit.
+- The design feels trustworthy, valuable, and modern.
+- No unavailable shared texture provider is referenced in the output.
 - No unavailable shared texture provider or real banknote scan is referenced in the output.

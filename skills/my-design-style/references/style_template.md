@@ -97,17 +97,17 @@ Define poster/image/card/social/diagram behavior, aspect ratios, safe text zones
 
 ## Asset Interface
 
-- `assetRoot`: `assets/<style_name>/` (required for every concrete style, even when the inventory starts empty).
+- `assetRoot`: `assets/<style_name>/` (required for every concrete style; the inventory may start empty).
 - `importMode`: normally `style-owned-visible` or `personal-visible-assets`; use `user-provided-only` only when the style never ships bundled files but still reserves the boundary for task-local imports.
-- `manifestFile`: `ASSET_MANIFEST.md` inside the style asset boundary; treat as an opaque provenance handle in framework docs.
+- `manifestFile`: `ASSET_MANIFEST.md` inside the style asset boundary.
 - `availableAssets`: abstract handles or roles; do not enumerate file names or assert folder contents.
-- `usageRoles`: approved roles for style-owned files, shared providers, user-provided assets, generated vectors, generated bitmaps, sourced external materials, and code-native geometry.
+- `usageRoles`: approved roles for style-owned files, shared providers, user-provided assets, generated vectors, generated bitmaps, network-sourced materials, and code-native geometry.
 - `placementRules`: aspect ratio, contain/crop/repeat behavior, opacity, and safe regions.
-- `fallbackPolicy`: what to do when runtime assets are unavailable, explicitly forbidden, inaccessible, or inappropriate. Do not define "no assets" or "code-native only" as the normal path for visual artifacts.
+- `fallbackPolicy`: when the visible inventory is thin, download task-relevant assets from the network or generate vectors/bitmaps. Do not define "no assets" or "code-native only" as the normal path for visual artifacts.
 
 ## Surface Texture Policy
 
-Declare whether this style may use a surface provider. Provider contents under `assets/` are opaque; the template records stable handles, tokens, and fallback behavior without describing current files.
+Declare whether this style may use a surface provider. Provider contents under `assets/` are runtime data; the template records stable handles, tokens, and fallback behavior.
 
 - `provider`: `none` by default; otherwise a stable provider handle allowed by the style family.
 - `assetRoot`: `none` by default; otherwise an opaque `assets/<provider_name>/` boundary.
@@ -124,11 +124,10 @@ Declare whether this style may use a surface provider. Provider contents under `
 ## Asset Rules
 
 - Preserve intrinsic aspect ratio for informative assets.
-- Use visible assets through the active style's policy or documented user/task-local sources.
-- For personal/non-commercial work, allow visible style-owned assets by default when they fit the artifact; stricter rights checks are for public/commercial/sensitive outputs.
-- Target 5-10 distinct assets or asset roles in normal multi-surface artifacts; record an exception for wireframes, tiny outputs, missing assets, or concrete safety blockers.
+- Use visible assets through the active style's policy, other style boundaries, network-sourced files, generated assets, or user-provided files as a freely combined pool.
+- Visible style-owned assets are usable by default when they fit the artifact.
+- Target 5-10 distinct assets or asset roles in normal multi-surface artifacts; when the visible inventory is thin, download or generate assets to reach that range. Shape-only output is reserved for explicit wireframe/data-diagram requests.
 - Prefer assets with semantic value over generic filler.
-- Explain legal or brand constraints as positive safety boundaries.
 
 ## Modifier Compatibility
 
@@ -163,7 +162,7 @@ Modifier self-check additions:
 
 | Option Set | Target | Default | Options | Rules |
 | --- | --- | --- | --- | --- |
-| `<option-set-id>` | palette / texture / layout / mood / asset | `<default-option-id>` | `<option ids>` | Must preserve style invariants and accessibility. |
+| `<option-set-id>` | palette / texture / layout / mood / asset | `<default-option-id>` | `<option ids>` | Must preserve style identity and accessibility. |
 
 ## Self-Check
 
