@@ -367,14 +367,15 @@ Modifier self-check additions:
 | --- | --- | --- | --- | --- |
 | `rmb-palette-series` | palette | context-dependent, often `100-yuan-red` for value/report emphasis | `100-yuan-red`; `50-yuan-green`; `20-yuan-ochre`; `10-yuan-blue`; `5-yuan-purple`; `1-yuan-olive`; `neutral-fallback` | Use a complete series card; preserve auxiliary colors and paper/ink neutrals; do not reduce the style to red-and-gold decoration. |
 | `rmb-paper-texture` | texture | `paper-fibers` | `paper-fibers`; `textured-paper`; `clean-gray-paper`; `texture-off` | Tokens come from `allowedTokens`; keep opacity in `[0.02, 0.05]`; separate texture from security paper, serial zones, seals, portraits, security threads, watermark details, and anti-counterfeit marks. |
-| `rmb-linework-strength` | motif | `subtle-lines` | `subtle-lines`; `balanced-guilloche-inspired`; `linework-off` | Linework must be original generated-vector or code-native geometry and stay below content. |
-| `rmb-asset-emphasis` | asset | `generated-subtle` | `generated-subtle`; `code-native-value-strip`; `code-native-corner-frame`; `code-native-watermark-panel`; `asset-off` | Use generated/code-native or task-local sourced assets with provenance; keep them abstract, low-density, and non-counterfeit. |
+| `rmb-linework-strength` | motif | `subtle-lines` | `subtle-lines`; `balanced-guilloche-inspired`; `linework-off` | Linework must be original generated-vector or code-native geometry and stay below content; `linework-off` is a local dense/safety exception, not a whole-artifact default. |
+| `rmb-asset-emphasis` | asset | `generated-subtle` | `generated-subtle`; `code-native-value-strip`; `code-native-corner-frame`; `code-native-watermark-panel`; `asset-off` | Use generated/code-native or task-local sourced assets with provenance; keep them abstract, low-density, and non-counterfeit. `asset-off` is a local exception only and requires an `AssetUsePlan.shapeOnlyExceptionReason` if applied across the whole artifact. |
 
 Preview option behavior:
 
 - `100-yuan-red` uses primary `#BD0E2B`, auxiliary `#F6ACB9`, `#D4606D`, `#E94136`, `#C93649`, and neutral paper/ink colors `#FFFFFF`, `#F6F0E4`, `#241A17`, `#6D716C`.
 - Other denomination options map one-to-one to the existing series cards and should be offered as replacements when the user wants a calmer, more compliant, more analytical, or more premium mood.
 - `texture-off` keeps RMB style through denomination color progression, fine rules, financial grids, and original geometry.
+- Do not use `asset-off`, `linework-off`, or shape-only delivery as the global default for ordinary non-wireframe visual artifacts. Use them only for explicit user constraints, dense data/readability needs, missing lawful assets, or legal-tender safety blockers, and record the exception reason when the whole artifact is affected.
 - Style locks record the selected denomination series, texture token or `texture-off`, linework strength, selected asset emphasis or `asset-off`, and any softened counterfeit-like request.
 
 ## Self-Check
