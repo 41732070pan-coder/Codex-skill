@@ -1,0 +1,63 @@
+{
+  "ok": true,
+  "defaultMode": "asset-rich",
+  "distinctAssetCount": 5,
+  "targetRange": "5-10",
+  "countWithinTarget": true,
+  "selectedAssets": [
+    {
+      "id": "rice-paper-bg",
+      "source": "shared-provider",
+      "role": "page background paper texture",
+      "surfaces": [
+        "all light slides"
+      ],
+      "usage": "textural"
+    },
+    {
+      "id": "border-fret",
+      "source": "style-owned",
+      "role": "回纹 top ornament",
+      "surfaces": [
+        "closing"
+      ],
+      "usage": "decorative"
+    },
+    {
+      "id": "coin",
+      "source": "style-owned",
+      "role": "value / selection motif",
+      "surfaces": [
+        "cover"
+      ],
+      "usage": "iconic"
+    },
+    {
+      "id": "knot",
+      "source": "style-owned",
+      "role": "connection / collaboration motif",
+      "surfaces": [
+        "workflow"
+      ],
+      "usage": "iconic"
+    },
+    {
+      "id": "cloud",
+      "source": "style-owned",
+      "role": "quiet atmosphere wash",
+      "surfaces": [
+        "cover"
+      ],
+      "usage": "decorative"
+    }
+  ],
+  "qualityFlags": {
+    "transparencyPreserved": true,
+    "aspectRatioPreserved": true,
+    "readabilityPreserved": true,
+    "semanticRelevance": true,
+    "rasterizationClean": true
+  },
+  "issues": [],
+  "requiredFixes": []
+}

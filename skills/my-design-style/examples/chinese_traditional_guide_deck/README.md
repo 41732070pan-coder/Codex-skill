@@ -6,8 +6,23 @@
 ## 产物
 
 - `chinese_traditional_guide_deck.pptx` — 9 页 16:9 可编辑 PPT
-- `build_deck.py` — 可复现的构建脚本（python-pptx + Pillow）
-- `assets/paper_texture.png` — 运行时生成的米纸纹理底（对应 `rice-paper` 纹理 token）
+- `build_deck.py` — 可复现的构建脚本（python-pptx + Pillow + svglib + reportlab）
+- `assets/` — 运行时光栅化的 RGBA 资产与纹理底（见下）
+- `asset_use_check.json` — 交付时产出的 `AssetUseCheck` 质量门输出
+
+## 资产使用（asset-rich，AssetUseCheck）
+
+本示例遵循 `my-design-style` 的 asset-rich 默认：不走纯 code-native，而是接入风格自带 SVG 资产与共享纹理 provider。因为 python-pptx 不能直接嵌入 SVG，脚本用 `svglib + reportlab` 将 SVG 光栅化为 **RGBA PNG（保留透明通道）**——双背景合成法恢复真 alpha，深色页用黑底色源、浅色页用白底色源，确保边缘无白底/黑底光晕。
+
+| 资产 | 来源 | 角色 | 出现位置 | 处理 |
+| --- | --- | --- | --- | --- |
+| rice-paper | 共享 provider `transparent_textures` | 纸纹页底 | 所有浅色页 | 解出内嵌 PNG tile 平铺，opacity≈0.07 |
+| 圆形方孔钱 | 风格自带 SVG | 价值 / 选型意象 | 封面 | 原生靛蓝双色，光栅化 |
+| 中国结 | 风格自带 SVG | 连接 / 协作意象 | 工作流页 | 原生靛蓝双色，光栅化 |
+| 云纹 | 风格自带 SVG | 留白 / 意境淡纹 | 封面靛蓝块 | 重着色为藏青，opacity 0.4 |
+| 回纹边框 | 风格自带 SVG | 结尾顶部纹饰 | 结尾页 | 重着色为金色（深色页） |
+
+`asset_use_check.json` 记录 `distinctAssetCount`、`countWithinTarget`、以及 `transparencyPreserved / aspectRatioPreserved / readabilityPreserved / semanticRelevance / rasterizationClean` 等质量标志，作为质量门检查项。资产数量为引导（5-10）而非硬配额，克制风格取低端、保证每个资产都有语义角色即可。
 
 ## 风格锁定（StyleLock）
 

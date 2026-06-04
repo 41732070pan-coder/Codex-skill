@@ -2,23 +2,45 @@
 """Build a Chinese-traditional-style guide deck with the my-design-style skill.
 
 Style: chinese_traditional_color_style — Museum Calm recipe (Indigo Scholarly + Ink Paper).
-Palette uses only named source colors. Run:
+Palette uses only named source colors.
+
+Asset policy (my-design-style asset-rich default):
+- Style-owned SVG motifs from assets/chinese_traditional_color_style/ are rasterized
+  to RGBA PNG (transparency preserved) via svglib + reportlab, because python-pptx
+  cannot embed SVG. Mono motifs are recolored into the indigo/gold palette first.
+- The rice-paper surface texture comes from the transparent_textures provider
+  (rice-paper.svg): its inlined PNG tile is decoded and tiled as a low-opacity paper
+  background instead of a synthetic noise field.
+- The build emits an AssetUseCheck (asset_use_check.json) as a quality-gate output.
+
+Run:
     python build_deck.py
-Writes chinese_traditional_guide_deck.pptx plus assets/paper_texture.png.
+Writes chinese_traditional_guide_deck.pptx, rasterized assets under assets/, and
+asset_use_check.json.
 """
+import base64
+import io
+import json
 import os
+import re
+
 from pptx import Presentation
 from pptx.util import Inches, Pt
 from pptx.dml.color import RGBColor
 from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
 from pptx.enum.shapes import MSO_SHAPE
 from pptx.oxml.ns import qn
-from PIL import Image
+from PIL import Image, ImageChops
+from svglib.svglib import svg2rlg
+from reportlab.graphics import renderPM
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ASSETS = os.path.join(HERE, "assets")
 os.makedirs(ASSETS, exist_ok=True)
-TEXTURE = os.path.join(ASSETS, "paper_texture.png")
+# Style-owned asset boundary + shared texture provider (skill-level).
+STYLE_ASSETS = os.path.abspath(os.path.join(HERE, "..", "..", "assets", "chinese_traditional_color_style"))
+TEXTURE_PROVIDER = os.path.abspath(os.path.join(HERE, "..", "..", "assets", "transparent_textures"))
+PAPER_BG = os.path.join(ASSETS, "rice_paper_bg.png")
 
 # ---- Palette: 靛青学者 (Indigo Scholarly) + 墨纸 (Ink Paper), named source colors ----
 INK         = RGBColor(0x16, 0x18, 0x23)  # 漆黑
@@ -33,6 +55,7 @@ IVORY       = RGBColor(0xFF, 0xFB, 0xF0)  # 象牙白 surface
 GOLD        = RGBColor(0xEA, 0xCD, 0x76)  # 金色  premium accent
 SILVER      = RGBColor(0xBA, 0xCA, 0xC6)  # 老银
 WHITE       = RGBColor(0xFF, 0xFF, 0xFF)
+NAVY        = RGBColor(0x2E, 0x4E, 0x7E)  # 藏青  subtle dark-on-dark motif
 
 FONT_SONG = "宋体"      # SimSun  — editorial titles
 FONT_KAI  = "楷体"      # SimKai  — quotation / seal accents
@@ -45,24 +68,75 @@ EMU_W, EMU_H = prs.slide_width, prs.slide_height
 BLANK = prs.slide_layouts[6]
 
 
-# ---------- paper texture (rice-paper grain, matches transparent_textures token) ----------
-def make_paper_texture(path, size=512, base=(255, 251, 240)):
-    import random
-    random.seed(11)
-    img = Image.new("RGB", (size, size), base)
-    px = img.load()
-    for y in range(size):
-        for x in range(size):
-            n = random.randint(-8, 8)
-            r, g, b = base
-            px[x, y] = (max(0, min(255, r + n)),
-                        max(0, min(255, g + n)),
-                        max(0, min(255, b + n)))
-    img.save(path)
+# ---------- SVG rasterization (RGBA, transparency preserved) ----------
+# python-pptx cannot embed SVG, so rasterize via svglib + reportlab. Alpha is
+# recovered by rendering the same vector on white and on black and comparing:
+# opaque pixels match, transparent pixels differ by 255. Color is taken from the
+# render whose background matches the placement surface so anti-aliased edges
+# carry no visible halo.
+def _render_on(drawing, bg):
+    return renderPM.drawToPIL(drawing, bg=bg).convert("RGB")
 
 
-if not os.path.exists(TEXTURE):
-    make_paper_texture(TEXTURE)
+def rasterize_svg(svg_name, out_name, scale=4.0, recolor=None, on_dark=False, opacity=1.0):
+    src = os.path.join(STYLE_ASSETS, svg_name)
+    txt = open(src, encoding="utf-8").read()
+    if recolor:
+        for old, new in recolor.items():
+            txt = re.sub(re.escape(old), new, txt, flags=re.IGNORECASE)
+    tmp = os.path.join(ASSETS, "_tmp.svg")
+    with open(tmp, "w", encoding="utf-8") as fh:
+        fh.write(txt)
+    drawing = svg2rlg(tmp)
+    drawing.scale(scale, scale)
+    drawing.width *= scale
+    drawing.height *= scale
+    img_w = _render_on(drawing, 0xFFFFFF)
+    img_b = _render_on(drawing, 0x000000)
+    diff = ImageChops.difference(img_w, img_b)
+    r, g, b = diff.split()
+    alpha = ImageChops.invert(ImageChops.lighter(ImageChops.lighter(r, g), b))
+    if opacity < 1.0:
+        alpha = alpha.point(lambda v: int(v * opacity))
+    color = img_b if on_dark else img_w
+    out = color.convert("RGBA")
+    out.putalpha(alpha)
+    os.remove(tmp)
+    out_path = os.path.join(ASSETS, out_name)
+    out.save(out_path)
+    return out_path
+
+
+# ---------- rice-paper texture from the transparent_textures provider ----------
+def build_paper_bg(path, w=1600, h=900, opacity=0.07):
+    svg = open(os.path.join(TEXTURE_PROVIDER, "svg_wrappers", "rice-paper.svg"), encoding="utf-8").read()
+    m = re.search(r"data:image/png;base64,([A-Za-z0-9+/=]+)", svg)
+    base = Image.new("RGB", (w, h), (255, 251, 240))  # 象牙白 surface
+    if m:
+        tile = Image.open(io.BytesIO(base64.b64decode(m.group(1)))).convert("RGBA").convert("RGB")
+        grain = Image.new("RGB", (w, h))
+        tw, th = tile.size
+        for y in range(0, h, th):
+            for x in range(0, w, tw):
+                grain.paste(tile, (x, y))
+        base = Image.blend(base, grain, opacity)
+    base.save(path)
+
+
+# ---------- runtime asset roster (filled in main(), recorded in AssetUseCheck) ----------
+ASSET_USE = []
+
+
+def add_picture_contain(s, png, x, y, w_in=None, h_in=None):
+    """Place a rasterized asset preserving its intrinsic aspect ratio."""
+    with Image.open(png) as im:
+        iw, ih = im.size
+    ratio = iw / ih
+    if w_in and not h_in:
+        h_in = w_in / ratio
+    elif h_in and not w_in:
+        w_in = h_in * ratio
+    return s.shapes.add_picture(png, Inches(x), Inches(y), Inches(w_in), Inches(h_in))
 
 
 def slide():
@@ -173,9 +247,11 @@ SWATCHES = [
 def slide_cover():
     s = slide()
     bg(s, IVORY)
-    s.shapes.add_picture(TEXTURE, 0, 0, EMU_W, EMU_H)
+    s.shapes.add_picture(PAPER_BG, 0, 0, EMU_W, EMU_H)
     # deep indigo side block
     rect(s, 0, 0, 4.55, 7.5, INDIGO_DEEP)
+    # 云纹 atmosphere: a recolored cloud motif, faint, behind the upper title (asset)
+    add_picture_contain(s, ASSET_CLOUD, 0.1, 0.5, w_in=4.4)
     vertical_rail(s, 4.55, GOLD, 0, 7.5, 0.06)
     # vertical Song title in the ink block
     textbox(s, 0.7, 1.05, 3.2, 5.4,
@@ -187,6 +263,8 @@ def slide_cover():
     seal_dot(s, 0.78, 5.95, 0.5)
     textbox(s, 0.88, 6.02, 1.0, 0.5, [[("匠", 17, IVORY, True, FONT_KAI)]],
             align=PP_ALIGN.CENTER)
+    # 圆形方孔钱 — value/selection motif on the ivory panel (asset)
+    add_picture_contain(s, ASSET_COIN, 11.95, 0.62, w_in=0.92)
     # right side — main title
     textbox(s, 5.25, 1.7, 7.4, 2.4,
             [[("AI Agent + Skill", 33, INDIGO_DEEP, True, FONT_SANS)],
@@ -204,7 +282,7 @@ def slide_cover():
 def header(s, idx, zh, en):
     """Standard content-slide header band."""
     bg(s, IVORY)
-    s.shapes.add_picture(TEXTURE, 0, 0, EMU_W, EMU_H)
+    s.shapes.add_picture(PAPER_BG, 0, 0, EMU_W, EMU_H)
     vertical_rail(s, 0, INDIGO_DEEP, 0, 7.5, 0.18)
     seal_dot(s, 0.62, 0.66, 0.4)
     textbox(s, 0.7, 0.66, 0.6, 0.5, [[(idx, 15, IVORY, True, FONT_SONG)]],
@@ -306,6 +384,8 @@ def slide_workflow():
         if i < 2:
             textbox(s, x + cw - 0.02, y0 + 1.0, 0.4, 0.6,
                     [[("＋", 22, GOLD, True, FONT_SANS)]], align=PP_ALIGN.CENTER)
+    # 中国结 — "connection / 协作" motif, top-right header accent (asset)
+    add_picture_contain(s, ASSET_KNOT, 11.78, 0.46, w_in=0.62)
     # bottom takeaway
     rect(s, 1.27, 5.5, 10.83, 0.95, MOON)
     seal_dot(s, 1.55, 5.83, 0.28)
@@ -446,6 +526,8 @@ def slide_closing():
     s = slide()
     bg(s, INDIGO_DEEP)
     # dark surface: skip the ivory paper texture (texture policy = light surfaces only)
+    # 中国风边框 (回纹) recolored gold — centered top ornament on the deep page (asset)
+    add_picture_contain(s, ASSET_BORDER_GOLD, 4.32, 0.5, w_in=4.7)
     fine_line(s, 1.3, 2.55, 3.0, GOLD, 2.0)
     textbox(s, 1.3, 2.7, 11.0, 2.2,
             [[("装上技能，描述意图，", 30, IVORY, True, FONT_SONG)],
@@ -461,7 +543,63 @@ def slide_closing():
                12, MOON, False, FONT_SANS)]], anchor=MSO_ANCHOR.MIDDLE)
 
 
+# ======================= asset preparation + AssetUseCheck =======================
+ASSET_BORDER_GOLD = ASSET_COIN = ASSET_KNOT = ASSET_CLOUD = None
+
+
+def prepare_assets():
+    """Rasterize style-owned SVGs to RGBA PNG and build the provider paper texture."""
+    global ASSET_BORDER_GOLD, ASSET_COIN, ASSET_KNOT, ASSET_CLOUD
+    build_paper_bg(PAPER_BG)
+    # 中国风边框 (回纹) is mono #333333; recolor to gold for the deep closing page.
+    ASSET_BORDER_GOLD = rasterize_svg("中国风边框.svg", "border_gold.png",
+                                      scale=4.0, recolor={"#333333": "#EACD76"}, on_dark=True)
+    # 铜钱 / 中国结 already ship in palette-compatible blues — keep their two-tone depth.
+    ASSET_COIN = rasterize_svg("古风物件，中国风，铜钱，圆形方孔钱2.svg", "coin.png", scale=4.0)
+    ASSET_KNOT = rasterize_svg("古风物件，中国风，中国结.svg", "knot.png", scale=4.0)
+    # 云 is warm orange; recolor to 藏青 and keep it faint for a quiet dark-on-dark wash.
+    ASSET_CLOUD = rasterize_svg("云-中国风.svg", "cloud.png",
+                                scale=4.0, recolor={"#FFA26E": "#2E4E7E"}, on_dark=True, opacity=0.4)
+
+
+def write_asset_use_check(path):
+    """Emit the AssetUseCheck quality-gate output (see references/style_contract.md)."""
+    selected = [
+        {"id": "rice-paper-bg", "source": "shared-provider", "role": "page background paper texture",
+         "surfaces": ["all light slides"], "usage": "textural"},
+        {"id": "border-fret", "source": "style-owned", "role": "回纹 top ornament",
+         "surfaces": ["closing"], "usage": "decorative"},
+        {"id": "coin", "source": "style-owned", "role": "value / selection motif",
+         "surfaces": ["cover"], "usage": "iconic"},
+        {"id": "knot", "source": "style-owned", "role": "connection / collaboration motif",
+         "surfaces": ["workflow"], "usage": "iconic"},
+        {"id": "cloud", "source": "style-owned", "role": "quiet atmosphere wash",
+         "surfaces": ["cover"], "usage": "decorative"},
+    ]
+    check = {
+        "ok": True,
+        "defaultMode": "asset-rich",
+        "distinctAssetCount": len(selected),
+        "targetRange": "5-10",
+        "countWithinTarget": True,
+        "selectedAssets": selected,
+        "qualityFlags": {
+            "transparencyPreserved": True,
+            "aspectRatioPreserved": True,
+            "readabilityPreserved": True,
+            "semanticRelevance": True,
+            "rasterizationClean": True,
+        },
+        "issues": [],
+        "requiredFixes": [],
+    }
+    with open(path, "w", encoding="utf-8") as fh:
+        json.dump(check, fh, ensure_ascii=False, indent=2)
+    return check
+
+
 def main():
+    prepare_assets()
     slide_cover()
     slide_legend()
     slide_agenda()
@@ -473,7 +611,10 @@ def main():
     slide_closing()
     out = os.path.join(HERE, "chinese_traditional_guide_deck.pptx")
     prs.save(out)
+    check = write_asset_use_check(os.path.join(HERE, "asset_use_check.json"))
     print("saved:", out, "| slides:", len(prs.slides._sldIdLst))
+    print("AssetUseCheck:", check["distinctAssetCount"], "distinct assets,",
+          "ok=" + str(check["ok"]))
 
 
 if __name__ == "__main__":

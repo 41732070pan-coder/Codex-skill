@@ -54,14 +54,15 @@ Use this skill to translate a target artifact into one named visual style from t
    - decide preview behavior from `previewMode` (`auto` by default): use explicit preview approval for ambiguous, high-stakes, public-facing, brand-sensitive, or user-requested preview work; otherwise create an internal `StyleLock` from style defaults and continue;
    - for multi-slide, multi-screen, long-page, or dense static outputs, create a `VisualRhythmPlan` before detailed composition: archetype sequence, per-surface visual anchors, motif/texture rotation, layout-density variation, and an `AssetUsePlan` that selects about 5-10 distinct asset roles or files for a normal deck/page; when the active style has few relevant visible files, fall back to downloading task-relevant assets from the network, generating vectors/bitmaps, or using shared providers rather than going asset-light;
    - when preview is needed, generate one style preview image or preview surface from the `StylePreviewPlan`, present its `StyleOptionSet[]`, and wait for user approval or replacement choices before full artifact generation;
-   - when preview is not needed, record the locked defaults in `StyleLock` and disclose the important locked choices in the final note;
+   - when preview is not needed, record the locked defaults in `StyleLock` and disclose the important locked choices in the final note; when the user named no palette and no decisive content/brand cue forces one, choose the palette/series with `Default Series Selection` from `references/design_mechanics.md` (varied by default) instead of falling back to a single habitual card, and disclose it as an auto-varied default;
    - compose the artifact without style-specific branches in the base workflow and without silently changing locked palette, texture, layout density, visual rhythm, motif, or asset decisions;
-   - do not adopt a "no external assets", "no assets", or "code-native/shape-first" strategy for visual artifacts; code-native geometry is a supporting layer for diagrams, layout, and simple generated ornaments, not a replacement for available style imagery, motif assets, identity assets, textures, or task-relevant sourced materials.
-   - run the concrete style self-check, variation checks from the visual rhythm plan, preview/lock consistency checks, and any modifier self-check rules, then revise only issues that materially affect usability or the requested style.
+   - run the concrete style self-check, variation checks from the visual rhythm plan, preview/lock consistency checks, and any modifier self-check rules, then revise only issues that materially affect usability or the requested style;
+   - for non-wireframe visual artifacts, also produce an `AssetUseCheck` (see `references/style_contract.md`) as a delivery output covering asset count vs the 5-10 target, transparency/aspect-ratio/readability/relevance quality, and any rasterization done for unsupported vector formats; resolve its required fixes before delivery.
 5. Enforce asset and surface boundaries:
    - inspect the active style's `assets/<style_name>/ASSET_MANIFEST.md` and visible files when building a real artifact; the framework docs stay inventory-opaque, but runtime generation must use the available asset boundary instead of assuming assets are absent.
    - visible assets inside the active style boundary, shared provider boundary, user-provided inputs, and network results are usable by default when their role fits the artifact; record their source/path and use role in task-local notes or the final QA note.
    - when a style's visible inventory is empty or thin for the needed role, download task-relevant assets from the network, generate vectors/bitmaps, or use shared providers; an empty `assets/<style_name>/` folder means "fetch assets at runtime", never "ship a shape-only artifact".
+   - when the target medium cannot embed a vector asset (for example SVG in `python-pptx`), rasterize it via `cairosvg`, Inkscape, or `svglib` to RGBA `PNG`/`EMF` with the alpha channel preserved so transparent backgrounds stay transparent; treat unsupported formats as a conversion task, not a reason to drop the asset (see `references/design_mechanics.md`).
    - use another style's asset boundary as an additional hybrid source; note that choice in the final QA note.
    - preserve intrinsic aspect ratios for logos, wordmarks, motifs, and other informative assets whenever the active policy exports such assets.
    - apply shared texture providers when the active style declares a provider handle and fallback behavior; use visible provider assets when they improve the surface, and disable them only when they harm contrast or layout.
@@ -75,7 +76,7 @@ Optional fixtures under `examples/` illustrate the workflow above; they do not a
 | Need | Load |
 | --- | --- |
 | End-to-end deck built in `chinese_traditional_color_style`, with StyleLock, page sequence, and quality-gate notes | `examples/chinese_traditional_guide_deck/README.md` |
-| Runnable PPT reference (python-pptx + Pillow) and its generated texture asset | `examples/chinese_traditional_guide_deck/build_deck.py` and `examples/chinese_traditional_guide_deck/assets/` |
+| Runnable PPT reference (python-pptx + Pillow + svglib) showing SVG→RGBA rasterization, the rice-paper provider texture, and an `AssetUseCheck` output | `examples/chinese_traditional_guide_deck/build_deck.py`, `examples/chinese_traditional_guide_deck/assets/`, and `examples/chinese_traditional_guide_deck/asset_use_check.json` |
 
 Example copy uses **Intent**, **Creative Latitude**, and **Self-Check** language from style references. It does not ship extra imperative bans; style fidelity stays in the active `references/<style_name>.md` at delivery time.
 
@@ -106,7 +107,7 @@ Load references progressively; do not read every reference by default.
 | `references/*_style.md` | concrete styles | Style-specific triggers, color, typography, layout, medium translation, opaque asset policy, and self-checks. |
 | `assets/<style_name>/` | style-owned asset boundary | Required for every concrete style. User-editable runtime resources; an empty folder means "download/generate assets at runtime", never "ship without assets". File inventories stay inside `ASSET_MANIFEST.md`, not in framework references. |
 | `scripts/validate_styles.py` | style validator | Static conformance check for registry entries, concrete style sections, required asset boundaries, asset handles, surface-policy shape, and runtime fallback metadata without inspecting bundled file inventories. |
-| `examples/` | optional fixtures | Worked sample deck (`chinese_traditional_guide_deck/`): StyleLock notes, page sequence, and `build_deck.py` for regenerating the PPT plus its texture asset. |
+| `examples/` | optional fixtures | Worked sample deck (`chinese_traditional_guide_deck/`): StyleLock notes, page sequence, and `build_deck.py` that rasterizes style-owned SVGs to RGBA, applies the rice-paper provider texture, and emits an `AssetUseCheck`. |
 
 ## Recommended Material Sources And Network Acquisition
 
@@ -158,4 +159,5 @@ Before delivery or commit:
 - Run `python skills/my-design-style/scripts/validate_styles.py` for style-family conformance.
 - Run `python skills/meta-skill/scripts/validate_skills.py` for repository-level skill structure.
 - Run `git diff --check` for whitespace and conflict markers.
-- Manually verify visual outputs for alignment, spacing, hierarchy, text overflow, contrast, responsiveness, visual-anchor coverage, archetype variation, motif rotation, image distortion, decorative relevance, asset count/range, and style fidelity. A normal non-wireframe visual artifact should use 5-10 distinct assets or asset roles; if the visible inventory is thin, download or generate assets to reach that range.
+- Manually verify visual outputs for alignment, spacing, hierarchy, text overflow, contrast, responsiveness, visual-anchor coverage, archetype variation, motif rotation, image distortion, decorative relevance, asset count/range, and style fidelity.
+- Produce and pass an `AssetUseCheck` for non-wireframe visual artifacts: confirm the distinct-asset count is in the 5-10 guide range (a guide, not a hard quota; a restrained style may sit at the low end when each asset earns a role, and a thin inventory should be filled by downloading or generating assets rather than padding), available style-owned/provider/sourced/generated assets were used instead of an all-code-native shortcut, vector assets the medium cannot embed were rasterized to RGBA with transparency preserved (no white/opaque box on colored or textured surfaces), and every asset earns a role without harming aspect ratio, contrast, or readability.

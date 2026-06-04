@@ -39,6 +39,37 @@ neutral-base:    #FFFBF0 / #161823
 ```
 
 
+## Default Series Selection
+
+Use this mechanic whenever a concrete style must choose a palette series, denomination family, or palette recipe and the user did **not** name one. The goal is "varied by default": repeated runs of the same style should explore its full range instead of collapsing onto one habitual card (for example always landing on `Indigo Scholarly`, `100-yuan-red`, or `SEU Light Institutional`).
+
+Build a `DefaultSeriesSelection` and pick with genuine variation:
+
+1. `candidates`: start from the active style's working series cards, denomination families, or palette recipes. Exclude the neutral "use only when no family should lead" fallback from the candidate pool unless every expressive card is genuinely unsuitable.
+2. `fitFilter`: keep only candidates whose documented `Use` fits the content goal, subject, medium, audience, environment, and any brand, accessibility, or platform constraint. Preserve semantic color meaning (risk/value reds, trust greens, premium purples, etc.) so variation never overrides a meaningful signal.
+3. `overrides`: an explicit user palette choice, a strong domain or brand cue, a hard accessibility/contrast limit, and any persisted user preference always win over randomization. Randomize only across the remaining genuinely-equivalent candidates.
+4. `variedPick`: from the filtered pool, choose one candidate with weighted randomness rather than always the first, most familiar, or most "default-feeling" one. Weight by fit strength, and when more than one candidate qualifies, avoid repeating the immediately previous default for the same style.
+5. `lockAndDisclose`: record the chosen series/recipe in `StyleLock`, and note in the final delivery that it was an auto-varied default so the user can pin a fixed series next time.
+
+Scope rules:
+
+- Apply variation to palette/series defaults only. Keep deterministic style-safety defaults (texture token, opacity range, layout density, motif restraint, asset-rich coverage, identity invariants such as a brand's required structure color) unless the user opts into varying them too.
+- If the filtered pool ends up empty, fall back to the style's documented neutral fallback card and say so.
+- Variation must never weaken contrast, accessibility, or the style's hard identity invariants; those are filters applied before the pick, not things the pick can break.
+
+### Selection Shape
+
+```ts
+interface DefaultSeriesSelection {
+  candidates: string[];          // working cards / denomination families / recipes
+  fitFilter: string[];           // content, medium, audience, environment, constraints applied
+  overrides: string[];           // explicit choice, strong cue, hard limits, saved preference
+  variedPick: string;            // chosen card/recipe
+  reason: string;                // why it fits + that it was an auto-varied default
+}
+```
+
+
 ## Visual Rhythm Mechanics
 
 Use this shared mechanic when a target artifact has multiple slides, screens, sections, or dense content blocks. The concrete style owns the specific motifs and allowed fallbacks; this mechanic only defines the neutral planning pattern.
@@ -79,6 +110,15 @@ For concrete visual output, create an `AssetUsePlan` before detailed layout:
 
 Do not count ordinary rectangles, lines, arrows, text boxes, table cells, or routine chart primitives as assets. Code-native geometry is still useful for structure, diagrams, charts, and simple original ornament, but it cannot be the global default substitute for available image, motif, icon, texture, or identity assets. When the visible inventory is thin, download or generate assets to reach the target range.
 
+### Richness And Restraint Balance
+
+Beauty comes from purposeful coverage plus breathing room, not from maximizing asset count. The 5-10 range is a guide for variety, not a quota to fill.
+
+- Treat whitespace as an active design element: generous margins, clear hierarchy, and quiet zones make assets and content read as intentional rather than crowded.
+- Each asset must earn a semantic or structural role. Drop any asset that duplicates an existing anchor, fights hierarchy, weakens contrast or legibility, or only fills space — asset-rich is never asset-cluttered.
+- Restrained or minimal styles may sit at the low end of the range and lean on color, type, layout, and a few high-value anchors; restraint is a valid expressive choice, not an asset-coverage failure, as long as no surface is left empty or monotonous.
+- The tension to resolve per surface is "enough variety to avoid monotony" versus "enough calm to stay readable and elegant"; let the content goal, density, and style identity decide where each surface lands.
+
 ### Opaque Asset Boundary Contract
 
 Skill-level references may declare abstract asset handles, allowed roles, placement rules, and fallback behavior while file inventories stay in manifests or task-local documentation.
@@ -101,6 +141,16 @@ The boundary directory is a required structural invariant checked by `validate_s
 - Use contain-style placement for identity marks, wordmarks, motto artwork, silhouettes, and informative motifs.
 - Use low-opacity or repeated motifs only when the concrete style explicitly allows that behavior.
 - Use network discovery proactively for task-relevant material comparison; runtime assets, sourced candidates, generated bitmap/vector assets, user-provided assets, and code-native geometry should be weighed together for style fidelity, semantic fit, and variation value.
+
+### Asset Format Conversion And Transparency
+
+Some target media cannot embed vector assets directly. For example, `python-pptx` cannot insert SVG through `add_picture`, and other raster-only embedders behave the same way. Treat "the medium does not support SVG" as a conversion task, not a reason to drop the asset and fall back to code-native shapes.
+
+- When the medium cannot embed a vector asset, rasterize it first with a vector renderer such as `cairosvg`, Inkscape (`inkscape --export-type=png`), or `svglib` + `reportlab`. Export `PNG` for raster embedders, or `EMF` when the medium can import editable vector.
+- Render with an alpha channel (`RGBA`), never flatten to `RGB`. Most motif, ornament, icon, border, and identity assets rely on a transparent background; flattening injects an opaque, usually white, box that clashes with colored or textured surfaces and looks pasted-on.
+- After insertion, verify the asset on a colored or textured surface that there is no visible white or opaque rectangle around it. If one appears, re-export as RGBA, or trim/key out the background before reuse.
+- Export at enough resolution for the placement box (about 2x the target pixel size) so edges stay crisp after scaling, and preserve the intrinsic aspect ratio during both conversion and placement.
+- Keep the conversion reproducible: convert at build time from the source vector instead of committing only a flattened bitmap, and keep reusable converted files inside the style's `assets/<style_name>/` boundary or a build cache.
 
 
 ## Style Preview Mechanics
@@ -162,9 +212,10 @@ interface SurfaceTexturePolicy {
 - Non-primary emphasis uses support colors before repeating the primary.
 - Broad washes use enough contrast with text.
 - Asset role is resolved through the selected style before placement. Use runtime metadata exposed by the active policy to choose handles and compute contain boxes.
-- Normal visual artifacts use about 5-10 distinct asset roles or files; when the visible inventory is thin, download or generate assets to reach that range.
 - Surface texture is used when the selected style declares a provider handle and fallback behavior; provider file existence stays outside framework validation.
 - Asset opacity, scale, and crop support content instead of filling empty space.
 - If surface texture is disabled or unavailable, the design still reads clearly through color, typography, layout, and other visible assets.
 - Use runtime assets exposed by the active style policy, other style boundaries, network-sourced files, generated assets, or user-provided files as a freely combined pool.
 - Reject shape-only delivery as incomplete when relevant assets were available or could be downloaded/generated, and the user did not ask for a wireframe.
+- Vector assets the medium cannot embed (for example SVG in `python-pptx`) are rasterized to RGBA `PNG`/`EMF` with transparency preserved, not dropped; confirm no unwanted white/opaque box appears on colored or textured surfaces.
+- Produce an `AssetUseCheck` (see `style_contract.md`) as a delivery output and pass it through the quality gate: it records the distinct-asset count against the 5-10 target, the selected assets and their roles, and transparency, aspect-ratio, readability, and semantic-relevance quality flags. Resolve its `requiredFixes` before delivery.

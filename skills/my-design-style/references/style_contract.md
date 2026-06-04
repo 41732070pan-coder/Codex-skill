@@ -137,6 +137,26 @@ interface AssetUsePlan {
   }>;
   checks: string[];
 }
+
+// AssetUseCheck is a delivery-time generation output, not a README/StyleLock field.
+// The artifact build produces it and the quality gate must pass it before delivery.
+interface AssetUseCheck {
+  ok: boolean;                       // true only when no required fixes remain
+  defaultMode: "asset-rich" | "wireframe" | string;
+  distinctAssetCount: number;        // counted by the asset-count rules; routine shapes excluded
+  targetRange: "5-10" | string;      // a guide range, not a hard quota
+  countWithinTarget: boolean;        // false flags asset-thin or over-cluttered output; a restrained style may sit at the low end when semanticRelevance holds
+  selectedAssets: AssetUsePlan["selectedAssets"];
+  qualityFlags: {
+    transparencyPreserved: boolean;  // RGBA kept; no unwanted opaque/white box around assets
+    aspectRatioPreserved: boolean;   // no non-uniform stretching of informative assets
+    readabilityPreserved: boolean;   // assets do not sit behind dense text or harm contrast
+    semanticRelevance: boolean;      // each asset earns a role; no decorative filler
+    rasterizationClean?: boolean;    // SVG->PNG/EMF conversions are crisp and transparent
+  };
+  issues: string[];
+  requiredFixes: string[];
+}
 ```
 
 ## Abstract Style Class
@@ -299,7 +319,7 @@ Auto-mode sequence:
 2. Decide whether explicit preview is needed from user intent, ambiguity, stakes, and regeneration cost.
 3. If preview is needed, call `getPreviewOptions(request, composedPlan)`, generate one preview image or preview surface from `StylePreviewPlan.previewPrompt`, present `StyleOptionSet[]`, and iterate until the user approves.
 4. Build or confirm a `VisualRhythmPlan` and `AssetUsePlan` for multi-page/multi-screen work, including archetype sequence, visual anchors, motif rotation, selected visible assets, and sourced/generated materials.
-5. If preview is not needed, choose default options from the active style's preview defaults and create an internal `StyleLock` that includes visual-rhythm decisions.
+5. If preview is not needed, choose default options from the active style's preview defaults and create an internal `StyleLock` that includes visual-rhythm decisions. For the palette/series default, do not lock a single habitual card: when the user named no palette and no decisive cue forces one, run `Default Series Selection` from `design_mechanics.md` to pick a context-fitting series with genuine variation, and disclose it as an auto-varied default.
 6. Call `applyStyleLock(styleLock, composedPlan)` and generate the final artifact only from locked decisions.
 
 Rules:
@@ -408,6 +428,8 @@ const result: CheckResult = {
 ```
 
 Use style-specific checks inside that shape. For example, SEU checks logo aspect ratios and institutional fit; RMB checks denomination color logic and paper/ink layering; Chinese traditional color checks named-color and cultural-context fit. Multi-page or multi-screen outputs should also check visual anchor coverage, archetype variety, motif rotation, and whether any fallback asset strategy left pages visually empty.
+
+For any non-wireframe visual artifact, delivery must also produce an `AssetUseCheck` alongside the `CheckResult`. The `AssetUseCheck` is a generation output (not a README or `StyleLock` field) that the quality gate inspects to confirm reasonable asset use: the distinct-asset count is in the 5-10 guide range (a guide, not a hard quota — a restrained style may sit at the low end when each asset earns a role; never pad to hit a number), available style-owned, provider, sourced, or generated assets were actually used instead of an all-code-native shortcut, vector assets that the medium cannot embed were rasterized to RGBA/PNG (or EMF) with transparency preserved, and every asset earns a semantic or structural role without harming aspect ratio, contrast, or readability. If `AssetUseCheck.ok` is false, resolve `requiredFixes` before delivery.
 
 ## Substitutability Rules
 

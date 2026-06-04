@@ -45,7 +45,7 @@ Use a light system by default: white or very light silver backgrounds, green for
 
 ### Series Color Cards
 
-Every design using this style must start from one of these series cards. If the target artifact does not need a specific SEU identity emphasis, use the default `SEU Light Institutional` card.
+Every design using this style must start from one of these series cards. If the target artifact does not need a specific SEU identity emphasis, do not habitually default to `SEU Light Institutional`: run `Default Series Selection` from `design_mechanics.md` to vary among the SEU series cards (for example `SEU Light Institutional`, `SEU Green Structure`, `SEU Yellow Highlight`) by content fit. SEU green as primary structure and SEU yellow as accent are hard identity invariants, so variation changes which card leads, never the green-led identity itself; reserve `Default Neutral Fallback` for cases where no brand color should lead.
 
 | Series | Primary | Auxiliary Colors | Neutral / Base | Use |
 | --- | --- | --- | --- | --- |
