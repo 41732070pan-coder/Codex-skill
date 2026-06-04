@@ -45,11 +45,11 @@ Use a light system by default: white or very light silver backgrounds, green for
 
 ### Series Color Cards
 
-Every design using this style must start from one of these series cards. If the target artifact does not need a specific SEU identity emphasis, do not habitually default to `SEU Light Institutional`: run `Default Series Selection` from `design_mechanics.md` to vary among the SEU series cards (for example `SEU Light Institutional`, `SEU Green Structure`, `SEU Yellow Highlight`) by content fit. SEU green as primary structure and SEU yellow as accent are hard identity invariants, so variation changes which card leads, never the green-led identity itself; reserve `Default Neutral Fallback` for cases where no brand color should lead.
+Every design using this style must start from one of these series cards. If the target artifact does not need a specific SEU identity emphasis, do not habitually default to any single SEU series card: run `Default Series Selection` from `design_mechanics.md` to vary among the SEU series cards by content fit. SEU green as primary structure and SEU yellow as accent are hard identity invariants, so variation changes which card leads, never the green-led identity itself; reserve the neutral fallback card for cases where no brand color should lead.
 
 | Series | Primary | Auxiliary Colors | Neutral / Base | Use |
 | --- | --- | --- | --- | --- |
-| SEU Light Institutional | `#587558` | `#FDD000`, `#AD986E`, `#F6AB00` | `#FFFFFF`, `#F5F6F3`, `#231815`, `#B4B7B9` | Default decks, websites, app screens, research reports. |
+| SEU Light Institutional | `#587558` | `#FDD000`, `#AD986E`, `#F6AB00` | `#FFFFFF`, `#F5F6F3`, `#231815`, `#B4B7B9` | General decks, websites, app screens, research reports. |
 | SEU Green Structure | `#587558` | `#6F8B6C`, `#8DA38A`, `#DCE5D8` | `#FFFFFF`, `#EEF0EC`, `#231815`, `#B4B7B9` | Dense academic UI, navigation, section systems, tables. |
 | SEU Yellow Highlight | `#FDD000` | `#F6AB00`, `#AD986E`, `#587558` | `#FFFFFF`, `#F8F4DF`, `#231815`, `#B4B7B9` | Active states, key findings, agenda numbers, chart highlights. |
 | Default Neutral Fallback | `#231815` | `#FFFFFF`, `#B4B7B9`, `#EEF0EC` | `#FFFFFF`, `#F5F5F5`, `#231815`, `#6B6B6B` | Use only when no brand color should lead. |

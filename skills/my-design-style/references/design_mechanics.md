@@ -41,8 +41,7 @@ neutral-base:    #FFFBF0 / #161823
 
 ## Default Series Selection
 
-Use this mechanic whenever a concrete style must choose a palette series, denomination family, or palette recipe and the user did **not** name one. The goal is "varied by default": repeated runs of the same style should explore its full range instead of collapsing onto one habitual card (for example always landing on `Indigo Scholarly`, `100-yuan-red`, or `SEU Light Institutional`).
-
+Use this mechanic whenever a concrete style must choose a palette series, denomination family, or palette recipe and the user did **not** name one. The goal is "varied by default": repeated runs of the same style should explore its full range instead of collapsing onto one habitual card.
 Build a `DefaultSeriesSelection` and pick with genuine variation:
 
 1. `candidates`: start from the active style's working series cards, denomination families, or palette recipes. Exclude the neutral "use only when no family should lead" fallback from the candidate pool unless every expressive card is genuinely unsuitable.
