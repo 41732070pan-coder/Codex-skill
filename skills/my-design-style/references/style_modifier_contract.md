@@ -68,7 +68,7 @@ Modifier self-checks should verify:
 - Added colors meet contrast needs and do not replace protected identity roles.
 - Added motifs stay outside the main reading path unless the base style permits stronger placement.
 - The asset source is clear.
-- A normal non-wireframe artifact uses 5-10 visual assets or asset roles for richness; when the visible inventory is thin, download or generate assets to reach that range.
+- Asset richness still follows the shared coverage rule in `design_mechanics.md` (asset-rich default within the 5-10 guide range); modifiers do not justify dropping to shape-only.
 - Modifier intensity matches the user's request and the final visual weight.
 - Softened or clarified modifier requests are disclosed when they affect the output.
 

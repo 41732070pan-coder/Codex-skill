@@ -126,7 +126,7 @@ Declare whether this style may use a surface provider. Provider contents under `
 - Preserve intrinsic aspect ratio for informative assets.
 - Use visible assets through the active style's policy, other style boundaries, network-sourced files, generated assets, or user-provided files as a freely combined pool.
 - Visible style-owned assets are usable by default when they fit the artifact.
-- Target 5-10 distinct assets or asset roles in normal multi-surface artifacts; when the visible inventory is thin, download or generate assets to reach that range. Shape-only output is reserved for explicit wireframe/data-diagram requests.
+- Follow the shared asset-coverage and conversion rules in `design_mechanics.md` (asset-rich default, 5-10 guide range, transparency-preserving rasterization, shape-only only for wireframes).
 - Prefer assets with semantic value over generic filler.
 
 ## Modifier Compatibility
@@ -180,5 +180,5 @@ Minimum checks:
 - Visual anchor coverage, archetype variety, motif rotation, and variation behavior for multi-surface outputs.
 - Overflow/responsiveness.
 - Asset legality, role fit, and non-distortion.
-- Asset count/range: ordinary non-wireframe artifacts should use 5-10 distinct assets or asset roles, or record why that was impossible or inappropriate.
+- Asset count/range and quality via the `AssetUseCheck` output (see `style_contract.md` and `design_mechanics.md`).
 - Medium-specific correctness.

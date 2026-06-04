@@ -93,7 +93,7 @@ Suggested UI token mapping:
 
 ## Series Color Cards
 
-Every design using this style must start from at least one complete series color card. Use the series primary as the lead and the listed colors as auxiliary choices. If no cultural palette direction is given, use `Default Ink Paper Fallback`.
+Every design using this style must start from at least one complete series color card. Use the series primary as the lead and the listed colors as auxiliary choices. If no cultural palette direction is given, do not habitually default to one card such as `Indigo Scholarly`: run `Default Series Selection` from `design_mechanics.md` to pick a context-fitting working card with genuine variation, and reserve `Default Ink Paper Fallback` for cases where no traditional color family should lead.
 
 Hard requirements:
 
@@ -275,7 +275,7 @@ Use a quiet cultural-operations feel:
 - Tables, filters, tabs, segmented controls, and charts must remain conventional and accessible.
 - Use color chips for categories, collections, dynasties, artifact materials, inventory states, or content status.
 - Pair red/green status with label, icon, or shape so the state stays accessible.
-- Use `Ink Paper`, `Cang Mountain`, or `Indigo Scholarly` as default dashboard bases; add other cards for category systems.
+- For dashboard bases, vary the choice across restrained cards such as `Ink Paper`, `Cang Mountain`, or `Indigo Scholarly` via `Default Series Selection` instead of always reaching for the same one; add other cards for category systems.
 - Check responsive text carefully so Chinese color names and cultural labels have stable room around buttons, cards, and table columns.
 
 ## Static Visual Translation
@@ -379,7 +379,7 @@ Modifier self-check additions:
 
 | Option Set | Target | Default | Options | Rules |
 | --- | --- | --- | --- | --- |
-| `traditional-color-series` | palette | context-dependent named source series or documented palette recipe | selected source series; adjacent source series; documented recipe; neutral ink-paper fallback | Start from one complete named-color logic; avoid mixing many unrelated traditional colors. |
+| `traditional-color-series` | palette | auto-varied via `Default Series Selection` (context-fitting named series or recipe); do not lock a habitual card such as `Indigo Scholarly` | selected source series; adjacent source series; documented recipe; neutral ink-paper fallback | Start from one complete named-color logic; avoid mixing many unrelated traditional colors. |
 | `traditional-paper-texture` | texture | `rice-paper` | `rice-paper`; `paper-fibers`; `handmade-paper`; `textured-paper`; `texture-off` | Tokens come from `allowedTokens`; keep opacity in `[0.03, 0.08]`; protect swatch labels, metadata, chart labels, and generated calligraphy. |
 | `cultural-motif-level` | motif | `restrained-rules` | `restrained-rules`; `gallery-labels`; `seal-dot-accents`; `motif-off` | Motifs stay code-native or generated-vector and carry a clear cultural or structural role; `motif-off` is a local dense/readability exception, not a whole-artifact default. |
 | `traditional-asset-emphasis` | asset | `generated-subtle` | `generated-subtle`; `code-native-border-frame`; `code-native-lattice-stripe`; `placeholder-panel`; `code-native-vertical-band`; `sourced-imagery` | Use generated/code-native, network-sourced, or user-provided assets; keep one clear asset role per surface. |
