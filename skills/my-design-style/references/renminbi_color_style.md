@@ -91,7 +91,7 @@ These color tokens are taken from the provided RMB palette cards. Treat each den
 
 ### Series Color Cards
 
-Every design using this style must start from at least one series card. Each card has a primary color and matching auxiliary colors; combine it with the neutral / base colors shown in the same row. If the task has no clear denomination or color direction, do not habitually default to `100 Yuan Red`: run `Default Series Selection` from `design_mechanics.md` to pick a context-fitting denomination family with genuine variation, and reserve `Default Neutral Fallback` for cases where no denomination family should lead.
+Every design using this style must start from at least one series card. Each card has a primary color and matching auxiliary colors; combine it with the neutral / base colors shown in the same row. If the task has no clear denomination or color direction, do not habitually default to any single denomination family: run `Default Series Selection` from `design_mechanics.md` to pick a context-fitting denomination family with genuine variation, and reserve the neutral fallback card for cases where no denomination family should lead.
 
 | Series | Primary | Auxiliary Colors | Neutral / Base | Use |
 | --- | --- | --- | --- | --- |
@@ -355,7 +355,7 @@ Modifier self-check additions:
 
 | Option Set | Target | Default | Options | Rules |
 | --- | --- | --- | --- | --- |
-| `rmb-palette-series` | palette | auto-varied via `Default Series Selection` (context-fitting denomination family); do not habitually default to `100-yuan-red` | `100-yuan-red`; `50-yuan-green`; `20-yuan-ochre`; `10-yuan-blue`; `5-yuan-purple`; `1-yuan-olive`; `neutral-fallback` | Use a complete series card; preserve auxiliary colors and paper/ink neutrals; do not reduce the style to red-and-gold decoration. Reserve red for genuine value/risk emphasis rather than as the standing default. |
+| `rmb-palette-series` | palette | auto-varied via `Default Series Selection` (context-fitting denomination family); do not habitually default to any single denomination family | `100-yuan-red`; `50-yuan-green`; `20-yuan-ochre`; `10-yuan-blue`; `5-yuan-purple`; `1-yuan-olive`; `neutral-fallback` | Use a complete series card; preserve auxiliary colors and paper/ink neutrals; do not reduce the style to red-and-gold decoration. Reserve red for genuine value/risk emphasis rather than as the standing default. |
 | `rmb-paper-texture` | texture | `paper-fibers` | `paper-fibers`; `textured-paper`; `clean-gray-paper`; `texture-off` | Tokens come from `allowedTokens`; keep opacity in `[0.02, 0.05]`. |
 | `rmb-linework-strength` | motif | `subtle-lines` | `subtle-lines`; `balanced-guilloche-inspired`; `linework-off` | Linework stays below content; `linework-off` is a local dense exception, not a whole-artifact default. |
 | `rmb-asset-emphasis` | asset | `generated-subtle` | `generated-subtle`; `code-native-value-strip`; `code-native-corner-frame`; `code-native-watermark-panel`; `sourced-currency-imagery` | Use generated/code-native, network-sourced, or currency imagery; keep them low-density. |
